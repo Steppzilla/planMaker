@@ -1,0 +1,90 @@
+
+
+*{padding:0pt;
+    margin:0pt;
+    }
+  
+#Lehrerselect>button{
+    border-top: 1pt solid black;
+
+}
+    button{
+        border: solid 0pt black ;
+       /* border-radius:5pt;*/
+        padding:5pt;
+        background-color: beige;
+
+
+    }
+    
+    #tabelle{
+        display: flex;
+    }
+    
+    .klassenspalte{
+        display: flex;
+       flex-direction: column;
+    
+    }
+    .klassenspalte>div{
+        display:table-cell;
+        min-width:30pt;
+        height:40pt;
+      /*  background: red;*/
+      margin:0pt;
+     
+    }
+
+      
+    .th{
+        font-weight: bold;
+        text-align:center;
+        height:40pt;
+      /*  border: 1pt solid blue;*/
+        line-height:40pt; /*center-trick*/
+    }
+ 
+    
+    .klassenspalte >div>button{
+       /* min-width:30pt;
+        min-height:50pt;
+        max-height:50pt;*/
+        height:100%;
+        width: 100%;
+        overflow: hidden;
+    }
+    
+    /*span{pointer-events: none;}*/
+    .rubrik{
+        border: 0.5pt solid white;
+    }
+    
+    .error{
+        color:red;
+    }
+    .ok{
+        color:black;
+    }
+    
+    .blueback{
+        color:blue;
+        font-weight:bold;
+        font-size:16pt;
+    }
+    #toggle-item-Container{
+        padding-top:4pt;
+        padding-bottom:4pt;
+        display:grid;
+        width:110pt;
+        grid-template-columns: 60% 5% 40%;
+        border: 1pt solid grey;
+    }
+    
+    #toggle-items{
+        font-size:17pt;
+    
+    }
+    
+    
+    
+    

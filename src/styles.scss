@@ -1,0 +1,48 @@
+
+/* You can add global styles to this file, and also import other style files */
+
+
+
+
+@media print {
+  
+
+  @page {
+    margin:0pt;
+    color:blue;
+    size: landscape;
+
+  }
+
+  body{ height:100%; width:100%;  }
+  h1{
+    page-break-before: always;
+  }
+
+  .noprint{display:none; }
+/*
+  body app-root app-epoche  .tagesItem{
+    width:20pt;
+    padding:0pt;
+  }
+  body app-root app-epoche  .rotierContainer{
+    color:green;
+    width:20pt;
+  }
+  body app-root app-epoche button{
+    width: 3pt;
+  }
+  body app-root app-epoche #kl8, #kl9, #kl10, #kl11, #kl12,#ho{
+    flex-wrap: nowrap;
+}
+body app-root app-klassen-zuweisung .dropButton{
+  font-size:8pt;
+}
+
+*{background-color:white;}
+button, div{
+  font-size:10pt;
+}
+*/
+}
+  

@@ -1,0 +1,101 @@
+
+h2{font-size:16pt;
+}
+h3{font-size:12pt;
+    margin-bottom:0pt;
+}
+
+.block{margin-left: 10pt;
+    margin-right: 10pt;
+    margin-bottom:2pt;
+
+}
+#kl8, #kl9, #kl10, #kl11, #kl12,#ho{
+    display:flex;
+} 
+
+.buttonEpoche{
+    width: 38pt;
+    border-radius: 5pt;
+    height: 30pt;
+    border:0pt solid black;
+    background-color:beige;
+}
+.monatsFach{
+    height: 14pt;
+    margin-bottom: 4pt;
+}
+.datumFach .date{
+    border-top: 1pt solid black;
+    font-size: 5pt;
+}
+.datumFach .wochenTag{
+    font-size: 6pt;
+}
+.datumFach.Mo{
+    border-left: solid 1pt black;
+}
+
+
+
+
+img{
+    margin: 5pt;
+    height: 90%;
+    border-radius: 20pt;
+    background-color:white;
+    width: 30pt;
+}
+
+
+
+.toggle-item-Container{font-size: 10pt;}
+
+
+.tagesItem{
+    padding:2pt;
+    margin:0pt;
+    width: 8pt;
+    height: 14pt;
+    margin-bottom:50pt;
+}
+
+
+.rotierContainer{
+    font-size: 7pt;
+    padding:0pt;
+    padding-top:4pt;
+    padding-bottom: 2pt;
+    margin:0pt;
+    width: 8pt;
+    border-radius: 3pt;
+    height: 60pt;
+ 
+    -ms-writing-mode: tb-rl; 
+   writing-mode: vertical-rl; 
+  /* transform:rotate(0deg);*/
+}
+
+
+
+.Herbstferien, .Weihnachtsferien, .Osterferien, .Sommerferien, .WE ,
+.Pfingstmontag, .Pfingstferien ,.Himmelfahrt ,.Arbeit ,.Ostermontag ,.Karfreitag ,.Neujahr ,.Weihnachtstag ,.Reformationstag 
+,.Einheit {
+    background-color:steelblue;
+    border-radius: 2pt;
+
+}
+
+.schule {
+    /*background-color: green;*/
+}
+.EM ,.Abi{
+    background-color:yellow;
+    border-radius: 2pt;
+}
+
+.no{
+    background-color: red; /* sollte nicht passieren, sonst fehlt notiz-klassen-zuordnung*/
+}
+
+

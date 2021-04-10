@@ -1,0 +1,67 @@
+<h1>Lehrer-Zuordnung</h1>
+
+<table id="FachLehrerUebersicht-Tabelle">
+  <tbody>
+    <tr>
+      <th>
+      <th>
+      <th *ngFor="let klasse of klassen">
+        {{klasse}}
+      </th>
+    </tr>
+    <ng-container *ngFor="let fach of faecher; index as rIndex">
+      <tr *ngIf="rIndex!=0">
+        <th>{{fach}}
+        <th>
+        <td *ngFor="let klass of klassen index as kIndex">
+          <!--<button>
+        </button>-->
+
+          <ng-container *ngFor="let ele of fachElemente( rIndex , kIndex+1 ) index as innerCellIndex">
+            <button class="dropButton" [ngbTooltip]="Lehrer" placement="bottom" triggers="click"
+              (click)="mainButtonClick($event,ele)">
+              <!-- -->
+
+              <!--  {{ele?ele.fach:"noFach"}}-->
+              <div *ngIf="ele">
+                <!-- sollte nur ein Lehrer sein, aber in diesem fall alle im Array anzeigen...-->
+                <ng-container *ngFor="let lehrerR of ele.lehrer">
+                  {{lehrerR?lehrerR.kuerzel:"na"}}
+                </ng-container>
+              </div>
+              <ng-template id="popUp" #Lehrer>
+                <ng-container *ngFor="let lehrerDZ of lehrerZuweisung(rIndex)">
+                  <div id="kuerzelPop" (click)="toggleClick(lehrerDZ,fach,kIndex+1)">
+                    {{lehrerDZ.kuerzel}}
+                  </div>
+                </ng-container>
+              </ng-template>
+            </button>
+
+            <div id="aufteilungUeRES">
+              <button (click)="wochenstundenVerteilen($event,'ueb',ele,kIndex+1)" style="font-style:italic">
+                {{ele.uebstunde!=0?ele.uebstunde:"Ü"}}
+              </button>
+              <button (click)="wochenstundenVerteilen($event,'rhythmus',ele,kIndex+1)" style="font-style:italic">
+                {{ele.rhythmus!=0?ele.rhythmus:"R"}}
+              </button>
+              <button (click)="wochenstundenVerteilen($event,'epoche',ele,kIndex+1)" style="font-style:italic">
+                {{ele.epoche!=0?ele.epoche:"E"}}
+              </button>
+              <button (click)="wochenstundenVerteilen($event,'schiene',ele,kIndex+1)" style="font-style:italic">
+                {{ele.schiene!=0?ele.schiene:"S"}}
+              </button>
+            </div>
+            <div>
+              <button class="breit" (click)="wochenstundenVerteilen($event,'woche',ele,kIndex+1)"
+                style="font-weight:bold">
+                {{ele.wochenstunden}}
+              </button>
+            </div>
+
+          </ng-container>
+        </td>
+      </tr>
+    </ng-container>
+  </tbody>
+</table>

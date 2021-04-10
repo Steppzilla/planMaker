@@ -1,0 +1,51 @@
+export enum Fach {
+  null = "",
+   handarbeit = "Ha",
+  spielturnen = "Spielt.",
+  sport = "Sport",
+  eurythmie = "Eur",
+
+  religion = "Rel",
+  ethik = "Ethik",
+  klassenbetreuer = "Betreuer",
+
+  orchester = "Orch",
+  chor = "Chor",
+  mittelstufenorchester = "MSO",
+  musik = "Mus",
+  kunst = "Kunst",
+  kunstgeschichte = "Kunstg",
+  poetik = "Poetik",
+  deutsch = "Deu",
+  englisch = "Engl",
+  franzoesisch = "Franz",
+  griechisch = "Griech",
+  latein = "Lat",
+
+  uebstunde = "Üb",
+  mathematik = "Ma",
+  physik = "Phy",
+  chemie = "Chem",
+
+  geschichte = "Gesch",
+  geographie = "Geo",
+  biologie = "Bio",
+  wirtschaftspolitik = "WiPo",
+ 
+  programmieren = "Prog",
+  computer="Comp",
+  weben = "Web",
+  plastizieren = "Plast",
+  schmieden = "Schm",
+  gartenbau = "Ga",
+  werken = "We",
+
+  mittag = "Mittag",
+  //Fachübergreifende Wechselfächer
+  hauptunterricht = "HU",
+  schiene = "Schiene",
+  rhythmisch = "StartUp",
+  wahlpflicht = "Wahlpfl.",
+  hgw="HGW",
+  wochenabschluss="WoAb", 
+}

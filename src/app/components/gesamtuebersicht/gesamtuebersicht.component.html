@@ -1,0 +1,119 @@
+<div id="buttonmenu" class="buttonreihe noprint">
+  <div class="center">
+    <!-- -->
+    <button id="save" (click)="save()">Save</button>
+    <button id="load" (click)="load()">Load</button>
+    <button id="load" (click)="neu()">Neu</button>
+    <button (click)="leherkuerzelToggle()">Lehrerkuerzel {{buttontext}}</button>
+  </div>
+</div>
+
+<div class="buttonreihe noprint" id="Lehrerselect">
+  
+    <!-- -->
+    <ng-container *ngFor="let lehrer of this.lehrerService.lehrer; index as i" >
+      <button *ngIf="i>0" (click)="lehrerwahl(i)">
+        {{lehrer.kuerzel}}
+
+      </button>
+   </ng-container>
+</div>
+
+<h1>Gesamtplan</h1>
+
+<ng-container *ngFor="let rasterAuswahl of valueLoopinArray(stundenRaster) index as iN">
+  <!-- iN ist 0 für montag etc..-->
+  <!--Montag, Dienstag, Mittwoch, Donnerstag, Freitag-->
+  <h2>{{wochenTagLoop()[iN]}}</h2>
+  <div id="tabelle">
+    <!--nur sichtbar wenn es rasterAuswahl gibt-->
+    <ng-container *ngIf="rasterAuswahl">
+      <div class="klassenspalte">
+        <!-- StundenZahlen in der ersten Spalte:-->
+        <div class="th"></div>
+        <div class="th">1</div>
+        <div class="th">2</div>
+        <div class="th">3</div>
+        <div class="th">4</div>
+        <div class="th">5</div>
+        <div class="th">6</div>
+        <div class="th">7</div>
+        <div class="th">8</div>
+        <div class="th">9</div>
+        <div class="th">10</div>
+        <div class="th">11</div>
+      </div>
+      <!-- klassenspalte 1,2,3,4,5,6,7,8,9,10,11,12,13. Klasse sind rows-->
+      <div class="klassenspalte" *ngFor="let klasse of valueLoopinArray(rasterAuswahl) index as r">
+        <!-- erstes Element: Klassenzahl:-->
+        <div>
+          <div class="th">{{r+1}}</div>
+        </div>
+
+        <div class="mb-2">
+          <!-- zweites++ Element: Zellen mit den Stunden:-->
+          <button *ngFor="let stundenArray of klasse index as std" triggers="click" [autoClose]="true"
+            class="dropButton {{duplicates(valueLoopinArray(rasterAuswahl),r,std,stundenArray)}}" [ngbTooltip]="Lehrer"
+            placement="bottom" (click)="cellKlick($event,r+1,std,iN)">
+            <!---->
+
+            <div class="unterrichtsstunde" *ngFor="let unterrichtsItem of stundenArray">
+              <!--markiertes Feld (blau)-->
+              <ng-container *ngIf="unterrichtsItem.marked==true">
+                <div class="blueback">
+                  <p> {{unterrichtsItem?unterrichtsItem.fach:"kein Fach"}}
+                    <ng-container *ngIf="kuerzeleinblenden">
+                      <span *ngFor="let lehrer of unterrichtsItem.lehrer">
+                        <ng-container *ngIf="lehrer.kuerzel!=null">
+                          |{{lehrer.kuerzel}}
+                        </ng-container>
+                      </span>
+                    </ng-container><!-- -->
+                  </p>
+                </div>
+              </ng-container>
+              <!-- nicht markiertes Feld-->
+              <ng-container *ngIf="unterrichtsItem.marked==false||unterrichtsItem.marked==undefined">
+                <div>
+                  <p> {{unterrichtsItem?unterrichtsItem.fach:"kein Fach"}}
+                    <ng-container *ngIf="kuerzeleinblenden">
+                      <span *ngFor="let lehrer of unterrichtsItem.lehrer">
+                        <ng-container *ngIf="lehrer.kuerzel!=null">
+
+                          |{{lehrer.kuerzel}}
+                        </ng-container>
+                      </span>
+                    </ng-container>
+                  </p>
+                </div>
+              </ng-container>
+            </div>
+            <!-- Toggle Fenster, hier sind Elemente, oben noch Unterrichtsstunden-->
+            <ng-template #Lehrer>
+              <ng-container *ngFor="let elementt of tabellensortierung(r+1) index as stundenI"
+                class="{{duplicateToggle(valueLoopinArray(rasterAuswahl),std,elementt)}}">
+                <div id="toggle-item-Container" *ngIf="elementt!=undefined"
+                  (click)="togglezellenClick(iN,stundenArray,std,elementt)">
+                  <div id="toggle-items">
+                    {{elementt?elementt.fach:"kein Fach"}}
+                  </div>
+                  <div id="toggle-items">
+                    {{elementt?elementt.wochenstunde:"no"}}
+                  </div>
+                  <div id="toggle-items" *ngIf="elementt.lehrer.kuerzel!=none">
+                    |{{elementt.lehrer?elementt.lehrer.kuerzel:"Lehrer"}}
+                  </div>
+                </div>
+              </ng-container>
+            </ng-template>
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</ng-container>
+
+
+<!--
+   
+-->
