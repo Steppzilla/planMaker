@@ -6,33 +6,11 @@
 <div class="block">
 
   <div id="Zeile">
-    <div class="tagesItem">
-      <div class="monatsFach ">
-      </div>
-      <div class="datumFach">
-        <div class="date">
-          
-        </div>
-        <div class="wochenTag">
-          
-        </div>
-      </div>
-      <div class="klassenNummerButton">
-        8
-      </div>
-      <div class="klassenNummerButton">
-        9
-      </div>
-      <div class="klassenNummerButton">
-        10
-      </div>
-      <div class="klassenNummerButton">
-        11
-      </div>
-      <div class="klassenNummerButton">
-        12
-      </div>
-
+    <div class="tagesItem">      <div class="monatsFach ">      </div>      <div class="datumFach">        <div class="date">          
+        </div>        <div class="wochenTag">          
+        </div>      </div>      <div class="klassenNummerButton">        8      </div>      <div class="klassenNummerButton">
+        9      </div>      <div class="klassenNummerButton">        10      </div>      <div class="klassenNummerButton">        11
+      </div>      <div class="klassenNummerButton">        12      </div>
     </div>
 
     <ng-container *ngFor="let tagObj of datumObj index as b">
@@ -40,8 +18,8 @@
         *ngIf="(tagObj.notiz=='schule')||(b===0)||((b>0)&&(tagObj.notiz!='schule')&&(datumObj[b-1].notiz!=tagObj.notiz))&&(tagObj.notiz!='WE')">
         <div class="{{tagObj.wochenTag}} tagesItem">
           <div class="monatsFach ">
-            <ng-container
-              *ngIf="b ===  0 || tagObj.tag.getMonth()!=datumObj[b-1].tag.getMonth()||(tagObj.tag.getDate()==10&&tagObj.tag.getMonth()==0)">
+            <ng-container 
+              *ngIf="b ===  0 ||(tagObj.tag.getDate()===1)||((b>10)&&(datumObj[b-10].tag.getDate()===1&&datumObj[b-10].frei==true))">
               {{ferienTerminService.monatZuString(tagObj.tag)}}
             </ng-container>
           </div>
@@ -52,8 +30,6 @@
             </div>
             <div class="wochenTag">{{ ferienTerminService.tagZuString( tagObj.tag)}}
             </div>
-
-
 
             <!-- Montag-Buttons "normal " bei schultagen Mo-->
             <button *ngIf="tagObj.notiz=='schule' &&tagObj.wochenTag=='Mo'; else BUTACHT" class="buttonEpoche"

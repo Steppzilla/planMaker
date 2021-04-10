@@ -14,7 +14,7 @@
         <div class="{{tagObj.wochenTag}} tagesItem">
           <div class="monatsFach ">
             <ng-container
-              *ngIf="b ===  0 || tagObj.tag.getMonth()!=datumObj[b-1].tag.getMonth()||(tagObj.tag.getDate()==10&&tagObj.tag.getMonth()==0)">
+            *ngIf="b ===  0 ||(tagObj.tag.getDate()===1)||((b>10)&&(datumObj[b-10].tag.getDate()===1&&datumObj[b-10].frei==true))">
               {{ferienTerminService.monatZuString(tagObj.tag)}}
             </ng-container>
           </div>
