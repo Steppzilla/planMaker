@@ -4,8 +4,37 @@
 
 
 <div class="block">
-  <h3> 8. Klasse </h3>
-  <div id="kl8">
+
+  <div id="Zeile">
+    <div class="tagesItem">
+      <div class="monatsFach ">
+      </div>
+      <div class="datumFach">
+        <div class="date">
+          
+        </div>
+        <div class="wochenTag">
+          
+        </div>
+      </div>
+      <div class="klassenNummerButton">
+        8
+      </div>
+      <div class="klassenNummerButton">
+        9
+      </div>
+      <div class="klassenNummerButton">
+        10
+      </div>
+      <div class="klassenNummerButton">
+        11
+      </div>
+      <div class="klassenNummerButton">
+        12
+      </div>
+
+    </div>
+
     <ng-container *ngFor="let tagObj of datumObj index as b">
       <ng-container
         *ngIf="(tagObj.notiz=='schule')||(b===0)||((b>0)&&(tagObj.notiz!='schule')&&(datumObj[b-1].notiz!=tagObj.notiz))&&(tagObj.notiz!='WE')">
@@ -23,9 +52,12 @@
             </div>
             <div class="wochenTag">{{ ferienTerminService.tagZuString( tagObj.tag)}}
             </div>
+
+
+
             <!-- Montag-Buttons "normal " bei schultagen Mo-->
-            <button *ngIf="tagObj.notiz=='schule' &&tagObj.wochenTag=='Mo'; else BUT" class="buttonEpoche"
-              [ngbTooltip]="Lehrer" placement="bottom" triggers="click" [autoClose]="true"
+            <button *ngIf="tagObj.notiz=='schule' &&tagObj.wochenTag=='Mo'; else BUTACHT" class="buttonEpoche"
+              [ngbTooltip]="LehrACHT" placement="bottom" triggers="click" [autoClose]="true"
               (click)="cellKlick($event,b,8)">
               <ng-container *ngIf="epoche8[b] as ellem">
                 <ng-container *ngFor="let fach of ellem.unterricht">
@@ -34,74 +66,42 @@
               </ng-container>
             </button>
             <!-- wenn montag oder dienstag besetzt sind wird di/mi genommen (BUT)-->
-            <ng-template #BUT>
+            <ng-template #BUTACHT>
               <!--bei Feiertag den Button verschieben auf Di oder Mi-->
               <ng-container
                 *ngIf="datumObj[b-1].notiz!='schule'&&tagObj.wochenTag=='Di'||datumObj[b-1].notiz!='schule'&&datumObj[b-2].notiz!='schule'&&tagObj.wochenTag=='Mi'">
-                <button class="buttonEpoche" [ngbTooltip]="Lehrer" placement="bottom" triggers="click"
+                <button class="buttonEpoche" [ngbTooltip]="LehrACHT" placement="bottom" triggers="click"
                   [autoClose]="true" (click)="cellKlick($event,b,8)">
                   <ng-container *ngIf="epoche8[b] as ellem">
                     <ng-container *ngFor="let fach of ellem.unterricht">
                       {{fach? fach.fach:"nob"}}
                     </ng-container>
                   </ng-container>
-           
+
                 </button>
               </ng-container>
             </ng-template>
-          </div>
-        </div>
-        <!--  freie "Schultage", Feiertage-->
-        <ng-template #BLA>
-          <div class="{{tagObj.wochenTag}} tagesItem {{tagObj.notiz}} rotierContainer">
-            {{tagObj.notiz}}
-          </div>
-        </ng-template>
-      </ng-container>
+            <ng-template #LehrACHT>
+              <ng-container *ngFor="let elementt of tabellensortierung(8); index as stundenI">
+                <div class="toggle-item-Container" *ngIf="elementt!=undefined"
+                  (click)="togglezellenClick($event,b,elementt)">
+                  <div class="toggle-items">
+                    {{elementt?elementt.fach:"kein Fach"}}
+                  </div>
+                  <div class="toggle-items">
+                    {{elementt?elementt.wochenstunde:"no"}}
+                  </div>
+                  <div id="toggle-items" *ngIf="elementt.lehrer.kuerzel!=none">
+                    |{{elementt.lehrer?elementt.lehrer.kuerzel:"Lehrer"}}
+                  </div>
+                </div>
+              </ng-container>
+            </ng-template>
 
-      <ng-template #Lehrer>
-        <ng-container *ngFor="let elementt of tabellensortierung(8) index as stundenI">
-          <div class="toggle-item-Container" *ngIf="elementt!=undefined" (click)="togglezellenClick($event,b,elementt)">
-            <div class="toggle-items">
-              {{elementt?elementt.fach:"kein Fach"}}
-            </div>
-            <div class="toggle-items">
-              {{elementt?elementt.wochenstunde:"no"}}
-            </div>
-            <div id="toggle-items" *ngIf="elementt.lehrer.kuerzel!=none">
-              |{{elementt.lehrer?elementt.lehrer.kuerzel:"Lehrer"}}
-            </div>
-          </div>
-        </ng-container>
-      </ng-template>
-
-
-
-    </ng-container>
-  </div>
-
-  <h3> 9. Klasse </h3>
-  <div id="kl9">
-    <ng-container *ngFor="let tagObj of datumObj index as b">
-      <ng-container
-        *ngIf="(tagObj.notiz=='schule')||(b===0)||((b>0)&&(tagObj.notiz!='schule')&&(datumObj[b-1].notiz!=tagObj.notiz))&&(tagObj.notiz!='WE')">
-        <div class="{{tagObj.wochenTag}} tagesItem">
-          <div class="monatsFach ">
-            <ng-container
-              *ngIf="b ===  0 || tagObj.tag.getMonth()!=datumObj[b-1].tag.getMonth()||(tagObj.tag.getDate()==10&&tagObj.tag.getMonth()==0)">
-              {{ferienTerminService.monatZuString(tagObj.tag)}}
-            </ng-container>
-          </div>
-          <!-- normale Schultage          Ausnahme: Feiertage s.u. oder Sondertage (prüfung etc)-->
-          <div *ngIf="tagObj.frei==false&&tagObj.notiz=='schule', else BLA" class="datumFach {{tagObj.wochenTag}}">
-            <div class="date">
-              {{tagObj.tag.getDate()}}
-            </div>
-            <div class="wochenTag">{{ ferienTerminService.tagZuString( tagObj.tag)}}
-            </div>
+            <!-- KLASSE 9 START-->
             <!-- Montag-Buttons "normal " bei schultagen Mo-->
-            <button *ngIf="tagObj.notiz=='schule' &&tagObj.wochenTag=='Mo'; else BUT" class="buttonEpoche"
-              [ngbTooltip]="Lehrer" placement="bottom" triggers="click" [autoClose]="true"
+            <button *ngIf="tagObj.notiz=='schule' &&tagObj.wochenTag=='Mo'; else BUTNEUN" class="buttonEpoche"
+              [ngbTooltip]="LehrNEUN" placement="bottom" triggers="click" [autoClose]="true"
               (click)="cellKlick($event,b,9)">
               <ng-container *ngIf="epoche9[b] as ellem">
                 <ng-container *ngFor="let fach of ellem.unterricht">
@@ -110,11 +110,11 @@
               </ng-container>
             </button>
             <!-- wenn montag oder dienstag besetzt sind wird di/mi genommen (BUT)-->
-            <ng-template #BUT>
+            <ng-template #BUTNEUN>
               <!--bei Feiertag den Button verschieben auf Di oder Mi-->
               <ng-container
                 *ngIf="datumObj[b-1].notiz!='schule'&&tagObj.wochenTag=='Di'||datumObj[b-1].notiz!='schule'&&datumObj[b-2].notiz!='schule'&&tagObj.wochenTag=='Mi'">
-                <button class="buttonEpoche" [ngbTooltip]="Lehrer" placement="bottom" triggers="click"
+                <button class="buttonEpoche" [ngbTooltip]="LehrNEUN" placement="bottom" triggers="click"
                   [autoClose]="true" (click)="cellKlick($event,b,9)">
                   <ng-container *ngIf="epoche9[b] as ellem">
                     <ng-container *ngFor="let fach of ellem.unterricht">
@@ -124,56 +124,29 @@
                 </button>
               </ng-container>
             </ng-template>
-          </div>
-        </div>
-       <!--  freie "Schultage", Feiertage-->
-       <ng-template #BLA>
-        <div class="{{tagObj.wochenTag}} tagesItem {{tagObj.notiz}} rotierContainer">
-          {{tagObj.notiz}}
-        </div>
-      </ng-template>
-      </ng-container>
 
-      <ng-template #Lehrer>
-        <ng-container *ngFor="let elementt of tabellensortierung(9) index as stundenI">
-          <div class="toggle-item-Container" *ngIf="elementt!=undefined" (click)="togglezellenClick($event,b,elementt)">
-            <div class="toggle-items">
-              {{elementt?elementt.fach:"kein Fach"}}
-            </div>
-            <div class="toggle-items">
-              {{elementt?elementt.wochenstunde:"no"}}
-            </div>
-            <div id="toggle-items" *ngIf="elementt.lehrer.kuerzel!=none">
-              |{{elementt.lehrer?elementt.lehrer.kuerzel:"Lehrer"}}
-            </div>
-          </div>
-        </ng-container>
-      </ng-template>
-    </ng-container>
-  </div>
-
-  <h3> 10. Klasse </h3>
-  <div id="kl10">
-    <ng-container *ngFor="let tagObj of datumObj index as b">
-      <ng-container
-        *ngIf="(tagObj.notiz=='schule')||(b===0)||((b>0)&&(tagObj.notiz!='schule')&&(datumObj[b-1].notiz!=tagObj.notiz))&&(tagObj.notiz!='WE')">
-        <div class="{{tagObj.wochenTag}} tagesItem">
-          <div class="monatsFach ">
-            <ng-container
-              *ngIf="b ===  0 || tagObj.tag.getMonth()!=datumObj[b-1].tag.getMonth()||(tagObj.tag.getDate()==10&&tagObj.tag.getMonth()==0)">
-              {{ferienTerminService.monatZuString(tagObj.tag)}}
-            </ng-container>
-          </div>
-          <!-- normale Schultage          Ausnahme: Feiertage s.u. oder Sondertage (prüfung etc)-->
-          <div *ngIf="tagObj.frei==false&&tagObj.notiz=='schule', else BLA" class="datumFach {{tagObj.wochenTag}}">
-            <div class="date">
-              {{tagObj.tag.getDate()}}
-            </div>
-            <div class="wochenTag">{{ ferienTerminService.tagZuString( tagObj.tag)}}
-            </div>
+            <!-- KLlasse 9 Lehrer-dings -->
+            <ng-template #LehrNEUN>
+              <ng-container *ngFor="let elementt of tabellensortierung(9) index as stundenI">
+                <div class="toggle-item-Container" *ngIf="elementt!=undefined"
+                  (click)="togglezellenClick($event,b,elementt)">
+                  <div class="toggle-items">
+                    {{elementt?elementt.fach:"kein Fach"}}
+                  </div>
+                  <div class="toggle-items">
+                    {{elementt?elementt.wochenstunde:"no"}}
+                  </div>
+                  <div id="toggle-items" *ngIf="elementt.lehrer.kuerzel!=none">
+                    |{{elementt.lehrer?elementt.lehrer.kuerzel:"Lehrer"}}
+                  </div>
+                </div>
+              </ng-container>
+            </ng-template>
+            <!--KLASSE 9 ENDE-->
+            <!--Klasse 10 START-->
             <!-- Montag-Buttons "normal " bei schultagen Mo-->
             <button *ngIf="tagObj.notiz=='schule' &&tagObj.wochenTag=='Mo'; else BUT" class="buttonEpoche"
-              [ngbTooltip]="Lehrer" placement="bottom" triggers="click" [autoClose]="true"
+              [ngbTooltip]="LehrerZEHN" placement="bottom" triggers="click" [autoClose]="true"
               (click)="cellKlick($event,b,10)">
               <ng-container *ngIf="epoche10[b] as ellem">
                 <ng-container *ngFor="let fach of ellem.unterricht">
@@ -186,7 +159,7 @@
               <!--bei Feiertag den Button verschieben auf Di oder Mi-->
               <ng-container
                 *ngIf="datumObj[b-1].notiz!='schule'&&tagObj.wochenTag=='Di'||datumObj[b-1].notiz!='schule'&&datumObj[b-2].notiz!='schule'&&tagObj.wochenTag=='Mi'">
-                <button class="buttonEpoche" [ngbTooltip]="Lehrer" placement="bottom" triggers="click"
+                <button class="buttonEpoche" [ngbTooltip]="LehrerZEHN" placement="bottom" triggers="click"
                   [autoClose]="true" (click)="cellKlick($event,b,10)">
                   <ng-container *ngIf="epoche10[b] as ellem">
                     <ng-container *ngFor="let fach of ellem.unterricht">
@@ -196,59 +169,28 @@
                 </button>
               </ng-container>
             </ng-template>
-          </div>
-        </div>
-      <!--  freie "Schultage", Feiertage-->
-      <ng-template #BLA>
-        <div class="{{tagObj.wochenTag}} tagesItem {{tagObj.notiz}} rotierContainer">
-          {{tagObj.notiz}}
-        </div>
-      </ng-template>
-      </ng-container>
+            <ng-template #LehrerZEHN>
+              <ng-container *ngFor="let elementt of tabellensortierung(10) index as stundenI">
+                <div class="toggle-item-Container" *ngIf="elementt!=undefined"
+                  (click)="togglezellenClick($event,b,elementt)">
+                  <div class="toggle-items">
+                    {{elementt?elementt.fach:"kein Fach"}}
+                  </div>
+                  <div class="toggle-items">
+                    {{elementt?elementt.wochenstunde:"no"}}
+                  </div>
+                  <div id="toggle-items" *ngIf="elementt.lehrer.kuerzel!=none">
+                    |{{elementt.lehrer?elementt.lehrer.kuerzel:"Lehrer"}}
+                  </div>
+                </div>
+              </ng-container>
+            </ng-template>
+            <!--KLASSE 10 ENDE-->
 
-      <ng-template #Lehrer>
-        <ng-container *ngFor="let elementt of tabellensortierung(10) index as stundenI">
-          <div class="toggle-item-Container" *ngIf="elementt!=undefined" (click)="togglezellenClick($event,b,elementt)">
-            <div class="toggle-items">
-              {{elementt?elementt.fach:"kein Fach"}}
-            </div>
-            <div class="toggle-items">
-              {{elementt?elementt.wochenstunde:"no"}}
-            </div>
-            <div id="toggle-items" *ngIf="elementt.lehrer.kuerzel!=none">
-              |{{elementt.lehrer?elementt.lehrer.kuerzel:"Lehrer"}}
-            </div>
-          </div>
-        </ng-container>
-      </ng-template>
-
-
-
-    </ng-container>
-  </div>
-
-  <h3> 11. Klasse </h3>
-  <div id="kl11">
-    <ng-container *ngFor="let tagObj of datumObj index as b">
-      <ng-container
-        *ngIf="(tagObj.notiz=='schule')||(b===0)||((b>0)&&(tagObj.notiz!='schule')&&(datumObj[b-1].notiz!=tagObj.notiz))&&(tagObj.notiz!='WE')">
-        <div class="{{tagObj.wochenTag}} tagesItem">
-          <div class="monatsFach ">
-            <ng-container
-              *ngIf="b ===  0 || tagObj.tag.getMonth()!=datumObj[b-1].tag.getMonth()||(tagObj.tag.getDate()==10&&tagObj.tag.getMonth()==0)">
-              {{ferienTerminService.monatZuString(tagObj.tag)}}
-            </ng-container>
-          </div>
-          <!-- normale Schultage          Ausnahme: Feiertage s.u. oder Sondertage (prüfung etc)-->
-          <div *ngIf="tagObj.frei==false&&tagObj.notiz=='schule', else BLA" class="datumFach {{tagObj.wochenTag}}">
-            <div class="date">
-              {{tagObj.tag.getDate()}}
-            </div>
-            <div class="wochenTag">{{ ferienTerminService.tagZuString( tagObj.tag)}}
-            </div>
+            <!--KLASSE 11 START-->
             <!-- Montag-Buttons "normal " bei schultagen Mo-->
             <button *ngIf="tagObj.notiz=='schule' &&tagObj.wochenTag=='Mo'; else BUT" class="buttonEpoche"
-              [ngbTooltip]="Lehrer" placement="bottom" triggers="click" [autoClose]="true"
+              [ngbTooltip]="LehrerELF" placement="bottom" triggers="click" [autoClose]="true"
               (click)="cellKlick($event,b,11)">
               <ng-container *ngIf="epoche11[b] as ellem">
                 <ng-container *ngFor="let fach of ellem.unterricht">
@@ -261,7 +203,7 @@
               <!--bei Feiertag den Button verschieben auf Di oder Mi-->
               <ng-container
                 *ngIf="datumObj[b-1].notiz!='schule'&&tagObj.wochenTag=='Di'||datumObj[b-1].notiz!='schule'&&datumObj[b-2].notiz!='schule'&&tagObj.wochenTag=='Mi'">
-                <button class="buttonEpoche" [ngbTooltip]="Lehrer" placement="bottom" triggers="click"
+                <button class="buttonEpoche" [ngbTooltip]="LehrerELF" placement="bottom" triggers="click"
                   [autoClose]="true" (click)="cellKlick($event,b,11)">
                   <ng-container *ngIf="epoche11[b] as ellem">
                     <ng-container *ngFor="let fach of ellem.unterricht">
@@ -271,62 +213,28 @@
                 </button>
               </ng-container>
             </ng-template>
-          </div>
-          <!--  freie "Schultage", Feiertage-->
-          <ng-template #BLA>
-            <div class="{{tagObj.wochenTag}} tagesItem {{tagObj.notiz}} rotierContainer">
-              {{tagObj.notiz}}
-            </div>
-          </ng-template>
-        </div>
+            <ng-template #LehrerELF>
+              <ng-container *ngFor="let elementt of tabellensortierung(11) index as stundenI">
+                <div class="toggle-item-Container" *ngIf="elementt!=undefined"
+                  (click)="togglezellenClick($event,b,elementt)">
+                  <div class="toggle-items">
+                    {{elementt?elementt.fach:"kein Fach"}}
+                  </div>
+                  <div class="toggle-items">
+                    {{elementt?elementt.wochenstunde:"no"}}
+                  </div>
+                  <div id="toggle-items" *ngIf="elementt.lehrer.kuerzel!=none">
+                    |{{elementt.lehrer?elementt.lehrer.kuerzel:"Lehrer"}}
+                  </div>
+                </div>
+              </ng-container>
+            </ng-template>
 
 
-
-      </ng-container>
-
-      <ng-template #Lehrer>
-        <ng-container *ngFor="let elementt of tabellensortierung(11) index as stundenI">
-          <div class="toggle-item-Container" *ngIf="elementt!=undefined" (click)="togglezellenClick($event,b,elementt)">
-            <div class="toggle-items">
-              {{elementt?elementt.fach:"kein Fach"}}
-            </div>
-            <div class="toggle-items">
-              {{elementt?elementt.wochenstunde:"no"}}
-            </div>
-            <div id="toggle-items" *ngIf="elementt.lehrer.kuerzel!=none">
-              |{{elementt.lehrer?elementt.lehrer.kuerzel:"Lehrer"}}
-            </div>
-          </div>
-        </ng-container>
-      </ng-template>
-
-
-
-    </ng-container>
-  </div>
-
-  <h3> 12. Klasse </h3>
-  <div id="kl12">
-    <ng-container *ngFor="let tagObj of datumObj index as b">
-      <ng-container
-        *ngIf="(tagObj.notiz=='schule')||(b===0)||((b>0)&&(tagObj.notiz!='schule')&&(datumObj[b-1].notiz!=tagObj.notiz))&&(tagObj.notiz!='WE')">
-        <div class="{{tagObj.wochenTag}} tagesItem ">
-          <div class="monatsFach ">
-            <ng-container
-              *ngIf="b ===  0 || tagObj.tag.getMonth()!=datumObj[b-1].tag.getMonth()||(tagObj.tag.getDate()==10&&tagObj.tag.getMonth()==0)">
-              {{ferienTerminService.monatZuString(tagObj.tag)}}
-            </ng-container>
-          </div>
-          <!-- normale Schultage          Ausnahme: Feiertage s.u. oder Sondertage (prüfung etc)-->
-          <div *ngIf="tagObj.frei==false&&tagObj.notiz=='schule', else BLA" class="datumFach {{tagObj.wochenTag}}">
-            <div class="date">
-              {{tagObj.tag.getDate()}}
-            </div>
-            <div class="wochenTag">{{ ferienTerminService.tagZuString( tagObj.tag)}}
-            </div>
+            <!-- EPOCHE KL 12-->
             <!-- Montag-Buttons "normal " bei schultagen Mo-->
             <button *ngIf="tagObj.notiz=='schule' &&tagObj.wochenTag=='Mo'; else BUT" class="buttonEpoche"
-              [ngbTooltip]="Lehrer" placement="bottom" triggers="click" [autoClose]="true"
+              [ngbTooltip]="LehrerZWOELF" placement="bottom" triggers="click" [autoClose]="true"
               (click)="cellKlick($event,b,12)">
               <ng-container *ngIf="epoche12[b] as ellem">
                 <ng-container *ngFor="let fach of ellem.unterricht">
@@ -339,7 +247,7 @@
               <!--bei Feiertag den Button verschieben auf Di oder Mi-->
               <ng-container
                 *ngIf="datumObj[b-1].notiz!='schule'&&tagObj.wochenTag=='Di'||datumObj[b-1].notiz!='schule'&&datumObj[b-2].notiz!='schule'&&tagObj.wochenTag=='Mi'">
-                <button class="buttonEpoche" [ngbTooltip]="Lehrer" placement="bottom" triggers="click"
+                <button class="buttonEpoche" [ngbTooltip]="LehrerZWOELF" placement="bottom" triggers="click"
                   [autoClose]="true" (click)="cellKlick($event,b,12)">
                   <ng-container *ngIf="epoche12[b] as ellem">
                     <ng-container *ngFor="let fach of ellem.unterricht">
@@ -349,40 +257,39 @@
                 </button>
               </ng-container>
             </ng-template>
+            <!-- EPOCHE ENDE -->
+            <!-- SCHIENE START==??-->
+
+            <ng-template #LehrerZWOELF>
+              <ng-container *ngFor="let elementt of tabellensortierung(12) index as stundenI">
+                <div class="toggle-item-Container" *ngIf="elementt!=undefined"
+                  (click)="togglezellenClick($event,b,elementt)">
+                  <div class="toggle-items">
+                    {{elementt?elementt.fach:"kein Fach"}}
+                  </div>
+                  <div class="toggle-items">
+                    {{elementt?elementt.wochenstunde:"no"}}
+                  </div>
+                  <div id="toggle-items" *ngIf="elementt.lehrer.kuerzel!=none">
+                    |{{elementt.lehrer?elementt.lehrer.kuerzel:"Lehrer"}}
+                  </div>
+                </div>
+              </ng-container>
+            </ng-template>
+
+
+
           </div>
-          <!--  freie "Schultage", Feiertage-->
-          <ng-template #BLA>
-            <div class="{{tagObj.wochenTag}} tagesItem {{tagObj.notiz}} rotierContainer">
-              {{tagObj.notiz}}
-            </div>
-          </ng-template>
         </div>
-
-
+        <!--  freie "Schultage", Feiertage-->
+        <ng-template #BLA>
+          <div class="{{tagObj.wochenTag}} tagesItem {{tagObj.notiz}} rotierContainer">
+            {{tagObj.notiz}}
+          </div>
+        </ng-template>
 
       </ng-container>
-
-      <ng-template #Lehrer>
-        <ng-container *ngFor="let elementt of tabellensortierung(12) index as stundenI">
-          <div class="toggle-item-Container" *ngIf="elementt!=undefined" (click)="togglezellenClick($event,b,elementt)">
-            <div class="toggle-items">
-              {{elementt?elementt.fach:"kein Fach"}}
-            </div>
-            <div class="toggle-items">
-              {{elementt?elementt.wochenstunde:"no"}}
-            </div>
-            <div id="toggle-items" *ngIf="elementt.lehrer.kuerzel!=none">
-              |{{elementt.lehrer?elementt.lehrer.kuerzel:"Lehrer"}}
-            </div>
-          </div>
-        </ng-container>
-      </ng-template>
-
 
 
     </ng-container>
   </div>
-
-
-
-</div>

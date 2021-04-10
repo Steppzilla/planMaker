@@ -86,6 +86,9 @@ export class EpocheComponent implements OnInit {
     this.epochenServ.epoche11$.subscribe((data)=>this.epoche11=data);
     this.epochenServ.epoche12$.subscribe((data)=>this.epoche12=data);
 
+    //Rhythmus: 
+    
+
   }
 
   ngOnInit(): void {}
