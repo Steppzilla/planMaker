@@ -19,7 +19,7 @@ h3{font-size:12pt;
 } 
 
 .buttonEpoche{
-    width: 38pt;
+    width: 50pt;
     border-radius: 5pt;
     height: 30pt;
     border:0pt solid black;
@@ -37,7 +37,7 @@ h3{font-size:12pt;
 }
 
 .datumFach{
-    font-size: 6pt;
+    font-size: 8pt;
 }
 .datumFach .date{
     border-top: 1pt solid black;
@@ -45,10 +45,10 @@ h3{font-size:12pt;
 }
 .datumFach .wochenTag{
     min-height: 9pt;
+    font-size: 7pt;
 }
 .datumFach.Mo{
     border-left: solid 1pt black;
-   
 }
 
 
@@ -56,22 +56,23 @@ h3{font-size:12pt;
 
 
 .tagesItem{
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     margin:0pt;
-    width: 8pt;
+    width: 10pt;
     height: 14pt;
     margin-bottom:160pt;
 }
 
 
 .rotierContainer{
-    font-size: 7pt;
+    font-size: 8pt;
     padding:0pt;
     padding-top:4pt;
     padding-bottom: 2pt;
     margin:0pt;
-    width: 8pt;
+    width: 10pt;
     border-radius: 3pt;
-    height: 60pt;
+    height: 120pt;
  
     -ms-writing-mode: tb-rl; 
    writing-mode: vertical-rl; 
