@@ -161,6 +161,7 @@ zahlinWorte(num:number){
 
 
   constructor(public klassenFaecher: KlassenFaecherService, public lehrerServ: LehrerService) {
+    this.grundPlanerstellen();
 
   }
 }
