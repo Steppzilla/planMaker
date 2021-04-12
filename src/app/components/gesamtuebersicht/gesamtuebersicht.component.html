@@ -1,28 +1,22 @@
-<div id="buttonmenu" class="buttonreihe noprint">
-  <div class="center">
 
-    <button (click)="leherkuerzelToggle()">Lehrerkuerzel {{buttontext}}</button>
-  </div>
-</div>
-
-<div class="buttonreihe noprint" id="Lehrerselect">
-
+ <div class="buttonreihe noprint" id="Lehrerselect">
   <!-- -->
   <ng-container *ngFor="let lehrer of this.lehrerService.lehrer; index as i">
     <button *ngIf="i>0" (click)="lehrerwahl(i)">
       {{lehrer.kuerzel}}
-
     </button>
-  </ng-container>
+  </ng-container><button (click)="leherkuerzelToggle()">Lehrerkuerzel {{buttontext}}</button>
 </div>
 
 <h1>Gesamtplan</h1>
 
+<div class="buttonreihe noprint wochentagButton">
 <button (click)="wochentagWahl('Montag')">Montag</button>
 <button (click)="wochentagWahl('Dienstag')">Dienstag</button>
 <button (click)="wochentagWahl('Mittwoch')">Mittwoch</button>
 <Button (click)="wochentagWahl('Donnerstag')">Donnerstag</Button>
 <button (click)="wochentagWahl('Freitag')"> Freitag</button>
+</div>
 <!--
 <ng-container *ngFor="let rasterAuswahl of valueLoopinArray(stundenRaster) index as iN">-->
 <!-- iN ist 0 für montag etc..-->

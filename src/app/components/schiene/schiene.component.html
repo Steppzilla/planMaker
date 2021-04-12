@@ -4,12 +4,21 @@
 
 
   <div id="Zeile">
-    <div class="tagesItem">      <div class="monatsFach ">      </div>      <div class="datumFach">        <div class="date">          
-    </div>        <div class="wochenTag">          
-    </div>      </div>            <div class="klassenNummerButton">
-    9      </div>      <div class="klassenNummerButton">        10      </div>      <div class="klassenNummerButton">        11
-  </div>      <div class="klassenNummerButton">        12      </div>
-</div>
+    <div class="tagesItem">
+      <div class="monatsFach "> </div>
+      <div class="datumFach">
+        <div class="date">
+        </div>
+        <div class="wochenTag">
+        </div>
+      </div>
+      <div class="klassenNummerButton">
+        9 </div>
+      <div class="klassenNummerButton"> 10 </div>
+      <div class="klassenNummerButton"> 11
+      </div>
+      <div class="klassenNummerButton"> 12 </div>
+    </div>
     <ng-container *ngFor="let tagObj of datumObj index as b">
       <ng-container
         *ngIf="(tagObj.notiz=='schule')||(b===0)||((b>0)&&(tagObj.notiz!='schule')&&(datumObj[b-1].notiz!=tagObj.notiz))&&(tagObj.notiz!='WE')">
@@ -26,9 +35,10 @@
             </div>
             <div class="wochenTag">{{ ferienTerminService.tagZuString( tagObj.tag)}}
             </div>
-            <!-- normale Schultage          Ausnahme: Feiertage s.u. oder Sondertage (prüfung etc)-->
-          <div *ngIf="tagObj.frei==false&&tagObj.notiz=='schule', else BLA">
-<!--Klasse 9 START-->
+          </div>
+          <!-- normale Schultage          Ausnahme: Feiertage s.u. oder Sondertage (prüfung etc)-->
+          <div class="buttonContain" *ngIf="tagObj.frei==false&&tagObj.notiz=='schule', else BLA">
+            <!--Klasse 9 START-->
             <!-- Montag-Buttons "normal " bei schultagen Mo-->
             <button *ngIf="tagObj.notiz=='schule' &&tagObj.wochenTag=='Mo'; else BUT" class="buttonEpoche"
               [ngbTooltip]="Lehrer" placement="bottom" triggers="click" (click)="cellKlick($event,b,9)">
@@ -55,7 +65,8 @@
             </ng-template>
             <ng-template #Lehrer>
               <ng-container *ngFor="let elementt of tabellensortierung(9) index as stundenI">
-                <div class="toggle-item-Container" *ngIf="elementt!=undefined" (click)="togglezellenClick($event,b,elementt)">
+                <div class="toggle-item-Container" *ngIf="elementt!=undefined"
+                  (click)="togglezellenClick($event,b,elementt)">
                   <div class="toggle-items">
                     {{elementt?elementt.fach:"kein Fach"}}
                   </div>
@@ -68,8 +79,8 @@
                 </div>
               </ng-container>
             </ng-template>
-<!--Klasse 9 ENDE -->
-<!--Klasse 10 START-->
+            <!--Klasse 9 ENDE -->
+            <!--Klasse 10 START-->
 
             <!-- Montag-Buttons "normal " bei schultagen Mo-->
             <button *ngIf="tagObj.notiz=='schule' &&tagObj.wochenTag=='Mo'; else BUT" class="buttonEpoche"
@@ -95,23 +106,24 @@
                 </button>
               </ng-container>
             </ng-template>
-      <ng-template #LehrerZEHN>
-        <ng-container *ngFor="let elementt of tabellensortierung(10) index as stundenI">
-          <div class="toggle-item-Container" *ngIf="elementt!=undefined" (click)="togglezellenClick($event,b,elementt)">
-            <div class="toggle-items">
-              {{elementt?elementt.fach:"kein Fach"}}
-            </div>
-            <div class="toggle-items">
-              {{elementt?elementt.wochenstunde:"no"}}
-            </div>
-            <div id="toggle-items" *ngIf="elementt.lehrer.kuerzel!=none">
-              |{{elementt.lehrer?elementt.lehrer.kuerzel:"Lehrer"}}
-            </div>
-          </div>
-        </ng-container>
-      </ng-template>
-<!--Klasse 10 ENDE -->
-<!--Klasse 11 START-->
+            <ng-template #LehrerZEHN>
+              <ng-container *ngFor="let elementt of tabellensortierung(10) index as stundenI">
+                <div class="toggle-item-Container" *ngIf="elementt!=undefined"
+                  (click)="togglezellenClick($event,b,elementt)">
+                  <div class="toggle-items">
+                    {{elementt?elementt.fach:"kein Fach"}}
+                  </div>
+                  <div class="toggle-items">
+                    {{elementt?elementt.wochenstunde:"no"}}
+                  </div>
+                  <div id="toggle-items" *ngIf="elementt.lehrer.kuerzel!=none">
+                    |{{elementt.lehrer?elementt.lehrer.kuerzel:"Lehrer"}}
+                  </div>
+                </div>
+              </ng-container>
+            </ng-template>
+            <!--Klasse 10 ENDE -->
+            <!--Klasse 11 START-->
 
             <!-- Montag-Buttons "normal " bei schultagen Mo-->
             <button *ngIf="tagObj.notiz=='schule' &&tagObj.wochenTag=='Mo'; else BUT" class="buttonEpoche"
@@ -137,23 +149,24 @@
                 </button>
               </ng-container>
             </ng-template>
-      <ng-template #LehrerELF>
-        <ng-container *ngFor="let elementt of tabellensortierung(11) index as stundenI">
-          <div class="toggle-item-Container" *ngIf="elementt!=undefined" (click)="togglezellenClick($event,b,elementt)">
-            <div class="toggle-items">
-              {{elementt?elementt.fach:"kein Fach"}}
-            </div>
-            <div class="toggle-items">
-              {{elementt?elementt.wochenstunde:"no"}}
-            </div>
-            <div id="toggle-items" *ngIf="elementt.lehrer.kuerzel!=none">
-              |{{elementt.lehrer?elementt.lehrer.kuerzel:"Lehrer"}}
-            </div>
-          </div>
-        </ng-container>
-      </ng-template>
-<!--Klasse 11 ENDE -->
-<!--Klasse 12 START-->
+            <ng-template #LehrerELF>
+              <ng-container *ngFor="let elementt of tabellensortierung(11) index as stundenI">
+                <div class="toggle-item-Container" *ngIf="elementt!=undefined"
+                  (click)="togglezellenClick($event,b,elementt)">
+                  <div class="toggle-items">
+                    {{elementt?elementt.fach:"kein Fach"}}
+                  </div>
+                  <div class="toggle-items">
+                    {{elementt?elementt.wochenstunde:"no"}}
+                  </div>
+                  <div id="toggle-items" *ngIf="elementt.lehrer.kuerzel!=none">
+                    |{{elementt.lehrer?elementt.lehrer.kuerzel:"Lehrer"}}
+                  </div>
+                </div>
+              </ng-container>
+            </ng-template>
+            <!--Klasse 11 ENDE -->
+            <!--Klasse 12 START-->
 
             <!-- Montag-Buttons "normal " bei schultagen Mo-->
             <button *ngIf="tagObj.notiz=='schule' &&tagObj.wochenTag=='Mo'; else BUT" class="buttonEpoche"
@@ -179,24 +192,25 @@
                 </button>
               </ng-container>
             </ng-template>
-         
 
-      <ng-template #LehrerZWOELF>
-        <ng-container *ngFor="let elementt of tabellensortierung(12) index as stundenI">
-          <div class="toggle-item-Container" *ngIf="elementt!=undefined" (click)="togglezellenClick($event,b,elementt)">
-            <div class="toggle-items">
-              {{elementt?elementt.fach:"kein Fach"}}
-            </div>
-            <div class="toggle-items">
-              {{elementt?elementt.wochenstunde:"no"}}
-            </div>
-            <div id="toggle-items" *ngIf="elementt.lehrer.kuerzel!=none">
-              |{{elementt.lehrer?elementt.lehrer.kuerzel:"Lehrer"}}
-            </div>
-          </div>
-        </ng-container>
-      </ng-template>
-<!--Klasse 12 ENDE -->
+
+            <ng-template #LehrerZWOELF>
+              <ng-container *ngFor="let elementt of tabellensortierung(12) index as stundenI">
+                <div class="toggle-item-Container" *ngIf="elementt!=undefined"
+                  (click)="togglezellenClick($event,b,elementt)">
+                  <div class="toggle-items">
+                    {{elementt?elementt.fach:"kein Fach"}}
+                  </div>
+                  <div class="toggle-items">
+                    {{elementt?elementt.wochenstunde:"no"}}
+                  </div>
+                  <div id="toggle-items" *ngIf="elementt.lehrer.kuerzel!=none">
+                    |{{elementt.lehrer?elementt.lehrer.kuerzel:"Lehrer"}}
+                  </div>
+                </div>
+              </ng-container>
+            </ng-template>
+            <!--Klasse 12 ENDE -->
           </div>
         </div>
         <!--  freie "Schultage", Feiertage-->
@@ -205,14 +219,7 @@
             {{tagObj.notiz}}
           </div>
         </ng-template>
-        </div>
+
       </ng-container>
     </ng-container>
   </div>
-
-  
-
-
-
-
-

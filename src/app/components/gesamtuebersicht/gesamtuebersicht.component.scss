@@ -3,22 +3,36 @@
   margin: 0pt;
 }
 
+h1,h2{text-align:center;
+margin-top:10pt;}
+
 p {
   margin: 0pt;
 }
 
 button {
   border: solid 0pt black;
+
   /* border-radius:5pt;*/
   padding: 2pt;
-
-
+  background-color: inherit;
+  width:100%;
 }
 
-#Lehrerselect>button {}
+.wochentagButton{
+  background-color: beige;
+}
+.buttonreihe{display:flex;}
+
+#Lehrerselect>button {
+  background-color:rgb(216, 154, 205);
+  margin: 1pt;
+  border-radius:2pt;
+  width: 100%;
+}
 
 button:hover {
-  background-color: darkred;
+  background-color: rgb(167, 209, 119);
 }
 
 #tabelle {
@@ -49,7 +63,6 @@ button:hover {
   text-align: center;
   height: 30pt;
 }
-
 
 .klassenspalte>div>button {
   padding: 0pt;

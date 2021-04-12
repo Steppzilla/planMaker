@@ -1,8 +1,6 @@
 
-h2{font-size:16pt;
-}
-h3{font-size:12pt;
-    margin-bottom:0pt;
+h1,h2,h3{text-align: center;
+    margin-top:10pt;
 }
 
 .block{margin-left: 10pt;
@@ -18,12 +16,15 @@ h3{font-size:12pt;
     width: 100%;
 } 
 
+
+
 .buttonEpoche{
-    width: 50pt;
+    width: 510%;
     border-radius: 5pt;
     height: 30pt;
     border:0pt solid black;
     background-color:beige;
+
 }
 .klassenNummerButton{
     border-radius: 5pt;
@@ -47,20 +48,18 @@ h3{font-size:12pt;
     min-height: 9pt;
     font-size: 7pt;
 }
-.datumFach.Mo{
+.tagesItem.Mo .buttonContain, .datumFach.Mo{
     border-left: solid 1pt black;
 }
 
-
 .toggle-item-Container{font-size: 10pt;}
-
 
 .tagesItem{
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     margin:0pt;
-    width: 10pt;
+    width: 0.9%;
     height: 14pt;
-    margin-bottom:160pt;
+    margin-bottom:260pt;
 }
 
 
@@ -68,11 +67,10 @@ h3{font-size:12pt;
     font-size: 8pt;
     padding:0pt;
     padding-top:4pt;
-    padding-bottom: 2pt;
     margin:0pt;
-    width: 10pt;
+    width: 100%;
     border-radius: 3pt;
-    height: 120pt;
+    height: 90pt;
  
     -ms-writing-mode: tb-rl; 
    writing-mode: vertical-rl; 
