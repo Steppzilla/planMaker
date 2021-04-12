@@ -16,17 +16,18 @@
         <div class="{{tagObj.wochenTag}} tagesItem">
           <div class="monatsFach ">
             <ng-container
-            *ngIf="b ===  0 ||(tagObj.tag.getDate()===1)||((b>10)&&(datumObj[b-10].tag.getDate()===1&&datumObj[b-10].frei==true))">
+              *ngIf="b ===  0 ||(tagObj.tag.getDate()===1)||((b>10)&&(datumObj[b-10].tag.getDate()===1&&datumObj[b-10].frei==true))">
               {{ferienTerminService.monatZuString(tagObj.tag)}}
             </ng-container>
           </div>
-          <!-- normale Schultage          Ausnahme: Feiertage s.u. oder Sondertage (prüfung etc)-->
-          <div *ngIf="tagObj.frei==false&&tagObj.notiz=='schule', else BLA" class="datumFach {{tagObj.wochenTag}}">
+          <div class="datumFach {{tagObj.wochenTag}}">
             <div class="date">
               {{tagObj.tag.getDate()}}
             </div>
             <div class="wochenTag">{{ ferienTerminService.tagZuString( tagObj.tag)}}
             </div>
+            <!-- normale Schultage          Ausnahme: Feiertage s.u. oder Sondertage (prüfung etc)-->
+          <div *ngIf="tagObj.frei==false&&tagObj.notiz=='schule', else BLA">
 <!--Klasse 9 START-->
             <!-- Montag-Buttons "normal " bei schultagen Mo-->
             <button *ngIf="tagObj.notiz=='schule' &&tagObj.wochenTag=='Mo'; else BUT" class="buttonEpoche"
@@ -204,6 +205,7 @@
             {{tagObj.notiz}}
           </div>
         </ng-template>
+        </div>
       </ng-container>
     </ng-container>
   </div>

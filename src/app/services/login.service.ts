@@ -38,8 +38,8 @@ export class LoginService {
   stundenLehrerArray$ = this.stundenLehrerArray.asObservable();
   grundPlanfaecher: Array < Elementt > ;
 
-  saveAll(stundenPlan: Gesamtstundenraster) {
-    let x = btoa(JSON.stringify(stundenPlan)); //der plan kann aktuell nur stundenplan
+  saveAll() {
+    let x = btoa(JSON.stringify(this.stundenPlanDaten)); //der plan kann aktuell nur stundenplan
     let y = btoa(JSON.stringify(this.grundPlanfaecher));
 
     this.store.collection('plaene').doc('/' + 'gesamtplaene').update({

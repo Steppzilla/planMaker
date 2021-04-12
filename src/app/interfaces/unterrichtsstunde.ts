@@ -3,7 +3,7 @@ import { Fach } from '../enums/fach.enum';
 import {Lehrer} from './lehrer';
 import { Lehrjahr } from '../enums/lehrjahr.enum';
 import {Raum} from '../enums/raum.enum';
-import { Zeitpunkt } from './zuweisung';
+
 import { Rubriken } from '../enums/rubriken.enum';
 
 export interface Unterrichtsstunde {
@@ -14,7 +14,7 @@ export interface Unterrichtsstunde {
     raum?: Raum ;
     wochenstunden?:number;
 
-    zeitpunkt?: Zeitpunkt[];  //Daten anders je nach epoche/schien/Ryhthm //nicht belegt bei täglicher stunde, da gilt position
+   
    
     marked?:boolean;
     halbiert: boolean;

@@ -75,10 +75,7 @@ togglezellenClick(e, b, clickedElementt: Elementt) { //wochentag/ganze Zelle/stu
 
   
 
-  this.epochenServ.rhythmus9$.subscribe((data)=>{
-    this.rhythmus9=data;
-    //.table(data);
-  });
+  this.epochenServ.rhythmus9$.subscribe((data)=>{this.rhythmus9=data;  });
   this.epochenServ.rhythmus10$.subscribe((data)=>{this.rhythmus10=data});
   this.epochenServ.rhythmus11$.subscribe((data)=>this.rhythmus11=data);
   this.epochenServ.rhythmus12$.subscribe((data)=>this.rhythmus12=data);

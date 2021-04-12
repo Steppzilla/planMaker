@@ -1,0 +1,15 @@
+<div id="menu" class="noprint">
+    <button id="load" (click)="load()">LoadData</button>
+    <button class="noprint" (click)="redirect('lehrerListe')"> Lehrerliste</button>
+    <button class="noprint" (click)="redirect('gesamtplan')"> Gesamtplan </button>
+      <button class="noprint" (click)="redirect('klasseFach')"> Klasse/Lehrer</button>
+      <button class="noprint" (click)="redirect('epoche')"> Epoche</button>
+      <button class="noprint" (click)="redirect('schiene')"> Schiene</button>
+      <button class="noprint" (click)="redirect('rhythmus')"> Rhythmus</button>
+      <div class="noprint"> Datum: {{termine.datumHeute.getDate()}}.{{termine.datumHeute.getMonth()+1}}.{{termine.datumHeute.getFullYear()}}</div>
+    </div>
+    <!--
+    <button id="save" (click)="save()">Save</button>
+    -->
+    
+

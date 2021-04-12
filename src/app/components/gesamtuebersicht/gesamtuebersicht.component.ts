@@ -192,18 +192,7 @@ export class GesamtuebersichtComponent implements OnInit {
     return dupli > 0 ? "error" : "ok";
   }
 
-  save() {
-    this.login.login();
-    this.login.saveAll(this.stundenRaster);
-    this.login.logout();
-  }
 
-  load() {
-    this.login.login();
-    this.login.gesamtPlanLaden(); //login.stundenplandaten wird neu belegt mit Daten, also observed durch this.stundenRaster ändert sich das dann auch
-    this.login.logout();
-
-  }
 
 
   neu() {
@@ -257,7 +246,7 @@ export class GesamtuebersichtComponent implements OnInit {
 
     login.stundenPlanDaten$.subscribe((stundenPlanDaten) => {
       this.stundenRaster = stundenPlanDaten;
-      console.log(stundenPlanDaten);
+     // console.log(stundenPlanDaten);
     
     });
     this.klassenplanServ.grundPlanfaecher$.subscribe((data) => this.grundPlanfaecher = data);

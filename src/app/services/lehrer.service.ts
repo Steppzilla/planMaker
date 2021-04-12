@@ -10,6 +10,7 @@ import {
 import {
   Rubriken
 } from '../enums/rubriken.enum';
+import { Elementt } from '../interfaces/elementt';
 import {
   Lehrer
 } from '../interfaces/lehrer';
@@ -51,111 +52,6 @@ export class LehrerService {
   }
 
 
-
-  zaehlerBerechnen(a, b) { // a ist raster b ist stundenlehrer Array der Klassen
-    //console.log(a);
-    Object.values(a).forEach((wochentagRaster: StundenRaster) => {
-      // console.log("hi");
-      Object.values(wochentagRaster).forEach(klassenArray => {
-        //console.log("ho");
-        klassenArray.forEach(cell => {
-          //  console.log(cell);
-          cell.forEach(u => {
-            // console.log(b);
-            b[u.klasse].find(element => element.faecher == u.faecher).anzahl--;
-          });
-        });
-      });
-    });
-    return b;
-  }
-
-  stundenLehrerDerKlassen() {
-    let lehrerAuswahlListe = [];
-    Object.values(Lehrjahr).forEach(zahl => {
-      lehrerAuswahlListe[zahl] = [];
-      Object.values(Rubriken).forEach((rubrik, r) => {
-        lehrerAuswahlListe[zahl][r] = [];
-      });
-    });
-    //  let unterrichtsListe:Array<Unterrichtsstunde>=new Array();
-    this.lehrer.forEach(person => {
-      person.faecherKlassen.forEach(fachklasse => {
-        let sortierung: Rubriken = Rubriken.unsorted;
-        sortierung = this.sort(fachklasse[0]); //gibt den richtigen sortierungs-parameter zurück
-        fachklasse[1].forEach(klasse => { //klasse in nummer umwandeln Integer. valueOf()
-          //console.log(sortierung);
-          let stunde: Unterrichtsstunde = {
-            faecher: fachklasse[0],
-            klasse: klasse,
-            lehrer: [person],
-            //wochenstunden: this.anzahlStunden(klasse,fachklasse[0]),
-            halbiert: false,
-            drittel: false
-          };
-          // stunden weden hier einzeln erstellt , nun noch gleiche Fach,klasse kombi zusammen und nach klassen sortieren
-          //Wenn ein fach einem schon vorhandenen in der klasse entspricht, dann wird der Lehrer dort nur ergänzt:
-          let bool = false;
-          lehrerAuswahlListe[klasse.valueOf()].forEach((rubrik, rubr) => { //über klassenarray loopen, Rubrik auswhälen
-            rubrik.forEach((unterricht, uI) => {
-              if (unterricht.faecher == fachklasse[0]) { //wenn fach einem vorhandenen entspricht,
-                lehrerAuswahlListe[klasse.valueOf()][rubr][uI].lehrer.push(person); //dann lehrer darin ergänzen
-                bool = true;
-              } else {}
-            });
-          });
-          if (bool == false) {
-
-            lehrerAuswahlListe[klasse.valueOf()].push(stunde);
-          }
-        });
-      });
-    });
-    //Epoche, schiene und rhythmus pushen:
-
-    ///console.log(lehrerAuswahlListe);
-    return lehrerAuswahlListe;
-  }
-
-
-
-
-  sort(fach: Fach) {
-    switch (fach) { //wenn faecher deutsch, englisch etc dann sortierung sprache adden
-      case Fach.deutsch:
-        return Rubriken.sprache;
-      case Fach.englisch:
-        return Rubriken.sprache;
-      case Fach.franzoesisch:
-        return Rubriken.sprache;
-      case Fach.gartenbau:
-        return Rubriken.geteilt;
-      case Fach.plastizieren:
-        return Rubriken.geteilt;
-      case Fach.programmieren:
-        return Rubriken.geteilt;
-      case Fach.weben:
-        return Rubriken.geteilt;
-      case Fach.computer:
-        return Rubriken.geteilt;
-      case Fach.kunst:
-        return Rubriken.geteilt;
-      case Fach.schmieden:
-        return Rubriken.geteilt;
-      case Fach.werken:
-        return Rubriken.geteilt;
-      case Fach.handarbeit:
-        return Rubriken.geteilt;
-      case Fach.mathematik:
-        return Rubriken.naturwissenschaft;
-      case Fach.physik:
-        return Rubriken.naturwissenschaft;
-      case Fach.chemie:
-        return Rubriken.naturwissenschaft;
-      default:
-        return Rubriken.unsorted;
-    }
-  }
 
 
 
@@ -320,7 +216,7 @@ export class LehrerService {
       name: 'Pahnke',
       kuerzel: 'Pa',
       anrede: "Herr",
-      faecher: [Fach.musik],
+      faecher: [Fach.musik,Fach.chor, Fach.orchester, Fach.mittelstufenorchester],
 
     },
     //{ id: 18, name: 'Piaskowski', kuerzel: 'FPi', anrede: "Frau", faecher: [Fach]  },
@@ -345,7 +241,7 @@ export class LehrerService {
       name: 'Santa',
       kuerzel: 'San',
       anrede: "Frau",
-      faecher: [Fach.musik, Fach.franzoesisch],
+      faecher: [Fach.musik, Fach.franzoesisch,Fach.chor, Fach.orchester, Fach.mittelstufenorchester],
 
     },
     {
@@ -353,7 +249,7 @@ export class LehrerService {
       name: 'Scheunemann',
       kuerzel: 'Sc',
       anrede: "Herr",
-      faecher: [Fach.musik, Fach.wirtschaftspolitik],
+      faecher: [Fach.musik, Fach.wirtschaftspolitik, Fach.chor, Fach.orchester, Fach.mittelstufenorchester],
       aufgaben: ["Stundenplan"],
 
     },
@@ -396,7 +292,7 @@ export class LehrerService {
       name: 'Stuchlik',
       kuerzel: 'Stk',
       anrede: "Herr",
-      faecher: [Fach.hauptunterricht, Fach.musik, Fach.uebstunde],
+      faecher: [Fach.hauptunterricht, Fach.musik, Fach.uebstunde, Fach.mittelstufenorchester],
       aufgaben: ["Stundenplan-Vertretung", "Schulplattform-Admin"],
 
     },

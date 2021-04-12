@@ -13,6 +13,8 @@ import { RhythmusComponent } from './components/rhythmus/rhythmus.component';
 import { EpocheComponent } from './components/epoche/epoche.component';
 import { SchieneComponent } from './components/schiene/schiene.component';
 import { ErstesElementPipe } from './pipe/erstes-element.pipe';
+import { StartComponent } from './components/start/start.component';
+import { LehrerListeComponent } from './components/lehrer-liste/lehrer-liste.component';
 
 const config = {
   //apiKey: '<your-key>',
@@ -33,7 +35,9 @@ const config = {
     RhythmusComponent,
     EpocheComponent,
     SchieneComponent,
-    ErstesElementPipe
+    ErstesElementPipe,
+    StartComponent,
+    LehrerListeComponent
   ],
   imports: [
     BrowserModule,
