@@ -75,6 +75,11 @@ export class EpocheComponent implements OnInit {
 
   constructor(public ferienTerminService: FerientermineService, public klassenplanServ: KlassenplaeneService, public epochenServ: EpochenPlaeneService) {
     this.datumObj = ferienTerminService.daysBetween();
+//Fahrten reinschreiben:
+
+
+
+
    /// console.log(this.datumObj);
     this.klassenplanServ.grundPlanfaecher$.subscribe((data) => this.grundPlanfaecher = data);
     this.epochenServ.epoche8$.subscribe((data)=>{
@@ -86,7 +91,8 @@ export class EpocheComponent implements OnInit {
     this.epochenServ.epoche11$.subscribe((data)=>this.epoche11=data);
     this.epochenServ.epoche12$.subscribe((data)=>this.epoche12=data);
 
-    //Rhythmus: 
+
+
     
 
   }

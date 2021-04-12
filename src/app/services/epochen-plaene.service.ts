@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { TagesObjekt } from '../interfaces/tages-objekt';
 import { FerientermineService } from './ferientermine.service';
 
 @Injectable({

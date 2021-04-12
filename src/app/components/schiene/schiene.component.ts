@@ -78,8 +78,13 @@ togglezellenClick(e, b, clickedElementt: Elementt) { //wochentag/ganze Zelle/stu
 
 
   
-  this.epochenServ.schiene9$.subscribe(data=>this.schiene9=data);
-  this.epochenServ.schiene10$.subscribe(data=>this.schiene10=data);
+  this.epochenServ.schiene9$.subscribe(data=>{
+    this.schiene9=data;
+  console.log(data);});
+  this.epochenServ.schiene10$.subscribe(data=>{
+      this.schiene10=data;
+      console.log(data);
+  });
   this.epochenServ.schiene11$.subscribe(data=>this.schiene11=data);
   this.epochenServ.schiene12$.subscribe(data=>this.schiene12=data);
   }

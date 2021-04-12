@@ -37,8 +37,15 @@
           <!-- normale Schultage          Ausnahme: Feiertage s.u. oder Sondertage (prüfung etc)-->
           <div class="buttonContain" *ngIf="tagObj.frei==false&&tagObj.notiz=='schule', else BLA">
             <!-- Montag-Buttons "normal " bei schultagen Mo-->
-            <button *ngIf="tagObj.notiz=='schule' &&tagObj.wochenTag=='Mo'; else BUT" class="buttonEpoche"
+            <button *ngIf="tagObj.notiz=='schule' &&tagObj.wochenTag=='Mo'; else BUT9" class="buttonEpoche"
               [ngbTooltip]="LehrerNEUN" placement="bottom" triggers="click" (click)="cellKlick($event,b,9)">
+              <!-- ggf Fahrt reinschreiben -->
+              <ng-container *ngFor="let fahrt of tagObj.ganztags">
+                <ng-container *ngIf="fahrt[1]==9">
+                  {{fahrt[0]}}
+                </ng-container>
+              </ng-container>
+              <!--  Fahrt ende -->
               <ng-container *ngIf="rhythmus9[b] as ellem">
                 <ng-container *ngFor="let fach of ellem.unterricht">
                   {{fach? fach.fach:"nob"}}
@@ -46,12 +53,19 @@
               </ng-container>
             </button>
             <!-- wenn montag oder dienstag besetzt sind wird di/mi genommen (BUT)-->
-            <ng-template #BUT>
+            <ng-template #BUT9>
               <!--bei Feiertag den Button verschieben auf Di oder Mi-->
               <ng-container
                 *ngIf="datumObj[b-1].notiz!='schule'&&tagObj.wochenTag=='Di'||datumObj[b-1].notiz!='schule'&&datumObj[b-2].notiz!='schule'&&tagObj.wochenTag=='Mi'">
                 <button class="buttonEpoche" [ngbTooltip]="LehrerNEUN" placement="bottom" triggers="click"
                   (click)="cellKlick($event,b,9)">
+                  <!-- ggf Fahrt reinschreiben -->
+                  <ng-container *ngFor="let fahrt of tagObj.ganztags">
+                    <ng-container *ngIf="fahrt[1]==9">
+                      {{fahrt[0]}}
+                    </ng-container>
+                  </ng-container>
+                  <!--  Fahrt ende -->
                   {{rhythmus9[b].unterricht}}
                   <ng-container *ngIf="rhythmus9[b].unterricht!=[]">
                     <ng-container *ngFor="let fach of rhythmus9[b].unterricht">
@@ -80,8 +94,15 @@
             <!--KLASSE 9 ENDE-->
             <!--KLASSE 10 START-->
             <!-- Montag-Buttons "normal " bei schultagen Mo-->
-            <button *ngIf="tagObj.notiz=='schule' &&tagObj.wochenTag=='Mo'; else BUT" class="buttonEpoche"
+            <button *ngIf="tagObj.notiz=='schule' &&tagObj.wochenTag=='Mo'; else BUT10" class="buttonEpoche"
               [ngbTooltip]="LehrerZEHN" placement="bottom" triggers="click" (click)="cellKlick($event,b,10)">
+              <!-- ggf Fahrt reinschreiben -->
+              <ng-container *ngFor="let fahrt of tagObj.ganztags">
+                <ng-container *ngIf="fahrt[1]==10">
+                  {{fahrt[0]}}
+                </ng-container>
+              </ng-container>
+              <!--  Fahrt ende -->
               <ng-container *ngIf="rhythmus10[b].unterricht!=[]">
                 <ng-container *ngFor="let fach of rhythmus10[b].unterricht">
                   {{fach? fach.fach:"nob"}}
@@ -89,12 +110,19 @@
               </ng-container>
             </button>
             <!-- wenn montag oder dienstag besetzt sind wird di/mi genommen (BUT)-->
-            <ng-template #BUT>
+            <ng-template #BUT10>
               <!--bei Feiertag den Button verschieben auf Di oder Mi-->
               <ng-container
                 *ngIf="datumObj[b-1].notiz!='schule'&&tagObj.wochenTag=='Di'||datumObj[b-1].notiz!='schule'&&datumObj[b-2].notiz!='schule'&&tagObj.wochenTag=='Mi'">
                 <button class="buttonEpoche" [ngbTooltip]="LehrerZEHN" placement="bottom" triggers="click"
                   (click)="cellKlick($event,b,10)">
+                  <!-- ggf Fahrt reinschreiben -->
+                  <ng-container *ngFor="let fahrt of tagObj.ganztags">
+                    <ng-container *ngIf="fahrt[1]==10">
+                      {{fahrt[0]}}
+                    </ng-container>
+                  </ng-container>
+                  <!--  Fahrt ende -->
                   <ng-container *ngIf="rhythmus10[b].unterricht!=[]">
                     <ng-container *ngFor="let fach of rhythmus10[b].unterricht">
                       {{fach? fach.fach:"nob"}}
@@ -125,8 +153,17 @@
             <!--KLASSE 11 START-->
 
             <!-- Montag-Buttons "normal " bei schultagen Mo-->
-            <button *ngIf="tagObj.notiz=='schule' &&tagObj.wochenTag=='Mo'; else BUT" class="buttonEpoche"
+            <button *ngIf="tagObj.notiz=='schule' &&tagObj.wochenTag=='Mo'; else BUT11" class="buttonEpoche"
               [ngbTooltip]="LehrerELF" placement="bottom" triggers="click" (click)="cellKlick($event,b,11)">
+              <!-- ggf Fahrt reinschreiben -->
+
+              <ng-container *ngFor="let fahrt of tagObj.ganztags">
+                <ng-container *ngIf="fahrt[1]==11">
+                  {{fahrt[0]}}
+                </ng-container>
+              </ng-container>
+
+              <!--  Fahrt ende -->
               <ng-container *ngIf="rhythmus11[b].unterricht!=[]">
                 <ng-container *ngFor="let fach of rhythmus11[b].unterricht">
                   {{fach? fach.fach:"nob"}}
@@ -134,12 +171,19 @@
               </ng-container>
             </button>
             <!-- wenn montag oder dienstag besetzt sind wird di/mi genommen (BUT)-->
-            <ng-template #BUT>
+            <ng-template #BUT11>
               <!--bei Feiertag den Button verschieben auf Di oder Mi-->
               <ng-container
                 *ngIf="datumObj[b-1].notiz!='schule'&&tagObj.wochenTag=='Di'||datumObj[b-1].notiz!='schule'&&datumObj[b-2].notiz!='schule'&&tagObj.wochenTag=='Mi'">
                 <button class="buttonEpoche" [ngbTooltip]="LehrerELF" placement="bottom" triggers="click"
                   (click)="cellKlick($event,b,11)">
+                  <!-- ggf Fahrt reinschreiben -->
+                  <ng-container *ngFor="let fahrt of tagObj.ganztags">
+                    <ng-container *ngIf="fahrt[1]==11">
+                      {{fahrt[0]}}
+                    </ng-container>
+                  </ng-container>
+                  <!--  Fahrt ende -->
                   <ng-container *ngIf="rhythmus11[b].unterricht!=[]">
                     <ng-container *ngFor="let fach of rhythmus11[b].unterricht">
                       {{fach? fach.fach:"nob"}}
@@ -168,8 +212,17 @@
             <!--KLASSE 11 ENDE-->
             <!--KLASSE 12 START-->
             <!-- Montag-Buttons "normal " bei schultagen Mo-->
-            <button *ngIf="tagObj.notiz=='schule' &&tagObj.wochenTag=='Mo'; else BUT" class="buttonEpoche"
+            <button *ngIf="tagObj.notiz=='schule' &&tagObj.wochenTag=='Mo'; else BUT12" class="buttonEpoche"
               [ngbTooltip]="LehrerZwoelf" placement="bottom" triggers="click" (click)="cellKlick($event,b,12)">
+              <!-- ggf Fahrt reinschreiben -->
+
+              <ng-container *ngFor="let fahrt of tagObj.ganztags">
+                <ng-container *ngIf="fahrt[1]==12">
+                  {{fahrt[0]}}
+                </ng-container>
+              </ng-container>
+
+              <!--  Fahrt ende -->
               <ng-container *ngIf="rhythmus12[b].unterricht!=[]">
                 <ng-container *ngFor="let fach of rhythmus12[b].unterricht">
                   {{fach? fach.fach:"nob"}}
@@ -177,12 +230,19 @@
               </ng-container>
             </button>
             <!-- wenn montag oder dienstag besetzt sind wird di/mi genommen (BUT)-->
-            <ng-template #BUT>
+            <ng-template #BUT12>
               <!--bei Feiertag den Button verschieben auf Di oder Mi-->
               <ng-container
                 *ngIf="datumObj[b-1].notiz!='schule'&&tagObj.wochenTag=='Di'||datumObj[b-1].notiz!='schule'&&datumObj[b-2].notiz!='schule'&&tagObj.wochenTag=='Mi'">
                 <button class="buttonEpoche" [ngbTooltip]="LehrerZwoelf" placement="bottom" triggers="click"
                   (click)="cellKlick($event,b,12)">
+                  <!-- ggf Fahrt reinschreiben -->
+                  <ng-container *ngFor="let fahrt of tagObj.ganztags">
+                    <ng-container *ngIf="fahrt[1]==12">
+                      {{fahrt[0]}}
+                    </ng-container>
+                  </ng-container>
+                  <!--  Fahrt ende -->
                   <ng-container *ngIf="rhythmus12[b].unterricht!=[]">
                     <ng-container *ngFor="let fach of rhythmus12[b].unterricht">
                       {{fach? fach.fach:"nob"}}
@@ -210,8 +270,10 @@
             <!--KLASSE 12 ENDE-->
           </div>
           <ng-template #BLA>
-            <div class="{{tagObj.wochenTag}} tagesItem {{tagObj.notiz}} rotierContainer">
-              {{tagObj.notiz}}
+            <div class="{{tagObj.wochenTag}} rotationsEIMER ">
+              <div class="rotierContainer {{tagObj.notiz}} ">
+                {{tagObj.notiz}}
+              </div>
             </div>
           </ng-template>
         </div>
