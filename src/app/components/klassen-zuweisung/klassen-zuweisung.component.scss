@@ -1,15 +1,19 @@
 
 
-.breit{width:100%;}
+.breit{width:100%;
+padding:0pt;
+border:none;
+border-radius:4pt;}
 
 .dropButton{
-    font-size:18pt;
+    font-size:12pt;
     background-color:darkgray;
     padding:0pt;
     border-radius:5pt;
     width: 100%;
 margin:0pt;
 min-height:6pt;
+border:none;
 
 
 }
@@ -22,15 +26,15 @@ min-height:6pt;
 th{
     width: auto;
     text-align: center;
-    font-size:18pt;
+    font-size:12pt;
     margin:0pt;
 }
 
 
 
 #kuerzelPop{
-    font-size:18pt;
-    width:80pt;
+    font-size:12pt;
+    width:auto;
     padding:2pt;
 }
 
@@ -39,6 +43,11 @@ th{
 }
 #aufteilungUeRES button{
     width:100%;
+    padding:0pt;
+    border:none;
+    border-radius:9pt;
+    background-color:pink;
+
 
 }
 
