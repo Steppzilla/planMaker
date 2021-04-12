@@ -41,10 +41,12 @@ import {
 })
 export class GesamtuebersichtComponent implements OnInit {
 
+  wochenTagauswahl:string;
 
   grundPlanfaecher: Array < Elementt > ; //statt stundenLehrerArray?
   lehrerAuswahl = []; //nur übstundenFilter von grundplanfaecher
 
+  tagesPlan=[];
   stundenRaster: Gesamtstundenraster;
   wochentage = Wochentag;
   kuerzeleinblenden: boolean;
@@ -54,6 +56,18 @@ export class GesamtuebersichtComponent implements OnInit {
 
 
   klassen = Object.values(Lehrjahr);
+   
+  wochentagWahl(x:string){
+    this.wochenTagauswahl=x;
+    let neuArray=[];
+  //  console.log(this.tagesPlan);
+    this.valueLoopinArray(this.stundenRaster[x.toLowerCase()]).forEach(cell=>{
+    //  console.log(cell);
+      neuArray.push(cell);
+    });  //nur Values, nicht noch klasse1.
+    //console.log(this.tagesPlan);
+    this.tagesPlan=neuArray;
+  }
 
   tabellensortierung(klasse) {
 
@@ -72,6 +86,7 @@ export class GesamtuebersichtComponent implements OnInit {
   }
 
   valueLoopinArray(obj) {
+   // console.log(obj);
     return Object.values(obj);
   }
   keyinArray(obj) {
@@ -105,16 +120,16 @@ export class GesamtuebersichtComponent implements OnInit {
   }
 
 
-  togglezellenClick(tagIndex, zellenArray, stdZ, clickedElementt: Elementt) { //wochentag/ganze Zelle/stunden zeile als Zahl, KLasse ist in Zelle.klasse
+  togglezellenClick(zellenArray, stdZ, clickedElementt: Elementt) { //ganze Zelle/stunden zeile als Zahl, KLasse ist in Zelle.klasse
     //bei shift-click löschen, sonst hinzufügen
-
+console.log(this.stundenRaster);
     //Nur wenn Hauptunterricht, epoche und schiene festgelegt wurden: dann nichts ändern
     //  if ((zellenArray[0]) &&
     //   ((zellenArray[0].faecher == Fach.hauptunterricht) ||        (zellenArray[0].faecher == Fach.schiene) ||        (zellenArray[0].faecher == Fach.rhythmisch))) {
-
+ 
     //} else { //nur wenn nicht schiene hu oder rhythmus festgelegt ist:
     //let clickedUnterricht:Unterrichtsstunde={faecher: clickedElementt.fach,klasse: clickedElementt.klasse,lehrer: clickedElementt.lehrer, halbiert: false, drittel: false,marked: false};
-    this.stundenRaster[Object.keys(Wochentag)[tagIndex]]["klasse" + clickedElementt.klasse][stdZ].push(clickedElementt);
+    this.stundenRaster[this.wochenTagauswahl.toLowerCase()]["klasse" + clickedElementt.klasse][stdZ].push(clickedElementt);
 
     // }
   }
@@ -141,7 +156,7 @@ export class GesamtuebersichtComponent implements OnInit {
     } else {}
   }
 
-  duplicates(arr, r, c, zellenArray) { //arr ist das gesamtRaster des Tages (mo, die o.Ä.). zellenarray sind alle Stunden der Zelle
+  duplicates(arr, r, c, zellenArray) { //arr ist das gesamtRaster(values) des Tages (mo, die o.Ä.). zellenarray sind alle Stunden der Zelle
     let dupli = 0;
     if (zellenArray[0]) {
       zellenArray.forEach(u => { //im folgenden werden Schiene und HU und Startup herausgenommen:
@@ -187,41 +202,12 @@ export class GesamtuebersichtComponent implements OnInit {
         });
       }
     });
-
-
     return dupli > 0 ? "error" : "ok";
   }
 
 
 
 
-  neu() {
-    this.login.neu();
-    //Hu reinschreiben:
-    ["montag", "dienstag", "mittwoch", "donnerstag", "freitag"].forEach((tag, t) => {
-      [1, 2, 3, 4, 5, 6, 7, 8].forEach(zahl => {
-        //this.togglezellenClick(t, [], 0, this.stundenLehrerArray[zahl][this.lehrerService.sort(Fach.hauptunterricht)].find(element => element.faecher[0] == Fach.hauptunterricht));
-        //this.togglezellenClick(t, [], 1, this.stundenLehrerArray[zahl][this.lehrerService.sort(Fach.hauptunterricht)].find(element => element.faecher[0] == Fach.hauptunterricht));
-      });
-      //Hu oberstufe/Epoche:
-      [9, 10, 11, 12].forEach(zahl => {
-        //this.togglezellenClick(t, [], 1, this.stundenLehrerArray[zahl][this.lehrerService.sort(Fach.hauptunterricht)].find(element => element.faecher[0] == Fach.hauptunterricht));
-        //7this.togglezellenClick(t, [], 2, this.stundenLehrerArray[zahl][this.lehrerService.sort(Fach.hauptunterricht)].find(element => element.faecher[0] == Fach.hauptunterricht));
-      });
-      //rhythmus:
-      [9, 10, 11, 12].forEach(zahl => {
-        // this.togglezellenClick(t, [], 0, this.stundenLehrerArray[zahl][this.lehrerService.sort(Fach.rhythmisch)].find(element => element.faecher[0] == Fach.rhythmisch));
-      });
-    });
-
-    //Schiene (erstmal ):
-    ["montag", "dienstag", "mittwoch", "donnerstag"].forEach((tag, t) => {
-      [9, 10, 11, 12].forEach(zahl => {
-        //  this.togglezellenClick(t, [], 4, this.stundenLehrerArray[zahl][this.lehrerService.sort(Fach.schiene)].find(element => element.faecher[0] == Fach.schiene));
-        // this.togglezellenClick(t, [], 5, this.stundenLehrerArray[zahl][this.lehrerService.sort(Fach.schiene)].find(element => element.faecher[0] == Fach.schiene));
-      });
-    });
-  }
 
   leherkuerzelToggle() {
     if (this.kuerzeleinblenden == true) {
@@ -238,7 +224,7 @@ export class GesamtuebersichtComponent implements OnInit {
   constructor(public lehrerService: LehrerService, public login: LoginService, public klassenplanServ: KlassenplaeneService) {
     //console.log(stA);
     //this.rasterAuswahl=this.stundenRaster.montag;
-
+this.wochenTagauswahl='Montag';
     //  this.stundenLehrerArray = this.lehrerService.stundenLehrerDerKlassen();
     this.kuerzeleinblenden = false;
     //login.stundenLehrerArray$.subscribe((stu)=>this.stundenLehrerArray=stu);
@@ -249,9 +235,12 @@ export class GesamtuebersichtComponent implements OnInit {
      // console.log(stundenPlanDaten);
     
     });
-    this.klassenplanServ.grundPlanfaecher$.subscribe((data) => this.grundPlanfaecher = data);
 
-
+    this.klassenplanServ.grundPlanfaecher$.subscribe((data) => {
+      this.grundPlanfaecher = data;
+      this.wochentagWahl(this.wochenTagauswahl);
+    });
+   
 
 
     // this.stundenRaster[Object.keys(Wochentag)[tagIndex]]["klasse" + clickedUnterricht.klasse][stdZ].push(clickedUnterricht);
