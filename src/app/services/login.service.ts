@@ -164,7 +164,7 @@ export class LoginService {
       //  this.klassenPlanServ.elementHinzufuegen(Fach.kunstgeschichte,Lehrjahr.neun);
 
     });
-    console.log(this.klassenPlanServ.grundPlanfaecher);
+   // console.log(this.klassenPlanServ.grundPlanfaecher);
   }
 
   login() {

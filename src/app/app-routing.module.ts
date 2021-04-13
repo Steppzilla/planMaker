@@ -17,7 +17,7 @@ const routes: Routes =[
 {path: 'klasseFach', component: KlassenZuweisungComponent},
 {path: 'lehrerListe', component: LehrerListeComponent},
 {path: '', redirectTo: "gesamtplan", pathMatch:'full'},
-
+{path: '**', redirectTo: "start", pathMatch:'full'},
 
 ];
 

@@ -292,7 +292,7 @@ export class FerientermineService {
       }); //FORMAT der TAGE
 
     });
-    console.log(arr);
+    //console.log(arr);
     return arr;
   }
 

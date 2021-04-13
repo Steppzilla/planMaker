@@ -147,13 +147,14 @@ export class KlassenZuweisungComponent implements OnInit {
         
  this.klassenplanServ.grundPlanfaecher$.subscribe((data)=>{
    this.grundPlanfaecher=data;
-  console.table(data)});
+ // console.table(data)
+});
 
  
     this.lehrerauswahl = lehrerServ.lehrernachFach();
    // console.log(this.grundPlanfaecher);
   //  this.klassenplanServ.elementHinzufuegen(Fach.wirtschaftspolitik,Lehrjahr.dreizehn);
-  console.log(this.klassenplanServ.grundPlanfaecher.getValue());
+  //console.log(this.klassenplanServ.grundPlanfaecher.getValue());
   }
 
 
