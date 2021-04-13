@@ -16,7 +16,7 @@ const routes: Routes =[
 {path: 'rhythmus', component: RhythmusComponent},
 {path: 'klasseFach', component: KlassenZuweisungComponent},
 {path: 'lehrerListe', component: LehrerListeComponent},
-{path: '**', redirectTo: '',pathMatch: 'full'},
+{path: '**', redirectTo: '/',pathMatch: 'full'},
 
 ];
 
