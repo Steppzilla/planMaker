@@ -9,12 +9,14 @@ import { KlassenZuweisungComponent } from './components/klassen-zuweisung/klasse
 import { LehrerListeComponent } from './components/lehrer-liste/lehrer-liste.component';
 
 const routes: Routes =[
+  {path: '', redirectTo: "gesamtplan", pathMatch:'full'},
 {path: 'gesamtplan', component: GesamtuebersichtComponent},
 {path: 'epoche', component: EpocheComponent},
 {path: 'schiene', component: SchieneComponent},
 {path: 'rhythmus', component: RhythmusComponent},
 {path: 'klasseFach', component: KlassenZuweisungComponent},
 {path: 'lehrerListe', component: LehrerListeComponent},
+
 ];
 
 @NgModule({
