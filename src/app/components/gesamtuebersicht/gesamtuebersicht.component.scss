@@ -75,12 +75,14 @@ $colors : #fedc00 0,
 
 // $colors : #fedc00, #fcb712, #f7921e, #e87f24, #dd6227, #dc4c27, #ca3435, #b82841, #953751, #364c88, #16599d, #02609e, #0073a9, #008aa4, #239a87, #7cba6d, #becc2f, #e0d81d;
 
-#gesamtuebersicht{
+#tabelle{
 	background: 
 		repeating-radial-gradient(circle at bottom left, $colors),
 		repeating-radial-gradient(circle at bottom right, $colors);
 	background-blend-mode: overlay;
   height: 100vh;
+  display: flex;
+  width:100%;
 	
 }
 
@@ -88,9 +90,6 @@ button:hover {
   background-color: rgb(167, 209, 119);
 }
 
-#tabelle {
-  display: flex;
-}
 
 .klassenspalte {
   display: flex;
@@ -98,6 +97,7 @@ button:hover {
   margin: 1pt;
   border-radius: 9pt;
   background-color: lightgrey;
+  width:100%;
 
 }
 

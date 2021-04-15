@@ -11,31 +11,34 @@ h1,h2,h3{text-align: center;
 }
 
 
+
 #Zeile{
     display:flex; 
     flex-wrap:wrap;
     flex-direction:row;
-    width: 100%;
 } 
 
 
 
 .buttonEpoche{
+    margin-top:0pt;
+    line-height:8pt;
+    padding:0pt;
     font-size:8pt;
     width: 530%;
     border-radius: 0pt;
-    height: 30pt;
+    min-height:30pt;
+    max-height: 30pt;
     border:0pt solid black;
     background-color:inherit;
-  border-bottom:1pt dotted black;
+  border-bottom: 1pt dotted black;
 
 }
 .klassenNummerButton{
     border-radius: 5pt;
-    height: 32pt;
+    height: 31pt;
     border:0pt solid black;
-    background-color:beige;
-    line-height: 30pt;
+    line-height: 31pt;
 }
 .monatsFach{
     height: 14pt;
@@ -43,6 +46,7 @@ h1,h2,h3{text-align: center;
 
 .datumFach{
     font-size: 8pt;
+    border-bottom:1pt solid black;
 }
 .datumFach .date{
     border-top: 1pt solid black;
@@ -52,14 +56,12 @@ h1,h2,h3{text-align: center;
     min-height: 9pt;
     font-size: 7pt;
 }
-.tagesItem.Mo .buttonContain, .datumFach.Mo, .Mo.rotationsEIMER{
+.buttonContain, .datumFach.Mo{
     border-left: solid 1pt black;
 }
 
-.rotationsEIMER{
-    border-radius:0pt;
-    height:160pt;
-}
+
+
 .toggle-item-Container{font-size: 10pt;}
 
 .tagesItem{
@@ -67,19 +69,21 @@ h1,h2,h3{text-align: center;
     margin:0pt;
     width: 9pt;
     height: 14pt;
-    margin-bottom:260pt;
+    margin-bottom:140pt;
 }
 
-
+.rotationsEIMER{
+    border-radius:0pt;
+width:100%;
+}
 .rotierContainer{
      width:100%;
-     font-size:7pt;
-     line-height:7pt;
+     font-size:10pt;
+     line-height:12pt;
      padding-top:2pt;
-     border-radius: 4pt;;
- 
     -ms-writing-mode: tb-rl; 
     writing-mode: vertical-rl; 
+    height:110pt;
   /* transform:rotate(0deg);*/
 }
 
@@ -89,8 +93,9 @@ h1,h2,h3{text-align: center;
 .Herbstferien, .Weihnachtsferien, .Osterferien, .Sommerferien, .WE ,
 .Pfingstmontag, .Pfingstferien ,.Himmelfahrt ,.Arbeit ,.Ostermontag ,.Karfreitag ,.Neujahr ,.Weihnachtstag ,.Reformationstag 
 ,.Einheit {
-    background-color:steelblue;
-    border-radius: 2pt;
+    background-color:rgb(70, 130, 180,0.8);
+    width:15pt;
+    text-align:center;
 
 }
 
@@ -98,8 +103,9 @@ h1,h2,h3{text-align: center;
     /*background-color: green;*/
 }
 .EM ,.Abi{
-    background-color:yellow;
+    background-color:rgba(240, 176, 57);
     border-radius: 2pt;
+
 }
 
 .no{
@@ -108,3 +114,39 @@ h1,h2,h3{text-align: center;
 
 
 
+
+.tagesItem.first{
+    width:15pt;
+}
+
+.leerraumDatumMonat{
+    height:45pt;
+}
+
+.tagesItem.schablone{
+   
+    height:140pt;
+    width:15pt;
+}
+
+
+.verschoben.Di,.verschoben.Mi, .verschoben.Do,.verschoben.Fr{
+    position: relative;
+    top:160pt;
+   
+}
+.verschoben.Mo{
+    position:relative;
+ 
+   
+}
+
+.verschoben .rotierContainer{
+    font-size:9pt;
+    line-height:9pt;
+    background-color:rgba(240, 176, 57);
+    border-radius:5pt;
+    padding-top:5pt;
+    padding-bottom:5pt;
+    height:85pt;
+}

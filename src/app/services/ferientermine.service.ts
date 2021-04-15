@@ -76,6 +76,8 @@ export class FerientermineService {
   klassenSpielEnde: Date = new Date(2021, 9, 1);
   eurhythmieAbschlussStart: Date = new Date(2022, 5, 7); //Kl 12
   eurhythmieAbschlussEnde: Date = new Date(2022, 5, 17);
+  projektWocheStart: Date = new Date(2022, 1, 28);
+  projektWocheEnde: Date = new Date(2022, 2, 4);
   //gf noch zwei eigene brückentage? Ausgleich is glaub ich, dass wir samstags oft feiern organisieren...?
 
 
@@ -262,7 +264,7 @@ export class FerientermineService {
       }
       //Fahrten
        if ((day.getTime() >= this.landbauStart.getTime()) && (day.getTime() <= this.landbauEnde.getTime())) {
-         ganztagsProjekt.push(["Landbaupraktikum",Lehrjahr.neun]); //9. Klasse
+         ganztagsProjekt.push(["Landbau",Lehrjahr.neun]); //9. Klasse
        }
        if ((day.getTime() >= this.kunstFahrtStart.getTime()) && (day.getTime() <= this.kunstFahrtEnde.getTime())) {
         ganztagsProjekt.push(["Kunstfahrt",Lehrjahr.zwoelf]); //12. kLasse
@@ -279,6 +281,13 @@ export class FerientermineService {
       }
       if ((day.getTime() >= this.eurhythmieAbschlussStart.getTime()) && (day.getTime() <= this.eurhythmieAbschlussEnde.getTime())) {
         ganztagsProjekt.push(["Eurythmieabschluss",Lehrjahr.zwoelf]);// 12. Klasse
+      }
+      if ((day.getTime() >= this.projektWocheStart.getTime()) && (day.getTime() <= this.projektWocheEnde.getTime())) {
+        ganztagsProjekt.push(["Projektwoche",Lehrjahr.zwoelf]);// 12. Klasse
+        ganztagsProjekt.push(["Projektwoche",Lehrjahr.elf]);// 11. Klasse
+        ganztagsProjekt.push(["Projektwoche",Lehrjahr.zehn]);// 10. Klasse
+        ganztagsProjekt.push(["Projektwoche",Lehrjahr.neun]);// 9. Klasse
+      
       }
 
       wochenTag = this.tagZuString(day);

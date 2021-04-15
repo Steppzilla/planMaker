@@ -138,20 +138,20 @@ console.log(this.stundenRaster);
     if (e.shiftKey) {
       //Erst zähler hochzählen für vorhandene faecher
       // console.log(this.stundenRaster[Object.keys(Wochentag)[iN]]["klasse" + r][c][0]);
-      this.stundenRaster[Object.keys(Wochentag)[iN]]["klasse" + r][c].forEach(unterricht => {
-        unterricht.wochenstunden++;
-      });
+     // this.stundenRaster[Object.keys(Wochentag)[iN]]["klasse" + r][c].forEach(unterricht => {
+       // unterricht.wochenstunden++;
+     // });
       //  console.log(this.stundenRaster[Object.keys(Wochentag)[iN]]["klasse" + r][c][0]);
       //Bei hauptunterricht, schiene oder rhythmus die lehrer wieder entfernen (nur für klassen über 9)
-      if ((r > 8) &&
+     /* if ((r > 8) &&
         ((this.stundenRaster[Object.keys(Wochentag)[iN]]["klasse" + r][c][0].faecher == Fach.hauptunterricht) ||
           (this.stundenRaster[Object.keys(Wochentag)[iN]]["klasse" + r][c][0].faecher == Fach.schiene) ||
           (this.stundenRaster[Object.keys(Wochentag)[iN]]["klasse" + r][c][0].faecher == Fach.rhythmisch))) {
         this.stundenRaster[Object.keys(Wochentag)[iN]]["klasse" + r][c][0].lehrer = []; //lehrerArray leeren
-      }
-
+      }*/
       //sonst: zelle einfach leeren
-      this.stundenRaster[Object.keys(Wochentag)[iN]]["klasse" + r][c] = [];
+      this.stundenRaster[this.wochenTagauswahl.toLowerCase()]["klasse" + r][c] = [];
+      //this.login.stundenPlanDaten.next(neuArray);
 
     } else {}
   }
