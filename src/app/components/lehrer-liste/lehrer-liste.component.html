@@ -1,1 +1,33 @@
-<p>lehrer-liste works!</p>
+<table>
+    <tr>
+        <th>Anrede</th><th>Name</th><th>Kuerzel</th><th>Fächer</th>
+    </tr>
+  <tr *ngFor="let lehrer of this.lehrerServ.lehrer">
+      <td>
+          {{lehrer.anrede}}
+      </td>
+      <td>
+          {{lehrer.name}}
+      </td>
+    <td>
+      {{lehrer.kuerzel}}
+    </td>
+    <td>
+      <ng-container *ngIf="lehrer.faecher!=null">
+        <span *ngFor="let fach of lehrer.faecher">
+          {{fach}}
+        </span>
+      </ng-container>
+    </td>
+    <td>
+        <ng-container *ngIf="lehrer.aufgaben">
+            <span *ngFor="let aufgabe of lehrer.aufgaben">
+                {{aufgabe}}
+            </span>
+
+        </ng-container>
+    </td>
+
+  </tr>
+
+</table>
