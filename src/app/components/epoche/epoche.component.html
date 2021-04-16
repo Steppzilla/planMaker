@@ -40,7 +40,7 @@
           <!-- normale Schultage          Ausnahme: Feiertage s.u. oder Sondertage (prüfung etc)-->
           <div class="buttonContain" *ngIf="tagObj.frei==false">
             <!-- Montag-Buttons "normal " bei schultagen Mo-->
-            <button *ngIf="tagObj.wochenTag=='Mo'; else BUTACHT" class="buttonEpoche" [autoClose]="true"
+            <button *ngIf="tagObj.wochenTag=='Mo'; else BUTACHT" class="buttonEpoche " [autoClose]="true"
               [ngbTooltip]="LehrACHT" placement="bottom" triggers="click" (click)="cellKlick($event,b,8)">
               <!-- ggf Fahrt reinschreiben -->
               <ng-container *ngFor="let fahrt of tagObj.ganztags">
@@ -60,7 +60,7 @@
               <!--bei Feiertag den Button verschieben auf Di oder Mi-->
               <ng-container
                 *ngIf="datumObj[b-1].frei==true&&tagObj.wochenTag=='Di'||datumObj[b-1].frei==true&&datumObj[b-2].frei==true&&tagObj.wochenTag=='Mi'">
-                <button class="buttonEpoche" [ngbTooltip]="LehrACHT" placement="bottom" triggers="click"
+                <button class="buttonEpoche " [ngbTooltip]="LehrACHT" placement="bottom" triggers="click"
                   [autoClose]="true" (click)="cellKlick($event,b,8)">
                   <!-- ggf Fahrt reinschreiben -->
 
@@ -121,7 +121,7 @@
               <!--bei Feiertag den Button verschieben auf Di oder Mi-->
               <ng-container
                 *ngIf="datumObj[b-1].frei==true&&tagObj.wochenTag=='Di'||datumObj[b-1].frei==true&&datumObj[b-2].frei==true&&tagObj.wochenTag=='Mi'">
-                <button class="buttonEpoche" [ngbTooltip]="LehrNEUN" placement="bottom" triggers="click"
+                <button class="buttonEpoche " [ngbTooltip]="LehrNEUN" placement="bottom" triggers="click"
                   [autoClose]="true" (click)="cellKlick($event,b,9)">
                   <!-- ggf Fahrt reinschreiben -->
 
@@ -161,7 +161,7 @@
             <!--KLASSE 9 ENDE-->
             <!--Klasse 10 START-->
             <!-- Montag-Buttons "normal " bei schultagen Mo-->
-            <button *ngIf="tagObj.wochenTag=='Mo'; else BUT10" class="buttonEpoche" [ngbTooltip]="LehrerZEHN"
+            <button *ngIf="tagObj.wochenTag=='Mo'; else BUT10" class="buttonEpoche " [ngbTooltip]="LehrerZEHN"
               placement="bottom" triggers="click" [autoClose]="true" (click)="cellKlick($event,b,10)">
               <!-- ggf Fahrt reinschreiben -->
 
@@ -183,7 +183,7 @@
               <!--bei Feiertag den Button verschieben auf Di oder Mi-->
               <ng-container
                 *ngIf="datumObj[b-1].frei==true&&tagObj.wochenTag=='Di'||datumObj[b-1].frei==true&&datumObj[b-2].frei==true&&tagObj.wochenTag=='Mi'">
-                <button class="buttonEpoche" [ngbTooltip]="LehrerZEHN" placement="bottom" triggers="click"
+                <button class="buttonEpoche " [ngbTooltip]="LehrerZEHN" placement="bottom" triggers="click"
                   [autoClose]="true" (click)="cellKlick($event,b,10)">
                   <!-- ggf Fahrt reinschreiben -->
 
@@ -244,7 +244,7 @@
               <!--bei Feiertag den Button verschieben auf Di oder Mi-->
               <ng-container
                 *ngIf="datumObj[b-1].frei==true&&tagObj.wochenTag=='Di'||datumObj[b-1].frei==true&&datumObj[b-2].frei==true&&tagObj.wochenTag=='Mi'">
-                <button class="buttonEpoche" [ngbTooltip]="LehrerELF" placement="bottom" triggers="click"
+                <button class="buttonEpoche " [ngbTooltip]="LehrerELF" placement="bottom" triggers="click"
                   [autoClose]="true" (click)="cellKlick($event,b,11)">
                   <!-- ggf Fahrt reinschreiben -->
 
@@ -284,7 +284,7 @@
 
             <!-- EPOCHE KL 12-->
             <!-- Montag-Buttons "normal " bei schultagen Mo-->
-            <button *ngIf="tagObj.wochenTag=='Mo'; else BUT12" class="buttonEpoche" [ngbTooltip]="LehrerZWOELF"
+            <button *ngIf="tagObj.wochenTag=='Mo'; else BUT12" class="buttonEpoche " [ngbTooltip]="LehrerZWOELF"
               placement="bottom" triggers="click" [autoClose]="true" (click)="cellKlick($event,b,12)">
               <!-- ggf Fahrt reinschreiben -->
 
@@ -350,7 +350,6 @@
 
             <!--  freie "Schultage", Feiertage-->
 
-
           </div>
           <ng-container *ngIf="tagObj.notiz!='schule'">
             <div class="">
@@ -363,8 +362,6 @@
 
           </ng-container>
         </div>
-
-
 
 
       </ng-container>
@@ -392,10 +389,10 @@
           </div>
 
         </ng-container>
-
+        
       </ng-template>
 
 
     </ng-container>
   </div>
-  </div>
+</div>

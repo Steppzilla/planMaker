@@ -62,6 +62,7 @@ export class EpocheComponent implements OnInit {
       neuArray[b].unterricht=[];
       this.epochenServ["epoche" + klasse].next(neuArray);
     }
+ 
   }  
 
   togglezellenClick(e, b, clickedElementt: Elementt) { //wochentag/ganze Zelle/stunden zeile als Zahl, KLasse ist in Zelle.klasse
@@ -73,25 +74,28 @@ export class EpocheComponent implements OnInit {
     this.epochenServ["epoche" + clickedElementt.klasse].next(neuArray);
   }
 
+  duplicates8=[];
+  duplicates9=[];
+  duplicates10=[];
+  duplicates11=[];
+  duplicates12=[];
+
+ 
+
   constructor(public ferienTerminService: FerientermineService, public klassenplanServ: KlassenplaeneService, public epochenServ: EpochenPlaeneService) {
     this.datumObj = ferienTerminService.daysBetween();
 //Fahrten reinschreiben:
 
-
-
-
    /// console.log(this.datumObj);
     this.klassenplanServ.grundPlanfaecher$.subscribe((data) => this.grundPlanfaecher = data);
-    this.epochenServ.epoche8$.subscribe((data)=>{
-      this.epoche8=data;
+    this.epochenServ.epoche8$.subscribe((data)=>{      this.epoche8=data;
      // console.table(data);
     });
     this.epochenServ.epoche9$.subscribe((data)=>this.epoche9=data);
     this.epochenServ.epoche10$.subscribe((data)=>this.epoche10=data);
     this.epochenServ.epoche11$.subscribe((data)=>this.epoche11=data);
     this.epochenServ.epoche12$.subscribe((data)=>this.epoche12=data);
-
-
+  
 
     
 

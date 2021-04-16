@@ -4,22 +4,11 @@ import {
 import {
   Fach
 } from '../enums/fach.enum';
-import {
-  Lehrjahr
-} from '../enums/lehrjahr.enum';
-import {
-  Rubriken
-} from '../enums/rubriken.enum';
-import { Elementt } from '../interfaces/elementt';
+
 import {
   Lehrer
 } from '../interfaces/lehrer';
-import {
-  StundenRaster
-} from '../interfaces/stunden-raster';
-import {
-  Unterrichtsstunde
-} from '../interfaces/unterrichtsstunde';
+
 
 @Injectable({
   providedIn: 'root'

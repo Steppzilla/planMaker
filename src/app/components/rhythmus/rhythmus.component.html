@@ -2,13 +2,8 @@
 
 <div class="block">
   <div id="Zeile">
-    <div class="tagesItem">
-      <div class="monatsFach "> </div>
-      <div class="datumFach">
-        <div class="date">
-        </div>
-        <div class="wochenTag">
-        </div>
+    <div class="tagesItem first">
+      <div class="leerraumDatumMonat">
       </div>
       <div class="klassenNummerButton">
         9 </div>
@@ -17,6 +12,7 @@
       </div>
       <div class="klassenNummerButton"> 12 </div>
     </div>
+
     <ng-container *ngFor="let tagObj of datumObj index as b">
       <ng-container *ngIf="(tagObj.frei==false);else FERIENSPALTE">
       <div class="{{tagObj.wochenTag}} tagesItem">
