@@ -37,6 +37,13 @@ export class KlassenZuweisungComponent implements OnInit {
   klassen = Object.values(Lehrjahr);
   grundPlanfaecher;
 
+
+  addieren(e,fa,kl){
+    this.klassenplanServ.elementHinzufuegen(fa,kl);
+    if(e.shiftKey){
+      this.klassenplanServ.elementLoeschen(fa,kl);
+    }
+  }
   mainButtonClick(e, ele) {
     if (e.shiftKey) {
       this.klassenplanServ.elementeZuruecksetzen(ele.fach, ele.klasse);
