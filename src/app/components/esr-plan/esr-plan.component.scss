@@ -1,0 +1,109 @@
+*{font-size:9pt;}
+
+button{
+    margin:3pt;
+    border:none;
+border-radius:5pt;  
+background-color:violet;
+
+}
+
+.zeile button{
+
+    background-color:mediumaquamarine;
+
+}
+.planRahmen{display:flex;
+flex-wrap:wrap;}
+
+.wochenRahmen{display:flex;
+//border:2pt black solid;
+//border-radius:5pt;
+
+
+}
+
+.Monat,.Datum,.Tag{height:15pt;
+
+}
+.Monat{margin-top:10pt;
+    width:10pt;
+    white-space: nowrap;
+}
+.Datum{border-top: 1pt solid black;
+font-size:5pt;}
+.Tag{
+    font-size:5pt;
+}
+
+
+
+.tagesButtonContainer.Mo{
+    width:70pt;
+    display:flex;
+    flex-wrap:wrap;
+}
+.tagesButtonContainer.Di,.tagesButtonContainer.Mi,.tagesButtonContainer.Do,.tagesButtonContainer.Fr{
+    width:60pt;
+    display:flex;
+    flex-wrap:wrap;
+}
+
+.tagesButtonContainer button{
+    margin:0pt;
+    border-radius: 0pt;
+    background-color: white;
+    border:none;
+    border-top:1pt black solid; 
+    border-left:1pt black solid;
+    width:100%;
+    height:30pt;
+    z-index: 3;
+}
+.tagesButtonContainer{
+}
+.fakeButton{opacity:none;
+    background-color: white;
+    width:60pt;
+    height:30pt;
+    
+}
+.tagesButtonContainer span{ 
+
+}
+
+.ferienNotiz,.sonderNotiz{    font-family:Arial, Helvetica, sans-serif;
+    font-size:10pt;
+    line-height:15pt;
+    padding-top:2pt;
+   -ms-writing-mode: tb-rl; 
+   writing-mode: vertical-rl; 
+  border-radius:5pt;
+background-color:steelblue;
+}
+
+.tagesContainer{
+    width:15pt;
+
+pointer-events: none;
+}
+
+.tagesContainer.Mo{
+   pointer-events: visible;
+}
+
+
+.true{background-color:steelblue;}
+
+.sonderNotiz{background-color:rgba(240, 176, 57);}
+.EM ,.Abi{
+    background-color:rgba(240, 176, 57);
+
+}
+.Herbstferien, .Weihnachtsferien, .Osterferien, .Sommerferien, .WE ,
+.Pfingstmontag, .Pfingstferien ,.Himmelfahrt ,.Arbeit ,.Ostermontag ,.Karfreitag ,.Neujahr ,.Weihnachtstag ,.Reformationstag 
+,.Einheit {
+    background-color:rgb(70, 130, 180,0.8);
+}
+
+

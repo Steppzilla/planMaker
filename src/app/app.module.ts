@@ -9,12 +9,10 @@ import {KlassenZuweisungComponent} from './components/klassen-zuweisung/klassen-
 import {KursZeitfensterComponent } from './components/kurs-zeitfenster/kurs-zeitfenster.component'
 import {AngularFireModule} from '@angular/fire';
 import {AngularFireAuthModule} from '@angular/fire/auth';
-import { RhythmusComponent } from './components/rhythmus/rhythmus.component';
-import { EpocheComponent } from './components/epoche/epoche.component';
-import { SchieneComponent } from './components/schiene/schiene.component';
 import { ErstesElementPipe } from './pipe/erstes-element.pipe';
 import { StartComponent } from './components/start/start.component';
 import { LehrerListeComponent } from './components/lehrer-liste/lehrer-liste.component';
+import { EsrPlanComponent } from './components/esr-plan/esr-plan.component';
 
 const config = {
   //apiKey: '<your-key>',
@@ -32,12 +30,10 @@ const config = {
     KlassenplanComponent,
     KlassenZuweisungComponent,
     KursZeitfensterComponent,
-    RhythmusComponent,
-    EpocheComponent,
-    SchieneComponent,
     ErstesElementPipe,
     StartComponent,
-    LehrerListeComponent
+    LehrerListeComponent,
+    EsrPlanComponent
   ],
   imports: [
     BrowserModule,

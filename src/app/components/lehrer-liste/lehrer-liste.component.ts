@@ -2,6 +2,7 @@ import {
   Component,
   OnInit
 } from '@angular/core';
+import { Fach } from 'src/app/enums/fach.enum';
 import {
   Lehrer
 } from 'src/app/interfaces/lehrer';
@@ -28,14 +29,16 @@ export class LehrerListeComponent implements OnInit {
     neuArray.forEach(element => {
       if (element == null) {} else {
         element.lehrer.forEach(lehr => {
-          if (lehr.kuerzel == lehrer.kuerzel) {
+          if(lehr!=null){
+          if (lehr.kuerzel == lehrer.kuerzel&&((element.fach!=Fach.hauptunterricht&&element.fach!=Fach.schiene&&element.fach!=Fach.rhythmisch)||(parseInt(element.klasse)<9))) {
             elemente.push(element);
           }
+        }
 
         });
       }
     });
-console.log(elemente);
+//console.log(elemente);
     return elemente;
 
 

@@ -172,7 +172,7 @@ export class LehrerService {
       name: 'Loth',
       kuerzel: 'Lo',
       anrede: "Frau",
-      faecher: [Fach.deutsch, Fach.plastizieren, Fach.klassenbetreuer, Fach.geschichte],
+      faecher: [Fach.deutsch, Fach.plastizieren, Fach.klassenbetreuer, Fach.geschichte, Fach.kunstgeschichte],
     },
     // { id: 15, name: 'Luley', kuerzel: 'Lu', anrede: "Frau"  , faecher: [Fac]},
     {
@@ -281,7 +281,7 @@ export class LehrerService {
       name: 'Stuchlik',
       kuerzel: 'Stk',
       anrede: "Herr",
-      faecher: [Fach.hauptunterricht, Fach.musik, Fach.uebstunde, Fach.mittelstufenorchester],
+      faecher: [Fach.hauptunterricht, Fach.musik, Fach.uebstunde, Fach.mittelstufenorchester,Fach.computer],
       aufgaben: ["Stundenplan-Vertretung", "Schulplattform-Admin"],
 
     },

@@ -60,74 +60,15 @@ export class LoginService {
       console.error(error);
     });
 
-    //Schiene, Epoche, Rhythmus :
-    x=btoa(JSON.stringify(this.epochenPlanServ.epoche8.getValue()));
+    //Schiene, Epoche, Rhythmus in einer datei:
+    let z=btoa(JSON.stringify(this.epochenPlanServ.esr_plan.getValue()));
+    //console.log(JSON.parse(atob(z))); //DDATUM wird zu Strings
     this.store.collection('plaene').doc('/' + 'gesamtplaene').update({ //Gesamtaufteilung Array<Elementt>
-      epoche8: x    }).then(() => {      console.log('saved');
-    }).catch(function (error) {      console.log("Epoche8 wurde nicht gespeichert");      console.error(error);    });
+      esr_plan: z    }).then(() => {      console.log('saved esr');
+    }).catch(function (error) {      console.log("esr wurde nicht gespeichert");      console.error(error);    });
+//Schiene, Epoche, Rhythmus :
 
-    x=btoa(JSON.stringify(this.epochenPlanServ.epoche9.getValue()));
-    this.store.collection('plaene').doc('/' + 'gesamtplaene').update({ //Gesamtaufteilung Array<Elementt>
-      epoche9: x    }).then(() => {      console.log('saved');   
-     }).catch(function (error) {      console.log("Epoche9 wurde nicht gespeichert");      console.error(error);    });
-
-    x=btoa(JSON.stringify(this.epochenPlanServ.epoche10.getValue()));
-    this.store.collection('plaene').doc('/' + 'gesamtplaene').update({ //Gesamtaufteilung Array<Elementt>
-      epoche10: x    }).then(() => {      console.log('saved');
-    }).catch(function (error) {      console.log("Epoche10 wurde nicht gespeichert");      console.error(error);    });
-
-    x=btoa(JSON.stringify(this.epochenPlanServ.epoche11.getValue()));
-    this.store.collection('plaene').doc('/' + 'gesamtplaene').update({ //Gesamtaufteilung Array<Elementt>
-      epoche11: x    }).then(() => {      console.log('saved');
-    }).catch(function (error) {      console.log("Epoche11 wurde nicht gespeichert");      console.error(error);    });
-
-    x=btoa(JSON.stringify(this.epochenPlanServ.epoche12.getValue()));
-    this.store.collection('plaene').doc('/' + 'gesamtplaene').update({ //Gesamtaufteilung Array<Elementt>
-      epoche12: x    }).then(() => {      console.log('saved');
-    }).catch(function (error) {      console.log("Epoche12 wurde nicht gespeichert");      console.error(error);    });
-
-    //Schiene:
-    x=btoa(JSON.stringify(this.epochenPlanServ.schiene9.getValue()));
-    this.store.collection('plaene').doc('/' + 'gesamtplaene').update({ //Gesamtaufteilung Array<Elementt>
-      schiene9: x    }).then(() => {      console.log('saved');    
-    }).catch(function (error) {      console.log("Schiene9 wurde nicht gespeichert");      console.error(error);    });
-
-    x=btoa(JSON.stringify(this.epochenPlanServ.schiene10.getValue()));
-    this.store.collection('plaene').doc('/' + 'gesamtplaene').update({ //Gesamtaufteilung Array<Elementt>
-      schiene10: x    }).then(() => {      console.log('saved');   
-     }).catch(function (error) {      console.log("Schiene10 wurde nicht gespeichert");      console.error(error);    });
-
-    x=btoa(JSON.stringify(this.epochenPlanServ.schiene11.getValue()));
-    this.store.collection('plaene').doc('/' + 'gesamtplaene').update({ //Gesamtaufteilung Array<Elementt>
-      schiene11: x    }).then(() => {      console.log('saved');    
-    }).catch(function (error) {      console.log("Schiene11 wurde nicht gespeichert");      console.error(error);    });
-
-    x=btoa(JSON.stringify(this.epochenPlanServ.schiene12.getValue()));
-    this.store.collection('plaene').doc('/' + 'gesamtplaene').update({ //Gesamtaufteilung Array<Elementt>
-      schiene12: x    }).then(() => {      console.log('saved');   
-     }).catch(function (error) {      console.log("Schiene12 wurde nicht gespeichert");      console.error(error);    });
-    
-    //Rhythmus:
-    x=btoa(JSON.stringify(this.epochenPlanServ.rhythmus9.getValue()));
-    this.store.collection('plaene').doc('/' + 'gesamtplaene').update({ //Gesamtaufteilung Array<Elementt>
-      rhythmus9: x    }).then(() => {      console.log('saved');    
-    }).catch(function (error) {      console.log("Rhythmus9 wurde nicht gespeichert");      console.error(error);    });
-
-    x=btoa(JSON.stringify(this.epochenPlanServ.rhythmus10.getValue()));
-    this.store.collection('plaene').doc('/' + 'gesamtplaene').update({ //Gesamtaufteilung Array<Elementt>
-      rhythmus10: x    }).then(() => {      console.log('saved');    
-    }).catch(function (error) {      console.log("Rhythmus10 wurde nicht gespeichert");      console.error(error);    });
-
-    x=btoa(JSON.stringify(this.epochenPlanServ.rhythmus11.getValue()));
-    this.store.collection('plaene').doc('/' + 'gesamtplaene').update({ //Gesamtaufteilung Array<Elementt>
-      rhythmus11: x    }).then(() => {      console.log('saved');    
-    }).catch(function (error) {      console.log("Rhythmus11 wurde nicht gespeichert");      console.error(error);    });
-
-    x=btoa(JSON.stringify(this.epochenPlanServ.rhythmus12.getValue()));
-    this.store.collection('plaene').doc('/' + 'gesamtplaene').update({ //Gesamtaufteilung Array<Elementt>
-      rhythmus12: x    }).then(() => {      console.log('saved');    
-    }).catch(function (error) {      console.log("Rhythmus12 wurde nicht gespeichert");      console.error(error);    });
-
+   
     //Logout?
   }
 
@@ -142,23 +83,14 @@ export class LoginService {
       //   var epochenJSO = JSON.parse(atob(planItem.epochen));
  
      
-      this.epochenPlanServ.epoche8.next(JSON.parse(atob(plaene[0].epoche8)));
-      this.epochenPlanServ.epoche9.next(JSON.parse(atob(plaene[0].epoche9)));
-      this.epochenPlanServ.epoche10.next(JSON.parse(atob(plaene[0].epoche10)));
-      this.epochenPlanServ.epoche11.next(JSON.parse(atob(plaene[0].epoche11)));
-      this.epochenPlanServ.epoche12.next(JSON.parse(atob(plaene[0].epoche12)));
-
-      this.epochenPlanServ.schiene9.next(JSON.parse(atob(plaene[0].schiene9)));
-      this.epochenPlanServ.schiene10.next(JSON.parse(atob(plaene[0].schiene10)));
-      this.epochenPlanServ.schiene11.next(JSON.parse(atob(plaene[0].schiene11)));
-      this.epochenPlanServ.schiene12.next(JSON.parse(atob(plaene[0].schiene12)));
-
-      this.epochenPlanServ.rhythmus9.next(JSON.parse(atob(plaene[0].rhythmus9)));
-      this.epochenPlanServ.rhythmus10.next(JSON.parse(atob(plaene[0].rhythmus10)));
-      this.epochenPlanServ.rhythmus11.next(JSON.parse(atob(plaene[0].rhythmus11)));
-      this.epochenPlanServ.rhythmus12.next(JSON.parse(atob(plaene[0].rhythmus12)));
-      //   var schieneJSO = JSON.parse(atob(planItem.schiene));
-      //  var rhythmusJSO = JSON.parse(atob(planItem.rhythmus));
+     let esrJSO=JSON.parse(atob(plaene[0].esr_plan)); //Datum teile sind alle Strings..
+     esrJSO.forEach(element => {
+       let date=new Date(element.tag);
+       element.tag=date;
+       
+     });
+     this.epochenPlanServ.esr_plan.next(esrJSO);
+      
       this.stundenPlanDaten.next(stundenPlanJSO);
       this.klassenPlanServ.grundPlanfaecher.next(stundenAufteilungJSO); //opt: .concat(ele) um Element hinzuzufügen beim Load der Daten
       //  this.klassenPlanServ.elementHinzufuegen(Fach.kunstgeschichte,Lehrjahr.neun);

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EpocheComponent } from './epoche.component';
+import { EsrPlanComponent } from './esr-plan.component';
 
-describe('EpocheComponent', () => {
-  let component: EpocheComponent;
-  let fixture: ComponentFixture<EpocheComponent>;
+describe('EsrPlanComponent', () => {
+  let component: EsrPlanComponent;
+  let fixture: ComponentFixture<EsrPlanComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ EpocheComponent ]
+      declarations: [ EsrPlanComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EpocheComponent);
+    fixture = TestBed.createComponent(EsrPlanComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -108,7 +108,7 @@ export class GesamtuebersichtComponent implements OnInit {
           cell.forEach(elementt => {
             elementt.marked=false;
             elementt.lehrer.forEach(le => {
-              if((le.kuerzel!=null) &&(auswahlLehrer!=undefined)&&(le.kuerzel==auswahlLehrer.kuerzel)){
+              if((le!=null)&&(le.kuerzel!=null) &&(auswahlLehrer!=undefined)&&(le.kuerzel==auswahlLehrer.kuerzel)){
                 elementt.marked=true;
               }
             });
@@ -161,12 +161,13 @@ console.log(this.stundenRaster);
     if (zellenArray[0]) {
       zellenArray.forEach(u => { //im folgenden werden Schiene und HU und Startup herausgenommen:
         u.lehrer.forEach(lehr => {
+          if(lehr!=null){
           let kurz = lehr.kuerzel;
           arr.forEach(kl => {
             if (kl[c] == undefined) {} else { //kl[c] ist eine Celle, hier genügt Position c zu überprüfen (waagerechte duplikate)
               kl[c].forEach(unterricht => { //unterricht sind alle fächer einer zelle/stunde           
                 unterricht.lehrer.forEach(lehrt => {
-                  if ((lehrt.kuerzel == kurz) && (kurz != null) && (lehrt.kuerzel != null) && (r + 1 != unterricht.klasse)) { //Lehrer darf nicht null sein
+                  if ((lehrt!=null)&&(lehrt.kuerzel == kurz) && (kurz != null) && (lehrt.kuerzel != null) && (r + 1 != unterricht.klasse)) { //Lehrer darf nicht null sein
                     //wenn beides (feld + vergleichsfeld ausm Raster) HU, Schiene oder startup soll nich rot werden
                     if (
                       ((unterricht.faecher == Fach.hauptunterricht) && (u.faecher == Fach.hauptunterricht)) || ((unterricht.faecher == Fach.schiene) && (u.faecher == Fach.schiene)) ||
@@ -179,7 +180,9 @@ console.log(this.stundenRaster);
               });
             }
           });
+        }
         });
+      
       });
     }
     //console.log(dupli);
@@ -195,7 +198,7 @@ console.log(this.stundenRaster);
       if (kl[c] == undefined) {} else {
         kl[c].forEach(unterricht => {
           unterricht.lehrer.forEach(lehrt => {
-            if ((lehrt.kuerzel == kuerzel) && (kuerzel != null) && (lehrt.kuerzel != null)) { //Lehrer darf nicht null sein
+            if ((lehrt!=null)&&(lehrt.kuerzel == kuerzel) && (kuerzel != null) && (lehrt.kuerzel != null)) { //Lehrer darf nicht null sein
               dupli++;
             }
           });

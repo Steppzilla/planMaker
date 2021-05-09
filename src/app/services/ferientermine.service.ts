@@ -215,11 +215,16 @@ export class FerientermineService {
     let arr = [];
     let wochenTag = "";
     let ganztagsProjekt=[];
+    //neu:
+    let ganztag={neun:null, zehn: null, elf: null, zwoelf: null};
+
 
     this.daysBetweenArray.forEach(day => {
       ganztagsProjekt=[];
       ferien = false;
       notiz = "";
+      //nu:
+      ganztag={neun:null, zehn: null, elf: null, zwoelf: null};
 
       if ((day.getTime() >= this.herbstferienStart.getTime()) && (day.getTime() <= this.herbstferienEnde.getTime())) {
         ferien = true;
@@ -265,29 +270,38 @@ export class FerientermineService {
       //Fahrten
        if ((day.getTime() >= this.landbauStart.getTime()) && (day.getTime() <= this.landbauEnde.getTime())) {
          ganztagsProjekt.push(["Landbau",Lehrjahr.neun]); //9. Klasse
+         ganztag.neun="Landbau";
        }
        if ((day.getTime() >= this.kunstFahrtStart.getTime()) && (day.getTime() <= this.kunstFahrtEnde.getTime())) {
         ganztagsProjekt.push(["Kunstfahrt",Lehrjahr.zwoelf]); //12. kLasse
+        ganztag.zwoelf="Kunstfahrt";
        
       }
       if ((day.getTime() >= this.feldMessenStart.getTime()) && (day.getTime() <= this.feldMessenEnde.getTime())) {
         ganztagsProjekt.push(["Feldmessen",Lehrjahr.zehn]); //10. Klasse
+        ganztag.zehn="Feldmessen";
       }
       if ((day.getTime() >= this.sozialPraktikumStart.getTime()) && (day.getTime() <= this.sozialPraktikumEnde.getTime())) {
         ganztagsProjekt.push(["Sozialpraktikum",Lehrjahr.elf]);// 11. Klasse
+        ganztag.elf="Sozialpraktikum";
       }
       if ((day.getTime() >= this.klassenSpielStart.getTime()) && (day.getTime() <= this.klassenSpielEnde.getTime())) {
         ganztagsProjekt.push(["Klassenspiel",Lehrjahr.zwoelf]); // 12. Klasse
+        ganztag.zwoelf="Klassenspiel";
       }
       if ((day.getTime() >= this.eurhythmieAbschlussStart.getTime()) && (day.getTime() <= this.eurhythmieAbschlussEnde.getTime())) {
         ganztagsProjekt.push(["Eurythmieabschluss",Lehrjahr.zwoelf]);// 12. Klasse
+        ganztag.zwoelf="Eurythmieabschluss";
       }
       if ((day.getTime() >= this.projektWocheStart.getTime()) && (day.getTime() <= this.projektWocheEnde.getTime())) {
         ganztagsProjekt.push(["Projektwoche",Lehrjahr.zwoelf]);// 12. Klasse
         ganztagsProjekt.push(["Projektwoche",Lehrjahr.elf]);// 11. Klasse
         ganztagsProjekt.push(["Projektwoche",Lehrjahr.zehn]);// 10. Klasse
         ganztagsProjekt.push(["Projektwoche",Lehrjahr.neun]);// 9. Klasse
-      
+        ganztag.neun="Projektwoche";
+        ganztag.zehn="Projektwoche";
+        ganztag.elf="Projektwoche";
+        ganztag.zwoelf="Projektwoche";
       }
 
       wochenTag = this.tagZuString(day);
@@ -297,7 +311,14 @@ export class FerientermineService {
         notiz: notiz,
         wochenTag: wochenTag,
         unterricht: [],
-        ganztags: ganztagsProjekt
+        ganztags: ganztagsProjekt,
+        //neu:
+        ganztaegig: {neun:ganztag.neun, zehn:ganztag.zehn, elf: ganztag.elf, zwoelf: ganztag.zwoelf} ,
+       rhythmus: {neun:[], zehn:[], elf: [], zwoelf: []} ,
+       epoche :   {acht: [],neun:[], zehn:[], elf: [], zwoelf: []} ,
+       schiene:   {neun:[], zehn:[], elf: [], zwoelf: []} ,
+
+
       }); //FORMAT der TAGE
 
     });

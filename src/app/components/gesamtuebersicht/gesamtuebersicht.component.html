@@ -72,7 +72,7 @@
               <p> {{unterrichtsItem?unterrichtsItem.fach:"kein Fach"}}
                 <ng-container *ngIf="kuerzeleinblenden">
                   <span *ngFor="let lehrer of unterrichtsItem.lehrer">
-                    <ng-container *ngIf="lehrer.kuerzel!=null">
+                    <ng-container *ngIf="lehrer!=null&&lehrer.kuerzel!=null">
                       |{{lehrer.kuerzel}}
                     </ng-container>
                   </span>

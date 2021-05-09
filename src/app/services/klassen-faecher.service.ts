@@ -79,7 +79,7 @@ export class KlassenFaecherService {
       Lehrjahr.zehn,Lehrjahr.elf,Lehrjahr.zwoelf,Lehrjahr.dreizehn],1],
     [Fach.chemie,[Lehrjahr.neun,
       Lehrjahr.zehn,Lehrjahr.elf,Lehrjahr.zwoelf,Lehrjahr.dreizehn],1],
-    [Fach.kunstgeschichte, [Lehrjahr.zwoelf],1],
+    [Fach.kunstgeschichte, [Lehrjahr.neun,Lehrjahr.zwoelf],1],
     [Fach.geschichte,[Lehrjahr.neun,
       Lehrjahr.zehn,Lehrjahr.elf,Lehrjahr.zwoelf,Lehrjahr.dreizehn],2],
     [Fach.biologie, [Lehrjahr.neun,

@@ -4,7 +4,6 @@ import {Lehrer} from './lehrer';
 import { Lehrjahr } from '../enums/lehrjahr.enum';
 import {Raum} from '../enums/raum.enum';
 
-import { Rubriken } from '../enums/rubriken.enum';
 
 export interface Unterrichtsstunde {
 
