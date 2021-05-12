@@ -1,5 +1,5 @@
 <div id="menu" class="noprint">
-  <button class="noprint" id="load" (click)="load()">LoadData</button>
+
   <button class="noprint" (click)="redirect('lehrerListe')"> Lehrerliste</button>
   <button class="noprint" (click)="redirect('klasseFach')"> Klasse/Lehrer</button>
   <button class="noprint" (click)="redirect('gesamtplan')"> Gesamtplan </button>
@@ -12,6 +12,6 @@
     {{termine.datumHeute.getDate()}}.{{termine.datumHeute.getMonth()+1}}.{{termine.datumHeute.getFullYear()}}
   </div>
 </div>
-
-    <button id="save" class="noprint" (click)="save()">Save</button>
-    
+<div class="loadSaveContain">
+<button class="noprint" id="load" (click)="load()">LoadData</button><button id="save" class="noprint" (click)="save()">Save</button>
+</div>
