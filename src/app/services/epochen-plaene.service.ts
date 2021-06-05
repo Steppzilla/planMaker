@@ -10,7 +10,6 @@ export class EpochenPlaeneService {
   esr_plan$=this.esr_plan.asObservable();
 
  
-
   constructor(public ferienTermServ: FerientermineService) {
     this.esr_plan.next(this.ferienTermServ.daysBetween());
     

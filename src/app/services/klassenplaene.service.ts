@@ -29,17 +29,12 @@ import {
   providedIn: 'root'
 })
 export class KlassenplaeneService {
-
-
-
   grundPlanfaecher = new BehaviorSubject < Array < Elementt >> (null);
   grundPlanfaecher$ = this.grundPlanfaecher.asObservable();
 
-
-  grundPlanerstellen() {
+  grundPlanerstellen() {   //einmal im Konstruktor ausgeführt
     let gesamtArrayF: Array < Elementt >= [];
     this.klassenFaecher.zuweisungen.forEach(([fachh, lehrjahre, nummer]: [Fach, Array < Lehrjahr > , number]) => {
-
       lehrjahre.forEach(lehrjahr => {
         let ele: Elementt = {
           fach: fachh,
@@ -50,60 +45,19 @@ export class KlassenplaeneService {
           uebstunde: 0,
           rhythmus: 0,
           schiene: 0,
-          epoche: 0
+          epoche: 0,
+          zuweisung: {uebstunde: [],rhythmus: [],epoche:[],schiene:[]}
         };
         gesamtArrayF.push(ele);
       });
     });
     this.grundPlanfaecher.next(gesamtArrayF);
-    
   }
 
   elementHinzufuegen(fach:Fach,klasse:Lehrjahr){
     let ele: Elementt = this.neuesElement(fach,klasse);
     console.log(    this.grundPlanfaecher.value);
     this.grundPlanfaecher.next(this.grundPlanfaecher.getValue().concat(ele)); //concat ist zum hinzufügen
-  }
-  elementHinzufuegenmitLehrer(fach:Fach,klasse:Lehrjahr,lehrer:Lehrer){
-    let ele: Elementt = this.neuesElementmitLehrer(fach,klasse,lehrer);
-    console.log(    this.grundPlanfaecher.value);
-    this.grundPlanfaecher.next(this.grundPlanfaecher.getValue().concat(ele));
-  }
-
-  elementeZuruecksetzen(fach:Fach, klas:Lehrjahr){
-    let neuesARray=  this.grundPlanfaecher.getValue();
-  
-    neuesARray=neuesARray.filter(function (el) {
-      return el != null;
-    });
-    let counter=0;
-    neuesARray.forEach((elem,e)=>{
-      if(elem.fach==fach&&elem.klasse==klas){
-        elem.lehrer=[];
-        counter++;
-      }
-      if((counter>1)&&(elem.fach==fach)&&(elem.klasse==klas)){
-     //  this.elementZurücksetzen(elem);
-        delete neuesARray[e];
-       console.log("zurückgesetzt?");
-      }
-    });
-    
-     this.grundPlanfaecher.next(neuesARray);
-  }
-
-  
-
-  elementLoeschen(fach:Fach, klasse:Lehrjahr){
-    let neuesArray=this.grundPlanfaecher.getValue();
-    neuesArray.forEach((el,index) => {
-      if(  el.fach==fach&&el.klasse==klasse){
-        delete neuesArray[index];
-      }
-    });
-
-    this.grundPlanfaecher.next(neuesArray);
-
   }
 
   neuesElement(fach:Fach,klasse:Lehrjahr){
@@ -116,11 +70,17 @@ export class KlassenplaeneService {
       uebstunde: 0,
       rhythmus: 0,
       schiene: 0,
-      epoche: 0
+      epoche: 0,
+      zuweisung: {uebstunde: [],rhythmus: [],epoche:[],schiene:[]}
     };
     return ele;
   }
 
+  elementHinzufuegenmitLehrer(fach:Fach,klasse:Lehrjahr,lehrer:Lehrer){
+    let ele: Elementt = this.neuesElementmitLehrer(fach,klasse,lehrer);
+    console.log(    this.grundPlanfaecher.value);
+    this.grundPlanfaecher.next(this.grundPlanfaecher.getValue().concat(ele));
+  }
   
   neuesElementmitLehrer(fach:Fach,klasse:Lehrjahr,lehrer:Lehrer){
     let ele: Elementt = {
@@ -132,10 +92,46 @@ export class KlassenplaeneService {
       uebstunde: 0,
       rhythmus: 0,
       schiene: 0,
-      epoche: 0
+      epoche: 0,
+      zuweisung: {uebstunde: [],rhythmus: [],epoche:[],schiene:[]}
     };
     return ele;
   }
+
+  elementeZuruecksetzen(fach:Fach, klas:Lehrjahr){
+    let neuesARray=  this.grundPlanfaecher.getValue();
+    neuesARray=neuesARray.filter(function (el) {
+      return el != null;
+    });
+    let counter=0;
+    neuesARray.forEach((elem,e)=>{
+      if(elem.fach==fach&&elem.klasse==klas){
+        elem.lehrer=[];
+        counter++;
+      }
+      if((counter>1)&&(elem.fach==fach)&&(elem.klasse==klas)){
+     //  this.elementZurücksetzen(elem);
+        delete neuesARray[e];
+       console.log("zurückgesetzt");
+      }
+    });
+     this.grundPlanfaecher.next(neuesARray);
+  }
+ 
+  elementLoeschen(fach:Fach, klasse:Lehrjahr){
+    let neuesArray=this.grundPlanfaecher.getValue();
+    neuesArray=neuesArray.filter(function (el) {
+      return el != null;
+    });
+    neuesArray.forEach((el,index) => {
+      if(  el.fach==fach&&el.klasse==klasse){
+        delete neuesArray[index];
+      }
+    });
+    this.grundPlanfaecher.next(neuesArray);
+  }
+
+ 
   
 zahlinWorte(num:number){
   switch (num){
@@ -155,10 +151,6 @@ zahlinWorte(num:number){
     case 13: return "dreizehn";
   }
 }
-
-
-
-
 
   constructor(public klassenFaecher: KlassenFaecherService, public lehrerServ: LehrerService) {
     this.grundPlanerstellen();

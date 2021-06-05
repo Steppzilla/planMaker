@@ -1,8 +1,12 @@
 export interface TagesObjekt {
 
-    tag: Date;
-    unterricht: [];
-    notiz: string;
-    frei:boolean;
+    tag: Date,
+    frei:boolean, //ob schulfrei, nur bei Ferien + Feiertagen? siehe ferientermine push am ende
+    notiz: string, //z.B. Herbstferien, Heiligabend
+    wochenTag: string,
+    unterricht: [],
+    ganztaegig: {neun: [], zehn: [], elf: [] ,zwoelf: []},
+
+    
 
 }

@@ -5,7 +5,6 @@ import { Wochentag } from '../enums/wochentag.enum';
 
 
 export interface Lehrer {
-    id: number;
     name: string;
     kuerzel:string;
     anrede: string;

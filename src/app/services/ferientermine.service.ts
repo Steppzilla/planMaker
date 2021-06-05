@@ -2,21 +2,16 @@ import {
   Injectable
 } from '@angular/core';
 import {
-  isWeekend,
   isSameDay,
   eachDayOfInterval
 } from 'date-fns';
 import { Lehrjahr } from '../enums/lehrjahr.enum';
-
-//import{nextMonday} from "date-fns";
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class FerientermineService {
   datumHeute: Date = new Date(); //achtung hat aktuelle Zeit
-
 
   //Manuell gesetzt. 
   sommerFerienEnde: Date = new Date(2021, 6, 30); //Jahr/Monat- 1/tag des Monats
@@ -80,9 +75,6 @@ export class FerientermineService {
   projektWocheEnde: Date = new Date(2022, 2, 4);
   //gf noch zwei eigene brückentage? Ausgleich is glaub ich, dass wir samstags oft feiern organisieren...?
 
-
-
-
   get pruefungsTage() {
     return [
       //Abi
@@ -135,9 +127,6 @@ export class FerientermineService {
     ]
   };
 
-
-
-
   get feiertage() {
     return [{
         tag: this.feiertag_TagDerDeutschenEinheit,
@@ -156,7 +145,6 @@ export class FerientermineService {
         tag: this.feiertag_weihnachtsTag2,
         notiz: "2. Weihnachtstag"
       },
-
       //weihnachten
       //2022:
       {
@@ -167,7 +155,6 @@ export class FerientermineService {
         tag: this.feiertag_karFreitag,
         notiz: "Karfreitag"
       },
-
       //osterferien
       {
         tag: this.feiertag_ostermontag,
@@ -181,7 +168,6 @@ export class FerientermineService {
         tag: this.feiertag_christiHimmelfahrt,
         notiz: "Himmelfahrt"
       },
-
       //pfingstferien
       {
         tag: this.pfingstferienStart,
@@ -201,13 +187,10 @@ export class FerientermineService {
 
   // WochenArrays von Sommer bis Herbst /Herbst-Weihnachten/Weihnachten-Ostern/ostern-sommer:
 
-
   daysBetweenArray = eachDayOfInterval({
     start: this.sommerFerienEnde,
     end: this.sommerferienStart
   }, {});
-
-
 
   daysBetween() {
     let ferien = false;
@@ -218,14 +201,12 @@ export class FerientermineService {
     //neu:
     let ganztag={neun:null, zehn: null, elf: null, zwoelf: null};
 
-
     this.daysBetweenArray.forEach(day => {
       ganztagsProjekt=[];
       ferien = false;
       notiz = "";
       //nu:
       ganztag={neun:null, zehn: null, elf: null, zwoelf: null};
-
       if ((day.getTime() >= this.herbstferienStart.getTime()) && (day.getTime() <= this.herbstferienEnde.getTime())) {
         ferien = true;
         notiz = "Herbstferien";
@@ -248,9 +229,7 @@ export class FerientermineService {
       {
         ferien = false;
         notiz = "schule";
-
         this.feiertage.forEach(tag => { //das hier in else-klammer, wenn man in ferien die feiertage nicht reinschreiben/überschreiben will
-
           if (isSameDay(tag.tag, day)) {
             ferien = true;
             notiz = tag.notiz;
@@ -258,14 +237,12 @@ export class FerientermineService {
           }
         });
         this.pruefungsTage.forEach(tag => { //prüfungstage
-
           if (isSameDay(tag.tag, day)) {
             ferien = false;
             notiz = tag.notiz;
           } else { //
           }
         });
-
       }
       //Fahrten
        if ((day.getTime() >= this.landbauStart.getTime()) && (day.getTime() <= this.landbauEnde.getTime())) {
@@ -314,23 +291,11 @@ export class FerientermineService {
         ganztags: ganztagsProjekt,
         //neu:
         ganztaegig: {neun:ganztag.neun, zehn:ganztag.zehn, elf: ganztag.elf, zwoelf: ganztag.zwoelf} ,
-       rhythmus: {neun:[], zehn:[], elf: [], zwoelf: []} ,
-       epoche :   {acht: [],neun:[], zehn:[], elf: [], zwoelf: []} ,
-       schiene:   {neun:[], zehn:[], elf: [], zwoelf: []} ,
-
-
+      
       }); //FORMAT der TAGE
-
     });
-    //console.log(arr);
     return arr;
   }
-
-
-
-
-
-  //blocks=this.weeksBetween ;
 
   freieTageArray = this.freieTageDerWoche();
 
@@ -339,71 +304,16 @@ export class FerientermineService {
     return freieTage;
   }
 
-
-
-  istFeiertag(day: Date) {
-    let bo: boolean = false;
-    this.feiertage.forEach(tag => {
-      if (isSameDay(tag.tag, day)) { //selbe Tage: true;
-        bo = true;
-      } else {}
-    });
-    return bo;
-  }
-
   tagZuString(tag: Date) {
     switch (tag.getDay()) {
-      case 0:
-        return "So";
-      case 1:
-        return "Mo";
-      case 2:
-        return "Di";
-      case 3:
-        return "Mi";
-      case 4:
-        return "Do";
-      case 5:
-        return "Fr";
-      case 6:
-        return "Sa";
-    }
+      case 0:        return "So";      case 1:        return "Mo";      case 2:        return "Di";      case 3:        return "Mi";
+      case 4:        return "Do";      case 5:        return "Fr";      case 6:        return "Sa";    }  }
 
-  }
-
-  monatZuString(tag: Date) {
-    switch (tag.getMonth()) {
-      case 0:
-        return "Jan";
-      case 1:
-        return "Feb";
-      case 2:
-        return "März";
-      case 3:
-        return "April";
-      case 4:
-        return "Mai";
-      case 5:
-        return "Juni";
-      case 6:
-        return "Juli";
-      case 7:
-        return "August";
-      case 8:
-        return "September";
-      case 9:
-        return "Oktober";
-      case 10:
-        return "November";
-      case 11:
-        return "Dezember";
-    }
-  }
-
-
+  monatZuString(tag: Date) {    switch (tag.getMonth()) {      case 0:        return "Jan";      case 1:        return "Feb";      case 2:        return "März";
+      case 3:        return "April";      case 4:        return "Mai";      case 5:        return "Juni";      case 6:        return "Juli";
+      case 7:        return "August";      case 8:        return "September";      case 9:        return "Oktober";      case 10:        return "November";
+      case 11:        return "Dezember";    }  }
 
   constructor() {
-    // console.log(this.daysBetween());
-
   }
 }

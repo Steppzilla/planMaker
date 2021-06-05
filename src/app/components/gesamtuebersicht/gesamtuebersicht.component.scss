@@ -145,7 +145,7 @@ button:hover {
 }
 
 .ok {
-  color: black;
+  color: darkgrey;
 }
 
 .blueback {
@@ -155,15 +155,18 @@ button:hover {
 }
 
 #toggle-item-Container {
-  padding-top: 4pt;
-  padding-bottom: 4pt;
+  padding-top: 0pt;
+  padding-bottom: 0pt;
   display: grid;
-  width: 110pt;
-  grid-template-columns: 60% 5% 40%;
+  width: 120pt;
+  grid-template-columns: 40% 15% 15% 30%;
   border: 1pt solid grey;
 }
 
-#toggle-items {
-  font-size: 17pt;
+.toggle-items {
+  font-size: 12pt;
+  line-height: 12t;
 
 }
+
+.gruen{color:green;}

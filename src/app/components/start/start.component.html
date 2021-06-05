@@ -1,12 +1,12 @@
 <div id="menu" class="noprint">
 
-  <button class="noprint" (click)="redirect('lehrerListe')"> Lehrerliste</button>
-  <button class="noprint" (click)="redirect('klasseFach')"> Klasse/Lehrer</button>
-  <button class="noprint" (click)="redirect('gesamtplan')"> Gesamtplan </button>
+  <button class="noprint" (click)="redirect('lehrerListe')"> Übersicht</button>
+  <button class="noprint" (click)="redirect('klasseFach')"> Zuweisung (Edit)</button>
+  <button class="noprint" (click)="redirect('gesamtplan')"> Gesamtplan (Edit) </button>
   <!--<button class="noprint" (click)="redirect('epoche')"> Epoche</button>
   <button class="noprint" (click)="redirect('schiene')"> Schiene</button>
   <button class="noprint" (click)="redirect('rhythmus')"> Rhythmus</button>-->
-  <button class="noprint" (click)="redirect('ESR')"> ESR</button>
+  <button class="noprint" (click)="redirect('ESR')"> ESR (Edit)</button>
 
   <div class="date noprint"> Datum:
     {{termine.datumHeute.getDate()}}.{{termine.datumHeute.getMonth()+1}}.{{termine.datumHeute.getFullYear()}}

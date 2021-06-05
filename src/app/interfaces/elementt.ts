@@ -1,7 +1,7 @@
+import { FunctionCall } from "@angular/compiler";
 import { Fach } from "../enums/fach.enum";
 import { Lehrjahr } from "../enums/lehrjahr.enum";
 import { Raum } from "../enums/raum.enum";
-import { ErstesElementPipe } from "../pipe/erstes-element.pipe";
 import { Lehrer } from "./lehrer";
 
 export interface Elementt {
@@ -14,7 +14,12 @@ export interface Elementt {
     rhythmus: number;
     schiene: number;
     epoche:number;
-    marked?:boolean;
-    zuweisungUeb?: Array<[number,number]>,//Wochentag als Zahl 0=Sonntag bis 6 = Samstag  , - ,die wievielte Stunde an diesem Tag 
-    zuweisungEpoche?: Array<Date>, //
+    zuweisung?: 
+        {
+            uebstunde:  Array<{wochentag:string,stunde:number}>,//Wochentag als Zahl 0=Sonntag bis 6 = Samstag  , - ,die wievielte Stunde an diesem Tag 
+            rhythmus:  Array<{start:Date,ende:Date}>,
+            epoche: Array<{start:Date,ende:Date}>,
+            schiene: Array<{start:Date,ende:Date}>,
+        }; //Start-Ende, Start-Ende etc
+    berechnung?: number;
 }

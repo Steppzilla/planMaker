@@ -33,7 +33,7 @@
               <ng-template id="popUp" #Lehrer>
                 <ng-container *ngFor="let lehrerDZ of lehrerZuweisung(rIndex)">
                   <div id="kuerzelPop" (click)="toggleClick(lehrerDZ,fach,kIndex+1)">
-                    {{lehrerDZ.kuerzel}}
+                    {{lehrerDZ.kuerzel }}
                   </div>
                 </ng-container>
               </ng-template>
