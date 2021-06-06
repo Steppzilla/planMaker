@@ -82,7 +82,7 @@
                     </ng-template>
                   </div>
                   <div class="toggle-items">
-                    <ng-container *ngIf="elementt.fach!='StartUp'&&elementt.fach!='HU'&&elementt.fach!='Schiene'">
+                    <ng-container *ngIf="elementt.fach!='HU'&&elementt.fach!='StartUp'&&elementt.fach!='Schiene'">
 
                     <ng-container *ngFor="let le of elementt.lehrer">
                       {{le?le.kuerzel:"Lehrer"}}

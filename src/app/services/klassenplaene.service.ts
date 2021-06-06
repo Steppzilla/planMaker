@@ -38,8 +38,8 @@ export class KlassenplaeneService {
   grundPlanfaecher$ = this.grundPlanfaecher.asObservable();
 
   berechnung(element) {
-    console.log("Methode Start");
-    console.log(element.lehrer[0]);
+   // console.log("Methode Start");
+   // console.log(element.lehrer[0]);
     let grundplanf = this.grundPlanfaecher.getValue();
     let schieneElem = grundplanf.find(ele => ele.fach == Fach.schiene&&ele.klasse==element.klasse);
     let huElem = grundplanf.find(ele => ele.fach == Fach.hauptunterricht&&ele.klasse==element.klasse);
@@ -51,17 +51,13 @@ export class KlassenplaeneService {
     });
 
    // grundplanf.forEach(element => {
-
       //Wochenstunden für Schiene/Rhythmus und Epoche herauslesen (in Stundenplan zu überprüfen ob es tatsächlich ist):
-
       let epochenSoll = element.epoche; //soll Epoche
       let schieneSoll = element.schiene; //soll Schiene
       let rhythmusSoll = element.rhythmus; //Soll rhythmus
       let uebstundenSoll = element.uebstunde; //soll Uebstunde
 
-
      // let uebstundeIST = element.zuweisung.uebstunde.length;
-
       let rhythmusIST = 0; //logisch errechnete Stunden Wochen mal anzahl der Wochenstunden vom rhythmus
 
       element.zuweisung.rhythmus.forEach(startEnde => {
@@ -72,13 +68,11 @@ export class KlassenplaeneService {
       });
 
       let epocheIST = 0;
-
       element.zuweisung.epoche.forEach(startEnde => {
         let start = startEnde.start; //Date
         let ende = startEnde.ende;
         let wochen = (differenceInBusinessDays(ende, start) + 1) / 5;
         epocheIST = epocheIST + wochen * huElem.wochenstunden / jahresStundenWert;
-
       });
 
       let schieneIST = 0;
@@ -121,39 +115,17 @@ export class KlassenplaeneService {
         });
         // bei einzelner zuweisung des elements:
         teilung = inhaltZelle[z].length;
-        if (element.uebstunde > 0&&element.fach==Fach.deutsch) {
-        console.log("teilung und gleiche elemente:")
-        console.log(teilung);
-        console.log(gleicheElemente);
-        }
-
         uebstundeIST= uebstundeIST+(gleicheElemente/teilung);
-         
-
       });
-
       //für epoche, schiene, rhythmus auch?
-
-     // console.log(inhaltZelle);
-      
-
+ 
       if (element.uebstunde > 0&&element.fach==Fach.deutsch) {
-        console.log("Uebstunde: Soll/IST: " + uebstundenSoll + " / " +uebstundeIST + "klasse : " + element.klasse) + "."; //gesamtstunden ist verrechnet, uebstundeIst noch alt
-    //  console.log(uebstundeIST);
-      }
-      // console.log("rhytmus: Soll/IST: " + rhythmusSoll * jahresStundenWert / rhythmElem.wochenstunden + " / " + rhythmusIST * jahresStundenWert / rhythmElem.wochenstunden) + ".";
-      // console.log("epoche: Soll/IST: " + epochenSoll * jahresStundenWert / huElem.wochenstunden + " / " + epocheIST * jahresStundenWert / huElem.wochenstunden) + ".";
-
-      //console.log("schiene: Soll/IST: " + schieneSoll*jahresStundenWert/5 + " / "  + schieneIST*jahresStundenWert/5) + ".";
-      // console.log("------");
-      // console.log("Erwartete Gesamtstunden  ");
-      // console.log(soll);
-
+    //    console.log("Uebstunde: Soll/IST: " + uebstundenSoll + " / " +uebstundeIST + "klasse : " + element.klasse) + "."; //gesamtstunden ist verrechnet, uebstundeIst noch al
+      } 
       //13. klasse deutsch: zwei Lherer, daher 2 verschiedene Elemten, daher wieder zurückrechnen:
       if(element.klasse==Lehrjahr.dreizehn&&element.fach==Fach.deutsch){
         uebstundeIST=uebstundeIST*2;
       }
- 
       return uebstundeIST;
   }
 

@@ -182,12 +182,17 @@ export class GesamtuebersichtComponent implements OnInit {
       if(element==null){
         this.grundPlanfaecher.splice(e,1);
       }else{
-      element.zuweisung.uebstunde.forEach(({wochentag,stunde},ue) => {
-      //  console.log(wochentag + "."+this.wochenTagauswahl);
-        if(wochentag==this.wochenTagauswahl&&stunde==c){ 
+      element.zuweisung.uebstunde.forEach((woStu,ue) => {
+        //console.log(woStu.wochentag + "."+this.wochenTagauswahl);
+        if(woStu.wochentag==this.wochenTagauswahl&&woStu.stunde==c){ 
+         // console.log("gleiche Stunde/Tag");
        element.lehrer.forEach(le=>{
          ele.lehrer.forEach(el => {
+      //    console.log(el.kuerzel);
+      //    console.log(le.kuerzel);
           if(ele&&element&&el.kuerzel==le.kuerzel){
+       //     console.log("gleiche lehrer!");
+
             // console.log(element.lehrer[0].kuerzel + "." +r + ". " + element.klasse);
              duplicates++;
            }          
@@ -197,7 +202,7 @@ export class GesamtuebersichtComponent implements OnInit {
       });
     }     
     });
-    return duplicates>1? "error": "ok";
+    return duplicates>0? "error": "ok";
   }
 
   leherkuerzelToggle() {

@@ -25,15 +25,23 @@
               <!--  {{ele?ele.fach:"noFach"}}-->
               <div *ngIf="ele">
                 <!-- sollte nur ein Lehrer sein, aber in diesem fall alle verschiedenen im Array anzeigen...-->
+                <ng-container *ngIf="ele.fach!='StartUp'&&ele.fach!='HU'&&ele.fach!='Schiene'||ele.klasse<=8; else ANZAHL">
                 <ng-container *ngFor="let lehrerR of ele.lehrer">
                   {{lehrerR?lehrerR.kuerzel:"na"}}
                 </ng-container>
+                </ng-container>
+                <ng-template #ANZAHL>              
+                  {{ele.lehrer.length }}
+                  </ng-template>
               </div>
 
               <ng-template id="popUp" #Lehrer>
                 <ng-container *ngFor="let lehrerDZ of lehrerZuweisung(rIndex)">
-                  <div id="kuerzelPop" (click)="toggleClick(lehrerDZ,fach,kIndex+1)">
+                  <div id="kuerzelPop" (click)="toggleClick(lehrerDZ,fach,kIndex+1)">  
+                    <ng-container *ngIf="ele.fach!='StartUp'&&ele.fach!='HU'&&ele.fach!='Schiene'||ele.klasse<=8">              
                     {{lehrerDZ.kuerzel }}
+                    </ng-container>
+    
                   </div>
                 </ng-container>
               </ng-template>

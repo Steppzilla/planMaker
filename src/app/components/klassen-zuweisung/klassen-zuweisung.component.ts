@@ -38,10 +38,10 @@ export class KlassenZuweisungComponent implements OnInit {
   grundPlanfaecher;
 
 
-  addieren(e,fa,kl){
-    this.klassenplanServ.elementHinzufuegen(fa,kl);
-    if(e.shiftKey){
-      this.klassenplanServ.elementLoeschen(fa,kl);
+  addieren(e, fa, kl) {
+    this.klassenplanServ.elementHinzufuegen(fa, kl);
+    if (e.shiftKey) {
+      this.klassenplanServ.elementLoeschen(fa, kl);
     }
   }
   mainButtonClick(e, ele) {
@@ -153,196 +153,244 @@ export class KlassenZuweisungComponent implements OnInit {
     return liste;
   }
 
-  epocheSchieneRhythmusBefuellen() {
-    let neun = this.grundPlanfaecher.filter((element) => (element != null && element.klasse == Lehrjahr.neun));
-    let zehn = this.grundPlanfaecher.filter((element) => (element != null && element.klasse == Lehrjahr.zehn));
-    let elf = this.grundPlanfaecher.filter((element) => (element != null && element.klasse == Lehrjahr.elf));
-    let zwoelf = this.grundPlanfaecher.filter((element) => (element != null && element.klasse == Lehrjahr.zwoelf));
+  esrFuellen(esr, fach, klasse) { //geht nur von neun bis zwölf
 
-
-    let neunHU = neun.filter(element => element.epoche >= 1);
-    let neunS = neun.filter(element => element.schiene >= 1);
-    let neunR = neun.filter(element => element.rhythmus >= 1);
-
-    let zehnHU = zehn.filter(element => element.epoche >= 1);
-    let zehnS = zehn.filter(element => element.schiene >= 1);
-    let zehnR = zehn.filter(element => element.rhythmus >= 1);
-
-    let elfHU = elf.filter(element => element.epoche >= 1);
-    let elfS = elf.filter(element => element.schiene >= 1);
-    let elfR = elf.filter(element => element.rhythmus >= 1);
-
-    let zwoelfHU = zwoelf.filter(element => element.epoche >= 1);
-    let zwoelfS = zwoelf.filter(element => element.schiene >= 1);
-    let zwoelfR = zwoelf.filter(element => element.rhythmus >= 1);
-
+    let klassenElemente = this.grundPlanfaecher.filter((element) => (element != null && element.klasse == klasse)); //Alle klasse 9 zb.
+    let hu = klassenElemente.filter(element => element[esr] >= 1); //esr muss epoche schiene oder rhythmus sein //Alle mit z.b.epochenzuweisung
+    console.log(hu);
 
     this.grundPlanfaecher.forEach((element, e) => {
       if (element != null) {
-        if (element.klasse == Lehrjahr.neun && element.fach == Fach.hauptunterricht) {
+        if (element.klasse == klasse && element.fach == fach) { //erst: 9. klasse Hauptunterricht
+         // console.log(element);
           element.lehrer = [];
-          let gleich = false;
-          neunHU.forEach(el => {
-            gleich = false;
-            element.lehrer.forEach(le => {
-              if (le.kuerzel == el.lehrer[0].kuerzel) {
-                gleich = true;
-              } else {}
-            });
-            if (gleich == false) {
+          hu.forEach(el => {
+            if(el[esr]>=1){
+              element.lehrer.push(el.lehrer[0]);
+            }
+            if(el[esr]>=2){
+              element.lehrer.push(el.lehrer[0]);
+            }
+            if(el[esr]>=3){
               element.lehrer.push(el.lehrer[0]);
             }
           });
-        } else if (element.klasse == Lehrjahr.neun && element.fach == Fach.schiene) {
-          element.lehrer = [];
-          let gleich = false;
-          neunS.forEach(el => {
-            gleich = false;
-            element.lehrer.forEach(le => {
-              if (le.kuerzel == el.lehrer[0].kuerzel) {
-                gleich = true;
-              } else {}
-            });
-            if (gleich == false) {
-              element.lehrer.push(el.lehrer[0]);
-            }
-          });
-        } else if (element.klasse == Lehrjahr.neun && element.fach == Fach.rhythmisch) {
-          element.lehrer = [];
-          let gleich = false;
-          neunR.forEach(el => {
-            gleich = false;
-            element.lehrer.forEach(le => {
-              if (le.kuerzel == el.lehrer[0].kuerzel) {
-                gleich = true;
-              } else {}
-            });
-            if (gleich == false) {
-              element.lehrer.push(el.lehrer[0]);
-            }
-          });
-        } else if (element.klasse == Lehrjahr.zehn && element.fach == Fach.hauptunterricht) {
-          element.lehrer = [];
-          let gleich = false;
-          zehnHU.forEach(el => {
-            gleich = false;
-            element.lehrer.forEach(le => {
-              if (le.kuerzel == el.lehrer[0].kuerzel) {
-                gleich = true;
-              } else {}
-            });
-            if (gleich == false) {
-              element.lehrer.push(el.lehrer[0]);
-            }
-          });
-        } else if (element.klasse == Lehrjahr.zehn && element.fach == Fach.schiene) {
-          element.lehrer = [];
-          let gleich = false;
-          zehnS.forEach(el => {
-            gleich = false;
-            element.lehrer.forEach(le => {
-              if (el.lehrer[0]!=null&&(le.kuerzel == el.lehrer[0].kuerzel)) {
-                gleich = true;
-              } else {}
-            });
-            if (gleich == false) {
-              element.lehrer.push(el.lehrer[0]);
-            }
-          });
-        } else if (element.klasse == Lehrjahr.zehn && element.fach == Fach.rhythmisch) {
-          element.lehrer = [];
-          let gleich=false;
-          zehnR.forEach(el => {
-            gleich = false;
-            element.lehrer.forEach(le => {
-              if (le.kuerzel == el.lehrer[0].kuerzel) {
-                gleich = true;
-              } else {}
-            });
-            if (gleich == false) {
-              element.lehrer.push(el.lehrer[0]);
-            }          });
-        } else if (element.klasse == Lehrjahr.elf && element.fach == Fach.hauptunterricht) {
-          element.lehrer = [];
-          let gleich=false;
-          elfHU.forEach(el => {
-            gleich = false;
-            element.lehrer.forEach(le => {
-              if (le.kuerzel == el.lehrer[0].kuerzel) {
-                gleich = true;
-              } else {}
-            });
-            if (gleich == false) {
-              element.lehrer.push(el.lehrer[0]);
-            }          });
-        } else if (element.klasse == Lehrjahr.elf && element.fach == Fach.schiene) {
-          element.lehrer = [];
-          let gleich=false;
-          elfS.forEach(el => {
-            gleich = false;
-            element.lehrer.forEach(le => {
-              if (le.kuerzel == el.lehrer[0].kuerzel) {
-                gleich = true;
-              } else {}
-            });
-            if (gleich == false) {
-              element.lehrer.push(el.lehrer[0]);
-            }          });
-        } else if (element.klasse == Lehrjahr.elf && element.fach == Fach.rhythmisch) {
-          element.lehrer = [];
-          let gleich=false;
-          elfR.forEach(el => {
-            gleich = false;
-            element.lehrer.forEach(le => {
-              if (le.kuerzel == el.lehrer[0].kuerzel) {
-                gleich = true;
-              } else {}
-            });
-            if (gleich == false) {
-              element.lehrer.push(el.lehrer[0]);
-            }          });
-        } else if (element.klasse == Lehrjahr.zwoelf && element.fach == Fach.hauptunterricht) {
-          element.lehrer = [];
-          let gleich=false;
-          zwoelfHU.forEach(el => {
-            gleich = false;
-            element.lehrer.forEach(le => {
-              if (le.kuerzel == el.lehrer[0].kuerzel) {
-                gleich = true;
-              } else {}
-            });
-            if (gleich == false) {
-              element.lehrer.push(el.lehrer[0]);
-            }          });
-        } else if (element.klasse == Lehrjahr.zwoelf && element.fach == Fach.schiene) {
-          element.lehrer = [];
-          let gleich=false;
-          zwoelfS.forEach(el => {
-            gleich = false;
-            element.lehrer.forEach(le => {
-              if (le.kuerzel == el.lehrer[0].kuerzel) {
-                gleich = true;
-              } else {}
-            });
-            if (gleich == false) {
-              element.lehrer.push(el.lehrer[0]);
-            }          });
-        } else if (element.klasse == Lehrjahr.zwoelf && element.fach == Fach.rhythmisch) {
-          element.lehrer = [];
-          let gleich=false;
-          zwoelfR.forEach(el => {
-            gleich = false;
-            element.lehrer.forEach(le => {
-              if (le.kuerzel == el.lehrer[0].kuerzel) {
-                gleich = true;
-              } else {}
-            });
-            if (gleich == false) {
-              element.lehrer.push(el.lehrer[0]);
-            }          });
         }
       }
+
     });
+  }
+
+  epocheSchieneRhythmusBefuellen() {
+    this.esrFuellen("epoche", Fach.hauptunterricht, Lehrjahr.neun);
+      this.esrFuellen("rhythmus", Fach.rhythmisch, Lehrjahr.neun);
+      this.esrFuellen("schiene", Fach.schiene, Lehrjahr.neun);
+      this.esrFuellen("epoche", Fach.hauptunterricht, Lehrjahr.zehn);
+      this.esrFuellen("rhythmus", Fach.rhythmisch, Lehrjahr.zehn);
+      this.esrFuellen("schiene", Fach.schiene, Lehrjahr.zehn);
+      this.esrFuellen("epoche", Fach.hauptunterricht, Lehrjahr.elf);
+      this.esrFuellen("rhythmus", Fach.rhythmisch, Lehrjahr.elf);
+      this.esrFuellen("schiene", Fach.schiene, Lehrjahr.elf);
+      this.esrFuellen("epoche", Fach.hauptunterricht, Lehrjahr.zwoelf);
+      this.esrFuellen("rhythmus", Fach.rhythmisch, Lehrjahr.zwoelf);
+      this.esrFuellen("schiene", Fach.schiene, Lehrjahr.zwoelf);
+    /*  let neun = this.grundPlanfaecher.filter((element) => (element != null && element.klasse == Lehrjahr.neun));
+      let zehn = this.grundPlanfaecher.filter((element) => (element != null && element.klasse == Lehrjahr.zehn));
+      let elf = this.grundPlanfaecher.filter((element) => (element != null && element.klasse == Lehrjahr.elf));
+      let zwoelf = this.grundPlanfaecher.filter((element) => (element != null && element.klasse == Lehrjahr.zwoelf));
+
+
+      let neunHU = neun.filter(element => element.epoche >= 1);
+      let neunS = neun.filter(element => element.schiene >= 1);
+      let neunR = neun.filter(element => element.rhythmus >= 1);
+
+      let zehnHU = zehn.filter(element => element.epoche >= 1);
+      let zehnS = zehn.filter(element => element.schiene >= 1);
+      let zehnR = zehn.filter(element => element.rhythmus >= 1);
+
+      let elfHU = elf.filter(element => element.epoche >= 1);
+      let elfS = elf.filter(element => element.schiene >= 1);
+      let elfR = elf.filter(element => element.rhythmus >= 1);
+
+      let zwoelfHU = zwoelf.filter(element => element.epoche >= 1);
+      let zwoelfS = zwoelf.filter(element => element.schiene >= 1);
+      let zwoelfR = zwoelf.filter(element => element.rhythmus >= 1);
+
+
+      this.grundPlanfaecher.forEach((element, e) => {
+        if (element != null) {
+          if (element.klasse == Lehrjahr.neun && element.fach == Fach.hauptunterricht) {
+            element.lehrer = [];
+            let gleich = false;
+            neunHU.forEach(el => {
+              gleich = false;
+              element.lehrer.forEach(le => {
+                if (le.kuerzel == el.lehrer[0].kuerzel) {
+                  //  gleich = true; /////ich lasse DOPPELTE ZU; damit ich besser die anzahl der epochen bestimmen knan später über html
+                } else {}
+              });
+              if (gleich == false) {
+                element.lehrer.push(el.lehrer[0]);
+              }
+            });
+          } else if (element.klasse == Lehrjahr.neun && element.fach == Fach.schiene) {
+            element.lehrer = [];
+            let gleich = false;
+            neunS.forEach(el => {
+              gleich = false;
+              element.lehrer.forEach(le => {
+                if (le.kuerzel == el.lehrer[0].kuerzel) {
+                  // gleich = true;
+                } else {}
+              });
+              if (gleich == false) {
+                element.lehrer.push(el.lehrer[0]);
+              }
+            });
+          } else if (element.klasse == Lehrjahr.neun && element.fach == Fach.rhythmisch) {
+            element.lehrer = [];
+            let gleich = false;
+            neunR.forEach(el => {
+              gleich = false;
+              element.lehrer.forEach(le => {
+                if (le.kuerzel == el.lehrer[0].kuerzel) {
+                  //   gleich = true;
+                } else {}
+              });
+              if (gleich == false) {
+                element.lehrer.push(el.lehrer[0]);
+              }
+            });
+          } else if (element.klasse == Lehrjahr.zehn && element.fach == Fach.hauptunterricht) {
+            element.lehrer = [];
+            let gleich = false;
+            zehnHU.forEach(el => {
+              gleich = false;
+              element.lehrer.forEach(le => {
+                if (le.kuerzel == el.lehrer[0].kuerzel) {
+                  //   gleich = true;
+                } else {}
+              });
+              if (gleich == false) {
+                element.lehrer.push(el.lehrer[0]);
+              }
+            });
+          } else if (element.klasse == Lehrjahr.zehn && element.fach == Fach.schiene) {
+            element.lehrer = [];
+            let gleich = false;
+            zehnS.forEach(el => {
+              gleich = false;
+              element.lehrer.forEach(le => {
+                if (el.lehrer[0] != null && (le.kuerzel == el.lehrer[0].kuerzel)) {
+                  //     gleich = true;
+                } else {}
+              });
+              if (gleich == false) {
+                element.lehrer.push(el.lehrer[0]);
+              }
+            });
+          } else if (element.klasse == Lehrjahr.zehn && element.fach == Fach.rhythmisch) {
+            element.lehrer = [];
+            let gleich = false;
+            zehnR.forEach(el => {
+              gleich = false;
+              element.lehrer.forEach(le => {
+                if (le.kuerzel == el.lehrer[0].kuerzel) {
+                  //      gleich = true;
+                } else {}
+              });
+              if (gleich == false) {
+                element.lehrer.push(el.lehrer[0]);
+              }
+            });
+          } else if (element.klasse == Lehrjahr.elf && element.fach == Fach.hauptunterricht) {
+            element.lehrer = [];
+            let gleich = false;
+            elfHU.forEach(el => {
+              gleich = false;
+              element.lehrer.forEach(le => {
+                if (le.kuerzel == el.lehrer[0].kuerzel) {
+                  //     gleich = true;
+                } else {}
+              });
+              if (gleich == false) {
+                element.lehrer.push(el.lehrer[0]);
+              }
+            });
+          } else if (element.klasse == Lehrjahr.elf && element.fach == Fach.schiene) {
+            element.lehrer = [];
+            let gleich = false;
+            elfS.forEach(el => {
+              gleich = false;
+              element.lehrer.forEach(le => {
+                if (le.kuerzel == el.lehrer[0].kuerzel) {
+                  //     gleich = true;
+                } else {}
+              });
+              if (gleich == false) {
+                element.lehrer.push(el.lehrer[0]);
+              }
+            });
+          } else if (element.klasse == Lehrjahr.elf && element.fach == Fach.rhythmisch) {
+            element.lehrer = [];
+            let gleich = false;
+            elfR.forEach(el => {
+              gleich = false;
+              element.lehrer.forEach(le => {
+                if (le.kuerzel == el.lehrer[0].kuerzel) {
+                  //     gleich = true;
+                } else {}
+              });
+              if (gleich == false) {
+                element.lehrer.push(el.lehrer[0]);
+              }
+            });
+          } else if (element.klasse == Lehrjahr.zwoelf && element.fach == Fach.hauptunterricht) {
+            element.lehrer = [];
+            let gleich = false;
+            zwoelfHU.forEach(el => {
+              gleich = false;
+              element.lehrer.forEach(le => {
+                if (le.kuerzel == el.lehrer[0].kuerzel) {
+                  //     gleich = true;
+                } else {}
+              });
+              if (gleich == false) {
+                element.lehrer.push(el.lehrer[0]);
+              }
+            });
+          } else if (element.klasse == Lehrjahr.zwoelf && element.fach == Fach.schiene) {
+            element.lehrer = [];
+            let gleich = false;
+            zwoelfS.forEach(el => {
+              gleich = false;
+              element.lehrer.forEach(le => {
+                if (le.kuerzel == el.lehrer[0].kuerzel) {
+                  //      gleich = true;
+                } else {}
+              });
+              if (gleich == false) {
+                element.lehrer.push(el.lehrer[0]);
+              }
+            });
+          } else if (element.klasse == Lehrjahr.zwoelf && element.fach == Fach.rhythmisch) {
+            element.lehrer = [];
+            let gleich = false;
+            zwoelfR.forEach(el => {
+              gleich = false;
+              element.lehrer.forEach(le => {
+                if (le.kuerzel == el.lehrer[0].kuerzel) {
+                  //    gleich = true;
+                } else {}
+              });
+              if (gleich == false) {
+                element.lehrer.push(el.lehrer[0]);
+              }
+            });
+          }
+        }
+      });
+      */
   }
 
 
