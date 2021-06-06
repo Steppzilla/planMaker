@@ -1,0 +1,31 @@
+<p>Lehrer: {{gewaehlterLehrer?gewaehlterLehrer.kuerzel :" "}}</p>
+
+<ng-container *ngIf="gewaehlterLehrer">
+
+  <div class="zeile">
+    <div></div>
+    <div> Mo </div>
+    <div>Di</div>
+    <div> Mi </div>
+    <div> Do </div>
+    <div> Fr </div>
+  </div>
+
+  <div class="zeile" *ngFor="let ho of hoehe; index as std">
+    <div> {{std}}</div>
+    <div *ngFor="let br of breite; index as woTa">
+      <div>     
+          <ng-container *ngFor="let item of zellenElemente(woTa,std); index as l">     
+              <span *ngIf="l==0||(l>0&&zellenElemente(woTa,std)[l-1].fach!=item.fach)">
+                {{   item.fach}}/
+              </span>
+              <span>
+                {{item.klasse}}
+              </span>
+            </ng-container> 
+      </div>
+    </div>
+                
+  </div>
+
+</ng-container>

@@ -309,6 +309,11 @@ export class FerientermineService {
       case 0:        return "So";      case 1:        return "Mo";      case 2:        return "Di";      case 3:        return "Mi";
       case 4:        return "Do";      case 5:        return "Fr";      case 6:        return "Sa";    }  }
 
+      zahlZuString(zahl) {
+        switch (zahl) {
+          case 0:        return "Mo";      case 1:        return "Di";      case 2:        return "Mi";      case 3:        return "Do";
+          case 4:        return "Fr";      case 5:        return "Sa";      case 6:        return "So";    }  }
+
   monatZuString(tag: Date) {    switch (tag.getMonth()) {      case 0:        return "Jan";      case 1:        return "Feb";      case 2:        return "März";
       case 3:        return "April";      case 4:        return "Mai";      case 5:        return "Juni";      case 6:        return "Juli";
       case 7:        return "August";      case 8:        return "September";      case 9:        return "Oktober";      case 10:        return "November";

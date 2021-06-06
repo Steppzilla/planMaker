@@ -2,6 +2,7 @@ import {
   Component,
   OnInit
 } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import {
   Lehrjahr
 } from 'src/app/enums/lehrjahr.enum';
@@ -41,6 +42,9 @@ export class GesamtuebersichtComponent implements OnInit {
   buttontext = "einblenden";
   selectLehrer: Lehrer;
 
+  lehrerSelected=new BehaviorSubject(null);
+  lehrerSelected$=this.lehrerSelected.asObservable();
+
   klassen = Object.values(Lehrjahr);
 
   wochentagWahl(x: string) {
@@ -76,6 +80,7 @@ export class GesamtuebersichtComponent implements OnInit {
 
   lehrerwahl(lehrerNR) { //Blaumarkierung der gewählten lehrer
     this.selectLehrer = this.lehrerService.lehrer[lehrerNR]; //locale Variable
+    this.lehrerSelected.next(this.lehrerService.lehrer[lehrerNR]);
   }
 
   marked(lehr){

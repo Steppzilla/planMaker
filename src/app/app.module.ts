@@ -13,6 +13,7 @@ import { ErstesElementPipe } from './pipe/erstes-element.pipe';
 import { StartComponent } from './components/start/start.component';
 import { LehrerListeComponent } from './components/lehrer-liste/lehrer-liste.component';
 import { EsrPlanComponent } from './components/esr-plan/esr-plan.component';
+import { StundenplanComponent } from './components/gesamtuebersicht/stundenplan/stundenplan.component';
 
 const config = {
   //apiKey: '<your-key>',
@@ -33,7 +34,8 @@ const config = {
     ErstesElementPipe,
     StartComponent,
     LehrerListeComponent,
-    EsrPlanComponent
+    EsrPlanComponent,
+    StundenplanComponent
   ],
   imports: [
     BrowserModule,

@@ -39,13 +39,24 @@
                   <ng-container *ngIf="a.wochentag==wochenTagauswahl&&a.stunde==std&&element.klasse==r">
                     <div>
                       {{element.fach}}
-                      <ng-container *ngIf="element.fach!='StartUp'&&element.fach!='HU'&&element.fach!='Schiene'">
+                      <ng-container *ngIf="element.fach!='StartUp'&&element.fach!='HU'&&element.fach!='Schiene'; else ESR">
                         <ng-container *ngFor="let lehr of element.lehrer">
                           <span class=" {{marked(lehr)}} {{duplicates(lehr ,std)}}">
                             {{lehr.kuerzel }}
                           </span>
                         </ng-container>
                       </ng-container>
+                      <ng-template #ESR>
+                        <ng-container *ngFor="let lehr of element.lehrer">
+
+                          <span class=" {{marked(lehr)}} {{duplicates(lehr ,std)}}">
+                            <ng-container *ngIf="marked(lehr)=='blueback'">
+                            {{lehr.kuerzel }}
+                          </ng-container>
+                          </span>
+                        </ng-container>
+
+                      </ng-template>
                     </div>
                   </ng-container>
                 </ng-container>
@@ -87,6 +98,7 @@
 
 
 </div>
+<app-stundenplan></app-stundenplan>
 <!--
    
 -->
