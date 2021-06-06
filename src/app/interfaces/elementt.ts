@@ -20,6 +20,9 @@ export interface Elementt {
             rhythmus:  Array<{start:Date,ende:Date}>,
             epoche: Array<{start:Date,ende:Date}>,
             schiene: Array<{start:Date,ende:Date}>,
+            uebBeh?: Array<number>,
+            epoBeh?: Array<number>,
+            schBeh?: Array<number>,
         }; //Start-Ende, Start-Ende etc
     berechnung?: number;
 }

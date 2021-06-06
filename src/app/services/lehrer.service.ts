@@ -28,7 +28,7 @@ export class LehrerService {
           listeLehrerNachFach.forEach((item, i) => {
             if (item.fach == fach.toString()) {
               listeLehrerNachFach[i].lehrer.push(person);
-            } else {}
+            }else{}
           });
         });
       }
@@ -54,7 +54,7 @@ export class LehrerService {
       name: 'Clement',
       kuerzel: 'Cle',
       anrede: "Frau",
-      faecher: [Fach.handarbeit, Fach.biologie],
+      faecher: [Fach.handarbeit, Fach.hgw, Fach.biologie],
       aufgaben: ["Handarbeitsraum"],
     },
     {
@@ -73,7 +73,7 @@ export class LehrerService {
       name: 'Corsten',
       kuerzel: 'Co',
       anrede: "Frau",
-      faecher: [Fach.hauptunterricht, Fach.musik, Fach.uebstunde]
+      faecher: [Fach.hauptunterricht, Fach.musik, Fach.uebstunde, Fach.wochenabschluss]
     },
     // { id: 3, name: 'Dittmann', kuerzel: 'Dit', anrede: "Frau", facher:  },
     {
@@ -95,7 +95,7 @@ export class LehrerService {
       name: 'Funke',
       kuerzel: 'Fun',
       anrede: "Frau",
-      faecher: [Fach.gartenbau],
+      faecher: [Fach.gartenbau, Fach.hgw],
     },
     {
       name: 'Gretsch',
@@ -139,14 +139,14 @@ export class LehrerService {
       name: 'Keyifci',
       kuerzel: 'Ke',
       anrede: "Frau",
-      faecher: [Fach.hauptunterricht, Fach.englisch, Fach.uebstunde, Fach.eurythmie],
+      faecher: [Fach.hauptunterricht, Fach.englisch, Fach.uebstunde, Fach.wochenabschluss,Fach.eurythmie],
 
     },
     {
       name: 'Loth',
       kuerzel: 'Lo',
       anrede: "Frau",
-      faecher: [Fach.deutsch, Fach.plastizieren, Fach.klassenbetreuer, Fach.geschichte, Fach.kunstgeschichte],
+      faecher: [Fach.deutsch, Fach.wahlpflicht, Fach.plastizieren, Fach.klassenbetreuer, Fach.geschichte, Fach.kunstgeschichte],
     },
     // { id: 15, name: 'Luley', kuerzel: 'Lu', anrede: "Frau"  , faecher: [Fac]},
     {
@@ -160,7 +160,7 @@ export class LehrerService {
       name: 'Nüßgen-Langbehn',
       kuerzel: 'Lb',
       anrede: "Frau",
-      faecher: [Fach.biologie, Fach.weben, Fach.handarbeit],
+      faecher: [Fach.biologie, Fach.weben, Fach.handarbeit, Fach.wahlpflicht],
     },
 
     {
@@ -191,7 +191,7 @@ export class LehrerService {
       name: 'Rosemann-Poch',
       kuerzel: 'RoP',
       anrede: "Herr",
-      faecher: [Fach.werken, Fach.klassenbetreuer],
+      faecher: [Fach.werken, Fach.hgw,Fach.klassenbetreuer],
     },
     {
       name: 'Santa',
@@ -250,7 +250,7 @@ export class LehrerService {
       name: 'Waligorski-Sell',
       kuerzel: 'Wa',
       anrede: "Frau",
-      faecher: [Fach.hauptunterricht, Fach.religion, Fach.uebstunde, Fach.spielturnen, Fach.griechisch, Fach.latein],
+      faecher: [Fach.hauptunterricht,Fach.wochenabschluss, Fach.religion, Fach.uebstunde, Fach.spielturnen, Fach.griechisch, Fach.latein],
     },
 
     {

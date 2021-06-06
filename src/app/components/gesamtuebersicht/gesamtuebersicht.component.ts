@@ -47,6 +47,30 @@ export class GesamtuebersichtComponent implements OnInit {
 
   klassen = Object.values(Lehrjahr);
 
+  wochenStundenBerechnen(){
+   // this.klassenplanServ.berechnung(); 
+  }
+  berechnungAktuelleStunden(elementt){
+     return this.klassenplanServ.berechnung(elementt);
+  }
+
+
+  zellenInhalt(klas,std){
+    let inhalt=[];
+    this.grundPlanfaecher.forEach(element=>{
+      if(element&&element.zuweisung&&element.zuweisung.uebstunde){
+        element.zuweisung.uebstunde.forEach(woStd=>{
+          
+          if(woStd.wochentag==this.wochenTagauswahl&&woStd.stunde==std&&element.klasse==klas){
+            inhalt.push(element);
+        }
+        });
+      }
+    });
+   // console.log(inhalt);
+    return inhalt;
+  }
+
   wochentagWahl(x: string) {
     this.wochenTagauswahl = x;
   }
@@ -97,6 +121,7 @@ export class GesamtuebersichtComponent implements OnInit {
       if(element!=null&&element.fach==clickedElementt.fach&&element.klasse==clickedElementt.klasse&& (element.uebstunde > 0)&&element.lehrer[0].kuerzel==clickedElementt.lehrer[0].kuerzel){ 
         
         element.zuweisung.uebstunde.push({wochentag:this.wochenTagauswahl,stunde: stdZ});
+        //bei HGW auch die einzelnen Fächer hochzählen
       }
     });
     this.klassenplanServ.grundPlanfaecher.next(neu);

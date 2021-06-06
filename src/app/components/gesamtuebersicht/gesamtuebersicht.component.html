@@ -15,10 +15,13 @@
     <button (click)="wochentagWahl('Montag')">Montag</button>
     <button (click)="wochentagWahl('Dienstag')">Dienstag</button>
     <button (click)="wochentagWahl('Mittwoch')">Mittwoch</button>
-    <Button (click)="wochentagWahl('Donnerstag')">Donnerstag</Button>
+    <button (click)="wochentagWahl('Donnerstag')">Donnerstag</button>
     <button (click)="wochentagWahl('Freitag')"> Freitag</button>
   </div>
 
+  <button (click)="wochenStundenBerechnen()">
+ S-Wochenstunden berechnen
+  </button>
   <h2>{{wochenTagauswahl}}</h2>
   <div id="tabelle">
 
@@ -33,35 +36,31 @@
             <ng-container *ngIf="r==0">
               {{ zelle}}
             </ng-container>
-            <div *ngFor="let element of grundPlanfaecher">
-              <ng-container *ngIf="element&&element.zuweisung&&element.zuweisung.uebstunde">
-                <ng-container *ngFor="let a of element.zuweisung.uebstunde">
-                  <ng-container *ngIf="a.wochentag==wochenTagauswahl&&a.stunde==std&&element.klasse==r">
-                    <div>
-                      {{element.fach}}
-                      <ng-container *ngIf="element.fach!='StartUp'&&element.fach!='HU'&&element.fach!='Schiene'; else ESR">
-                        <ng-container *ngFor="let lehr of element.lehrer">
-                          <span class=" {{marked(lehr)}} {{duplicates(lehr ,std)}}">
-                            {{lehr.kuerzel }}
-                          </span>
-                        </ng-container>
-                      </ng-container>
-                      <ng-template #ESR>
-                        <ng-container *ngFor="let lehr of element.lehrer">
-
-                          <span class=" {{marked(lehr)}} {{duplicates(lehr ,std)}}">
-                            <ng-container *ngIf="marked(lehr)=='blueback'">
-                            {{lehr.kuerzel }}
-                          </ng-container>
-                          </span>
-                        </ng-container>
-
-                      </ng-template>
-                    </div>
-                  </ng-container>
+            <div *ngFor="let ele of zellenInhalt(r,std);index as i">
+              <ng-container *ngIf="i==0||(i>0&&ele.fach!=zellenInhalt(r,std)[i-1].fach)">
+                {{ ele.fach}}
+              </ng-container>
+              <ng-container *ngIf="ele.fach!='StartUp'&&ele.fach!='HU'&&ele.fach!='Schiene'; else ESR">
+                <ng-container *ngFor="let lehr of ele.lehrer">
+                  <span class=" {{marked(lehr)}} {{duplicates(lehr ,std)}}">
+                    {{lehr.kuerzel }}
+                  </span>
                 </ng-container>
               </ng-container>
+              <ng-template #ESR>
+                <ng-container *ngFor="let lehr of ele.lehrer">
+                  <span class=" {{marked(lehr)}} {{duplicates(lehr ,std)}}">
+                    <ng-container *ngIf="marked(lehr)=='blueback'">
+                      {{lehr.kuerzel }}
+                    </ng-container>
+                  </span>
+                </ng-container>
+              </ng-template>
             </div>
+
+
+
+
 
             <ng-template #Lehrer>
               <ng-container *ngFor="let elementt of tabellensortierung(r) index as stundenI">
@@ -73,17 +72,22 @@
                     {{elementt?elementt.uebstunde:"no"}}
                   </div>
                   <div class="toggle-items ok">
-                    <ng-container *ngIf="elementt.uebstunde-elementt.zuweisung.uebstunde.length==0; else NICHGLEICH">
+                    <ng-container *ngIf="elementt.uebstunde-berechnungAktuelleStunden(elementt)==0; else NICHGLEICH">
                       <div class="gruen">
-                        {{elementt?elementt.zuweisung.uebstunde.length: "no"}}
+                        {{elementt?berechnungAktuelleStunden(elementt): "höö"}}
                       </div>
                     </ng-container>
                     <ng-template #NICHGLEICH>
-                      {{elementt?elementt.zuweisung.uebstunde.length: "no"}}
+                      {{elementt?berechnungAktuelleStunden(elementt): "no"}}
                     </ng-template>
                   </div>
-                  <div class="toggle-items" *ngIf="elementt.lehrer[0]">
-                    {{elementt.lehrer?elementt.lehrer[0].kuerzel:"Lehrer"}}
+                  <div class="toggle-items">
+                    <ng-container *ngIf="elementt.fach!='StartUp'&&elementt.fach!='HU'&&elementt.fach!='Schiene'">
+
+                    <ng-container *ngFor="let le of elementt.lehrer">
+                      {{le?le.kuerzel:"Lehrer"}}
+                    </ng-container>
+                    </ng-container>
                   </div>
                 </div>
               </ng-container>
