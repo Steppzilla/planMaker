@@ -49,7 +49,7 @@ export class KlassenFaecherService {
 
     [Fach.hauptunterricht, [Lehrjahr.eins, Lehrjahr.zwei, Lehrjahr.drei, Lehrjahr.vier, Lehrjahr.fuenf,
       Lehrjahr.sechs, Lehrjahr.sieben, Lehrjahr.acht, Lehrjahr.neun,
-      Lehrjahr.zehn, Lehrjahr.elf, Lehrjahr.zwoelf, Lehrjahr.dreizehn    ], 10],
+      Lehrjahr.zehn, Lehrjahr.elf, Lehrjahr.zwoelf   ], 10],
 
     [Fach.schiene, [Lehrjahr.neun, Lehrjahr.zehn], 8],
     [Fach.schiene, [Lehrjahr.elf, Lehrjahr.zwoelf], 6],
@@ -63,19 +63,19 @@ export class KlassenFaecherService {
 
     [Fach.deutsch, [Lehrjahr.neun, Lehrjahr.zehn, Lehrjahr.elf, Lehrjahr.zwoelf, Lehrjahr.dreizehn], 4],
     [Fach.mathematik, [Lehrjahr.neun, Lehrjahr.zehn, Lehrjahr.elf, Lehrjahr.zwoelf, Lehrjahr.dreizehn], 4],
-    [Fach.physik, [Lehrjahr.neun, Lehrjahr.zehn, Lehrjahr.elf, Lehrjahr.zwoelf, Lehrjahr.dreizehn], 1],
-    [Fach.chemie, [Lehrjahr.neun, Lehrjahr.zehn, Lehrjahr.elf, Lehrjahr.zwoelf, Lehrjahr.dreizehn], 1],
+    [Fach.physik, [Lehrjahr.neun, Lehrjahr.zehn, Lehrjahr.elf, Lehrjahr.zwoelf], 1],
+    [Fach.chemie, [Lehrjahr.neun, Lehrjahr.zehn, Lehrjahr.elf, Lehrjahr.zwoelf], 1],
     [Fach.kunstgeschichte, [Lehrjahr.neun, Lehrjahr.zwoelf], 1],
     [Fach.geschichte, [Lehrjahr.neun, Lehrjahr.zehn, Lehrjahr.elf, Lehrjahr.zwoelf, Lehrjahr.dreizehn], 2],
     [Fach.biologie, [Lehrjahr.neun, Lehrjahr.zehn, Lehrjahr.elf, Lehrjahr.zwoelf, Lehrjahr.dreizehn], 1],
     [Fach.klassenbetreuer, [Lehrjahr.neun, Lehrjahr.zehn, Lehrjahr.elf, Lehrjahr.zwoelf, Lehrjahr.dreizehn], 1],
 
-    [Fach.schmieden, [Lehrjahr.neun, Lehrjahr.zehn, Lehrjahr.elf, Lehrjahr.zwoelf, Lehrjahr.dreizehn], 1],
-    [Fach.weben, [Lehrjahr.neun, Lehrjahr.zehn, Lehrjahr.elf, Lehrjahr.zwoelf, Lehrjahr.dreizehn], 1],
-    [Fach.plastizieren, [Lehrjahr.neun, Lehrjahr.zehn, Lehrjahr.elf, Lehrjahr.zwoelf, Lehrjahr.dreizehn], 1],
-    [Fach.kunst, [Lehrjahr.neun, Lehrjahr.zehn, Lehrjahr.elf, Lehrjahr.zwoelf, Lehrjahr.dreizehn], 1],
+    [Fach.schmieden, [Lehrjahr.neun, Lehrjahr.zehn], 1],
+    [Fach.weben, [Lehrjahr.neun, Lehrjahr.zehn, Lehrjahr.elf, Lehrjahr.zwoelf], 1],
+    [Fach.plastizieren, [Lehrjahr.neun, Lehrjahr.zehn, Lehrjahr.elf, Lehrjahr.zwoelf], 1],
+    [Fach.kunst, [Lehrjahr.neun, Lehrjahr.zehn, Lehrjahr.elf, Lehrjahr.zwoelf], 1],
 
-    [Fach.chor, [Lehrjahr.neun, Lehrjahr.zehn, Lehrjahr.elf, Lehrjahr.zwoelf, Lehrjahr.dreizehn], 1],
+    [Fach.chor, [Lehrjahr.neun, Lehrjahr.zehn, Lehrjahr.elf, Lehrjahr.zwoelf], 1],
     [Fach.poetik, [Lehrjahr.zehn, Lehrjahr.elf], 1],
     [Fach.geographie, [Lehrjahr.zehn, Lehrjahr.elf, Lehrjahr.zwoelf, Lehrjahr.dreizehn], 1],
     [Fach.programmieren, [Lehrjahr.zehn], 1],

@@ -80,7 +80,7 @@ $colors : #fedc00 0,
 		repeating-radial-gradient(circle at bottom left, $colors),
 		repeating-radial-gradient(circle at bottom right, $colors);
 	background-blend-mode: overlay;
-  height: 100vh;
+  height: 750px;
   display: flex;
   width:100%;
 	
@@ -158,14 +158,15 @@ button:hover {
   padding-top: 0pt;
   padding-bottom: 0pt;
   display: grid;
-  width: 120pt;
-  grid-template-columns: 40% 15% 15% 30%;
+  width: auto;
+  grid-template-columns: 35% 10% 10% 20% 25%;
   border: 1pt solid grey;
 }
 
 .toggle-items {
   font-size: 12pt;
   line-height: 12t;
+  width: 100%;
 
 }
 

@@ -51,7 +51,7 @@ export class StundenplanComponent implements OnInit {
     let neu=[];
     liste.forEach(element => {
       element.lehrer.forEach(leh => {
-        if(leh.kuerzel==this.gewaehlterLehrer.kuerzel){
+        if(leh!=null&&leh.kuerzel==this.gewaehlterLehrer.kuerzel){
           neu.push(element);
         }
       });

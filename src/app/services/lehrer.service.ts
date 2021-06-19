@@ -41,7 +41,8 @@ export class LehrerService {
       name: null,
       kuerzel: null,
       anrede: null,
-      faecher: null
+      faecher: [Fach.hgw,Fach.klassenbetreuer,Fach.kunst,Fach.kunstgeschichte,Fach.latein,Fach.mathematik,Fach.mittag,Fach.mittelstufenorchester,Fach.musik,Fach.musikgeschichte,Fach.null,
+      Fach.physik,Fach.orchester,Fach.eurythmie,Fach.franzoesisch,Fach.englisch,Fach.gartenbau,Fach.geographie,Fach.religion]
     },
     // faecherKlassen: Array<[Fach,Lehrjahr[]]>; //Kompentenzn, können mehr sein als zugewiesen
     {
@@ -67,13 +68,13 @@ export class LehrerService {
       name: 'Claußen',
       kuerzel: 'Cla',
       anrede: "Frau",
-      faecher: [Fach.mathematik, Fach.kunst],
+      faecher: [Fach.mathematik, Fach.kunst,Fach.wahlpflicht],
     },
     {
       name: 'Corsten',
       kuerzel: 'Co',
       anrede: "Frau",
-      faecher: [Fach.hauptunterricht, Fach.musik, Fach.uebstunde, Fach.wochenabschluss]
+      faecher: [Fach.hauptunterricht, Fach.musik, Fach.uebstunde, Fach.wochenabschluss,Fach.chor,Fach.mittelstufenorchester]
     },
     // { id: 3, name: 'Dittmann', kuerzel: 'Dit', anrede: "Frau", facher:  },
     {
@@ -91,12 +92,7 @@ export class LehrerService {
       aufgaben: ["Schulführung"],
     },
     // { id: 6, name: 'Fucke', kuerzel: 'Fu'  , anrede: "Frau" , faecher: [Fach.]},
-    {
-      name: 'Funke',
-      kuerzel: 'Fun',
-      anrede: "Frau",
-      faecher: [Fach.gartenbau, Fach.hgw],
-    },
+  
     {
       name: 'Gretsch',
       kuerzel: 'Gre',
@@ -160,14 +156,14 @@ export class LehrerService {
       name: 'Nüßgen-Langbehn',
       kuerzel: 'Lb',
       anrede: "Frau",
-      faecher: [Fach.biologie, Fach.weben, Fach.handarbeit, Fach.wahlpflicht],
+      faecher: [Fach.biologie, Fach.weben, Fach.handarbeit, Fach.wahlpflicht,Fach.klassenbetreuer],
     },
 
     {
       name: 'Pagallies-Meincke',
       kuerzel: 'PM',
       anrede: "Frau",
-      faecher: [Fach.sport],
+      faecher: [Fach.sport,Fach.klassenbetreuer],
       aufgaben: ["Schulführung"],
 
     },
@@ -175,7 +171,7 @@ export class LehrerService {
       name: 'Pahnke',
       kuerzel: 'Pa',
       anrede: "Herr",
-      faecher: [Fach.musik, Fach.chor, Fach.orchester, Fach.mittelstufenorchester],
+      faecher: [Fach.musik, Fach.chor, Fach.orchester, Fach.mittelstufenorchester,Fach.musikgeschichte],
 
     },
     //{ id: 18, name: 'Piaskowski', kuerzel: 'FPi', anrede: "Frau", faecher: [Fach]  },
@@ -197,14 +193,14 @@ export class LehrerService {
       name: 'Santa',
       kuerzel: 'San',
       anrede: "Frau",
-      faecher: [Fach.musik, Fach.franzoesisch, Fach.chor, Fach.orchester, Fach.mittelstufenorchester],
+      faecher: [Fach.musik, Fach.franzoesisch, Fach.chor, Fach.orchester, Fach.mittelstufenorchester,Fach.musikgeschichte],
 
     },
     {
       name: 'Scheunemann',
       kuerzel: 'Sc',
       anrede: "Herr",
-      faecher: [Fach.musik, Fach.wirtschaftspolitik, Fach.chor, Fach.orchester, Fach.mittelstufenorchester],
+      faecher: [Fach.musik, Fach.wirtschaftspolitik, Fach.chor, Fach.orchester, Fach.mittelstufenorchester,Fach.musikgeschichte],
       aufgaben: ["Stundenplan"],
 
     },
@@ -227,7 +223,7 @@ export class LehrerService {
       name: 'Sommer',
       kuerzel: 'So',
       anrede: "Frau",
-      faecher: [Fach.englisch],
+      faecher: [Fach.englisch,Fach.klassenbetreuer],
       aufgaben: ["Prüfungen ESA/MSA"],
     },
     {
@@ -242,7 +238,7 @@ export class LehrerService {
       name: 'Stuchlik',
       kuerzel: 'Stk',
       anrede: "Herr",
-      faecher: [Fach.hauptunterricht, Fach.musik, Fach.uebstunde, Fach.mittelstufenorchester, Fach.computer],
+      faecher: [Fach.hauptunterricht, Fach.musik, Fach.uebstunde, Fach.mittelstufenorchester, Fach.computer,Fach.wochenabschluss],
       aufgaben: ["Stundenplan-Vertretung", "Schulplattform-Admin"],
 
     },
@@ -257,14 +253,14 @@ export class LehrerService {
       name: 'Wohlers',
       kuerzel: 'Wo',
       anrede: "Frau",
-      faecher: [Fach.musik, Fach.mathematik, Fach.programmieren],
+      faecher: [Fach.musik, Fach.mathematik, Fach.programmieren,Fach.musikgeschichte],
       aufgaben: ["Schüler-Computerraum", "Schulplattform-Admin", "Digitalpakt-Ansprechpartner"]
     },
     {
       name: 'Zenker',
       kuerzel: 'Ze',
       anrede: "Frau",
-      faecher: [Fach.franzoesisch, Fach.kunst],
+      faecher: [Fach.franzoesisch, Fach.kunst,Fach.klassenbetreuer],
 
     },
     {
@@ -287,13 +283,38 @@ export class LehrerService {
       anrede: "Frau",
       faecher: [Fach.handarbeit, Fach.hauptunterricht],
     },
+   
     {
       name: 'Piaskowski',
       kuerzel: 'Pi',
       anrede: "Herr",
       faecher: [Fach.sport],
+    },
+
+    {
+      name: 'Duhm',
+      kuerzel: 'Du',
+      anrede: "Herr",
+      faecher: [Fach.gartenbau,Fach.biologie,Fach.hgw],
 
     },
+
+    {
+      name: 'Rathsack',
+      kuerzel: 'Ra',
+      anrede: "Herr",
+      faecher: [Fach.biologie,Fach.chemie],
+
+    },
+    {
+      name: 'Hinrich-Bünze',
+      kuerzel: 'HB',
+      anrede: "Frau",
+      faecher: [Fach.englisch],
+
+    },
+
+ 
   ];
 
 

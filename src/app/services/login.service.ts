@@ -7,10 +7,7 @@ import {
 import {
   AngularFirestore
 } from '@angular/fire/firestore';
-import {
-  BehaviorSubject,
-  Observable
-} from 'rxjs';
+
 import {
   Elementt
 } from '../interfaces/elementt';
@@ -30,47 +27,33 @@ import {
 })
 export class LoginService {
   store: AngularFirestore; //db
-  plaene; //firebase-plan?
 
-  stundenLehrerArray = new BehaviorSubject(null);
-  stundenLehrerArray$ = this.stundenLehrerArray.asObservable();
-  // grundPlanfaecher: Array < Elementt > ;
-
-  saveAll() {
+  saveAll(version) {
+    // debugger;
     let y = btoa(JSON.stringify(this.klassenPlanServ.grundPlanfaecher.getValue()));
-
-    this.store.collection('plaene').doc('/' + 'gesamtplaene').update({ //Gesamtaufteilung Array<Elementt>
-      stundenAufteilung: y
-    }).then(() => {
-      console.log('saved');
-    }).catch(function (error) {
-      console.log("Aufteilung/Grundplan wurde nicht gespeichert");
-      console.error(error);
-    });
-
     //Schiene, Epoche, Rhythmus in einer datei:
     let z = btoa(JSON.stringify(this.epochenPlanServ.esr_plan.getValue()));
-    //console.log(JSON.parse(atob(z))); //DDATUM wird zu Strings
-    this.store.collection('plaene').doc('/' + 'gesamtplaene').update({ //Gesamtaufteilung Array<Elementt>
-      esr_plan: z
+
+    let plan = this.store.collection('plaene').doc("gesamtplaene" + version);
+    plan.set({ //Gesamtaufteilung Array<Elementt>
+      stundenElemente: y,
+      esrPlan: z,
     }).then(() => {
-      console.log('saved esr');
+      console.log('saved'+version);
     }).catch(function (error) {
-      console.log("esr wurde nicht gespeichert");
+      console.log("1 nicht gespeichert");
       console.error(error);
     });
   }
 
   //Stundenraster montag dienstag etc aus planmaker wird gesetzt: //und im Lehrerservice aktuelles Raster/behavioural
-  gesamtPlanLaden() {
+  gesamtPlanLaden(zahl) {
     let stundenAufteilungJSO: Array < Elementt > ;
     //Epochenpläne + Schiene
-    this.plaene.subscribe((plaene) => { //in Firebase heißt der Ordner plaene. das erste Element [0] ist "gesamtplaene", darin sind die pläne:
-      stundenAufteilungJSO = JSON.parse(atob(plaene[0].stundenAufteilung));
-
-
-
-      let esrJSO = JSON.parse(atob(plaene[0].esr_plan)); //Datum teile sind alle Strings..
+    this.store.collection('plaene').doc("gesamtplaene" + zahl).valueChanges().subscribe((plaene) => { //in Firebase heißt der Ordner plaene. das erste Element [0] ist "gesamtplaene", darin sind die pläne:   
+      stundenAufteilungJSO = JSON.parse(atob(plaene["stundenElemente"]));
+      //   console.log(stundenAufteilungJSO);
+      let esrJSO = JSON.parse(atob(plaene["esrPlan"])); //Datum teile sind alle Strings..
       esrJSO.forEach(element => {
         let date = new Date(element.tag);
         element.tag = date;
@@ -78,20 +61,20 @@ export class LoginService {
       });
       this.epochenPlanServ.esr_plan.next(esrJSO);
       //in Elementt auch datum strings wieder in datum umwandeln:
-      stundenAufteilungJSO.forEach((el,ei)=>{
-        if(el==null){
-          stundenAufteilungJSO.splice(ei,1);
-        }else{
-        ["epoche", "schiene", "rhythmus"].forEach(plan=>{
+      stundenAufteilungJSO.forEach((el, ei) => {
+        if (el == null) {
+          stundenAufteilungJSO.splice(ei, 1);
+        } else {
+          ["epoche", "schiene", "rhythmus"].forEach(plan => {
 
-        el.zuweisung[plan].forEach(startEnde => {
-          let datum=new Date(startEnde.start);
-          startEnde.start=datum;
-          datum=new Date(startEnde.ende);
-          startEnde.ende=datum;
-        });
-        });
-      }
+            el.zuweisung[plan].forEach(startEnde => {
+              let datum = new Date(startEnde.start);
+              startEnde.start = datum;
+              datum = new Date(startEnde.ende);
+              startEnde.ende = datum;
+            });
+          });
+        }
       });
 
       this.klassenPlanServ.grundPlanfaecher.next(stundenAufteilungJSO); //opt: .concat(ele) um Element hinzuzufügen beim Load der Daten
@@ -142,7 +125,6 @@ export class LoginService {
   }
 
   constructor(db: AngularFirestore, public auth: AngularFireAuth, public epochenPlanServ: EpochenPlaeneService, public lehrerService: LehrerService, public klassenPlanServ: KlassenplaeneService) {
-    this.store = db; //hier speichere ich die ganze angularfirestore dings
-    this.plaene = db.collection('plaene').valueChanges(); //items ist firestore-collection name
+    this.store = db; //hier speichere ich die ganze angularfirestore dings 
   }
 }

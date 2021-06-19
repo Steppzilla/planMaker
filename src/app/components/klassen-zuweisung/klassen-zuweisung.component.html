@@ -4,11 +4,25 @@
   <tbody>
     <tr>
       <th>
-      <th>
+      </th>
+      <th></th>
       <th *ngFor="let klasse of klassen">
-        {{klasse}}
+        {{klasse}} 
       </th>
     </tr>
+    <tr>
+      <td></td><td></td><td *ngFor="let klasse of klassen">
+       Ü - R / E / S
+      </td>
+    </tr>
+    <tr>
+      <td></td><td></td><td *ngFor="let klasse of klassen">
+        {{ rechner(klasse)[0]}}-{{ rechner(klasse)[1]}}/{{ rechner(klasse)[2]}}/ {{ rechner(klasse)[3]}}
+      </td>
+    </tr>
+
+
+
     <ng-container *ngFor="let fach of faecher; index as rIndex">
       <tr *ngIf="rIndex!=0">
         <th>{{fach}}
@@ -51,6 +65,7 @@
               <button (click)="wochenstundenVerteilen($event,'ueb',ele,kIndex+1)" style="font-style:italic">
                 {{ele.uebstunde!=0?ele.uebstunde:"Ü"}}
               </button>
+              <ng-container *ngIf="kIndex>=8">
               <button (click)="wochenstundenVerteilen($event,'rhythmus',ele,kIndex+1)" style="font-style:italic">
                 {{ele.rhythmus!=0?ele.rhythmus:"R"}}
               </button>
@@ -60,6 +75,7 @@
               <button (click)="wochenstundenVerteilen($event,'schiene',ele,kIndex+1)" style="font-style:italic">
                 {{ele.schiene!=0?ele.schiene:"S"}}
               </button>
+            </ng-container>
             </div>
             <div>
               <!--

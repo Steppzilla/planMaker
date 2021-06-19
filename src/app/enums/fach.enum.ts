@@ -1,26 +1,46 @@
 export enum Fach {
   null = "",
-   handarbeit = "Ha",
-  spielturnen = "Spielt.",
-  sport = "Sport",
-  eurythmie = "Eur",
+//Fachübergreifende Fächer
 
+  schiene = "Schiene",
+  rhythmisch = "StartUp",
+  wahlpflicht = "Wahlpfl.",
+  hgw="HGW",
+  wochenabschluss="WoAb", 
+
+
+  hauptunterricht = "HU",
+  klassenbetreuer = "Betreuer",
   religion = "Rel",
   ethik = "Ethik",
-  klassenbetreuer = "Betreuer",
 
-  orchester = "Orch",
-  chor = "Chor",
-  mittelstufenorchester = "MSO",
-  musik = "Mus",
-  kunst = "Kunst",
-  kunstgeschichte = "Kunstg",
-  poetik = "Poetik",
-  deutsch = "Deu",
+  //Sprachen:
+
   englisch = "Engl",
   franzoesisch = "Franz",
   griechisch = "Griech",
   latein = "Lat",
+  deutsch = "Deu",
+
+  //praktisches:
+
+  //Bewegung:
+
+  eurythmie = "Eur",
+  spielturnen = "Spielt.",
+  sport = "Sport",
+ 
+//Musikalisches +Kunst
+  musik = "Mus",
+
+  orchester = "Orch",
+  chor = "Chor",
+  mittelstufenorchester = "MSO",
+  
+  kunstgeschichte = "Kunstg",
+  musikgeschichte="Musikg",
+  poetik = "Poetik",
+ 
 
   uebstunde = "Üb",
   mathematik = "Ma",
@@ -32,20 +52,17 @@ export enum Fach {
   biologie = "Bio",
   wirtschaftspolitik = "WiPo",
  
+  kunst = "Kunst",
   programmieren = "Prog",
   computer="Comp",
   weben = "Web",
   plastizieren = "Plast",
   schmieden = "Schm",
+  handarbeit = "Ha",
   gartenbau = "Ga",
   werken = "We",
 
   mittag = "Mittag",
   //Fachübergreifende Wechselfächer
-  hauptunterricht = "HU",
-  schiene = "Schiene",
-  rhythmisch = "StartUp",
-  wahlpflicht = "Wahlpfl.",
-  hgw="HGW",
-  wochenabschluss="WoAb", 
+ 
 }

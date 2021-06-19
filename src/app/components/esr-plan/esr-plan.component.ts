@@ -7,7 +7,9 @@ import {
   eachDayOfInterval,
   differenceInBusinessDays
 } from 'date-fns';
-import { Fach } from 'src/app/enums/fach.enum';
+import {
+  Fach
+} from 'src/app/enums/fach.enum';
 import {
   Lehrjahr
 } from 'src/app/enums/lehrjahr.enum';
@@ -43,83 +45,7 @@ export class EsrPlanComponent implements OnInit {
   gewaehlterPlan = "rhythmus";
   gewaehltesElement: Elementt;
   clickCount = 0;
-  berechnung() {
-    let schieneElem=this.grundPlanfaecher.find(element=> element.fach==Fach.schiene);
-    let huElem=this.grundPlanfaecher.find(element=> element.fach==Fach.hauptunterricht);
-    let rhythmElem=this.grundPlanfaecher.find(element=> element.fach==Fach.rhythmisch);
-    let jahresStundenWert=30;
 
-    this.grundPlanfaecher=this.grundPlanfaecher.filter(function (el) {
-      return el != null;
-    });
-
-    this.grundPlanfaecher.forEach(element=>{
-
-      //Wochenstunden für Schiene/Rhythmus und Epoche herauslesen (in Stundenplan zu überprüfen ob es tatsächlich ist):
-
-      let soll= element.wochenstunden ;  //soll-Stunden z.B. 4 in Mathe
-      let epochenSoll=element.epoche; //soll Epoche
-      let schieneSoll=element.schiene;//soll Schiene
-      let rhythmusSoll=element.rhythmus; //Soll rhythmus
-      let uebstundenSoll=element.uebstunde;//soll Uebstunde
-  
-
-      let uebstundeIST=element.zuweisung.uebstunde.length;
-
-      let rhythmusIST=0; //logisch errechnete Stunden Wochen mal anzahl der Wochenstunden vom rhythmus
-
-      element.zuweisung.rhythmus.forEach(startEnde=>{
-        let start=startEnde.start; //Date
-        let ende=startEnde.ende;
-        let wochen=(differenceInBusinessDays(ende,start)+1)/5;
-        rhythmusIST=rhythmusIST+(wochen*rhythmElem.wochenstunden)/jahresStundenWert;  
-       });
-
-       let epocheIST=0;
-
-      element.zuweisung.epoche.forEach(startEnde=>{
-        let start=startEnde.start; //Date
-        let ende=startEnde.ende;
-        let wochen=(differenceInBusinessDays(ende,start)+1)/5;
-        epocheIST=epocheIST+wochen*huElem.wochenstunden/jahresStundenWert;
-
-      });
-
-      let schieneIST=0;
-
-      element.zuweisung.schiene.forEach(startEnde=>{
-        let start=startEnde.start; //Date
-        let ende=startEnde.ende;
-        let wochen=(differenceInBusinessDays(ende,start)+1)/5;
-        schieneIST=schieneIST+wochen*schieneElem.wochenstunden/jahresStundenWert;
-      });
-
-      let uebDiff=uebstundenSoll-uebstundeIST;
-      let rhythmDiff=rhythmusSoll-rhythmusIST;
-      let epochenDiff=epochenSoll-epocheIST;
-      let schieneDiff=schieneSoll-schieneIST;
-
-      
-      if(rhythmusSoll!=0&&element.klasse==Lehrjahr.neun&&this.gewaehlterPlan=="rhythmus"){
-
-        console.log(element);
- // console.log("Uebstunde: Soll/IST: " + uebstundenSoll + " / "  + uebstundeIST) + ".";
-  console.log("rhytmus: Soll/IST: " + rhythmusSoll*jahresStundenWert/rhythmElem.wochenstunden + " / "  + rhythmusIST*jahresStundenWert/rhythmElem.wochenstunden) + ".";
-}
- if(epochenSoll!=0&&element.klasse==Lehrjahr.neun&&this.gewaehlterPlan=="epoche"){
-  console.log(element);
-  console.log("epoche: Soll/IST: " + epochenSoll*jahresStundenWert/huElem.wochenstunden + " / "  + epocheIST*jahresStundenWert/huElem.wochenstunden) + ".";
- }
-  //console.log("schiene: Soll/IST: " + schieneSoll*jahresStundenWert/5 + " / "  + schieneIST*jahresStundenWert/5) + ".";
- // console.log("------");
- // console.log("Erwartete Gesamtstunden  ");
- // console.log(soll);
-    //  let epochenIST=element.
-     // let ergebnis=
-
-    });
-
-  }
 
 
   wahl(z) {
@@ -180,8 +106,8 @@ export class EsrPlanComponent implements OnInit {
                 });
 
               }
-                            console.log(ele.zuweisung[this.gewaehlterPlan]);
-                           console.log(ele);
+              console.log(ele.zuweisung[this.gewaehlterPlan]);
+              console.log(ele);
             }
           }
         });
@@ -214,15 +140,15 @@ export class EsrPlanComponent implements OnInit {
     this.grundPlanfaecher.forEach(elem => {
       if (elem) {
         elem.zuweisung[this.gewaehlterPlan].forEach(startEnde => { //nur angewählter plan rhythmus o. shiene oder epoche die jeweiligen start-endes angucken je element
-         if(startEnde.start!=null&&startEnde.ende!=null){
-          if (startEnde.start.getTime() <= tag.getTime() && startEnde.ende.getTime() >= tag.getTime()) {
-            elem.lehrer.forEach(lehr => {
-              if (lehr.kuerzel == lehrer.kuerzel) {
-                duplica++;
-              }
-            });
+          if (startEnde.start != null && startEnde.ende != null) {
+            if (startEnde.start.getTime() <= tag.getTime() && startEnde.ende.getTime() >= tag.getTime()) {
+              elem.lehrer.forEach(lehr => {
+                if (lehr.kuerzel == lehrer.kuerzel) {
+                  duplica++;
+                }
+              });
+            }
           }
-        }
         });
       }
     });

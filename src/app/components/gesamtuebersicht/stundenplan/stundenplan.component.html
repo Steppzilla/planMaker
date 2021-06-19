@@ -12,7 +12,7 @@
   </div>
 
   <div class="zeile" *ngFor="let ho of hoehe; index as std">
-    <div> {{std}}</div>
+    <div> {{std+1}}</div>
     <div *ngFor="let br of breite; index as woTa">
       <div>     
           <ng-container *ngFor="let item of zellenElemente(woTa,std); index as l">     

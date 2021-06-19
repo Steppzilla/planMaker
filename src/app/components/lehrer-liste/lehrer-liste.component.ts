@@ -12,9 +12,7 @@ import {
 import {
   LehrerService
 } from 'src/app/services/lehrer.service';
-import {
-  LoginService
-} from 'src/app/services/login.service';
+
 
 @Component({
   selector: 'app-lehrer-liste',

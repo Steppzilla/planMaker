@@ -13,21 +13,17 @@ export class StartComponent implements OnInit {
     this.router.navigate([x]);
   }
 
-  save() {
-    this.login.login();
-    this.login.saveAll();
-    this.login.logout();
+  save(zahl) {
+    this.login.saveAll(zahl)
+    console.log("save?");
   }
 
-  load() {
-    this.login.login();
-    this.login.gesamtPlanLaden(); //login.stundenplandaten wird neu belegt mit Daten, also observed durch this.stundenRaster ändert sich das dann auch
-    this.login.logout();
-
-  }
+  load(zahl) {
+    this.login.gesamtPlanLaden(zahl); //login.stundenplandaten wird neu belegt mit Daten, also observed durch this.stundenRaster ändert sich das dann auch
+     }
 
   constructor(public login: LoginService, public router:Router,public termine:FerientermineService) {
-    this.load();
+    this.login.login();
    }
 
   ngOnInit(): void {
