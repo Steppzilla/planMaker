@@ -38,7 +38,7 @@
               <!-- -->
 
               <!--  {{ele?ele.fach:"noFach"}}-->
-              <div *ngIf="ele">
+              <div class="{{marked(ele.lehrer[0])}}" *ngIf="ele">
                 <!-- sollte nur ein Lehrer sein, aber in diesem fall alle verschiedenen im Array anzeigen...-->
                 <ng-container
                   *ngIf="ele.fach!='StartUp'&&ele.fach!='HU'&&ele.fach!='Schiene'||ele.klasse<=8; else ANZAHL">

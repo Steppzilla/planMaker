@@ -17,7 +17,7 @@
 <div class="zeile noprint">
   Klasse 9:
   <ng-container *ngFor="let ele of tabellensortierung(ix)"> <button class="epochen" (click)="epochenWahl(ele)">
-      <span *ngFor="let leh of ele.lehrer">{{leh.kuerzel}}</span>|{{ele.fach}}
+      <span *ngFor="let leh of ele.lehrer">{{leh.kuerzel}}</span>|{{ele.fach}}|{{ele[gewaehlterPlan]}}|{{ele.zuweisung[gewaehlterPlan].length}}
     </button>
   </ng-container>
 </div>
@@ -25,7 +25,7 @@
   Klasse 10:
   <ng-container *ngFor="let ele of tabellensortierung(x)">
     <button class="epochen" (click)="epochenWahl(ele)">
-      <span *ngFor="let leh of ele.lehrer">{{leh.kuerzel}}</span>|{{ele.fach}}
+      <span *ngFor="let leh of ele.lehrer">{{leh.kuerzel}}</span>|{{ele.fach}}|{{ele[gewaehlterPlan]}}|{{ele.zuweisung[gewaehlterPlan].length}}
     </button>
   </ng-container>
 </div>
@@ -33,14 +33,14 @@
 
   Klasse 11:
   <ng-container *ngFor="let ele of tabellensortierung(xi)"> <button class="epochen" (click)="epochenWahl(ele)">
-      <span *ngFor="let leh of ele.lehrer">{{leh.kuerzel}}</span>|{{ele.fach}}
+      <span *ngFor="let leh of ele.lehrer">{{leh.kuerzel}}</span>|{{ele.fach}}|{{ele[gewaehlterPlan]}}|{{ele.zuweisung[gewaehlterPlan].length}}
     </button>
   </ng-container>
 </div>
 <div class="zeile noprint">
   Klasse 12:
   <ng-container *ngFor="let ele of tabellensortierung(xii)"> <button class="epochen" (click)="epochenWahl(ele)">
-      <span *ngFor="let leh of ele.lehrer">{{leh.kuerzel}}</span>|{{ele.fach}}
+      <span *ngFor="let leh of ele.lehrer">{{leh.kuerzel}}</span>|{{ele.fach}}|{{ele[gewaehlterPlan]}}|{{ele.zuweisung[gewaehlterPlan].length}}
     </button>
   </ng-container>
 </div>

@@ -114,6 +114,7 @@ export class EsrPlanComponent implements OnInit {
 
                   if (obj.ende == null) {
                     obj.ende = freit; //Freitag für das ende der epoche
+                    console.log(ele.fach + ele.klasse);
                     console.log(ele.zuweisung[this.gewaehlterPlan]);
                   }
                 });

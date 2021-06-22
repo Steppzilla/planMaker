@@ -37,7 +37,14 @@ export class KlassenZuweisungComponent implements OnInit {
   lehrerauswahl;
   klassen = Object.values(Lehrjahr);
   grundPlanfaecher;
+  selectLehrer;
 
+
+  marked(lehr) {
+    if (lehr && this.selectLehrer && lehr.kuerzel == this.selectLehrer.kuerzel) {
+      return "blueback";
+    }
+  }
 
   addieren(e, fa, kl) {
     this.klassenplanServ.elementHinzufuegen(fa, kl);
@@ -155,7 +162,7 @@ export class KlassenZuweisungComponent implements OnInit {
 
     let klassenElemente = this.grundPlanfaecher.filter((element) => (element != null && element.klasse == klasse)); //Alle klasse 9 zb.
     let hu = klassenElemente.filter(element => element[esr] >= 1); //esr muss epoche schiene oder rhythmus sein //Alle mit z.b.epochenzuweisung
-    console.log(hu);
+   // console.log(hu);
 
     this.grundPlanfaecher.forEach((element, e) => {
       if (element != null) {
@@ -166,12 +173,7 @@ export class KlassenZuweisungComponent implements OnInit {
             if(el[esr]>=1){
               element.lehrer.push(el.lehrer[0]);
             }
-            if(el[esr]>=2){
-              element.lehrer.push(el.lehrer[0]);
-            }
-            if(el[esr]>=3){
-              element.lehrer.push(el.lehrer[0]);
-            }
+          
           });
         }
       }
@@ -271,6 +273,10 @@ rechner(klasse){
     // console.log(this.grundPlanfaecher);
     //  this.klassenplanServ.elementHinzufuegen(Fach.wirtschaftspolitik,Lehrjahr.dreizehn);
     //console.log(this.klassenplanServ.grundPlanfaecher.getValue());
+
+    lehrerServ.lehrerSelected$.subscribe(data => {
+      this.selectLehrer = data;
+    });
   }
 
 
