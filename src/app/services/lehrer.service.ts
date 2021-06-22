@@ -45,8 +45,7 @@ export class LehrerService {
       name: null,
       kuerzel: null,
       anrede: null,
-      faecher: [Fach.hgw,Fach.klassenbetreuer,Fach.kunst,Fach.kunstgeschichte,Fach.latein,Fach.mathematik,Fach.mittag,Fach.mittelstufenorchester,Fach.musik,Fach.musikgeschichte,Fach.null,
-      Fach.physik,Fach.orchester,Fach.eurythmie,Fach.franzoesisch,Fach.englisch,Fach.gartenbau,Fach.geographie,Fach.religion]
+      faecher: [Fach.null]
     },
     // faecherKlassen: Array<[Fach,Lehrjahr[]]>; //Kompentenzn, können mehr sein als zugewiesen
     
@@ -112,7 +111,7 @@ export class LehrerService {
     },
   
 
-    
+
 
     {
       name: 'Bayas',

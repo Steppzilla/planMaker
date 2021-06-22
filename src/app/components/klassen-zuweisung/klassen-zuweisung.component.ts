@@ -55,19 +55,13 @@ export class KlassenZuweisungComponent implements OnInit {
     //  console.log(elementDerZeile);
     if (elementDerZeile.klasse == kIndex) {
       switch (art) {
-        case "woche":
-          if ((e.shiftKey) && (elementDerZeile.wochenstunden > 0)) {
-            elementDerZeile.wochenstunden--;
-          } else {
-            elementDerZeile.wochenstunden++;
-          }
-          break;
-        case "ueb":
+         case "ueb":
           if ((e.shiftKey) && (elementDerZeile.uebstunde > 0)) {
             elementDerZeile.uebstunde--;
           } else {
             elementDerZeile.uebstunde++;
           }
+          this.epocheSchieneRhythmusBefuellen();
           break;
         case "rhythmus":
           if ((e.shiftKey) && (elementDerZeile.rhythmus > 0)) {
@@ -76,6 +70,7 @@ export class KlassenZuweisungComponent implements OnInit {
             elementDerZeile.rhythmus++;
             //Lehrer in rhythmus hinzufügen?
           }
+          this.epocheSchieneRhythmusBefuellen();
           break;
         case "epoche":
           if ((e.shiftKey) && (elementDerZeile.epoche > 0)) {
@@ -84,6 +79,7 @@ export class KlassenZuweisungComponent implements OnInit {
             elementDerZeile.epoche++;
             //Lehrer in epoche hinzufügen?
           }
+          this.epocheSchieneRhythmusBefuellen();
           break;
         case "schiene":
           if ((e.shiftKey) && (elementDerZeile.schiene > 0)) {
@@ -92,6 +88,7 @@ export class KlassenZuweisungComponent implements OnInit {
             elementDerZeile.schiene++;
             //Lehrer in schiene hinzufügen?
           }
+          this.epocheSchieneRhythmusBefuellen(); //für gesamtplan, damit der im HU gezählt wird
           break;
       }
     }

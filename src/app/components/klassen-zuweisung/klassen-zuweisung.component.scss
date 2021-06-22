@@ -12,7 +12,7 @@ border-radius:4pt;}
 
 .dropButton{
     font-size:12pt;
-    background-color:darkgray;
+   // background-color:rgb(231, 231, 221);
     padding:0pt;
     border-radius:5pt;
     width: 100%;
@@ -93,5 +93,18 @@ th{
 
 .nix{
     color:white;
+}
+
+
+@media print {
+
+
+    .oben{width:100%;
+        display: grid;
+        grid-template-columns:100%;
+        //background-color:red;
+        }
+
+
 }
 

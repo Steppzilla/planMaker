@@ -1,6 +1,6 @@
 <table>
     <tr>
-        <th>Anrede</th><th>Name</th><th>Kuerzel</th><th>Fächer</th><th> Aufgaben</th><th>Klassen</th>
+        <th>Anrede</th><th>Name</th><th>Kuerzel</th><th>Fächer (Klassen)</th><th> Aufgaben</th>
     </tr>
   <tr *ngFor="let lehrer of this.lehrerServ.lehrer">
       <td>
@@ -15,7 +15,10 @@
     <td>
       <ng-container *ngIf="lehrer.faecher!=null">
         <span *ngFor="let fach of lehrer.faecher">
-          {{fach}}
+          <ng-container *ngIf="klassenReturn(lehrer,fach).length>0">   
+          {{fach}}(      {{ klassenReturn(lehrer,fach)}})
+          </ng-container>
+          
         </span>
       </ng-container>
     </td>
@@ -27,9 +30,12 @@
 
         </ng-container>
     </td>
+    <!--
     <td *ngFor="let element of klassenReturn(lehrer)">
      {{element.klasse}}({{element.fach}})
     </td>
+
+  -->
 
   </tr>
 

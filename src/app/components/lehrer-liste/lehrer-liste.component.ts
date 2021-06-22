@@ -2,7 +2,9 @@ import {
   Component,
   OnInit
 } from '@angular/core';
-import { Fach } from 'src/app/enums/fach.enum';
+import {
+  Fach
+} from 'src/app/enums/fach.enum';
 import {
   Lehrer
 } from 'src/app/interfaces/lehrer';
@@ -21,27 +23,53 @@ import {
 })
 export class LehrerListeComponent implements OnInit {
 
-  klassenReturn(lehrer: Lehrer) {
+ /* klassenReturn(lehrer: Lehrer) {
     let neuArray = this.klassenplan.grundPlanfaecher.getValue();
     let elemente = [];
     neuArray.forEach(element => {
       if (element == null) {} else {
         element.lehrer.forEach(lehr => {
-          if(lehr!=null){
-          if (lehr.kuerzel == lehrer.kuerzel&&((element.fach!=Fach.hauptunterricht&&element.fach!=Fach.schiene&&element.fach!=Fach.rhythmisch)||(parseInt(element.klasse)<9))) {
-            elemente.push(element);
+          if(lehrer.kuerzel==null){}
+          else
+          if (lehr != null) {
+            if (lehr.kuerzel == lehrer.kuerzel && ((element.fach != Fach.hauptunterricht && element.fach != Fach.schiene && element.fach != Fach.rhythmisch) || (parseInt(element.klasse) < 9))) {
+              elemente.push(element);
+            }
           }
-        }
 
         });
       }
     });
-//console.log(elemente);
+    //console.log(elemente);
     return elemente;
 
 
 
+  }*/
+
+  klassenReturn(lehrer: Lehrer, fach:Fach){
+
+    let neuArray = this.klassenplan.grundPlanfaecher.getValue();
+    let elemente = [];
+    neuArray.forEach(element => {
+      if (element == null) {} else {
+        element.lehrer.forEach(lehr => {
+          if(lehrer.kuerzel==null){}
+          else
+          if (lehr != null) {
+            if (lehr.kuerzel == lehrer.kuerzel && fach==element.fach) {
+              elemente.push(element.klasse);
+            }
+          }
+
+        });
+
+      }
+    });
+    return elemente;
   }
+
+  
   constructor(public lehrerServ: LehrerService, public klassenplan: KlassenplaeneService) {
 
 
