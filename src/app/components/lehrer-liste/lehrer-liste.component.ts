@@ -61,8 +61,8 @@ export class LehrerListeComponent implements OnInit {
             ueb= ueb+ element.zuweisung.uebstunde.length ;
             rhy=  rhy+ element.zuweisung.rhythmus.length;
             epo=epo+element.zuweisung.epoche.length;
-            console.log(lehr.kuerzel);
-            console.log(epo);
+           // console.log(lehr.kuerzel);
+            //console.log(epo);
             
             sch=sch+element.zuweisung.schiene.length;
           }
