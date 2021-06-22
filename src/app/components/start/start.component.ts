@@ -30,6 +30,7 @@ export class StartComponent implements OnInit {
 
   constructor(public lehrer: LehrerService, public login: LoginService, public router:Router,public termine:FerientermineService) {
     this.login.login();
+    this.login.gesamtPlanLaden(0);
    }
 
   ngOnInit(): void {
