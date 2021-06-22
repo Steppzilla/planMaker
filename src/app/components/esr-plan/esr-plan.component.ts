@@ -123,13 +123,14 @@ export class EsrPlanComponent implements OnInit {
               console.log(ele.zuweisung[this.gewaehlterPlan]);
               console.log(ele);
             }
+            this.clickCount++;
           }
         });
       }
     });
 
 
-    this.clickCount++;
+
   }
 
 
