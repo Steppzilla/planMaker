@@ -25,6 +25,8 @@ import {
 import {
   KlassenplaeneService
 } from 'src/app/services/klassenplaene.service';
+import { LehrerService } from 'src/app/services/lehrer.service';
+import { GesamtuebersichtComponent } from '../gesamtuebersicht/gesamtuebersicht.component';
 
 @Component({
   selector: 'app-esr-plan',
@@ -46,6 +48,17 @@ export class EsrPlanComponent implements OnInit {
   gewaehltesElement: Elementt;
   clickCount = 0;
 
+  selectLehrer;
+  //lehrerSelected;
+
+
+  marked(lehr) {
+    if (lehr && this.selectLehrer && lehr.kuerzel == this.selectLehrer.kuerzel) {
+      return "blueback";
+    }
+  }
+
+  
 
 
   wahl(z) {
@@ -130,7 +143,8 @@ export class EsrPlanComponent implements OnInit {
   epochenWahl(ele: Elementt) {
     this.gewaehltesElement = ele;
     this.clickCount = 0;
-
+//markieren schon angelegte epochen:
+this.lehrerServ.lehrerSelected.next(ele.lehrer[0]);
   }
 
 
@@ -155,12 +169,16 @@ export class EsrPlanComponent implements OnInit {
     return duplica > 1 ? "error" : "ok";
   }
 
-  constructor(public epochenPlanS: EpochenPlaeneService, public ferienServ: FerientermineService, public klassenplanServ: KlassenplaeneService) {
+  constructor( public epochenPlanS: EpochenPlaeneService, public ferienServ: FerientermineService, public klassenplanServ: KlassenplaeneService, public lehrerServ:LehrerService) {
     this.epochenPlanS.esr_plan$.subscribe((data) => {
       this.esrPlan = data;
       //  console.log(data);
     });
     this.klassenplanServ.grundPlanfaecher$.subscribe((data) => this.grundPlanfaecher = data);
+
+    lehrerServ.lehrerSelected$.subscribe(data => {
+      this.selectLehrer = data;
+    });
   }
 
   ngOnInit(): void {}

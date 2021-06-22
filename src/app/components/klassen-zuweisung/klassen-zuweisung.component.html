@@ -30,6 +30,7 @@
         <td *ngFor="let klass of klassen index as kIndex">
           <!--<button>
         </button>-->
+        <div class="oben">
           <span (click)="addieren($event,fach,klass)" class="add noprint">+</span>
           <ng-container *ngFor="let ele of fachElemente( rIndex , kIndex+1 ) index as innerCellIndex">
             <button class="dropButton" [ngbTooltip]="Lehrer" placement="bottom" triggers="click"
@@ -77,6 +78,8 @@
               </ng-template>
             </button>
 
+            <span  class="noprint"></span>
+
             <div id="aufteilungUeRES">
               <button class="{{farbeUESR('uebstunde',ele.uebstunde)}}"
                 (click)="wochenstundenVerteilen($event,'ueb',ele,kIndex+1)" style="font-style:italic">
@@ -107,6 +110,7 @@
             </div>
 
           </ng-container>
+        </div>
         </td>
       </tr>
     </ng-container>

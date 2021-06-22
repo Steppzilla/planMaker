@@ -2,14 +2,17 @@ export enum Fach {
   null = "",
 //Fachübergreifende Fächer
 
+
+rhythmisch = "StartUp",
+  hauptunterricht = "HU",
   schiene = "Schiene",
-  rhythmisch = "StartUp",
+ 
   wahlpflicht = "Wahlpfl.",
   hgw="HGW",
   wochenabschluss="WoAb", 
 
 
-  hauptunterricht = "HU",
+  
   klassenbetreuer = "Betreuer",
   religion = "Rel",
   ethik = "Ethik",

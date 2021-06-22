@@ -1,4 +1,9 @@
-
+tr{border-top:1pt black solid}
+.oben{width:100%;
+display: grid;
+grid-template-columns: 15% 85%;
+//background-color:red;
+}
 
 .breit{width:100%;
 padding:0pt;
@@ -11,6 +16,7 @@ border-radius:4pt;}
     padding:0pt;
     border-radius:5pt;
     width: 100%;
+    min-width:50%;
 margin:0pt;
 min-height:6pt;
 border:none;
@@ -20,7 +26,7 @@ border:none;
 
 
 #FachLehrerUebersicht-Tabelle{
-    width:100%;
+    width:90%;
 }
 
 th{
@@ -52,9 +58,12 @@ th{
 }
 
 .add{
-    border-radius:5pt;
-    background-color:greenyellow;
-    width:auto;
+    //border-radius:5pt;
+   // background-color:rgb(228, 221, 200);
+    padding:1pt;
+    text-align: center;
+   // border-right: 1pt solid black;
+   //border: 1pt black solid;
 }
 
 

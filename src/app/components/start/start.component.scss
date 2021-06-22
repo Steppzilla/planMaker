@@ -21,3 +21,13 @@ button{
 .loadSaveContain{
     display:flex;
 }
+
+#Lehrerselect {flex-wrap: wrap;
+    width:100%;}
+    
+    #Lehrerselect>button {
+      background-color:rgb(216, 154, 205);
+      margin: 1pt;
+      border-radius:2pt;
+      width: 60pt;
+    }

@@ -45,8 +45,7 @@ export class GesamtuebersichtComponent implements OnInit {
   buttontext = "einblenden";
   selectLehrer: Lehrer;
 
-  lehrerSelected = new BehaviorSubject(null);
-  lehrerSelected$ = this.lehrerSelected.asObservable();
+ 
 
   klassen = Object.values(Lehrjahr);
 
@@ -130,17 +129,12 @@ export class GesamtuebersichtComponent implements OnInit {
     return Object.values(Wochentag);
   }
 
-  lehrerwahl(lehrerNR) { //Blaumarkierung der gewählten lehrer
-    this.selectLehrer = this.lehrerService.lehrer[lehrerNR]; //locale Variable
-    this.lehrerSelected.next(this.lehrerService.lehrer[lehrerNR]);
-  }
+  
 
   marked(lehr) {
     if (lehr && this.selectLehrer && lehr.kuerzel == this.selectLehrer.kuerzel) {
       return "blueback";
     }
-
-
   }
 
   togglezellenClick(stdZ, clickedElementt: Elementt) { //ganze Zelle/stunden zeile als Zahl
@@ -283,6 +277,10 @@ export class GesamtuebersichtComponent implements OnInit {
     });
     this.wochentagWahl(this.wochenTagauswahl);
     this.tagesPlan = login.leerestagesRaster();
+
+    lehrerService.lehrerSelected$.subscribe(data => {
+      this.selectLehrer = data;
+    });
   }
 
   ngOnInit(): void {}

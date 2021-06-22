@@ -9,6 +9,7 @@ import { FerientermineService } from 'src/app/services/ferientermine.service';
 import {
   KlassenplaeneService
 } from 'src/app/services/klassenplaene.service';
+import { LehrerService } from 'src/app/services/lehrer.service';
 import {
   GesamtuebersichtComponent
 } from '../gesamtuebersicht.component';
@@ -65,9 +66,9 @@ export class StundenplanComponent implements OnInit {
 
     return neu;
   }
-  constructor(klassenS: KlassenplaeneService, gesamtS: GesamtuebersichtComponent, public ferienServ: FerientermineService) {
+  constructor(klassenS: KlassenplaeneService, public ferienServ: FerientermineService,lehrerServ:LehrerService) {
 
-    gesamtS.lehrerSelected$.subscribe(data => {
+    lehrerServ.lehrerSelected$.subscribe(data => {
       this.gewaehlterLehrer = data;
     });
     klassenS.grundPlanfaecher$.subscribe(data => this.grundFaecher = data);

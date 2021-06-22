@@ -12,6 +12,9 @@
     {{termine.datumHeute.getDate()}}.{{termine.datumHeute.getMonth()+1}}.{{termine.datumHeute.getFullYear()}}
   </div>
 </div>
+
+
+
 <div class="loadSaveContain">
 <button class="noprint load"  (click)="load(0)">L0</button>
 <button class="noprint load"  (click)="load(1)">L1</button>
@@ -37,4 +40,13 @@
 <button class="save noprint" (click)="save(8)">S8</button>
 <button class="save noprint" (click)="save(9)">S9</button>
 <button class="save noprint" (click)="save(10)">S10</button>
+</div>
+
+<div class="buttonreihe noprint" id="Lehrerselect">
+  <!-- -->
+  <ng-container *ngFor="let lehrer of this.lehrer.lehrer; index as i">
+    <button  *ngIf="i>0" (click)="lehrerwahl(i)" >
+      {{lehrer.kuerzel}}
+    </button>
+  </ng-container>
 </div>

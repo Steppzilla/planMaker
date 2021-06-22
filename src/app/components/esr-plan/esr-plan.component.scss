@@ -1,18 +1,6 @@
 *{font-size:9pt;}
 
-button{
-    margin:3pt;
-    border:none;
-border-radius:5pt;  
-background-color:violet;
 
-}
-
-.zeile button{
-
-    background-color:mediumaquamarine;
-
-}
 .planRahmen{display:flex;
 flex-wrap:wrap;}
 
@@ -114,4 +102,39 @@ pointer-events: none;
 .error{color:red;}
 .ok{color:green;}
 
+.blueback {
+    color: blue;
+    font-weight: bold;
+    font-size: 16pt;
+  }
 
+
+
+  .esrWahl, .zeile{
+      display:flex;
+  }
+
+.esrWahl button{
+
+    border: solid 0pt black;
+  
+    /* border-radius:5pt;*/
+    padding: 2pt;
+    background-color: inherit;
+    width:100%;
+    background-color: beige;
+
+}
+
+.zeile button{
+    border: solid 0pt black;
+  margin:5pt;
+    /* border-radius:5pt;*/
+    padding: 2pt;
+    background-color: inherit;
+    width:80pt;;
+    background-color: beige;
+}
+
+
+ 

@@ -1,6 +1,7 @@
 import {
   Injectable
 } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import {
   Fach
 } from '../enums/fach.enum';
@@ -13,6 +14,9 @@ import {
   providedIn: 'root'
 })
 export class LehrerService {
+
+  lehrerSelected = new BehaviorSubject(null);
+  lehrerSelected$ = this.lehrerSelected.asObservable();
 
   lehrernachFach() {
     let listeLehrerNachFach = [];
@@ -45,6 +49,71 @@ export class LehrerService {
       Fach.physik,Fach.orchester,Fach.eurythmie,Fach.franzoesisch,Fach.englisch,Fach.gartenbau,Fach.geographie,Fach.religion]
     },
     // faecherKlassen: Array<[Fach,Lehrjahr[]]>; //Kompentenzn, können mehr sein als zugewiesen
+    
+    {
+      name: 'Stuchlik',
+      kuerzel: 'Stk',
+      anrede: "Herr",
+      faecher: [Fach.hauptunterricht, Fach.musik, Fach.uebstunde, Fach.mittelstufenorchester, Fach.computer,Fach.wochenabschluss],
+      aufgaben: ["Stundenplan-Vertretung", "Schulplattform-Admin"],
+
+    },
+
+    {
+      name: 'Keyifci',
+      kuerzel: 'Ke',
+      anrede: "Frau",
+      faecher: [Fach.hauptunterricht, Fach.englisch, Fach.uebstunde, Fach.wochenabschluss,Fach.eurythmie],
+
+    },
+    {
+      name: 'Corsten',
+      kuerzel: 'Co',
+      anrede: "Frau",
+      faecher: [Fach.hauptunterricht, Fach.musik, Fach.uebstunde, Fach.wochenabschluss,Fach.chor,Fach.mittelstufenorchester]
+    },
+
+    {
+      name: 'Waligorski-Sell',
+      kuerzel: 'Wa',
+      anrede: "Frau",
+      faecher: [Fach.hauptunterricht,Fach.wochenabschluss, Fach.religion, Fach.uebstunde, Fach.spielturnen, Fach.griechisch, Fach.latein],
+    },
+
+    {
+      name: 'Schmidt',
+      kuerzel: 'Sm',
+      anrede: "Frau",
+      faecher: [Fach.hauptunterricht, Fach.uebstunde, Fach.geographie],
+      aufgaben: ["Schulfuehrung", "Stundenplan-Vertretung"],
+
+    },
+
+    {
+      name: 'Kießig',
+      kuerzel: 'Ki',
+      anrede: "Frau",
+      faecher: [Fach.hauptunterricht, Fach.englisch, Fach.uebstunde, Fach.handarbeit],
+      aufgaben: ["Schulführung"],
+    },
+
+    {
+      name: 'Güldenpenning',
+      kuerzel: 'Gü',
+      anrede: "Frau",
+      faecher: [Fach.hauptunterricht, Fach.handarbeit, Fach.religion, Fach.uebstunde],
+    },
+
+    {
+      name: 'Hertinger',
+      kuerzel: 'He',
+      anrede: "Frau",
+      faecher: [Fach.hauptunterricht, Fach.religion, Fach.ethik, Fach.uebstunde],
+    },
+  
+
+    
+
     {
       name: 'Bayas',
       kuerzel: 'By',
@@ -70,12 +139,7 @@ export class LehrerService {
       anrede: "Frau",
       faecher: [Fach.mathematik, Fach.kunst,Fach.wahlpflicht],
     },
-    {
-      name: 'Corsten',
-      kuerzel: 'Co',
-      anrede: "Frau",
-      faecher: [Fach.hauptunterricht, Fach.musik, Fach.uebstunde, Fach.wochenabschluss,Fach.chor,Fach.mittelstufenorchester]
-    },
+
     // { id: 3, name: 'Dittmann', kuerzel: 'Dit', anrede: "Frau", facher:  },
     {
       name: 'Ehrhardt',
@@ -100,12 +164,7 @@ export class LehrerService {
       faecher: [Fach.geographie, Fach.kunst],
 
     },
-    {
-      name: 'Güldenpenning',
-      kuerzel: 'Gü',
-      anrede: "Frau",
-      faecher: [Fach.hauptunterricht, Fach.handarbeit, Fach.religion, Fach.uebstunde],
-    },
+ 
     {
       name: 'Haarmeier',
       kuerzel: 'Hm',
@@ -118,26 +177,8 @@ export class LehrerService {
       anrede: "Herr",
       faecher: [Fach.eurythmie],
     },
-    {
-      name: 'Hertinger',
-      kuerzel: 'He',
-      anrede: "Frau",
-      faecher: [Fach.hauptunterricht, Fach.religion, Fach.ethik, Fach.uebstunde],
-    },
-    {
-      name: 'Kießig',
-      kuerzel: 'Ki',
-      anrede: "Frau",
-      faecher: [Fach.hauptunterricht, Fach.englisch, Fach.uebstunde, Fach.handarbeit],
-      aufgaben: ["Schulführung"],
-    },
-    {
-      name: 'Keyifci',
-      kuerzel: 'Ke',
-      anrede: "Frau",
-      faecher: [Fach.hauptunterricht, Fach.englisch, Fach.uebstunde, Fach.wochenabschluss,Fach.eurythmie],
-
-    },
+  
+  
     {
       name: 'Loth',
       kuerzel: 'Lo',
@@ -204,14 +245,7 @@ export class LehrerService {
       aufgaben: ["Stundenplan"],
 
     },
-    {
-      name: 'Schmidt',
-      kuerzel: 'Sm',
-      anrede: "Frau",
-      faecher: [Fach.hauptunterricht, Fach.uebstunde, Fach.geographie],
-      aufgaben: ["Schulfuehrung", "Stundenplan-Vertretung"],
-
-    },
+    
     {
       name: 'Sodemann',
       kuerzel: 'Sod',
@@ -234,20 +268,8 @@ export class LehrerService {
       aufgaben: ["Prüfungen Abitur"],
 
     },
-    {
-      name: 'Stuchlik',
-      kuerzel: 'Stk',
-      anrede: "Herr",
-      faecher: [Fach.hauptunterricht, Fach.musik, Fach.uebstunde, Fach.mittelstufenorchester, Fach.computer,Fach.wochenabschluss],
-      aufgaben: ["Stundenplan-Vertretung", "Schulplattform-Admin"],
-
-    },
-    {
-      name: 'Waligorski-Sell',
-      kuerzel: 'Wa',
-      anrede: "Frau",
-      faecher: [Fach.hauptunterricht,Fach.wochenabschluss, Fach.religion, Fach.uebstunde, Fach.spielturnen, Fach.griechisch, Fach.latein],
-    },
+  
+    
 
     {
       name: 'Wohlers',
@@ -320,6 +342,7 @@ export class LehrerService {
 
 
   constructor() {
+    this.lehrerSelected.next(this.lehrer[0]);
     // this.stundenRaster.next(this.createEmptyStundenraster());
   }
 }

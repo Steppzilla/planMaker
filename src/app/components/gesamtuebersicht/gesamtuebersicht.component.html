@@ -1,12 +1,5 @@
 <div id="gesamtuebersicht">
-  <div class="buttonreihe noprint" id="Lehrerselect">
-    <!-- -->
-    <ng-container *ngFor="let lehrer of this.lehrerService.lehrer; index as i">
-      <button *ngIf="i>0" (click)="lehrerwahl(i)">
-        {{lehrer.kuerzel}}
-      </button>
-    </ng-container>
-  </div>
+ 
   <!--<button (click)="leherkuerzelToggle()">Lehrerkuerzel {{buttontext}}</button>-->
 
   <h1>Gesamtplan</h1>
