@@ -235,6 +235,29 @@ rechner(klasse){
   }
 
 
+  farbeUESR(ures, zahl){
+    switch(ures){
+      case "uebstunde":
+        if(zahl>0){
+        return "ueb";
+        }else {return "nix"}
+      case "rhythmus":
+        if(zahl>0){
+        return "rhy";
+        }else{return "nix"}
+      case "epoche":
+        if(zahl>0){
+        return "epo";
+        }else {return "nix"}
+      case "schiene":
+        if(zahl>0){
+        return "sch";
+        }else{return "nix"}
+
+
+    }
+
+  }
 
 
   constructor(public lehrerServ: LehrerService, public klassenFaecherServ: KlassenFaecherService,
