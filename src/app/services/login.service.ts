@@ -21,6 +21,7 @@ import {
 import {
   LehrerService
 } from './lehrer.service';
+import { VertretungServService } from './vertretung-serv.service';
 
 @Injectable({
   providedIn: 'root'
@@ -48,6 +49,7 @@ export class LoginService {
 
   //Stundenraster montag dienstag etc aus planmaker wird gesetzt: //und im Lehrerservice aktuelles Raster/behavioural
   gesamtPlanLaden(zahl) {
+    this.vertretungS.aktuelleESRElemente=[];
     let stundenAufteilungJSO: Array < Elementt > ;
     //Epochenpläne + Schiene
     this.store.collection('plaene').doc("gesamtplaene" + zahl).valueChanges().subscribe((plaene) => { //in Firebase heißt der Ordner plaene. das erste Element [0] ist "gesamtplaene", darin sind die pläne:   
@@ -57,23 +59,38 @@ export class LoginService {
       esrJSO.forEach(element => {
         let date = new Date(element.tag);
         element.tag = date;
-
       });
       this.epochenPlanServ.esr_plan.next(esrJSO);
       //in Elementt auch datum strings wieder in datum umwandeln:
+   
       stundenAufteilungJSO.forEach((el, ei) => {
+        let aktuell:[Elementt,number,string];
         if (el == null) {
           stundenAufteilungJSO.splice(ei, 1);
         } else {
           ["epoche", "schiene", "rhythmus"].forEach(plan => {
 
-            el.zuweisung[plan].forEach(startEnde => {
+            el.zuweisung[plan].forEach((startEnde,z) => {
               let datum = new Date(startEnde.start);
               startEnde.start = datum;
               datum = new Date(startEnde.ende);
               startEnde.ende = datum;
-            });
+                //Aktuelle epoche, schiene, rhythmus speichern in Vertretung:
+           if(startEnde.start<=this.vertretungS.datum&&startEnde.ende>=this.vertretungS.datum){
+            aktuell=[el,z,plan];
+      //  console.log(aktuell);
+        ////    console.log(startEnde.start);
+         //   console.log(startEnde.ende);
+         //   console.log( el.fach + " " + z);
+           }
+
           });
+           });
+          
+        }
+        if(aktuell!=undefined){
+         // console.log(aktuell);
+        this.vertretungS.aktuelleESRElemente.push(aktuell);
         }
       });
 
@@ -124,7 +141,7 @@ export class LoginService {
     //    (s) => s = []));
   }
 
-  constructor(db: AngularFirestore, public auth: AngularFireAuth, public epochenPlanServ: EpochenPlaeneService, public lehrerService: LehrerService, public klassenPlanServ: KlassenplaeneService) {
+  constructor(public vertretungS:VertretungServService, db: AngularFirestore, public auth: AngularFireAuth, public epochenPlanServ: EpochenPlaeneService, public lehrerService: LehrerService, public klassenPlanServ: KlassenplaeneService) {
     this.store = db; //hier speichere ich die ganze angularfirestore dings 
   }
 }

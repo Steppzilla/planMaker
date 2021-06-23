@@ -1,0 +1,10 @@
+
+
+<p *ngFor="let vertretungsELEMENT of vertretungsServ.vertretung">
+
+
+    <!-- 
+        wochentag: null, datum: null, klasse:null, stunde:null, lehrer:null, fach:null, vertretung:null
+    -->
+    {{vertretungsELEMENT.wochentag}} |    {{vertretungsELEMENT.klasse}}.Klasse |
+    {{vertretungsELEMENT.stunde+1}}. Std.({{vertretungsELEMENT.lehrer.kuerzel}}) {{vertretungsELEMENT.fach}} --{{vertretungsELEMENT.vertretung.lehrer[0].kuerzel}}{{vertretungsELEMENT.vertretung.fach}}</p>

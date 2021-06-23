@@ -32,7 +32,7 @@
                 {{ ele.fach}}
               </ng-container>
 
-              <ng-container *ngIf="ele.fach!='StartUp'&&ele.fach!='HU'&&ele.fach!='Schiene'; else ESR">
+              <ng-container *ngIf="ele.fach!='StartUp'&&ele.fach!='HU'&&ele.fach!='Schiene'||ele.klasse<=8; else ESR">
                 <ng-container *ngFor="let lehr of ele.lehrer">
                   <span class="{{marked(lehr)}} {{duplicates(lehr ,std,ele.fach)}}">
                     {{lehr.kuerzel }}

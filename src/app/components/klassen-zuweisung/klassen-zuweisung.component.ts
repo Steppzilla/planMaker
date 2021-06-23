@@ -23,7 +23,9 @@ import {
 import {
   Elementt
 } from 'src/app/interfaces/elementt';
-import { reduceEachLeadingCommentRange } from 'typescript';
+import {
+  reduceEachLeadingCommentRange
+} from 'typescript';
 
 
 @Component({
@@ -62,7 +64,7 @@ export class KlassenZuweisungComponent implements OnInit {
     //  console.log(elementDerZeile);
     if (elementDerZeile.klasse == kIndex) {
       switch (art) {
-         case "ueb":
+        case "ueb":
           if ((e.shiftKey) && (elementDerZeile.uebstunde > 0)) {
             elementDerZeile.uebstunde--;
           } else {
@@ -162,16 +164,35 @@ export class KlassenZuweisungComponent implements OnInit {
 
     let klassenElemente = this.grundPlanfaecher.filter((element) => (element != null && element.klasse == klasse)); //Alle klasse 9 zb.
     let hu = klassenElemente.filter(element => element[esr] >= 1); //esr muss epoche schiene oder rhythmus sein //Alle mit z.b.epochenzuweisung
-   // console.log(hu);
+    // console.log(hu);
+    let lehrermerker = [];
+    let bo = true;
 
     this.grundPlanfaecher.forEach((element, e) => {
       if (element != null) {
         if (element.klasse == klasse && element.fach == fach) { //erst: 9. klasse Hauptunterricht
-         // console.log(element);
+          // console.log(element);
           element.lehrer = [];
+         
           hu.forEach(el => {
-            if(el[esr]>=1){
-              element.lehrer.push(el.lehrer[0]);
+            if (el[esr] >= 1) {
+              if (lehrermerker.length >=1) {
+                lehrermerker.forEach(le => {
+                  if(le!=undefined&&el.lehrer[0]!=undefined){
+                  console.log(le.kuerzel);
+                  console.log(el.lehrer[0].kuerzel);
+                  }
+                  if (le!=undefined&&el.lehrer[0]!=undefined&&le.kuerzel == el.lehrer[0].kuerzel) {
+                    console.log("Fasle");
+                    bo = false;
+                  }
+                });
+              }
+              if (bo == true) {
+                lehrermerker.push(el.lehrer[0]);
+                element.lehrer.push(el.lehrer[0]);
+                
+              }
             }
           });
         }
@@ -181,75 +202,83 @@ export class KlassenZuweisungComponent implements OnInit {
 
   epocheSchieneRhythmusBefuellen() {
     this.esrFuellen("epoche", Fach.hauptunterricht, Lehrjahr.neun);
-      this.esrFuellen("rhythmus", Fach.rhythmisch, Lehrjahr.neun);
-      this.esrFuellen("schiene", Fach.schiene, Lehrjahr.neun);
-      this.esrFuellen("epoche", Fach.hauptunterricht, Lehrjahr.zehn);
-      this.esrFuellen("rhythmus", Fach.rhythmisch, Lehrjahr.zehn);
-      this.esrFuellen("schiene", Fach.schiene, Lehrjahr.zehn);
-      this.esrFuellen("epoche", Fach.hauptunterricht, Lehrjahr.elf);
-      this.esrFuellen("rhythmus", Fach.rhythmisch, Lehrjahr.elf);
-      this.esrFuellen("schiene", Fach.schiene, Lehrjahr.elf);
-      this.esrFuellen("epoche", Fach.hauptunterricht, Lehrjahr.zwoelf);
-      this.esrFuellen("rhythmus", Fach.rhythmisch, Lehrjahr.zwoelf);
-      this.esrFuellen("schiene", Fach.schiene, Lehrjahr.zwoelf);
-   
+    this.esrFuellen("rhythmus", Fach.rhythmisch, Lehrjahr.neun);
+    this.esrFuellen("schiene", Fach.schiene, Lehrjahr.neun);
+    this.esrFuellen("epoche", Fach.hauptunterricht, Lehrjahr.zehn);
+    this.esrFuellen("rhythmus", Fach.rhythmisch, Lehrjahr.zehn);
+    this.esrFuellen("schiene", Fach.schiene, Lehrjahr.zehn);
+    this.esrFuellen("epoche", Fach.hauptunterricht, Lehrjahr.elf);
+    this.esrFuellen("rhythmus", Fach.rhythmisch, Lehrjahr.elf);
+    this.esrFuellen("schiene", Fach.schiene, Lehrjahr.elf);
+    this.esrFuellen("epoche", Fach.hauptunterricht, Lehrjahr.zwoelf);
+    this.esrFuellen("rhythmus", Fach.rhythmisch, Lehrjahr.zwoelf);
+    this.esrFuellen("schiene", Fach.schiene, Lehrjahr.zwoelf);
+
   }
 
-rechner(klasse){
-  let klassenElemente = this.grundPlanfaecher.filter((element) => (element != null && element.klasse == klasse)); //Alle klasse 9 zb.
-  let uebstunden=klassenElemente.filter((element)=>(element!=null&&element.uebstunde>0));
-  let rhythmus=klassenElemente.filter((element)=>(element!=null&&element.rhythmus>0));
-  let epoche=klassenElemente.filter((element)=>(element!=null&&element.epoche>0));
-  let schiene=klassenElemente.filter((element)=>(element!=null&&element.schiene>0));
-  
-  let zaehlUeb=0;
-  let zaehlR=0;
-  let zaehlE=0;
-  let zaehlS=0;
+  rechner(klasse) {
+    let klassenElemente = this.grundPlanfaecher.filter((element) => (element != null && element.klasse == klasse)); //Alle klasse 9 zb.
+    let uebstunden = klassenElemente.filter((element) => (element != null && element.uebstunde > 0));
+    let rhythmus = klassenElemente.filter((element) => (element != null && element.rhythmus > 0));
+    let epoche = klassenElemente.filter((element) => (element != null && element.epoche > 0));
+    let schiene = klassenElemente.filter((element) => (element != null && element.schiene > 0));
 
-  Object.values(Fach).forEach(fach=>{
-    let fachItems=uebstunden.filter(eles=>(eles.fach==fach));
-    if(fachItems.length>0){
-      zaehlUeb=zaehlUeb+fachItems[0].uebstunde;
-    }
-    fachItems=rhythmus.filter(eles=>(eles.fach==fach));
-    if(fachItems.length>0){
-      zaehlR=zaehlR+fachItems[0].rhythmus;
-    }
+    let zaehlUeb = 0;
+    let zaehlR = 0;
+    let zaehlE = 0;
+    let zaehlS = 0;
 
-    fachItems=epoche.filter(eles=>(eles.fach==fach));
-    if(fachItems.length>0){
-      zaehlE=zaehlE+fachItems[0].epoche;
-    }
+    Object.values(Fach).forEach(fach => {
+      let fachItems = uebstunden.filter(eles => (eles.fach == fach));
+      if (fachItems.length > 0) {
+        zaehlUeb = zaehlUeb + fachItems[0].uebstunde;
+      }
+      fachItems = rhythmus.filter(eles => (eles.fach == fach));
+      if (fachItems.length > 0) {
+        zaehlR = zaehlR + fachItems[0].rhythmus;
+      }
 
-    fachItems=schiene.filter(eles=>(eles.fach==fach));
-    if(fachItems.length>0){
-      zaehlS=zaehlS+fachItems[0].schiene;
-    }
-  });
+      fachItems = epoche.filter(eles => (eles.fach == fach));
+      if (fachItems.length > 0) {
+        zaehlE = zaehlE + fachItems[0].epoche;
+      }
 
-  return [zaehlUeb,zaehlR,zaehlE,zaehlS];
+      fachItems = schiene.filter(eles => (eles.fach == fach));
+      if (fachItems.length > 0) {
+        zaehlS = zaehlS + fachItems[0].schiene;
+      }
+    });
+
+    return [zaehlUeb, zaehlR, zaehlE, zaehlS];
   }
 
 
-  farbeUESR(ures, zahl){
-    switch(ures){
+  farbeUESR(ures, zahl) {
+    switch (ures) {
       case "uebstunde":
-        if(zahl>0){
-        return "ueb";
-        }else {return "nix"}
-      case "rhythmus":
-        if(zahl>0){
-        return "rhy";
-        }else{return "nix"}
-      case "epoche":
-        if(zahl>0){
-        return "epo";
-        }else {return "nix"}
-      case "schiene":
-        if(zahl>0){
-        return "sch";
-        }else{return "nix"}
+        if (zahl > 0) {
+          return "ueb";
+        } else {
+          return "nix"
+        }
+        case "rhythmus":
+          if (zahl > 0) {
+            return "rhy";
+          } else {
+            return "nix"
+          }
+          case "epoche":
+            if (zahl > 0) {
+              return "epo";
+            } else {
+              return "nix"
+            }
+            case "schiene":
+              if (zahl > 0) {
+                return "sch";
+              } else {
+                return "nix"
+              }
 
 
     }

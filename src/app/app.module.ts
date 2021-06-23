@@ -15,6 +15,7 @@ import { LehrerListeComponent } from './components/lehrer-liste/lehrer-liste.com
 import { EsrPlanComponent } from './components/esr-plan/esr-plan.component';
 import { StundenplanComponent } from './components/gesamtuebersicht/stundenplan/stundenplan.component';
 import { VertretungComponent } from './components/vertretung/vertretung.component';
+import { VertretungsplanComponent } from './components/vertretung/vertretungsplan/vertretungsplan.component';
 
 const config = {
   //apiKey: '<your-key>',
@@ -37,7 +38,8 @@ const config = {
     LehrerListeComponent,
     EsrPlanComponent,
     StundenplanComponent,
-    VertretungComponent
+    VertretungComponent,
+    VertretungsplanComponent
   ],
   imports: [
     BrowserModule,
