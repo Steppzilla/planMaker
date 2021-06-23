@@ -5,6 +5,7 @@ import { GesamtuebersichtComponent } from './components/gesamtuebersicht/gesamtu
 import { KlassenZuweisungComponent } from './components/klassen-zuweisung/klassen-zuweisung.component';
 import { LehrerListeComponent } from './components/lehrer-liste/lehrer-liste.component';
 import { EsrPlanComponent } from './components/esr-plan/esr-plan.component';
+import { VertretungComponent } from './components/vertretung/vertretung.component';
 
 const routes: Routes =[
 
@@ -12,6 +13,7 @@ const routes: Routes =[
 {path: 'klasseFach', component: KlassenZuweisungComponent},
 {path: 'lehrerListe', component: LehrerListeComponent},
 {path: 'ESR', component: EsrPlanComponent},
+{path: "vertretung", component:VertretungComponent},
 {path: '', redirectTo: "gesamtplan", pathMatch:'full'},
 {path: '**', redirectTo: "start", pathMatch:'full'},
 

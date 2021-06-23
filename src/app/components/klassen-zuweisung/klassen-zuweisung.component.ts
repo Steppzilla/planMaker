@@ -173,11 +173,9 @@ export class KlassenZuweisungComponent implements OnInit {
             if(el[esr]>=1){
               element.lehrer.push(el.lehrer[0]);
             }
-          
           });
         }
       }
-
     });
   }
 

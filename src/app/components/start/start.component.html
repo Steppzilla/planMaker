@@ -12,17 +12,23 @@
     {{termine.datumHeute.getDate()}}.{{termine.datumHeute.getMonth()+1}}.{{termine.datumHeute.getFullYear()}}
   </div>
 </div>
+<div>
+<button class="noprint" (click)="redirect('vertretung')">Vertretung</button>
+
+</div>
+
 
 
 
 <div class="loadSaveContain">
+  <button class="noprint load"  (click)="load(5)">Gespeichten Plan laden (5)</button>
   <!--
 <button class="noprint load"  (click)="load(0)">L0</button>
 <button class="noprint load"  (click)="load(1)">L1</button>
 <button class="noprint load"  (click)="load(2)">L2</button>
 <button class="noprint load"  (click)="load(3)">L3</button>
 <button class="noprint load"  (click)="load(4)">L4</button>
-<button class="noprint load"  (click)="load(5)">L5</button>
+
 <button class="noprint load"  (click)="load(6)">L6</button>
 <button class="noprint load"  (click)="load(7)">L7</button>
 <button class="noprint load"  (click)="load(8)">L8</button>
@@ -35,13 +41,14 @@
 <button class="save noprint" (click)="save(2)">S2</button>
 <button class="save noprint" (click)="save(3)">S3</button>
 <button class="save noprint" (click)="save(4)">S4</button>
-<button class="save noprint" (click)="save(5)">S5</button>
+
 <button class="save noprint" (click)="save(6)">S6</button>
 <button class="save noprint" (click)="save(7)">S7</button>
 <button class="save noprint" (click)="save(8)">S8</button>
 <button class="save noprint" (click)="save(9)">S9</button>
 <button class="save noprint" (click)="save(10)">S10</button>
 -->
+<button class="save noprint" (click)="save(5)">Aktuellen Plan speichern (5)</button>
 </div>
 
 
