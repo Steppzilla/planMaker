@@ -156,13 +156,7 @@ export class LehrerService {
     },
     // { id: 6, name: 'Fucke', kuerzel: 'Fu'  , anrede: "Frau" , faecher: [Fach.]},
   
-    {
-      name: 'Gretsch',
-      kuerzel: 'Gre',
-      anrede: "Frau",
-      faecher: [Fach.geographie, Fach.kunst],
 
-    },
  
     {
       name: 'Haarmeier',
