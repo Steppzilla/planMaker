@@ -213,7 +213,7 @@ export class VertretungComponent implements OnInit {
       }
     });
 
-    console.log(freieLehrer);
+   // console.log(freieLehrer);
     return freieLehrer;
   }
 
