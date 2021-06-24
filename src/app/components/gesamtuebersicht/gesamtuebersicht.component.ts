@@ -2,9 +2,6 @@ import {
   Component,
   OnInit
 } from '@angular/core';
-import {
-  BehaviorSubject
-} from 'rxjs';
 import { Fach } from 'src/app/enums/fach.enum';
 import {
   Lehrjahr
@@ -77,6 +74,20 @@ export class GesamtuebersichtComponent implements OnInit {
     return zaehler;
   }
 
+
+  hintergrund(el){
+    if(el){
+    switch(el.fach){
+      case Fach.hauptunterricht: return "huB";
+      case Fach.schiene: return "schB";
+      case Fach.rhythmisch: return "rhyB";
+      case "HU": return "huB";
+      default: return "normalB";
+    }
+  }else{
+    return "normalB";
+  }
+}
   berechnungAktuelleStunden(elementt) {
     return this.klassenplanServ.berechnung(elementt);
   }

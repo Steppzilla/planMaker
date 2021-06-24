@@ -1,0 +1,78 @@
+* {
+  font-size: 14pt;
+  line-height: 14pt;
+}
+
+h1 {
+  margin-left: 150pt;
+  text-align: center;
+
+}
+
+.datum {
+  font-size: 12pt;
+  float: right;
+  font-weight: italic;
+}
+
+
+.zeil {
+  display: flex;
+  width: 100%;
+}
+
+.klasStunde {
+  width: 42%;
+}
+
+.lehrerFehlt {
+  width: 28%;
+}
+
+.vertretungsLehrer {
+  width: 28%;
+}
+
+
+
+
+#container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#montag,
+#dienstag,
+#mittwoch,
+#donnerstag,
+#freitag {
+  width: 30%;
+  padding: 10pt;
+
+}
+
+#montag {
+  border-right: 1pt solid black;
+}
+
+#dienstag {
+  border-right: 1pt solid black;
+  //border-top: 1pt solid black;
+}
+
+#mittwoch {
+//  border-right: 1pt solid black;
+  border-bottom: 1pt solid black;
+}
+
+#donnerstag {
+  border-top: 1pt solid black;
+  border-right: 1pt solid black;
+}
+
+#freitag {
+
+  border-right: 1pt solid black;
+  border-top: 1pt solid black;
+}

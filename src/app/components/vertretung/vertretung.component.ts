@@ -40,6 +40,8 @@ import {
 })
 export class VertretungComponent implements OnInit {
 
+  vertretung;
+
   aktuellESRArray: Array < Elementt > ;
 
 
@@ -97,86 +99,78 @@ export class VertretungComponent implements OnInit {
     this.grundPlanfaecher.forEach(element => {
       if (element && element.zuweisung && element.zuweisung.uebstunde) {
         element.zuweisung.uebstunde.forEach(woStd => {
-
           if (woStd.wochentag == this.wochenTagauswahl && woStd.stunde == std && element.klasse == klas) {
-
             if (element.fach != Fach.hauptunterricht && element.fach != Fach.schiene && element.fach != Fach.rhythmisch || parseInt(element.klasse) <= 8) {
               inhalt.push(element);
             } else {
               //aktuelle Epoche reinschreiben:
               if (element.fach == Fach.hauptunterricht) {
-               // console.log(this.vertretungsSer.aktuelleESRElemente);
-               // console.log(this.vertretungsSer.aktuelleESRElemente.filter(ele => ele[0].klasse == klas && ele[2] == "epoche"));
+                // console.log(this.vertretungsSer.aktuelleESRElemente);
+                // console.log(this.vertretungsSer.aktuelleESRElemente.filter(ele => ele[0].klasse == klas && ele[2] == "epoche"));
                 let auswahl = this.vertretungsSer.aktuelleESRElemente.filter(ele => ele[0].klasse == klas && ele[2] == "epoche");
                 let speicher = [];
                 let neu = [];
                 let bo = true;
+                let kollektion = Fach.hauptunterricht;
                 auswahl.forEach(ehl => {
                   if (speicher.length > 0) {
                     speicher.forEach(speichELEM => {
                       if (speichELEM.fach == ehl[0].fach && speichELEM.lehrer[0].kuerzel == ehl[0].lehrer[0].kuerzel) {
-                 //       console.log("false");
+                        //       console.log("false");
                         bo = false;
                       }
                     });
                   }
                   if (bo == true) {
+                    ehl[0].kollektion = kollektion;
                     neu.push(ehl[0]);
-                  
+                    //   console.log(neu);
                   }
                   speicher.push(ehl[0]);
                 });
-
                 inhalt = neu;
-
               } else if (element.fach == Fach.schiene) {
-              //  console.log(this.vertretungsSer.aktuelleESRElemente);
-              ///  console.log(this.vertretungsSer.aktuelleESRElemente.filter(ele => ele[0].klasse == klas && ele[2] == "schiene"));
+                //  console.log(this.vertretungsSer.aktuelleESRElemente);
+                ///  console.log(this.vertretungsSer.aktuelleESRElemente.filter(ele => ele[0].klasse == klas && ele[2] == "schiene"));
                 let auswahl = this.vertretungsSer.aktuelleESRElemente.filter(ele => ele[0].klasse == klas && ele[2] == "schiene");
                 let speicher = [];
                 let neu = [];
                 let bo = true;
+                let kollektion = Fach.schiene;
                 auswahl.forEach(ehl => {
-
                   speicher.forEach(speichELEM => {
                     if (speichELEM.fach == ehl[0].fach && speichELEM.lehrer[0].kuerzel == ehl[0].lehrer[0].kuerzel) {
                       bo = false;
                     }
                   });
                   if (bo == true) {
+                    ehl[0].kollektion = kollektion;
                     neu.push(ehl[0]);
                   }
                   speicher.push(ehl[0]);
-
-
                 })
-
                 inhalt = neu;
-
               } else if (element.fach == Fach.rhythmisch) {
-             //   console.log(this.vertretungsSer.aktuelleESRElemente);
-             //   console.log(this.vertretungsSer.aktuelleESRElemente.filter(ele => ele[0].klasse == klas && ele[2] == "rhythmus"));
+                //   console.log(this.vertretungsSer.aktuelleESRElemente);
+                //   console.log(this.vertretungsSer.aktuelleESRElemente.filter(ele => ele[0].klasse == klas && ele[2] == "rhythmus"));
                 let auswahl = this.vertretungsSer.aktuelleESRElemente.filter(ele => ele[0].klasse == klas && ele[2] == "rhythmus");
                 let speicher = [];
                 let neu = [];
                 let bo = true;
+                let kollektion = Fach.rhythmisch;
                 auswahl.forEach(ehl => {
-
                   speicher.forEach(speichELEM => {
                     if (speichELEM.fach == ehl[0].fach && speichELEM.lehrer[0].kuerzel == ehl[0].lehrer[0].kuerzel) {
                       bo = false;
                     }
                   });
                   if (bo == true) {
+                    ehl[0].kollektion = kollektion;
                     neu.push(ehl[0]);
                   }
                   speicher.push(ehl[0]);
-
-
                 })
-
                 inhalt = neu;
-
               }
             }
           }
@@ -190,6 +184,40 @@ export class VertretungComponent implements OnInit {
   wochentagWahl(x: string) {
     this.wochenTagauswahl = x;
   }
+
+  freieLehrer(r) {
+
+    let freieLehrer: Array < Lehrer > =[]; 
+    let lehrerbesetzt=false;
+    this.lehrerService.lehrer.forEach((lehrer,l) => {
+      lehrerbesetzt=false;
+      if (this.grundPlanfaecher) {
+        this.grundPlanfaecher.forEach(element => {
+          if (element != null && element.lehrer.length > 0) {
+            element.lehrer.forEach(le => {
+              element.zuweisung.uebstunde.forEach(zuw=>{
+  
+              if (le&&lehrer&&le.kuerzel==lehrer.kuerzel&&zuw.stunde==r){
+                lehrerbesetzt=true;
+              }
+              });
+
+            });
+            // let filter = this.grundPlanfaecher.filter(el => el.klasse == klasse&&el.uebstunde>0);//Alle Elemente der Klasse filtern
+
+          }
+        });
+      }
+      if(lehrerbesetzt==false){
+        freieLehrer.push(lehrer);
+      }
+    });
+
+    console.log(freieLehrer);
+    return freieLehrer;
+  }
+
+  
 
   tabellensortierung(klasse) {
 
@@ -266,9 +294,9 @@ export class VertretungComponent implements OnInit {
 
     if (fachd == Fach.hauptunterricht || fachd == Fach.schiene || fachd == Fach.rhythmisch) {
       duplicates++;
-      
+
     }
-   
+
     return duplicates > 1 ? "error" : "ok";
   }
 
@@ -314,47 +342,84 @@ export class VertretungComponent implements OnInit {
     }
   }
 
-  /*
-
-      togglezellenClick(stdZ, clickedElementt: Elementt) { //ganze Zelle/stunden zeile als Zahl
-        let neu = this.klassenplanServ.grundPlanfaecher.getValue();
-        neu.forEach((element, e) => {
-          if (element != null && element.fach == clickedElementt.fach && element.klasse == clickedElementt.klasse && (element.uebstunde > 0)) {
-    
-            if (element.lehrer[0] == null) {
-              element.zuweisung.uebstunde.push({
-                wochentag: this.wochenTagauswahl,
-                stunde: stdZ
-              });
-            } else if (element.lehrer[0].kuerzel == clickedElementt.lehrer[0].kuerzel) {
-    
-              element.zuweisung.uebstunde.push({
-                wochentag: this.wochenTagauswahl,
-                stunde: stdZ
-              });
-            }
-            //bei HGW auch die einzelnen Fächer hochzählen
-          }
-        });
-        this.klassenplanServ.grundPlanfaecher.next(neu);
-        //Bei HU und epoche ggf nichts ändern? 
-      }*/
-
-  //ANDERS ALS BEIM GESAMTPLan muss hier diesmal nicht das Raster geändert werden, sondern ein Vertretungsplan erstellt werden:
+  //ANDERS als beim gesamtraster
 
   togglezellenClick(stdZ, clickedElementt: Elementt) { //ganze Zelle/stunden zeile als Zahl
-   
-this.vertretungsElement.vertretung=clickedElementt;
-this.vertretungsSer.vertretung.push(this.vertretungsElement);
-this.vertretungsElement={
-  wochentag: null,
-  datum: null,
-  klasse: null,
-  stunde: null,
-  lehrer: null,
-  fach: null,
-  vertretung: null
-};
+    let aktuelleVertret = this.vertretungsSer.vertretung.getValue();
+    this.vertretungsElement.vertretung = clickedElementt;
+    aktuelleVertret.push(this.vertretungsElement);
+    this.vertretungsSer.vertretung.next(aktuelleVertret);
+    this.vertretungsElement = {
+      wochentag: null,
+      datum: null,
+      klasse: null,
+      stunde: null,
+      lehrer: null,
+      fach: null,
+      vertretung: null,
+      sonderfach: null,
+      notiz: null,
+      vertretungsLehrer:null,
+    };
+  }
+
+  frei() {
+    let aktuelleVertret = this.vertretungsSer.vertretung.getValue();
+    this.vertretungsElement.vertretung = null; //VERTRETUNG IST NULL aber dafür notiz "frei"
+    this.vertretungsElement.notiz="frei";
+    aktuelleVertret.push(this.vertretungsElement);
+    this.vertretungsSer.vertretung.next(aktuelleVertret);
+    this.vertretungsElement = {
+      wochentag: null,
+      datum: null,
+      klasse: null,
+      stunde: null,
+      lehrer: null,
+      fach: null,
+      vertretung: null,
+      sonderfach: null,
+      notiz:null,
+      vertretungsLehrer:null
+    };
+
+  }
+  selbstaendig() {
+    let aktuelleVertret = this.vertretungsSer.vertretung.getValue();
+    this.vertretungsElement.vertretung = null;
+    this.vertretungsElement.notiz="selbständig";
+    aktuelleVertret.push(this.vertretungsElement); //VERTRETUNG IST UNDEFINED dafür notiz: selbständig
+    this.vertretungsSer.vertretung.next(aktuelleVertret);
+    this.vertretungsElement = {
+      wochentag: null,
+      datum: null,
+      klasse: null,
+      stunde: null,
+      lehrer: null,
+      fach: null,
+      vertretung: null,
+      sonderfach: null,
+      notiz:null,
+      vertretungsLehrer:null
+    };
+  }
+  freieLehrerClick(lehr){
+    let aktuelleVertret = this.vertretungsSer.vertretung.getValue();
+    this.vertretungsElement.vertretung = null; //kein element vorhanden
+    this.vertretungsElement.vertretungsLehrer=lehr;
+    aktuelleVertret.push(this.vertretungsElement); //VERTRETUNG IST UNDEFINED dafür notiz: selbständig
+    this.vertretungsSer.vertretung.next(aktuelleVertret);
+    this.vertretungsElement = {
+      wochentag: null,
+      datum: null,
+      klasse: null,
+      stunde: null,
+      lehrer: null,
+      fach: null,
+      vertretung: null,
+      sonderfach: null,
+      notiz:null,
+      vertretungsLehrer:null
+    };
 
   }
 
@@ -366,60 +431,86 @@ this.vertretungsElement={
     stunde: null,
     lehrer: null,
     fach: null,
-    vertretung: null
+    vertretung: null,
+    sonderfach: null,
+    notiz:null,
+    vertretungsLehrer:null
   };
 
+
   cellKlick(e, c, reiheKlasse) {
-      // let neu=this.klassenplanServ.grundPlanfaecher.getValue();
-      // neu[c].zuweisung.uebstunde=[];
+    // let neu=this.klassenplanServ.grundPlanfaecher.getValue();
+    // neu[c].zuweisung.uebstunde=[];
 
-      this.grundPlanfaecher.forEach((element, el) => {
-        if (element != null) {
-          element.zuweisung.uebstunde.forEach((zuw, z) => {
-            if (element != null && zuw.wochentag == this.wochenTagauswahl && zuw.stunde == c && element.klasse == reiheKlasse) {
+    this.grundPlanfaecher.forEach((element, el) => {
+      if (element != null) {
+        element.zuweisung.uebstunde.forEach((zuw, z) => {
+          if (element != null && zuw.wochentag == this.wochenTagauswahl && zuw.stunde == c && element.klasse == reiheKlasse) {
 
-              //NUr wenn auch vorher markiert wurde:
-              element.lehrer.forEach(leHHR => {
-                if (this.marked(leHHR) == "blueback") {
-                  //bei Übstunde gleich reinpushen
-                  if (element.fach != Fach.hauptunterricht && element.fach != Fach.schiene && element.fach != Fach.rhythmisch || parseInt(element.klasse) <= 8) {
-                    this.vertretungsElement.wochentag = element.zuweisung.uebstunde[z].wochentag;
-                    //vertretungsElement.datum=element.zuweisung.uebstunde
-                    this.vertretungsElement.klasse = parseInt(element.klasse);
-                    this.vertretungsElement.stunde = element.zuweisung.uebstunde[z].stunde;
-                    this.vertretungsElement.lehrer = element.lehrer[0];
-                    this.vertretungsElement.fach = element.fach;
+            //NUr wenn auch vorher markiert wurde:
+            element.lehrer.forEach(leHHR => {
+              if (this.marked(leHHR) == "blueback") {
+                //bei Übstunde gleich reinpushen
+                if (element.fach != Fach.hauptunterricht && element.fach != Fach.schiene && element.fach != Fach.rhythmisch || parseInt(element.klasse) <= 8) {
+                  this.vertretungsElement.wochentag = element.zuweisung.uebstunde[z].wochentag;
+                  //vertretungsElement.datum=element.zuweisung.uebstunde
+                  this.vertretungsElement.klasse = parseInt(element.klasse);
+                  this.vertretungsElement.stunde = element.zuweisung.uebstunde[z].stunde;
+                  this.vertretungsElement.lehrer = element.lehrer[0];
+                  this.vertretungsElement.fach = element.fach;
                   //  this.vertretungsSer.vertretung.push(vertretungsElement);
-                  }
-                  //Bei hauptunterricht schiene oder epoche erst aktuelle Epoche finden:
-                  else {
-                    if(this.aktuellesElementdesESR(leHHR,element.klasse)!=undefined){
+                }
+                //Bei hauptunterricht schiene oder epoche erst aktuelle Epoche finden:
+                else {
+                  if (this.aktuellesElementdesESR(leHHR, element.klasse) != undefined) {
                     this.vertretungsElement.wochentag = element.zuweisung.uebstunde[z].wochentag;
                     this.vertretungsElement.klasse = parseInt(element.klasse);
                     this.vertretungsElement.stunde = element.zuweisung.uebstunde[z].stunde;
                     this.vertretungsElement.lehrer = leHHR;
-                    this.vertretungsElement.fach = this.aktuellesElementdesESR(leHHR,element.klasse); //nur aktueller Lehrer geamrkt
-                    //this.vertretungsSer.vertretung.push(vertretungsElement);
+                    this.vertretungsElement.fach = this.aktuellesElementdesESR(leHHR, element.klasse); //nur aktueller Lehrer geamrkt
+                    if (element.fach == Fach.hauptunterricht) {
+                      this.vertretungsElement.sonderfach = Fach.hauptunterricht;
+                    } else if (element.fach == Fach.schiene) {
+                      this.vertretungsElement.sonderfach = Fach.schiene;
+
+                    } else if (element.fach == Fach.rhythmisch) {
+                      this.vertretungsElement.sonderfach = Fach.rhythmisch;
                     }
+                    //this.vertretungsSer.vertretung.push(vertretungsElement);
                   }
                 }
+              }
               //  console.log(this.vertretungsSer.vertretung);
-              });
-            }
-          });
-        }
-      });
-      // console.log(neu);
-      // this.klassenplanServ.grundPlanfaecher.next(neu);
-   
+            });
+          }
+        });
+      }
+    });
+    // console.log(neu);
+    // this.klassenplanServ.grundPlanfaecher.next(neu);
+
   }
 
-  aktuellesElementdesESR(le,klas) {
-    let aktuell = this.vertretungsSer.aktuelleESRElemente.filter(el => el[0].lehrer[0].kuerzel == le.kuerzel&&el[0].klasse==klas);
-    return aktuell[0]? aktuell[0][0].fach : undefined;
+  aktuellesElementdesESR(le, klas) {
+    let aktuell = this.vertretungsSer.aktuelleESRElemente.filter(el => el[0].lehrer[0].kuerzel == le.kuerzel && el[0].klasse == klas);
+    return aktuell[0] ? aktuell[0][0].fach : undefined;
 
     //element=>element[0].klasse==klasse&&esr==element[2]
     ///  console.log(aktuell);
+  }
+
+
+  hintergrund(el) {
+   // console.log(el.sonderfach);
+    if (el && (el.fach == Fach.hauptunterricht || el.kollektion == Fach.hauptunterricht)) {
+      return "huB";
+    } else if (el && (el.fach == Fach.schiene || el.kollektion == Fach.schiene)) {
+      return "schB";
+    } else if (el && (el.fach == Fach.rhythmisch || el.kollektion == Fach.rhythmisch)) {
+      return "rhyB";
+    } else {
+      return "normalB";
+    }
   }
 
   constructor(public vertretungsSer: VertretungServService, public lehrerService: LehrerService, public login: LoginService, public klassenplanServ: KlassenplaeneService) {
@@ -435,6 +526,8 @@ this.vertretungsElement={
     lehrerService.lehrerSelected$.subscribe(data => {
       this.selectLehrer = data;
     });
+
+    vertretungsSer.vertretung$.subscribe(data => this.vertretung = data)
 
   }
 

@@ -1,10 +1,124 @@
+<h1>Vertretungsplan vom
+  {{vertretungsServ.datum.getDate()}}.{{vertretungsServ.datum.getMonth()}}.{{vertretungsServ.datum.getFullYear()}}<span
+    class="datum">Stand:
+    {{ferienTerminServ.datumHeute.getDate()}}.{{ferienTerminServ.datumHeute.getMonth()}}.{{ferienTerminServ.datumHeute.getFullYear()}}</span>
+</h1>
+<div id="container">
+  <div id="montag">
+    <h2> Montag </h2>
+    <div class="zeil" *ngFor="let v of wochentageschreiben('Montag')">
+      <div class="klasStunde">{{v.klasse}}.Kl.
+        {{v.stunde+1}}. Std.
+      </div>
+      <div class="lehrerFehlt"> <span style='font-style:italic;'> {{v.lehrer?v.lehrer.kuerzel:" "}}</span>
+        {{v.fach}} </div>
+      <div class="vertretungsLehrer">
+        <ng-container *ngIf="v.vertretung!=null">
+          <span style="font-weight:bold">{{v.vertretung.lehrer[0]?v.vertretung.lehrer[0].kuerzel:"?"}}</span>
+          {{v.vertretung.fach}}
+        </ng-container>
+        <ng-container *ngIf="v.vertretungsLehrer!=null">
+          <span style="font-weight:bold">{{v.vertretungsLehrer.kuerzel}}</span>
+        </ng-container>
+        <ng-container *ngIf="v.notiz!=null">
+          <span >{{v.notiz}}</span>
+        </ng-container>
 
+      </div>
+    </div>
+  </div>
+  <div id="dienstag">
+    <h2> Dienstag </h2>
+    <div class="zeil" *ngFor="let v of wochentageschreiben('Dienstag')">
+        <div class="klasStunde">{{v.klasse}}.Kl.
+                {{v.stunde+1}}. Std.
+              </div>
+              <div class="lehrerFehlt"> <span style='font-style:italic;'> {{v.lehrer?v.lehrer.kuerzel:" "}}</span>
+                {{v.fach}} </div>
+              <div class="vertretungsLehrer">
+                <ng-container *ngIf="v.vertretung!=null">
+                  <span style="font-weight:bold">{{v.vertretung.lehrer[0]?v.vertretung.lehrer[0].kuerzel:"?"}}</span>
+                  {{v.vertretung.fach}}
+                </ng-container>
+                <ng-container *ngIf="v.vertretungsLehrer!=null">
+                  <span style="font-weight:bold">{{v.vertretungsLehrer.kuerzel}}</span>
+                </ng-container>
+                <ng-container *ngIf="v.notiz!=null">
+                  <span >{{v.notiz}}</span>
+                </ng-container>
+        
+              </div>
+    </div>
+  </div>
+  <div id="mittwoch">
+    <h2> Mittwoch </h2>
+    <div class="zeil" *ngFor="let v of  wochentageschreiben('Mittwoch')">
 
-<p *ngFor="let vertretungsELEMENT of vertretungsServ.vertretung">
+        <div class="klasStunde">{{v.klasse}}.Kl.
+                {{v.stunde+1}}. Std.
+              </div>
+              <div class="lehrerFehlt"> <span style='font-style:italic;'> {{v.lehrer?v.lehrer.kuerzel:" "}}</span>
+                {{v.fach}} </div>
+              <div class="vertretungsLehrer">
+                <ng-container *ngIf="v.vertretung!=null">
+                  <span style="font-weight:bold">{{v.vertretung.lehrer[0]?v.vertretung.lehrer[0].kuerzel:"?"}}</span>
+                  {{v.vertretung.fach}}
+                </ng-container>
+                <ng-container *ngIf="v.vertretungsLehrer!=null">
+                  <span style="font-weight:bold">{{v.vertretungsLehrer.kuerzel}}</span>
+                </ng-container>
+                <ng-container *ngIf="v.notiz!=null">
+                  <span >{{v.notiz}}</span>
+                </ng-container>
+        
+              </div>
+    </div>
+  </div>
+  <div id="donnerstag">
+    <h2> Donnerstag </h2>
+    <div class="zeil" *ngFor="let v of  wochentageschreiben('Donnerstag')">
 
+        <div class="klasStunde">{{v.klasse}}.Kl.
+                {{v.stunde+1}}. Std.
+              </div>
+              <div class="lehrerFehlt"> <span style='font-style:italic;'> {{v.lehrer?v.lehrer.kuerzel:" "}}</span>
+                {{v.fach}} </div>
+              <div class="vertretungsLehrer">
+                <ng-container *ngIf="v.vertretung!=null">
+                  <span style="font-weight:bold">{{v.vertretung.lehrer[0]?v.vertretung.lehrer[0].kuerzel:"?"}}</span>
+                  {{v.vertretung.fach}}
+                </ng-container>
+                <ng-container *ngIf="v.vertretungsLehrer!=null">
+                  <span style="font-weight:bold">{{v.vertretungsLehrer.kuerzel}}</span>
+                </ng-container>
+                <ng-container *ngIf="v.notiz!=null">
+                  <span style="">{{v.notiz}}</span>
+                </ng-container>
+        
+              </div>
+    </div>
+  </div>
+  <div id="freitag">
+    <h2> Freitag </h2>
+    <div class="zeil" *ngFor="let v of  wochentageschreiben('Freitag')">
 
-    <!-- 
-        wochentag: null, datum: null, klasse:null, stunde:null, lehrer:null, fach:null, vertretung:null
-    -->
-    {{vertretungsELEMENT.wochentag}} |    {{vertretungsELEMENT.klasse}}.Klasse |
-    {{vertretungsELEMENT.stunde+1}}. Std.({{vertretungsELEMENT.lehrer.kuerzel}}) {{vertretungsELEMENT.fach}} --{{vertretungsELEMENT.vertretung.lehrer[0].kuerzel}}{{vertretungsELEMENT.vertretung.fach}}</p>
+        <div class="klasStunde">{{v.klasse}}.Kl.
+                {{v.stunde+1}}. Std.
+              </div>
+              <div class="lehrerFehlt"> <span style='font-style:italic;'> {{v.lehrer?v.lehrer.kuerzel:" "}}</span>
+                {{v.fach}} </div>
+              <div class="vertretungsLehrer">
+                <ng-container *ngIf="v.vertretung!=null">
+                  <span style="font-weight:bold">{{v.vertretung.lehrer[0]?v.vertretung.lehrer[0].kuerzel:"?"}}</span>
+                  {{v.vertretung.fach}}
+                </ng-container>
+                <ng-container *ngIf="v.vertretungsLehrer!=null">
+                  <span style="font-weight:bold">{{v.vertretungsLehrer.kuerzel}}</span>
+                </ng-container>
+                <ng-container *ngIf="v.notiz!=null">
+                  <span style="">{{v.notiz}}</span>
+                </ng-container>
+        
+              </div>
+    </div>
+  </div>

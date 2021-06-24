@@ -14,7 +14,9 @@ export interface Elementt {
     rhythmus: number;
     schiene: number;
     epoche:number;
+    kollektion?:Fach;
     zuweisung?: 
+   
         {
             uebstunde:  Array<{wochentag:string,stunde:number}>,//Wochentag als Zahl 0=Sonntag bis 6 = Samstag  , - ,die wievielte Stunde an diesem Tag 
             rhythmus:  Array<{start:Date,ende:Date}>,

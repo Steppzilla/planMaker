@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { Elementt } from '../interfaces/elementt';
 import { VertretungsElement } from '../interfaces/vertretungs-element';
 
@@ -10,8 +11,9 @@ export class VertretungServService {
 
   datum;
 
+  vertretung=new BehaviorSubject([]);
+  vertretung$=this.vertretung.asObservable();
 
-  vertretung:Array <VertretungsElement>=[];
   aktuelleESRElemente:Array <[Elementt,number,string]>=[];
   
   constructor() { 

@@ -1,15 +1,15 @@
 <div id="gesamtuebersicht">
- 
+
   <!--<button (click)="leherkuerzelToggle()">Lehrerkuerzel {{buttontext}}</button>-->
 
   <h1>Gesamtplan</h1>
 
   <div class="buttonreihe noprint wochentagButton">
-    <button (click)="wochentagWahl('Montag')">Montag</button>
-    <button (click)="wochentagWahl('Dienstag')">Dienstag</button>
-    <button (click)="wochentagWahl('Mittwoch')">Mittwoch</button>
-    <button (click)="wochentagWahl('Donnerstag')">Donnerstag</button>
-    <button (click)="wochentagWahl('Freitag')"> Freitag</button>
+    <button class="noprint" (click)="wochentagWahl('Montag')">Montag</button>
+    <button class="noprint" (click)="wochentagWahl('Dienstag')">Dienstag</button>
+    <button class="noprint" (click)="wochentagWahl('Mittwoch')">Mittwoch</button>
+    <button class="noprint" (click)="wochentagWahl('Donnerstag')">Donnerstag</button>
+    <button class="noprint" (click)="wochentagWahl('Freitag')"> Freitag</button>
   </div>
 
 
@@ -27,31 +27,38 @@
             <ng-container *ngIf="r==0">
               {{ zelle}}
             </ng-container>
-            <div *ngFor="let ele of zellenInhalt(r,std);index as i">
-              <ng-container *ngIf="i==0||(i>0&&ele.fach!=zellenInhalt(r,std)[i-1].fach)">
-                {{ ele.fach}}
-              </ng-container>
-
-              <ng-container *ngIf="ele.fach!='StartUp'&&ele.fach!='HU'&&ele.fach!='Schiene'||ele.klasse<=8; else ESR">
-                <ng-container *ngFor="let lehr of ele.lehrer">
-                  <span class="{{marked(lehr)}} {{duplicates(lehr ,std,ele.fach)}}">
-                    {{lehr.kuerzel }}
-                  </span>
-                </ng-container>
-              </ng-container>
-
-              <ng-template #ESR>
-                <ng-container *ngFor="let lehr of ele.lehrer">
-                  <ng-container *ngIf="lehr!=null">
-                  <span class=" {{marked(lehr)}} {{duplicates(lehr ,std,ele.fach)}}">
-                    <ng-container *ngIf="marked(lehr)=='blueback'||duplicates(lehr,std,ele.fach)=='error'">
-                      {{lehr.kuerzel }}
+            <ng-container *ngIf="zellenInhalt(r,std)[0]">
+              <div class="{{hintergrund(zellenInhalt(r,std)[0])}}">
+                <div class="boxi">
+                  <div class="fachItem" *ngFor="let ele of zellenInhalt(r,std);index as i">
+                    <ng-container *ngIf="i==0||(i>0&&ele.fach!=zellenInhalt(r,std)[i-1].fach)">
+                      {{ ele.fach}}
                     </ng-container>
-                  </span>
-                </ng-container>
-                </ng-container>
-              </ng-template>
-            </div>
+
+                    <ng-container
+                      *ngIf="ele.fach!='StartUp'&&ele.fach!='HU'&&ele.fach!='Schiene'||ele.klasse<=8; else ESR">
+                      <ng-container *ngFor="let lehr of ele.lehrer">
+                        <span class="{{marked(lehr)}} {{duplicates(lehr ,std,ele.fach)}}">
+                          {{lehr.kuerzel }}
+                        </span>
+                      </ng-container>
+                    </ng-container>
+
+                    <ng-template #ESR>
+                      <ng-container *ngFor="let lehr of ele.lehrer">
+                        <ng-container *ngIf="lehr!=null">
+                          <span class=" {{marked(lehr)}} {{duplicates(lehr ,std,ele.fach)}}">
+                            <ng-container *ngIf="marked(lehr)=='blueback'||duplicates(lehr,std,ele.fach)=='error'">
+                              {{lehr.kuerzel }}
+                            </ng-container>
+                          </span>
+                        </ng-container>
+                      </ng-container>
+                    </ng-template>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
 
 
 
