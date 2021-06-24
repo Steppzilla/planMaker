@@ -16,7 +16,7 @@
       <ng-container *ngIf="lehrer.faecher!=null">
         <span *ngFor="let fach of lehrer.faecher">
           <ng-container *ngIf="klassenReturn(lehrer,fach).length>0">   
-          {{fach}}(      {{ klassenReturn(lehrer,fach)}})
+          {{fach}}({{ klassenReturn(lehrer,fach)}})
           </ng-container>
 
         </span>
