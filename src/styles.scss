@@ -1,6 +1,7 @@
 
 /* You can add global styles to this file, and also import other style files */
 
+
 h1,h2{text-align:center}
 .tooltip-inner{
   width:200pt;
@@ -30,6 +31,46 @@ h1,h2{text-align:center}
   }
 
   .noprint{display:none; }
+  .huB{background-color:rgb(243, 246, 193);
+  }
+  .schB{background-color:rgb(231, 253, 205);}
+  .rhyB{background-color: rgb(243, 193, 188);}
+   .normalB{background-color:rgb(238, 238, 238);}
+   .ferienNotiz,
+.sonderNotiz {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10pt;
+  line-height: 15pt;
+  padding-top: 2pt;
+  -ms-writing-mode: tb-rl;
+  writing-mode: vertical-rl;
+  border-radius: 5pt;
+  background-color: steelblue;
+}
+
+.tagesContainer {
+  width: 15pt;
+  pointer-events: none;
+}
+
+.tagesContainer.Mo {
+  pointer-events: visible;
+}
+
+
+.true {
+  background-color: steelblue;
+}
+
+.sonderNotiz {
+  background-color: rgba(240, 176, 57);
+}
+
+.EM,
+.Abi {
+  background-color: rgba(240, 176, 57);
+
+}
 /*
   body app-root app-epoche  .tagesItem{
     width:20pt;

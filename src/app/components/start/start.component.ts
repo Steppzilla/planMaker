@@ -28,6 +28,7 @@ export class StartComponent implements OnInit {
         this.lehrer.lehrerSelected.next(this.lehrer.lehrer[lehrerNR]);
       }
 
+      
   constructor(public lehrer: LehrerService, public login: LoginService, public router:Router,public termine:FerientermineService) {
     this.login.login();
     this.login.gesamtPlanLaden(5);

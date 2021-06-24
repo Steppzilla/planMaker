@@ -1,140 +1,182 @@
-*{font-size:9pt;}
+* {
+  font-size: 9pt;
+}
 
+#gesamt {
+  color: rgb(182, 182, 150);
+  background-color: rgb(59, 61, 56);
+}
 
-.planRahmen{display:flex;
-flex-wrap:wrap;}
+.planRahmen {
+  display: flex;
+  flex-wrap: wrap;
+}
 
-.wochenRahmen{display:flex;
-//border:2pt black solid;
-//border-radius:5pt;
+.wochenRahmen {
+  display: flex;
+}
 
+.Monat,
+.Datum,
+.Tag {
+  height: 15pt;
+  text-align: center;
+}
+
+.Monat {
+  margin-top: 10pt;
+  width: 10pt;
+  white-space: nowrap;
+}
+
+.Datum {
+  border-top: 1pt solid rgb(182, 182, 150);
+  font-size: 5pt;
+}
+
+.Tag {
+  font-size: 5pt;
+}
+
+.tagesButtonContainer.Mo {
+  width: 70pt;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.tagesButtonContainer.Di,
+.tagesButtonContainer.Mi,
+.tagesButtonContainer.Do,
+.tagesButtonContainer.Fr {
+  width: 60pt;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.tagesButtonContainer button {
+  margin: 0pt;
+  border-radius: 0pt;
+  background-color: rgb(59, 61, 56);
+  border: none;
+  border-top: 1pt  rgb(137, 143, 137);
+  border-left: 1pt  rgb(137, 143, 137);
+  width: 100%;
+  height: 30pt;
+  z-index: 3;
+  
+
+  div {
+    line-height: 9pt;
+  }
+}
+
+.fakeButton {
+  opacity: none;
+  background-color:  inherit;
+  width: 60pt;
+  height: 30pt;
+  color:rgb(182, 182, 150);
+}
+
+.ferienNotiz,
+.sonderNotiz {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10pt;
+  line-height: 15pt;
+  padding-top: 2pt;
+  -ms-writing-mode: tb-rl;
+  writing-mode: vertical-rl;
+  border-radius: 5pt;
+  background-color: rgb(28, 58, 83);
+  color:rgb(182, 182, 150);
+}
+
+.tagesContainer {
+  width: 15pt;
+  pointer-events: none;
+}
+
+.tagesContainer.Mo {
+  pointer-events: visible;
+}
+
+.true {
+  background-color: rgb(28, 75, 112);
+}
+
+.sonderNotiz {
+  background-color: rgb(172, 124, 37);
+}
+
+.EM,
+.Abi {
+  background-color: rgb(151, 111, 36);
 
 }
 
-.Monat,.Datum,.Tag{height:15pt;
-    text-align: center;
-}
-.Monat{margin-top:10pt;
-    width:10pt;
-    white-space: nowrap;
-}
-.Datum{border-top: 1pt solid black;
-font-size:5pt;}
-.Tag{
-    font-size:5pt;
-}
-
-
-
-.tagesButtonContainer.Mo{
-    width:70pt;
-    display:flex;
-    flex-wrap:wrap;
-}
-.tagesButtonContainer.Di,.tagesButtonContainer.Mi,.tagesButtonContainer.Do,.tagesButtonContainer.Fr{
-    width:60pt;
-    display:flex;
-    flex-wrap:wrap;
+.Herbstferien,
+.Weihnachtsferien,
+.Osterferien,
+.Sommerferien,
+.WE,
+.Pfingstmontag,
+.Pfingstferien,
+.Himmelfahrt,
+.Arbeit,
+.Ostermontag,
+.Karfreitag,
+.Neujahr,
+.Weihnachtstag,
+.Reformationstag,
+.Einheit {
+  background-color: rgba(63, 94, 119, 0.8);
+  color:rgb(182, 182, 150);
 }
 
-.tagesButtonContainer button{
-    margin:0pt;
-    border-radius: 0pt;
-    background-color: white;
-    border:none;
-    border-top:1pt black solid; 
-    border-left:1pt black solid;
-    width:100%;
-    height:30pt;
-    z-index: 3;
-    div{
-        line-height:9pt;
-    }
-}
-.tagesButtonContainer{
-   
-}
-.fakeButton{opacity:none;
-    background-color: white;
-    width:60pt;
-    height:30pt;
-    
-}
-.tagesButtonContainer span{ 
-
+.error {
+  color: red;
 }
 
-.ferienNotiz,.sonderNotiz{    font-family:Arial, Helvetica, sans-serif;
-    font-size:10pt;
-    line-height:15pt;
-    padding-top:2pt;
-   -ms-writing-mode: tb-rl; 
-   writing-mode: vertical-rl; 
-  border-radius:5pt;
-background-color:steelblue;
+.ok {
+  color: rgb(137, 143, 137);
 }
-
-.tagesContainer{
-    width:15pt;
-
-pointer-events: none;
-}
-
-.tagesContainer.Mo{
-   pointer-events: visible;
-}
-
-
-.true{background-color:steelblue;
-}
-
-.sonderNotiz{background-color:rgba(240, 176, 57);}
-.EM ,.Abi{
-    background-color:rgba(240, 176, 57);
-
-}
-.Herbstferien, .Weihnachtsferien, .Osterferien, .Sommerferien, .WE ,
-.Pfingstmontag, .Pfingstferien ,.Himmelfahrt ,.Arbeit ,.Ostermontag ,.Karfreitag ,.Neujahr ,.Weihnachtstag ,.Reformationstag 
-,.Einheit {
-    background-color:rgb(70, 130, 180,0.8);
-}
-
-.error{color:red;}
-.ok{color:green;}
 
 .blueback {
-    color: blue;
-    font-weight: bold;
-    font-size: 16pt;
-  }
-
-
-
-  .esrWahl, .zeile{
-      display:flex;
-  }
-
-.esrWahl button{
-
-    border: solid 0pt black;
-  
-    /* border-radius:5pt;*/
-    padding: 2pt;
-    background-color: inherit;
-    width:100%;
-    background-color: beige;
-
-}
-
-.zeile button{
-    border: solid 0pt black;
-  margin:5pt;
-    /* border-radius:5pt;*/
-    padding: 2pt;
-    background-color: inherit;
-    width:80pt;;
-    background-color: beige;
+  color: rgb(147, 147, 184);
+  font-weight: bold;
+  font-size: 12pt;
 }
 
 
- 
+
+.esrWahl,
+.zeile {
+  display: flex;
+}
+
+.esrWahl button {
+
+  border: solid 0pt black;
+
+  /* border-radius:5pt;*/
+  padding: 2pt;
+  background-color: inherit;
+  width: 100%;
+  color:inherit;
+  border-top: 1pt solid rgb(137, 143, 137);
+
+}
+
+.zeile button {
+  border: solid 0pt black;
+  margin: 5pt;
+  /* border-radius:5pt;*/
+  padding: 2pt;
+  background-color: inherit;
+  width: 80pt;
+  color:rgb(137, 143, 137);
+  //background-color: beige;
+  border-top: 1pt solid rgb(137, 143, 137);
+}
+
+.ganztag{ color:rgb(182, 182, 150);}

@@ -7,13 +7,14 @@
   <button class="noprint" (click)="redirect('schiene')"> Schiene</button>
   <button class="noprint" (click)="redirect('rhythmus')"> Rhythmus</button>-->
   <button class="noprint" (click)="redirect('ESR')"> ESR (Edit)</button>
-
+  <button class="noprint" (click)="redirect('vertretung')">(Vertretung)</button>
   <div class="date noprint"> Datum:
     {{termine.datumHeute.getDate()}}.{{termine.datumHeute.getMonth()+1}}.{{termine.datumHeute.getFullYear()}}
   </div>
+
 </div>
 <div>
-<button class="noprint" (click)="redirect('vertretung')">Vertretung</button>
+
 
 </div>
 
@@ -21,7 +22,7 @@
 
 
 <div class="loadSaveContain">
-  <button class="noprint load"  (click)="load(5)">Gespeichten Plan laden (5)</button>
+  <button class="noprint load"  (click)="load(5)">laden (5)</button>
   <!--
 <button class="noprint load"  (click)="load(0)">L0</button>
 <button class="noprint load"  (click)="load(1)">L1</button>
@@ -48,7 +49,7 @@
 <button class="save noprint" (click)="save(9)">S9</button>
 <button class="save noprint" (click)="save(10)">S10</button>
 -->
-<button class="save noprint" (click)="save(5)">Aktuellen Plan speichern (5)</button>
+<button class="save noprint" (click)="save(5)">speichern (5)</button>
 </div>
 
 

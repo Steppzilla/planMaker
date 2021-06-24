@@ -1,35 +1,49 @@
+*{color:rgb(114, 163, 196);
+ background-color:rgb(88, 70, 116);}
+
 button{
     border:none;
-    background-color: steelblue;
+    background-color: inherit;
     border-radius:5pt;
     padding: 5pt;
     margin:5pt;
     width:100%;
 }
+button:hover{background-color:green;}
 
 .date{
     border-radius:5pt;
     padding: 5pt;
     margin:5pt;
     width:100%;
+    background-color:inherit;
 }
 
 #menu{
     display:flex;
+    background-color:rgb(47, 36, 65);;
+
+
+
 }
 
 .loadSaveContain{
     display:flex;
+    flex-direction: column;
+    float:right;
 }
 
 #Lehrerselect {flex-wrap: wrap;
     width:100%;}
     
     #Lehrerselect>button {
-      background-color:rgb(216, 154, 205);
-      margin: 1pt;
+     // background-color:rgb(77, 33, 68);
+      margin: 0pt;
       border-radius:2pt;
-      width: 60pt;
+      width: 40pt;
     }
 
-    .save{background-color:red;}
+    .save{background-color:rgb(126, 45, 45);
+    color:rgb(214, 181, 176)}
+    .load{background-color:rgb(38, 110, 38);
+    color:rgb(170, 214, 180);}

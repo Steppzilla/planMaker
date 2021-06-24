@@ -1,3 +1,8 @@
+#alles{
+    color:rgb(153, 153, 134);
+    background-color:rgb(57, 61, 58);
+}
+
 tr{border-top:1pt black solid}
 .oben{width:100%;
 display: grid;
@@ -20,13 +25,15 @@ border-radius:4pt;}
 margin:0pt;
 min-height:6pt;
 border:none;
+background-color:inherit;
+color:rgb(182, 168, 168);
 
 
 }
 
-
 #FachLehrerUebersicht-Tabelle{
-    width:90%;
+    margin:0pt;
+    width:95%;
 }
 
 th{
@@ -52,7 +59,7 @@ th{
     padding:0pt;
     border:none;
     border-radius:9pt;
-   // background-color:pink;
+    background-color:inherit;
 
 
 }
@@ -69,30 +76,31 @@ th{
 
 
 .ueb{
-    background-color:steelblue;
+   // background-color:rgb(19, 64, 100);
     padding:2pt;
     border-radius: 4pt;
+    color:rgb(72, 145, 228);
 
 }
 .rhy{
-    background-color: forestgreen;
+    color: rgb(245, 115, 115);
     padding:2pt;
     border-radius: 4pt;
 
 }
 .epo{
-    background-color: goldenrod;
+    color: rgb(241, 203, 106);
     padding:2pt;
     border-radius: 4pt;
 }
 .sch{
-    background-color: orange;
+    color: rgb(122, 240, 167);
     padding:2pt;
     border-radius: 4pt;
 }
 
 .nix{
-    color:white;
+    color:rgb(99, 92, 92);
 }
 
 

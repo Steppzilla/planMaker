@@ -3,8 +3,12 @@
   margin: 0pt;
 }
 
+#gesamtuebersicht{background-color:rgb(77, 74, 78);
+color:rgb(221, 200, 200);}
+
 h1,h2{text-align:center;
-margin-top:10pt;}
+margin-top:0pt;
+padding-top:10pt;}
 
 p {
   margin: 0pt;
@@ -17,11 +21,12 @@ button {
   padding: 2pt;
   background-color: inherit;
   width:100%;
+  color:inherit;
   
 }
 
 .wochentagButton{
-  background-color: beige;
+  border-top: 1pt rgb(218, 199, 199) solid;
 }
 .buttonreihe{display:flex;}
 
@@ -40,6 +45,7 @@ margin:1%;
 
 button:hover {
   background-color: rgb(167, 209, 119);
+  color:black;
 }
 
 
@@ -71,7 +77,7 @@ button:hover {
 
 .huB,.schB,.rhyB,.normalB{
   height:100%;  
-  border-top: 1pt solid black;
+  border-top: 1pt solid rgb(63, 63, 63);
 }
 
 
@@ -81,6 +87,7 @@ button:hover {
   height: 30pt;
 }
 
+
 .klassenspalte>div>button {
   padding: 0pt;
   height: 100%;
@@ -89,18 +96,10 @@ button:hover {
  
 }
 
-.klassenspalte.stundenNR>.th {
-  color: black;
-  height: 45pt;
-}
 .klassenspalte>.klasse.th{
+  font-weight: normal;
     height: 30pt;
   line-height: 30pt;  /*center-trick*/
-}
-
-/*span{pointer-events: none;}*/
-.rubrik {
-  border: 0.5pt solid white;
 }
 
 .error {
@@ -108,17 +107,23 @@ button:hover {
 }
 
 .ok {
-  color: darkgrey;
+ 
+ border-radius:4pt;
+  color: rgb(255, 255, 255);
 }
 
-.blueback{color:blue;}
+.blueback{color:rgb(82, 82, 241);}
 
 
-.huB{background-color:rgb(243, 246, 193);
+.huB{background-color:rgb(153, 145, 59);
+  color:rgb(223, 240, 128);
 }
-.schB{background-color:rgb(231, 253, 205);}
-.rhyB{background-color: rgb(243, 193, 188);}
- .normalB{background-color:rgb(238, 238, 238);}
+.schB{background-color:rgb(117, 150, 82);
+color:rgb(171, 240, 171);}
+.rhyB{background-color: rgb(167, 74, 65);
+color:rgb(216, 175, 165);}
+ .normalB{background-color:rgb(102, 99, 104);
+color:rgb(143, 162, 195);}
 
 
 #toggle-item-Container {
@@ -138,3 +143,18 @@ button:hover {
 }
 
 .gruen{color:green;}
+
+.fakebutton>div{width:20pt;
+height:100%;
+text-align:center;
+line-height:45pt;
+}
+.fakebutton{
+  width:20pt;
+}
+.klassenspalte1{
+  width:20pt;
+}
+
+
+

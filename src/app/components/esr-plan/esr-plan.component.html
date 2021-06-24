@@ -1,3 +1,4 @@
+<div id="gesamt">
 <h1>ESR-Plan</h1>
 
 
@@ -15,34 +16,35 @@
 
 
 <div class="zeile noprint">
-  Klasse 9:
-  <ng-container *ngFor="let ele of tabellensortierung(ix)"> <button class="epochen" (click)="epochenWahl(ele)">
+
+  <div> Klasse 9: </div>
+  <div *ngFor="let ele of tabellensortierung(ix)"> <button class="epochen" (click)="epochenWahl(ele)">
       <span *ngFor="let leh of ele.lehrer">{{leh.kuerzel}}</span>|{{ele.fach}}|{{ele[gewaehlterPlan]}}|{{ele.zuweisung[gewaehlterPlan].length}}
     </button>
-  </ng-container>
+  </div>
 </div>
 <div class="zeile noprint">
-  Klasse 10:
-  <ng-container *ngFor="let ele of tabellensortierung(x)">
+  <div> Klasse 10:</div>
+  <div *ngFor="let ele of tabellensortierung(x)">
     <button class="epochen" (click)="epochenWahl(ele)">
       <span *ngFor="let leh of ele.lehrer">{{leh.kuerzel}}</span>|{{ele.fach}}|{{ele[gewaehlterPlan]}}|{{ele.zuweisung[gewaehlterPlan].length}}
     </button>
-  </ng-container>
+  </div>
 </div>
 <div class="zeile noprint">
 
-  Klasse 11:
-  <ng-container *ngFor="let ele of tabellensortierung(xi)"> <button class="epochen" (click)="epochenWahl(ele)">
+  <div> Klasse 11:</div>
+  <div *ngFor="let ele of tabellensortierung(xi)"> <button class="epochen" (click)="epochenWahl(ele)">
       <span *ngFor="let leh of ele.lehrer">{{leh.kuerzel}}</span>|{{ele.fach}}|{{ele[gewaehlterPlan]}}|{{ele.zuweisung[gewaehlterPlan].length}}
     </button>
-  </ng-container>
+  </div>
 </div>
 <div class="zeile noprint">
-  Klasse 12:
-  <ng-container *ngFor="let ele of tabellensortierung(xii)"> <button class="epochen" (click)="epochenWahl(ele)">
+  <div>Klasse 12:</div>
+  <div *ngFor="let ele of tabellensortierung(xii)"> <button class="epochen" (click)="epochenWahl(ele)">
       <span *ngFor="let leh of ele.lehrer">{{leh.kuerzel}}</span>|{{ele.fach}}|{{ele[gewaehlterPlan]}}|{{ele.zuweisung[gewaehlterPlan].length}}
     </button>
-  </ng-container>
+  </div>
 </div>
 
 <div class="planRahmen">
@@ -85,8 +87,9 @@
                   </ng-container>
                   <ng-container *ngIf="(ferienServ.tagZuString(tag.tag)=='Mo'); else LEER">
                     <button class="{{gewaehlterPlan}} 9" (click)="click($event,9,  d, 'neun',tag.tag.getDay())">
-                      <div class="ganztag" *ngIf="tag.ganztaegig.neun!=null"> {{tag.ganztaegig.neun}}
+                      <div class="ganztag" *ngIf="tag.ganztaegig.neun!=null; else JOOO"> {{tag.ganztaegig.neun}}
                       </div>
+                      <ng-template #JOOO>
                                         <ng-container *ngFor="let el of grundPlanfaecher">
                         <ng-container *ngIf="el!=null&&el.klasse==9">
                         <ng-container *ngFor="let startende of el.zuweisung[gewaehlterPlan]">
@@ -100,6 +103,7 @@
                           </ng-container>
                         </ng-container>
                       </ng-container>
+                    </ng-template>
                       <!--
                       <div class="{{duplicates(unt.lehrer, tag)}}" *ngFor="let unt of tag[gewaehlterPlan].neun">
                         {{unt.lehrer[0].kuerzel}}
@@ -109,7 +113,8 @@
                   </ng-container>
                   <ng-container *ngIf="(ferienServ.tagZuString(tag.tag)=='Mo'); else LEER">
                     <button class="{{gewaehlterPlan}} 10" (click)="click($event,10,d, 'zehn',tag.tag.getDay())">
-                      <div class="ganztag" *ngIf="tag.ganztaegig.zehn!=null"> {{tag.ganztaegig.zehn}}</div>
+                      <div class="ganztag" *ngIf="tag.ganztaegig.zehn!=null;else JOO"> {{tag.ganztaegig.zehn}}</div>
+                      <ng-template #JOO>
                       <ng-container *ngFor="let el of grundPlanfaecher">
                         <ng-container *ngIf="el!=null&&el.klasse==10">
                         <ng-container *ngFor="let startende of el.zuweisung[gewaehlterPlan]">
@@ -123,6 +128,7 @@
                           </ng-container>
                         </ng-container>
                       </ng-container>
+                    </ng-template>
 
                       <!--
                       <div class="{{duplicates(unt.lehrer, tag)}}" *ngFor="let unt of tag[gewaehlterPlan].zehn">
@@ -134,7 +140,8 @@
                   </ng-container>
                   <ng-container *ngIf="(ferienServ.tagZuString(tag.tag)=='Mo'); else LEER">
                     <button class="{{gewaehlterPlan}} 11" (click)="click($event,11, d,'elf',tag.tag.getDay())">
-                      <div class="ganztag" *ngIf="tag.ganztaegig.elf!=null"> {{tag.ganztaegig.elf}}</div>
+                      <div class="ganztag" *ngIf="tag.ganztaegig.elf!=null;else JO"> {{tag.ganztaegig.elf}}</div>
+                      <ng-template #JO>
                       <ng-container *ngFor="let el of grundPlanfaecher">
                         <ng-container *ngIf="el!=null&&el.klasse==11">
                         <ng-container *ngFor="let startende of el.zuweisung[gewaehlterPlan]">
@@ -148,6 +155,7 @@
                           </ng-container>
                         </ng-container>
                       </ng-container>
+                    </ng-template>
                          <!--
                       <div class="{{duplicates(unt.lehrer, tag)}}" *ngFor="let unt of tag[gewaehlterPlan].elf">
                         {{unt.lehrer[0].kuerzel}}
@@ -158,7 +166,8 @@
                   </ng-container>
                   <ng-container *ngIf="(ferienServ.tagZuString(tag.tag)=='Mo'); else LEER">
                     <button class="{{gewaehlterPlan}} 12" (click)="click($event,12, d,'zwoelf',tag.tag.getDay())">
-                      <div class="ganztag" *ngIf="tag.ganztaegig.zwoelf!=null"> {{tag.ganztaegig.zwoelf}}</div>
+                      <div class="ganztag" *ngIf="tag.ganztaegig.zwoelf!=null;else GRNO"> {{tag.ganztaegig.zwoelf}}</div>
+                      <ng-template #GRNO>
                       <ng-container *ngFor="let el of grundPlanfaecher">
                         <ng-container *ngIf="el!=null&&el.klasse==12">
                         <ng-container *ngFor="let startende of el.zuweisung[gewaehlterPlan]">
@@ -172,6 +181,7 @@
                           </ng-container>
                         </ng-container>
                       </ng-container>
+                    </ng-template>
                       <!--
                       <div class="{{duplicates(unt.lehrer, tag)}}" *ngFor="let unt of tag[gewaehlterPlan].zwoelf">
                         {{unt.lehrer[0].kuerzel}}
@@ -219,4 +229,5 @@
       </ng-container>
     </ng-container>
   </ng-container>
+</div>
 </div>

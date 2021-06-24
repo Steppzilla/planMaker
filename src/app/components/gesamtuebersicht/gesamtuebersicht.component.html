@@ -17,21 +17,35 @@
   <div id="tabelle">
 
     <ng-container *ngIf="tagesPlan">
-
+      <div class="klassenspalte1">
+        <div class="th klasse">  </div>
+        <div class="mb-2">
+          <div class="fakebutton"> <div>1</div></div>
+          <div class="fakebutton"> <div>2</div></div>
+          <div class="fakebutton"> <div>3</div></div>
+          <div class="fakebutton"> <div>4</div></div>
+          <div class="fakebutton"> <div>5</div></div>
+          <div class="fakebutton"> <div>6</div></div>
+          <div class="fakebutton"> <div>7</div></div>
+          <div class="fakebutton"> <div>8</div></div>
+          <div class="fakebutton"> <div>9</div></div>
+          <div class="fakebutton"> <div>10</div></div>
+          <div class="fakebutton"> <div>11</div></div>
+        </div>
+      </div>
       <!-- klassenspalte 1,2,3,4,5,6,7,8,9,10,11,12,13. Klasse sind rows (im css als spalte angezeigt)-->
       <div class="klassenspalte" *ngFor="let klasse of tagesPlan index as r">
-        <div class="th klasse">{{r}} ({{klassengesamtstunden(r)}}) </div>
+ 
+        <div class="th klasse">{{r+1}} ({{klassengesamtstunden(r+1)}}) </div>
         <div class="mb-2">
           <button *ngFor="let zelle of klasse index as std" triggers="click" [autoClose]="true" class="dropButton "
-            [ngbTooltip]="Lehrer" placement="bottom" (click)="cellKlick($event,std,r)">
-            <ng-container *ngIf="r==0">
-              {{ zelle}}
-            </ng-container>
-            <ng-container *ngIf="zellenInhalt(r,std)[0]">
-              <div class="{{hintergrund(zellenInhalt(r,std)[0])}}">
+            [ngbTooltip]="Lehrer" placement="bottom" (click)="cellKlick($event,std,r+1)">
+
+            <ng-container *ngIf="zellenInhalt(r+1,std)[0]">
+              <div class="{{hintergrund(zellenInhalt(r+1,std)[0])}}">
                 <div class="boxi">
-                  <div class="fachItem" *ngFor="let ele of zellenInhalt(r,std);index as i">
-                    <ng-container *ngIf="i==0||(i>0&&ele.fach!=zellenInhalt(r,std)[i-1].fach)">
+                  <div class="fachItem" *ngFor="let ele of zellenInhalt(r+1,std);index as i">
+                    <ng-container *ngIf="i==0||(i>0&&ele.fach!=zellenInhalt(r+1,std)[i-1].fach)">
                       {{ ele.fach}}
                     </ng-container>
 
@@ -65,7 +79,7 @@
 
 
             <ng-template #Lehrer>
-              <ng-container *ngFor="let elementt of tabellensortierung(r) index as stundenI">
+              <ng-container *ngFor="let elementt of tabellensortierung(r+1) index as stundenI">
                 <div id="toggle-item-Container" *ngIf="elementt!=undefined" (click)="togglezellenClick(std,elementt)">
                   <div class="toggle-items {{duplicateToggle(std,elementt)}}">
                     {{elementt?elementt.fach:"kein Fach"}}
@@ -104,7 +118,7 @@
 
           </button>
         </div>
-
+   
       </div>
     </ng-container>
   </div>
