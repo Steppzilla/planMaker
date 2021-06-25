@@ -2,9 +2,9 @@
   <h1>ESR-Plan: {{gewaehlterLehrer.kuerzel}} </h1>
 
   <div class="planRahmen">
-    <ng-container *ngFor="let montagtag of esrPlan; index as d">
+    <ng-container *ngFor="let tag of esrPlan; index as d">
 
-      <ng-container *ngIf="montagtag.tag.getDay()==1">
+      <ng-container *ngIf="tag.tag.getDay()==1">
         <!-- wenn montag nur zeigen      .... dann mo, di, mi, do, fr anzeigen!-->
         <ng-container *ngIf="d<esrPlan.length-4">
           <ng-container
@@ -12,7 +12,8 @@
             <div class="wochenRahmen">
               <!--irgendein Tag Schule? sonst LEERwoche-->
 
-              <ng-container *ngFor="let tag of [esrPlan[d],esrPlan[d+1], esrPlan[d+2], esrPlan[d+3], esrPlan[d+4]]">
+
+             
 
                 <!-- wann soll tag angezeigt werden? Nur wenn nicht frei ist...-->
                 <div class="tagesContainer {{ferienServ.tagZuString(tag.tag)}}">
@@ -24,11 +25,9 @@
                   </div>
                   <div class="Datum  {{tag.frei}} {{tag.notiz}}">
                     <!--<ng-container *ngIf="tag.tag.getDay()==1">-->
-                    {{tag.tag.getDate() }}
+                      {{ferienServ.tagZuString(tag.tag)}} {{tag.tag.getDate() }}
                   </div>
-                  <div class="Tag">
-                    {{ferienServ.tagZuString(tag.tag)}}
-                  </div>
+
                   <div class="tagesButtonContainer {{ferienServ.tagZuString(tag.tag)}}">
 
                     <!-- ab hier korrigieren für einzelne Lehrer......-->
@@ -36,16 +35,16 @@
                       <ng-container *ngFor="let el of lehrerItems(gewaehlterLehrer)">
                         <ng-container *ngIf="gewaehlterLehrer">
 
-                            <ng-container *ngFor="let tagStunde of el.zuweisung.rhythmus">
-                                <ng-container
-                                  *ngIf="el.lehrer[0]&&tagStunde.start.getTime()<=tag.tag.getTime()&&tagStunde.ende.getTime()>=tag.tag.getTime()">
-                                    <div class="rhy">
-                                  {{el.fach}}
-                                  {{el.klasse}}
-                                </div>
-                                </ng-container>
-                              </ng-container>
-    
+                          <ng-container *ngFor="let tagStunde of el.zuweisung.rhythmus">
+                            <ng-container
+                              *ngIf="el.lehrer[0]&&tagStunde.start.getTime()<=tag.tag.getTime()&&tagStunde.ende.getTime()>=tag.tag.getTime()">
+                              <div class="rhy">
+                                 {{el.fach}}
+                                {{el.klasse}}
+                              </div>
+                            </ng-container>
+                          </ng-container>
+
 
                           <ng-container *ngFor="let tagStunde of el.zuweisung.epoche">
                             <ng-container
@@ -80,12 +79,10 @@
                       </div>
 
                     </ng-template>
-                    <span *ngIf="tag.notiz!='schule'" class="sonderNotiz {{tag.notiz}}">
-                      {{tag.notiz.slice(0,5)}}
-                    </span>
+                   
                   </div>
                 </div>
-              </ng-container>
+           
             </div>
           </ng-container>
           <ng-template #LEERWOCHE>
@@ -94,18 +91,18 @@
                 <!--  <div class="Jahr"> </div>-->
                 <div class="Monat">
                   <ng-container
-                    *ngIf="montagtag.tag.getDay()==1&&(d>=7&&ferienServ.monatZuString(montagtag.tag)!=ferienServ.monatZuString(esrPlan[d-7].tag))">
-                    {{ ferienServ.monatZuString(montagtag.tag)}} {{montagtag.tag.getFullYear()}}
+                    *ngIf="tag.tag.getDay()==1&&(d>=7&&ferienServ.monatZuString(tag.tag)!=ferienServ.monatZuString(esrPlan[d-7].tag))">
+                    {{ ferienServ.monatZuString(tag.tag)}} {{tag.tag.getFullYear()}}
                   </ng-container>
                 </div>
-                <div class="Datum {{montagtag.frei}} {{montagtag.notiz}}">
-                  {{montagtag.tag.getDate() }}
+                <div class="Datum {{tag.frei}} {{tag.notiz}}">
+                  {{tag.tag.getDate() }}
                 </div>
                 <div class="Tag">
-                  {{ferienServ.tagZuString(montagtag.tag)}}
+                  {{ferienServ.tagZuString(tag.tag)}}
                 </div>
-                <div class="ferienNotiz {{montagtag.notiz}}">
-                  {{montagtag.notiz.slice(0,8)}}
+                <div class="ferienNotiz {{tag.notiz}}">
+                  {{tag.notiz.slice(0,8)}}
                 </div>
               </div>
             </div>

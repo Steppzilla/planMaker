@@ -9,6 +9,10 @@ import {
   Observable
 } from 'rxjs';
 import {
+  map,
+  filter
+} from 'rxjs/operators';
+import {
   Fach
 } from '../enums/fach.enum';
 import {
@@ -37,96 +41,129 @@ export class KlassenplaeneService {
   grundPlanfaecher = new BehaviorSubject < Array < Elementt >> (null);
   grundPlanfaecher$ = this.grundPlanfaecher.asObservable();
 
+  klassenArray$: Observable < {
+      [key: string]: Elementt[]
+    } >=
+    this.grundPlanfaecher$.pipe(
+      filter(r => r !== null),
+      map(x => {
+        let obj: {
+          [key: string]: Elementt[]
+        } = {};
+        x.forEach((ele: Elementt) => {
+          if (obj[ele.klasse] === undefined) {
+            obj[ele.klasse] = [];
+          }
+          obj[ele.klasse].push(ele);
+        });
+        return obj;
+      })
+    );
+
+  lehrerArray$: Observable < {      [key: string]: Elementt[]    } > =
+    this.grundPlanfaecher$.pipe(
+      filter(r => r !== null),
+      map(x => {
+        let obj: {
+          [key: string]: Elementt[]
+        } = {};
+        x.forEach((ele: Elementt) => {
+            ele.lehrer.forEach(le=>{
+              if (obj[le.kuerzel] === undefined) {
+                obj[le.kuerzel] = [];
+              }
+              obj[le.kuerzel].push(ele);
+            });
+        });
+        return obj;
+      }));
+
   berechnung(element) {
-   // console.log("Methode Start");
-   // console.log(element.lehrer[0]);
     let grundplanf = this.grundPlanfaecher.getValue();
-    let schieneElem = grundplanf.find(ele => ele.fach == Fach.schiene&&ele.klasse==element.klasse);
-    let huElem = grundplanf.find(ele => ele.fach == Fach.hauptunterricht&&ele.klasse==element.klasse);
-    let rhythmElem = grundplanf.find(ele => ele.fach == Fach.rhythmisch&&ele.klasse==element.klasse);
+    let schieneElem = grundplanf.find(ele => ele.fach == Fach.schiene && ele.klasse == element.klasse);
+    let huElem = grundplanf.find(ele => ele.fach == Fach.hauptunterricht && ele.klasse == element.klasse);
+    let rhythmElem = grundplanf.find(ele => ele.fach == Fach.rhythmisch && ele.klasse == element.klasse);
     let jahresStundenWert = 30;
 
     grundplanf = grundplanf.filter(function (el) {
       return el != null;
     });
 
-   // grundplanf.forEach(element => {
-      //Wochenstunden für Schiene/Rhythmus und Epoche herauslesen (in Stundenplan zu überprüfen ob es tatsächlich ist):
-      let epochenSoll = element.epoche; //soll Epoche
-      let schieneSoll = element.schiene; //soll Schiene
-      let rhythmusSoll = element.rhythmus; //Soll rhythmus
-      let uebstundenSoll = element.uebstunde; //soll Uebstunde
+    let epochenSoll = element.epoche; //soll Epoche
+    let schieneSoll = element.schiene; //soll Schiene
+    let rhythmusSoll = element.rhythmus; //Soll rhythmus
+    let uebstundenSoll = element.uebstunde; //soll Uebstunde
 
-     // let uebstundeIST = element.zuweisung.uebstunde.length;
-      let rhythmusIST = 0; //logisch errechnete Stunden Wochen mal anzahl der Wochenstunden vom rhythmus
+    // let uebstundeIST = element.zuweisung.uebstunde.length;
+    let rhythmusIST = 0; //logisch errechnete Stunden Wochen mal anzahl der Wochenstunden vom rhythmus
 
-      element.zuweisung.rhythmus.forEach(startEnde => {
-        let start = startEnde.start; //Date
-        let ende = startEnde.ende;
-        let wochen = (differenceInBusinessDays(ende, start) + 1) / 5;
-        rhythmusIST = rhythmusIST + (wochen * rhythmElem.wochenstunden) / jahresStundenWert;
-      });
+    element.zuweisung.rhythmus.forEach(startEnde => {
+      let start = startEnde.start; //Date
+      let ende = startEnde.ende;
+      let wochen = (differenceInBusinessDays(ende, start) + 1) / 5;
+      rhythmusIST = rhythmusIST + (wochen * rhythmElem.wochenstunden) / jahresStundenWert;
+    });
 
-      let epocheIST = 0;
-      element.zuweisung.epoche.forEach(startEnde => {
-        let start = startEnde.start; //Date
-        let ende = startEnde.ende;
-        let wochen = (differenceInBusinessDays(ende, start) + 1) / 5;
-        epocheIST = epocheIST + wochen * huElem.wochenstunden / jahresStundenWert;
-      });
+    let epocheIST = 0;
+    element.zuweisung.epoche.forEach(startEnde => {
+      let start = startEnde.start; //Date
+      let ende = startEnde.ende;
+      let wochen = (differenceInBusinessDays(ende, start) + 1) / 5;
+      epocheIST = epocheIST + wochen * huElem.wochenstunden / jahresStundenWert;
+    });
 
-      let schieneIST = 0;
+    let schieneIST = 0;
 
-      element.zuweisung.schiene.forEach(startEnde => {
-        let start = startEnde.start; //Date
-        let ende = startEnde.ende;
-        let wochen = (differenceInBusinessDays(ende, start) + 1) / 5;
-        schieneIST = schieneIST + wochen * schieneElem.wochenstunden / jahresStundenWert;
-      });
+    element.zuweisung.schiene.forEach(startEnde => {
+      let start = startEnde.start; //Date
+      let ende = startEnde.ende;
+      let wochen = (differenceInBusinessDays(ende, start) + 1) / 5;
+      schieneIST = schieneIST + wochen * schieneElem.wochenstunden / jahresStundenWert;
+    });
 
-     // let uebDiff = uebstundenSoll - uebstundeIST;
-      let rhythmDiff = rhythmusSoll - rhythmusIST;
-      let epochenDiff = epochenSoll - epocheIST;
-      let schieneDiff = schieneSoll - schieneIST;
-      //uebstunden herausfinden wo doppelte Fächer drin sind / Teilungen (halbe klassen)
+    // let uebDiff = uebstundenSoll - uebstundeIST;
+    let rhythmDiff = rhythmusSoll - rhythmusIST;
+    let epochenDiff = epochenSoll - epocheIST;
+    let schieneDiff = schieneSoll - schieneIST;
+    //uebstunden herausfinden wo doppelte Fächer drin sind / Teilungen (halbe klassen)
 
-      let inhaltZelle = [];
-      let teilung = 0;
-      // let elementspeicher:Elementt;
-      let gleicheElemente = 0;
-      let uebstundeIST=0;
+    let inhaltZelle = [];
+    let teilung = 0;
+    // let elementspeicher:Elementt;
+    let gleicheElemente = 0;
+    let uebstundeIST = 0;
 
-      element.zuweisung.uebstunde.forEach((zuwEle, z) => {
-        gleicheElemente = 0;
-        grundplanf.forEach(ele => {
-          if (ele && ele.zuweisung && ele.zuweisung.uebstunde) {
-            ele.zuweisung.uebstunde.forEach(woStd => {
-              if (woStd.wochentag == zuwEle.wochentag && woStd.stunde == zuwEle.stunde && ele.klasse == element.klasse) {
-                if (inhaltZelle[z] == null) {
-                  inhaltZelle[z] = [];
-                }
-                inhaltZelle[z].push(ele);
-                if (ele.fach == element.fach) {
-                  gleicheElemente++;
-                }
+    element.zuweisung.uebstunde.forEach((zuwEle, z) => {
+      gleicheElemente = 0;
+      grundplanf.forEach(ele => {
+        if (ele && ele.zuweisung && ele.zuweisung.uebstunde) {
+          ele.zuweisung.uebstunde.forEach(woStd => {
+            if (woStd.wochentag == zuwEle.wochentag && woStd.stunde == zuwEle.stunde && ele.klasse == element.klasse) {
+              if (inhaltZelle[z] == null) {
+                inhaltZelle[z] = [];
               }
-            });
-          }
-        });
-        // bei einzelner zuweisung des elements:
-        teilung = inhaltZelle[z].length;
-        uebstundeIST= uebstundeIST+(gleicheElemente/teilung);
+              inhaltZelle[z].push(ele);
+              if (ele.fach == element.fach) {
+                gleicheElemente++;
+              }
+            }
+          });
+        }
       });
-      //für epoche, schiene, rhythmus auch?
- 
-      if (element.uebstunde > 0&&element.fach==Fach.deutsch) {
-    //    console.log("Uebstunde: Soll/IST: " + uebstundenSoll + " / " +uebstundeIST + "klasse : " + element.klasse) + "."; //gesamtstunden ist verrechnet, uebstundeIst noch al
-      } 
-      //13. klasse deutsch: zwei Lherer, daher 2 verschiedene Elemten, daher wieder zurückrechnen:
-      if(element.klasse==Lehrjahr.dreizehn&&element.fach==Fach.deutsch){
-        uebstundeIST=uebstundeIST*2;
-      }
-      return uebstundeIST;
+      // bei einzelner zuweisung des elements:
+      teilung = inhaltZelle[z].length;
+      uebstundeIST = uebstundeIST + (gleicheElemente / teilung);
+    });
+    //für epoche, schiene, rhythmus auch?
+
+    if (element.uebstunde > 0 && element.fach == Fach.deutsch) {
+      //    console.log("Uebstunde: Soll/IST: " + uebstundenSoll + " / " +uebstundeIST + "klasse : " + element.klasse) + "."; //gesamtstunden ist verrechnet, uebstundeIst noch al
+    }
+    //13. klasse deutsch: zwei Lherer, daher 2 verschiedene Elemten, daher wieder zurückrechnen:
+    if (element.klasse == Lehrjahr.dreizehn && element.fach == Fach.deutsch) {
+      uebstundeIST = uebstundeIST * 2;
+    }
+    return uebstundeIST;
   }
 
   grundPlanerstellen() { //einmal im Konstruktor ausgeführt
