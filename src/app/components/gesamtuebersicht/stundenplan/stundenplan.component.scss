@@ -1,13 +1,16 @@
+$color-text: rgb(182, 205, 221);
+$color-background:rgb(32, 56, 73);
+
 .zeile{
     display:grid;
-    grid-template-columns: 15pt 80pt 80pt 80pt 80pt 80pt;
-  
+    grid-template-columns: 15pt 80pt 80pt 80pt 80pt 80pt; 
 }
-
 .th{
-    font-weight:bold;
-    text-align:center;
+    text-align:center; 
 }
+.th.zeile div{border-bottom:1px solid $color-text;}
+.th.zeile div:nth-child(1){border-bottom:none;}
+.th.links{border-right:1px solid $color-text;}
 
 #gesamtbox{
    width:415pt;
@@ -15,21 +18,29 @@
     margin-right:auto;
    
 }
-
 .zelle{
     text-align:center;
     padding-left:5pt;
     padding-right:5pt;
 }
-.item{
 
-}
+.item{display:flex;}
+.fach, .klasse{width:100%;}
 
-#gesamt{background-color:rgb(70, 60, 87);
-color:rgb(158, 142, 179);  }
+#gesamt{background-color:$color-background;
+color:$color-text; }
+
+
+
+
 
 
 @media print{
+    .blueback{
+        color:black;
+        font-size:12pt;
+        font-weight: normal;
+    }
 
     #gesamt{background-color:white;
     color:black;}

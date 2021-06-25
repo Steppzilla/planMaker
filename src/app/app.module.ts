@@ -16,6 +16,7 @@ import { EsrPlanComponent } from './components/esr-plan/esr-plan.component';
 import { StundenplanComponent } from './components/gesamtuebersicht/stundenplan/stundenplan.component';
 import { VertretungComponent } from './components/vertretung/vertretung.component';
 import { VertretungsplanComponent } from './components/vertretung/vertretungsplan/vertretungsplan.component';
+import { EinzelplanComponent } from './components/esr-plan/einzelplan/einzelplan.component';
 
 const config = {
   //apiKey: '<your-key>',
@@ -39,7 +40,8 @@ const config = {
     EsrPlanComponent,
     StundenplanComponent,
     VertretungComponent,
-    VertretungsplanComponent
+    VertretungsplanComponent,
+    EinzelplanComponent
   ],
   imports: [
     BrowserModule,

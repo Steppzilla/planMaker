@@ -1,38 +1,30 @@
 <div id="gesamt">
-
-
-<h2>Lehrer: {{gewaehlterLehrer?gewaehlterLehrer.kuerzel :" "}}</h2>
-
-<div id="gesamtbox">
-
-<ng-container *ngIf="gewaehlterLehrer">
-
-  <div class="zeile th">
-    <div></div>
-    <div> Mo </div>
-    <div>Di</div>
-    <div> Mi </div>
-    <div> Do </div>
-    <div> Fr </div>
-  </div>
-
-  <div class="zeile" *ngFor="let ho of hoehe; index as std">
-    <div class="th"> {{std+1}}</div>
-    <div class="zelle" *ngFor="let br of breite; index as woTa">
-      <div class="item">     
-          <ng-container *ngFor="let item of zellenElemente(woTa,std); index as l">     
-              <span *ngIf="l==0||(l>0&&zellenElemente(woTa,std)[l-1].fach!=item.fach)">
-                {{   item.fach}}/
-              </span>
-              <span>
-                {{item.klasse}}
-              </span>
-            </ng-container> 
+  <h2>Lehrer: {{gewaehlterLehrer?gewaehlterLehrer.kuerzel :" "}}</h2>
+  <div id="gesamtbox">
+    <ng-container *ngIf="gewaehlterLehrer">
+      <div class="zeile th">
+        <div></div>
+        <div> Mo </div>
+        <div>Di</div>
+        <div> Mi </div>
+        <div> Do </div>
+        <div> Fr </div>
       </div>
-    </div>
-                
+      <div class="zeile" *ngFor="let ho of hoehe; index as std">
+        <div class="th links"> {{std+1}}</div>
+        <div class="zelle" *ngFor="let br of breite; index as woTa">
+          <div class="item">
+            <ng-container *ngFor="let item of zellenElemente(woTa,std); index as l">
+              <div class="fach" *ngIf="l==0||(l>0&&zellenElemente(woTa,std)[l-1].fach!=item.fach)">
+                {{   item.fach}}
+              </div>
+              <div class="klasse">
+                {{item.klasse}}
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </ng-container>
   </div>
-
-</ng-container>
-</div>
 </div>

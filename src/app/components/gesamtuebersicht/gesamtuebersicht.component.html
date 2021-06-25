@@ -44,27 +44,29 @@
               <div class="{{hintergrund(zellenInhalt(r+1,std)[0])}}">
                 <div class="boxi">
                   <div class="fachItem" *ngFor="let ele of zellenInhalt(r+1,std);index as i">
-                    <ng-container *ngIf="i==0||(i>0&&ele.fach!=zellenInhalt(r+1,std)[i-1].fach)">
+                    <div *ngIf="i==0||(i>0&&ele.fach!=zellenInhalt(r+1,std)[i-1].fach)">
                       {{ ele.fach}}
-                    </ng-container>
+                    </div>
 
                     <ng-container
                       *ngIf="ele.fach!='StartUp'&&ele.fach!='HU'&&ele.fach!='Schiene'||ele.klasse<=8; else ESR">
                       <ng-container *ngFor="let lehr of ele.lehrer">
-                        <span class="{{marked(lehr)}} {{duplicates(lehr ,std,ele.fach)}}">
+                        <div class="{{marked(lehr)}} {{duplicates(lehr ,std,ele.fach)}}">
                           {{lehr.kuerzel }}
-                        </span>
+                        </div>
                       </ng-container>
                     </ng-container>
 
                     <ng-template #ESR>
                       <ng-container *ngFor="let lehr of ele.lehrer">
                         <ng-container *ngIf="lehr!=null">
-                          <span class=" {{marked(lehr)}} {{duplicates(lehr ,std,ele.fach)}}">
-                            <ng-container *ngIf="marked(lehr)=='blueback'||duplicates(lehr,std,ele.fach)=='error'">
+                          <ng-container *ngIf="marked(lehr)=='blueback'||duplicates(lehr,std,ele.fach)=='error'">
+                          <div class=" {{marked(lehr)}} {{duplicates(lehr ,std,ele.fach)}}">
+                            
                               {{lehr.kuerzel }}
-                            </ng-container>
-                          </span>
+                        
+                          </div>
+                        </ng-container>
                         </ng-container>
                       </ng-container>
                     </ng-template>
