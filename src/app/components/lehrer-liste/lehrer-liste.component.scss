@@ -11,20 +11,11 @@ span{
 tr{border-top:1pt black solid;}
 
 table{
-
-
-
   color:rgb(121, 164, 165);
   background-color:rgb(47, 54, 77);
+}
 
-
-
-
-
-
-
-
-  
-  
-
+@media print{
+  table{color:black;
+  background-color:white;}
 }

@@ -1,6 +1,7 @@
 #alles{
     color:rgb(153, 153, 134);
     background-color:rgb(57, 61, 58);
+    font-size:12pt;
 }
 
 
@@ -109,12 +110,57 @@ th{
 @media print {
 
 
+    #aufteilungUeRES button{
+       width:auto;
+       padding-left:4pt;
+       font-size:14pt;
+    }
     .oben{width:100%;
         display: grid;
-        grid-template-columns:100%;
+        grid-template-columns:50% 50%;
         //background-color:red;
         }
+        #alles{
+            color:black;
+            background-color:white;
+        }
 
+        .ueb{
+            // background-color:rgb(19, 64, 100);
+             color:rgb(0, 113, 241);
+         
+         }
+         .rhy{
+             color: rgb(250, 17, 17);
+             border-radius: 4pt;
+         
+         }
+         .epo{
+             color: rgb(255, 183, 0);
+             border-radius: 4pt;
+         }
+         .sch{
+             color: rgb(122, 240, 167);
+             border-radius: 4pt;
+         }
+ 
+        .nix{
+            display:none;
+        }
+
+         .dropButton{
+        border:none;
+        background-color:white;
+        color:black;
+        width:auto;
+        min-width:10pt
+         }
+        .breit{width:100%;
+        }
+        #FachLehrerUebersicht-Tabelle{
+            margin:0pt;
+            width:100%;
+        }
 
 }
 
