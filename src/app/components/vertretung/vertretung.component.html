@@ -43,7 +43,7 @@
             [ngbTooltip]="Lehrer" placement="bottom" (click)="cellKlick($event,std,r+1)">
  
             <ng-container *ngIf="zellenInhalt(r+1,std)[0]">
-              <div class="{{hintergrund(zellenInhalt(r+1,std)[0])}}">
+              <div class="{{hintergrund(zellenInhalt(r+1,std)[0])}}">  <!-- class .huB etc.-->
                 <div class="boxi">
                   <div *ngFor="let ele of zellenInhalt(r+1,std);index as i">
                     <ng-container *ngIf="ele!=undefined">
@@ -84,7 +84,7 @@
             <ng-template #Lehrer>
               <ng-container *ngFor="let elementt of tabellensortierung(r+1) index as stundenI">
                 <ng-container *ngIf="duplicateToggle(std,elementt)!='error'">
-                  <div id="toggle-item-Container" *ngIf="elementt!=undefined" (click)="togglezellenClick(std,elementt)">
+                  <div class="noprint" id="toggle-item-Container" *ngIf="elementt!=undefined" (click)="togglezellenClick(std,elementt)">
                     <div class="toggle-items {{duplicateToggle(std,elementt)}}">
                       {{elementt?elementt.fach:"kein Fach"}}
                     </div>

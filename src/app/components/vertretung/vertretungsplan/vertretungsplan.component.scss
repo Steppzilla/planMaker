@@ -1,8 +1,14 @@
+
+
+$color-text: rgb(182, 205, 221);
+$color-background:rgb(16, 71, 107);
+
 #gesamt{
   padding-top:10pt;
-  background-color: rgb(90, 71, 21);
-  color:rgb(218, 178, 78);
+  background-color: $color-background;
+  color:  $color-text;
 }
+
 
 * {
   font-size: 14pt;
@@ -58,29 +64,31 @@ h1 {
 
 }
 
+
+
 #montag {
-  border-right: 1pt solid rgb(218, 178, 78);
+  border-right: 1pt solid $color-text;
 }
 
 #dienstag {
-  border-right: 1pt solid rgb(218, 178, 78);
+  border-right: 1pt solid $color-text;
   //border-top: 1pt solid black;
 }
 
 #mittwoch {
 //  border-right: 1pt solid black;
-  border-bottom: 1pt solid rgb(218, 178, 78);
+  border-bottom: 1pt solid $color-text;
 }
 
 #donnerstag {
-  border-top: 1pt solid rgb(218, 178, 78);
-  border-right: 1pt solid rgb(218, 178, 78);
+  border-top: 1pt solid $color-text;
+  border-right: 1pt solid $color-text;
 }
 
 #freitag {
 
-  border-right: 1pt solid rgb(218, 178, 78);
-  border-top: 1pt solid rgb(218, 178, 78);
+  border-right: 1pt solid $color-text;
+  border-top: 1pt solid $color-text;
 }
 
 @media print{

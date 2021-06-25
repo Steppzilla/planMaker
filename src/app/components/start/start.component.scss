@@ -1,49 +1,74 @@
-*{color:rgb(114, 163, 196);
- background-color:rgb(88, 70, 116);}
-
-button{
-    border:none;
-    background-color: inherit;
-    border-radius:5pt;
-    padding: 5pt;
-    margin:5pt;
-    width:100%;
-}
-button:hover{background-color:green;}
-
-.date{
-    border-radius:5pt;
-    padding: 5pt;
-    margin:5pt;
-    width:100%;
-    background-color:inherit;
+* {
+  color: rgb(114, 163, 196);
+ // background-color: rgb(88, 70, 116);
 }
 
-#menu{
-    display:flex;
-    background-color:rgb(47, 36, 65);;
-
-
-
+button {
+  border: none;
+  background-color: inherit;
+  border-radius: 5pt;
+  padding: 5pt;
+  margin: 5pt;
+  width: 120pt;
 }
 
-.loadSaveContain{
-    display:flex;
-    flex-direction: column;
-    float:right;
+button:hover {
+  background-color: green;
 }
 
-#Lehrerselect {flex-wrap: wrap;
-    width:100%;}
-    
-    #Lehrerselect>button {
-     // background-color:rgb(77, 33, 68);
-      margin: 0pt;
-      border-radius:2pt;
-      width: 40pt;
-    }
+.date {
+  border-radius: 5pt;
+  padding: 5pt;
+  margin: 5pt;
+  width: 60pt;
+  background-color: inherit;
+}
 
-    .save{background-color:rgb(126, 45, 45);
-    color:rgb(214, 181, 176)}
-    .load{background-color:rgb(38, 110, 38);
-    color:rgb(170, 214, 180);}
+#menu {
+  display: flex;
+  background-color: rgb(48, 42, 58);
+}
+
+
+.loadSaveContain {
+  display: flex;
+}
+
+#Lehrerselect {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+ 
+  background-color: rgb(59, 68, 92);
+}
+
+#Lehrerselect>button {
+  // background-color:rgb(77, 33, 68);
+  margin: 0pt;
+  padding:2pt;
+  border-radius: 2pt;
+  width: 30pt;
+}
+
+#Lehrerselect>button:nth-child(9){
+    border-top: 1pt solid rgb(114, 163, 196);
+    margin-top:10pt;
+}
+
+.save {
+  background-color: rgb(126, 45, 45);
+  color: rgb(214, 181, 176);
+  width:75pt;
+}
+
+.load {
+  background-color: rgb(38, 110, 38);
+  color: rgb(170, 214, 180);
+  width:55pt;
+}
+
+
+#container{display:flex;
+margin:0pt;
+padding:0pt;}
+

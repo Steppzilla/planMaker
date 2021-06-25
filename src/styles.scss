@@ -6,6 +6,7 @@ h1,h2{text-align:center}
 .tooltip-inner{
   width:200pt;
   max-width:400pt;
+
 }
 
 .blueback {
@@ -33,6 +34,8 @@ h1,h2{text-align:center}
   .noprint{display:none; }
   .noprint div{display:none;}
   .noprint span{display:none;}
+  .noprint button{display:none;}
+  .tooltip-inner{display:none;}//popups , pfeil bleibt , ist glaubich after
   .huB{background-color:rgb(243, 246, 193);
   }
   .schB{background-color:rgb(231, 253, 205);}
