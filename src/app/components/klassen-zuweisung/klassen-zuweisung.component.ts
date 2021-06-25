@@ -164,36 +164,31 @@ export class KlassenZuweisungComponent implements OnInit {
 
     let klassenElemente = this.grundPlanfaecher.filter((element) => (element != null && element.klasse == klasse)); //Alle klasse 9 zb.
     let hu = klassenElemente.filter(element => element[esr] >= 1); //esr muss epoche schiene oder rhythmus sein //Alle mit z.b.epochenzuweisung
+    let fachDerKlasse=hu.filter(element=>element.klasse==klasse);
     // console.log(hu);
-    let lehrermerker = [];
+    let lehrermerker = []; 
     let bo = true;
 
+   
     this.grundPlanfaecher.forEach((element, e) => {
       if (element != null) {
-        if (element.klasse == klasse && element.fach == fach) { //erst: 9. klasse Hauptunterricht
-          // console.log(element);
+        if (parseInt(element.klasse) == parseInt(klasse) && element.fach == fach) { //erst: 9. klasse Hauptunterricht
           element.lehrer = [];
-         
-          hu.forEach(el => {
-            if (el[esr] >= 1) {
+          fachDerKlasse.forEach(el => {
+            bo=true;
+              //doppelte rauskicken
               if (lehrermerker.length >=1) {
-                lehrermerker.forEach(le => {
-                  if(le!=undefined&&el.lehrer[0]!=undefined){
-                  console.log(le.kuerzel);
-                  console.log(el.lehrer[0].kuerzel);
-                  }
-                  if (le!=undefined&&el.lehrer[0]!=undefined&&le.kuerzel == el.lehrer[0].kuerzel) {
-                    console.log("Fasle");
+                lehrermerker.forEach(le => {          
+                  if (le!=undefined&&el.lehrer[0]!=undefined&&le.kuerzel == el.lehrer[0].kuerzel) {                  
                     bo = false;
                   }
                 });
               }
-              if (bo == true) {
+              //reinschreiben
+              if (el.lehrer[0]&&bo == true) {              
                 lehrermerker.push(el.lehrer[0]);
                 element.lehrer.push(el.lehrer[0]);
-                
-              }
-            }
+              }  
           });
         }
       }

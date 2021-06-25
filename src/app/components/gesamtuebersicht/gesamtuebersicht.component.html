@@ -35,7 +35,6 @@
       </div>
       <!-- klassenspalte 1,2,3,4,5,6,7,8,9,10,11,12,13. Klasse sind rows (im css als spalte angezeigt)-->
       <div class="klassenspalte" *ngFor="let klasse of tagesPlan index as r">
- 
         <div class="th klasse">{{r+1}} ({{klassengesamtstunden(r+1)}}) </div>
         <div class="mb-2">
           <button *ngFor="let zelle of klasse index as std" triggers="click" [autoClose]="true" class="dropButton "

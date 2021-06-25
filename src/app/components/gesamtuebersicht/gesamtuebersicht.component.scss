@@ -40,7 +40,7 @@ button {
   display: flex;
   width:98%;
 margin:1%;
-margin-bottom:0pt;
+margin-bottom: 0pt;
     
 }
 
@@ -157,7 +157,49 @@ line-height:45pt;
   width:20pt;
 }
 
-app-stundenplan{margin:0pt;}
+
+
+@media print{
+  
+#gesamtuebersicht{background-color:white;
+  color:black;}
+  .wochentagButton{
+    border-top: none;
+  }
+
+  .ok {
+ 
+    border-radius:4pt;
+     color: blue;
+   }
+   
+   .blueback{color:black;}
+   
+   
+   .huB{background-color:rgb(224, 200, 137);
+     color:black;
+   }
+   .schB{background-color:rgb(185, 214, 154);
+   color:black;}
+   .rhyB{background-color: rgb(231, 143, 135);
+   color:black;}
+    .normalB{background-color:white;
+   color:black;}
+
+   .huB,.schB,.rhyB,.normalB{
+     border:none;
+  border:1px black solid;
+  
+  }
+
+  .klassenspalte {margin:1px;}
+  button{margin:1px;}
 
 
 
+  //button:nth-of-type(odd){border-top:1pt black solid;}
+
+ 
+
+
+}

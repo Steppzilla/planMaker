@@ -17,14 +17,14 @@
 
 <div class="zeile noprint">
 
-  <div> Klasse 9: </div>
-  <div *ngFor="let ele of tabellensortierung(ix)"> <button class="epochen" (click)="epochenWahl(ele)">
+  <div class="noprint"> Klasse 9: </div>
+  <div *ngFor="let ele of tabellensortierung(ix)"> <button class="noprint epochen" (click)="epochenWahl(ele)">
       <span *ngFor="let leh of ele.lehrer">{{leh.kuerzel}}</span>|{{ele.fach}}|{{ele[gewaehlterPlan]}}|{{ele.zuweisung[gewaehlterPlan].length}}
     </button>
   </div>
 </div>
 <div class="zeile noprint">
-  <div> Klasse 10:</div>
+  <div  class="noprint"> Klasse 10:</div>
   <div *ngFor="let ele of tabellensortierung(x)">
     <button class="epochen" (click)="epochenWahl(ele)">
       <span *ngFor="let leh of ele.lehrer">{{leh.kuerzel}}</span>|{{ele.fach}}|{{ele[gewaehlterPlan]}}|{{ele.zuweisung[gewaehlterPlan].length}}
@@ -33,14 +33,14 @@
 </div>
 <div class="zeile noprint">
 
-  <div> Klasse 11:</div>
+  <div  class="noprint"> Klasse 11:</div>
   <div *ngFor="let ele of tabellensortierung(xi)"> <button class="epochen" (click)="epochenWahl(ele)">
       <span *ngFor="let leh of ele.lehrer">{{leh.kuerzel}}</span>|{{ele.fach}}|{{ele[gewaehlterPlan]}}|{{ele.zuweisung[gewaehlterPlan].length}}
     </button>
   </div>
 </div>
 <div class="zeile noprint">
-  <div>Klasse 12:</div>
+  <div  class="noprint">Klasse 12:</div>
   <div *ngFor="let ele of tabellensortierung(xii)"> <button class="epochen" (click)="epochenWahl(ele)">
       <span *ngFor="let leh of ele.lehrer">{{leh.kuerzel}}</span>|{{ele.fach}}|{{ele[gewaehlterPlan]}}|{{ele.zuweisung[gewaehlterPlan].length}}
     </button>
@@ -76,15 +76,15 @@
                   {{ferienServ.tagZuString(tag.tag)}}
                 </div>
                 <div class="tagesButtonContainer {{ferienServ.tagZuString(tag.tag)}}">
+
+                  <!-- 8. Klasse
                   <ng-container *ngIf="(ferienServ.tagZuString(tag.tag)=='Mo'); else LEER">
                     <button class="{{gewaehlterPlan}} 8" (click)="click($event,8,  d, 'acht',tag.tag.getDay())">
-                      <!--
-                      <div class="{{duplicates(unt.lehrer, tag)}}" *ngFor="let unt of tag[gewaehlterPlan].acht">
-                        {{unt.lehrer[0].kuerzel}}
-                      </div>
-                      -->
+                 
                     </button>
                   </ng-container>
+                  -->  
+
                   <ng-container *ngIf="(ferienServ.tagZuString(tag.tag)=='Mo'); else LEER">
                     <button class="{{gewaehlterPlan}} 9" (click)="click($event,9,  d, 'neun',tag.tag.getDay())">
                       <div class="ganztag" *ngIf="tag.ganztaegig.neun!=null; else JOOO"> {{tag.ganztaegig.neun}}
