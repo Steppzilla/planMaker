@@ -28,7 +28,7 @@
                       {{ferienServ.tagZuString(tag.tag)}} {{tag.tag.getDate() }}
                   </div>
 
-                  <div class="tagesButtonContainer {{ferienServ.tagZuString(tag.tag)}}">
+                  <div class="tagesButtonContainer ">
 
                     <!-- ab hier korrigieren für einzelne Lehrer......-->
                     <ng-container *ngIf="(ferienServ.tagZuString(tag.tag)=='Mo'); else LEER">

@@ -1,109 +1,116 @@
 * {
-    font-size: 9pt;
-  }
-  
+  font-size: 9pt;
+}
+
+#gesamt {
+  color: rgb(182, 182, 150);
+  background-color: rgb(59, 61, 56);
+}
+
+.tagesContainer {
+  width: 35pt;
+  pointer-events: none;
+}
+
+.planRahmen {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.wochenRahmen {
+  display: flex;
+}
+
+.Monat,
+.Datum {
+  height: 15pt;
+  text-align: center;
+}
+
+.Monat {
+  white-space: nowrap;
+}
+
+.Datum {
+  border-top: 1pt solid rgb(182, 182, 150);
+  font-size: 8pt;
+}
+
+
+.ferienNotiz {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10pt;
+  line-height: 15pt;
+  padding-top: 2pt;
+  -ms-writing-mode: tb-rl;
+  writing-mode: vertical-rl;
+  border-radius: 5pt;
+  background-color: rgb(44, 75, 100);
+  color: rgb(182, 182, 150);
+}
+
+.EM,
+.Abi {
+  background-color: rgb(151, 111, 36);
+}
+
+.error {
+  color: rgb(219, 105, 105);
+}
+
+.ok {
+  color: rgb(137, 143, 137);
+}
+
+.blueback {
+  color: rgb(149, 149, 202);
+  font-weight: bold;
+  font-size: 12pt;
+}
+
+.zeile {
+  display: flex;
+}
+
+.rhy,
+.epo,
+.sch {
+  width: 95%;
+  text-align: center;
+}
+
+.rhy {
+  color: red;
+  border-top: 1px solid red;
+}
+
+.epo {
+  color: goldenrod;
+  border-top: 1px solid goldenrod;
+}
+
+.sch {
+  color: forestgreen;
+  border-top: 1px solid forestgreen;
+}
+
+
+@media print {
+
+
   #gesamt {
-    color: rgb(182, 182, 150);
-    background-color: rgb(59, 61, 56);
+    color: black;
+    background-color: white;
   }
-  
-  .planRahmen {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  
-  .wochenRahmen {
-    display: flex;
-  }
-  
-  .Monat,
-  .Datum,
-  .Tag {
-    height: 15pt;
-    text-align: center;
-  }
-  
-  .Monat {
-    margin-top: 5pt;
-    width: 10pt;
-    white-space: nowrap;
-  }
-  
+  .ferienNotiz{background-color:white;
+  color:rgb(65, 65, 121);}
+
   .Datum {
-    border-top: 1pt solid rgb(182, 182, 150);
-    font-size: 8pt;
+    border-top: 1pt solid black;
+
   }
-   
-    .tagesButtonContainer.Mo {
-    width: 40pt;
-    display: flex;
-    flex-wrap: wrap;
-  }
-   
-  .ferienNotiz{
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 10pt;
-    line-height: 15pt;
-    padding-top: 2pt;
-    -ms-writing-mode: tb-rl;
-    writing-mode: vertical-rl;
-    border-radius: 5pt;
-    background-color: rgb(28, 58, 83);
-    color: rgb(182, 182, 150);
-  }
-  
-  .tagesContainer {
-    width: 45pt;
-    pointer-events: none;
-  }
-      
-  .true {
-    background-color: rgb(28, 75, 112);
-  }
-  
-  
-  
-  .EM,
-  .Abi {
-    background-color: rgb(151, 111, 36);
-  
-  }
-    
-  .error {
-    color: rgb(219, 105, 105);
-  }
-  
-  .ok {
-    color: rgb(137, 143, 137);
-  }
-  
-  .blueback {
-    color: rgb(147, 147, 184);
-    font-weight: bold;
-    font-size: 12pt;
-  }
-  
-    .zeile {
-    display: flex;
-  }
-  
-    .rhy,.epo,.sch{width:95%; text-align:center;}
-  .rhy{color:red;
-border-top:1px solid red;}
-  .epo{color:goldenrod;
-border-top:1px solid goldenrod;}
-  .sch{color:forestgreen;
-border-top:1px solid forestgreen;}
-  
-  
-  @media print {
-  
-  
-    #gesamt {
-      color: black;
-      background-color: white;
-    }
-  
-   
-  }
-  
+
+ 
+
+
+}
