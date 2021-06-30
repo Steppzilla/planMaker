@@ -19,14 +19,14 @@
   <ng-container *ngIf="gesamtRaster$|async as gesRaster">
     <table>
       <tr>
-        <td></td>
+        <th></th>
         <th *ngFor="let cell of gesRaster[wochenTagauswahl.toLowerCase()][0]; index as k">
           {{k+1}}({{klassengesamtstunden(k+1)}}) </th>
       </tr>
       <tr *ngFor="let zeile of gesRaster[wochenTagauswahl.toLowerCase()], index as std">
-        <td>
+        <th>
           {{std+1}}
-        </td>
+        </th>
         <td *ngFor="let cell of zeile,index as r" >
          
           <button  triggers="click" [autoClose]="true" class="{{hintergrundd(cell)}}"  [ngbTooltip]="Lehrer2" placement="bottom"

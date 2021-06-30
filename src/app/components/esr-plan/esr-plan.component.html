@@ -19,7 +19,7 @@
   <ng-container *ngIf="gewaehlterPlan=='rhythmus'">
     <ng-container *ngIf="rhythmusPlan$|async as rhyPlan">
       <ng-container *ngFor="let abschnitt of rhyPlan">
-        <table class="absch ">
+        <table class="absch rhy2">
           <tr *ngFor="let reihe of abschnitt, index as r">
             <ng-container *ngIf="r==0; else KLASSE">
               <td  colSpan="1" *ngFor="let cell of reihe, index as c"
@@ -50,7 +50,7 @@
 
                   <!--  IF: c==0||(equals(abschnitt[r][c],abschnitt[r][c-1])===false)-->
 
-                  <td class = "rhy2" colSpan="{{abschnitt[r][c][0]?abschnitt[r][c][0].spanNr:1}}">
+                  <td  colSpan="{{abschnitt[r][c][0]?abschnitt[r][c][0].spanNr:1}}">
                     <button triggers="click" [ngbTooltip]="FachAuswahl" placement="bottom" [autoClose]="true"
                       (click)="clickN($event,r+8,  abschnitt[0][c][0].ueberschrift)">
 
@@ -98,7 +98,7 @@
   <ng-container *ngIf="gewaehlterPlan=='epoche'">
     <ng-container *ngIf="epochenPlan$|async as rhyPlan">
       <ng-container *ngFor="let abschnitt of rhyPlan">
-        <table class="absch">
+        <table class="absch epo2">
           <tr *ngFor="let reihe of abschnitt, index as r">
             <ng-container *ngIf="r==0; else KLASSE">
               <td colSpan="1" *ngFor="let cell of reihe, index as c"
@@ -117,7 +117,7 @@
                   ||
                   c==0
                 ">
-                  <td class="epo2" colSpan="{{abschnitt[r][c][0]?abschnitt[r][c][0].spanNr:1}}">
+                  <td  colSpan="{{abschnitt[r][c][0]?abschnitt[r][c][0].spanNr:1}}">
                     <button triggers="click" [ngbTooltip]="FachAuswahl" placement="bottom" [autoClose]="true"
                       (click)="clickN($event,r+8,  abschnitt[0][c][0].ueberschrift)">
                       <ng-container *ngIf="cell[0]&&cell[0].ganztaegig.length>0; else INHALT">
@@ -156,7 +156,7 @@
   <ng-container *ngIf="gewaehlterPlan=='schiene'">
     <ng-container *ngIf="schienenPlan$|async as rhyPlan">
       <ng-container *ngFor="let abschnitt of rhyPlan">
-        <table class="absch">
+        <table class="absch sch2">
           <tr *ngFor="let reihe of abschnitt, index as r">
             <ng-container *ngIf="r==0; else KLASSE">
               <td colSpan="1" *ngFor="let cell of reihe, index as c"
@@ -175,7 +175,7 @@
                   ||
                   c==0
                 ">
-                  <td class="sch2" colSpan="{{abschnitt[r][c][0]?abschnitt[r][c][0].spanNr:1}}">
+                  <td  colSpan="{{abschnitt[r][c][0]?abschnitt[r][c][0].spanNr:1}}">
                     <button triggers="click" [ngbTooltip]="FachAuswahl" placement="bottom" [autoClose]="true"
                       (click)="clickN($event,r+8,  abschnitt[0][c][0].ueberschrift)">
                       <ng-container *ngIf="cell[0]&&cell[0].ganztaegig.length>0; else INHALT">

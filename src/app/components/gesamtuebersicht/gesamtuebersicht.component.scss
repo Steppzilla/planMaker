@@ -9,69 +9,102 @@ $hintergrund:rgb(77, 74, 78);
 $hover:rgb(98, 107, 146);
 $hintergrund2:rgb(81, 78, 83);
 
+//aus zuweisung kopiert, noch nicht benutzt:
+$background:rgb(57, 61, 58);
+$background2:rgb(52, 57, 52);
+$color:rgb(153, 153, 134);
+$back-light:rgb(68, 68, 68);
 
-
-#gesamtuebersicht{background-color:$hintergrund;
-  color:$schriftfarbe;}
-
+#gesamtuebersicht {
   
-button:hover {
-  background-color: $hover;
+  background-image: repeating-linear-gradient(45deg,
+      $background 0%,
+      $background2 1%,
+      $background 2%);
+  color: $schriftfarbe;
 }
 
-th{font-weight: normal;}
 
-table{width:100%;
-  border-collapse:collapse;
-  tr{
-    
-    th{text-align:center;}
+button:hover {
+  background-image: repeating-linear-gradient(45deg,
+      $hover 0%,
+      rgb(59, 66, 97) 1%,
+      $hover 2%);
+}
 
-    td{height:45pt;
-      border-right:1pt $hintergrund solid;
+th {
+  font-weight: normal;
+}
+
+table {
+  margin-right:auto;
+  margin-left:auto;
+  width: 95%;
+  border-collapse: collapse;
+
+  tr {
+
+    th {
+      text-align: center;
+    }
+
+    td {
+      height: 45pt;
+      border-right: 1pt $hintergrund solid;
       border-left: 1pt $hintergrund solid;
-      button{height: 100%;
-        
-        div{
 
-        }
+      button {
+        height: 100%;
+
+        div {}
       }
     }
   }
 }
 
 
-.fachItem{display:flex;
+.fachItem {
+  display: flex;
 }
 
-.fachItem div{width:100%;}
+.fachItem div {
+  width: 100%;
+}
 
 
 
 
-h1,h2{text-align:center;
-margin-top:0pt;
-padding-top:10pt;}
+h1,
+h2 {
+  text-align: center;
+  margin-top: 0pt;
+  padding-top: 10pt;
+}
 
 
 
 button {
   border: solid 0pt black;
-
-  background-color: inherit;
-  width:100%;
-  color:inherit;
+  width: 100%;
+  color: inherit;
+  background-image: inherit;
 }
 
 
 //obere buttons mo, di mittwoch
-.wochentagButton{
+.wochentagButton {
   border-top: 1pt $schriftfarbe solid;
+
 }
-.buttonreihe{display:flex;}
+
+.buttonreihe {
+  display: flex;
+  background-image: inherit;
+}
+
 //obere buttons ende
 
- 
+
 // $colors : #fedc00, #fcb712, #f7921e, #e87f24, #dd6227, #dc4c27, #ca3435, #b82841, #953751, #364c88, #16599d, #02609e, #0073a9, #008aa4, #239a87, #7cba6d, #becc2f, #e0d81d;
 
 
@@ -82,31 +115,89 @@ button {
 }
 
 .ok {
- border-radius:4pt;
+  border-radius: 4pt;
   color: rgb(255, 255, 255);
 }
 
-.blueback{color:rgb(82, 82, 241);}
+.blueback {
+  color: rgb(82, 82, 241);
+}
 
 
 
 
-.huB,.schB,.rhyB,.normalB{
-  height:100%;  
+.huB,
+.schB,
+.rhyB,
+.normalB {
+  height: 100%;
   border-top: 1pt solid $hintergrund;
+
+
+
 }
 
-.huB{background-color:rgb(153, 145, 59);
-  color:rgb(223, 240, 128);
+
+.huB {
+  background-color: rgb(153, 145, 59);
+  color: rgb(223, 240, 128);
+
+  background-image:
+    repeating-linear-gradient(45grad,
+      rgb(153, 145, 59) 0%,
+      rgb(143, 135, 49) 4%,
+      rgb(135, 130, 49) 8%,
+      rgb(153, 145, 59) 12%);
 }
-.schB{background-color:rgb(117, 150, 82);
-color:rgb(171, 240, 171);}
-.rhyB{background-color: rgb(167, 74, 65);
-color:rgb(216, 175, 165);}
- .normalB{background-color:rgb(102, 99, 104);
-color:rgb(143, 162, 195);}
-.empty{min-height:20pt;
-background-color:$hintergrund2;}
+
+.schB {
+  background-color: rgb(117, 150, 82);
+  color: rgb(171, 240, 171);
+  background-image:
+    repeating-linear-gradient(45grad,
+      rgb(117, 150, 82) 0%,
+      rgb(100, 120, 75) 8%,
+      rgb(117, 150, 82) 12%);
+}
+
+.rhyB {
+  background-color: rgb(167, 74, 65);
+  color: rgb(216, 175, 165);
+
+  background-image:
+    repeating-linear-gradient(45grad,
+      rgb(147, 74, 65) 0%,
+      rgb(127, 53, 58) 4%,
+      rgb(130, 50, 58) 8%,
+      rgb(147, 74, 65) 12%);
+
+
+
+}
+
+.normalB {
+  background-image:
+    repeating-linear-gradient(45grad,
+    rgb(75,75, 75) 0%,
+      rgb(65, 65, 65) 4%,
+      rgb(75, 75, 75) 12%);
+
+  color: rgb(143, 162, 195);
+
+
+}
+
+.empty {
+  min-height: 20pt;
+  background-image:
+    repeating-linear-gradient(45grad,
+      $background 0%,
+      $background2 1%,
+      $back-light 2%,
+      $background 3%);
+      opacity: 0.4;
+  //background-color:$hintergrund2;
+}
 
 
 
@@ -114,8 +205,8 @@ background-color:$hintergrund2;}
 
 
 #toggle-item-Container {
-  opacity:1;
-  background-color:$hover;
+  opacity: 1;
+  background-color: $hover;
   padding: 0pt;
 
   display: grid;
@@ -133,65 +224,92 @@ background-color:$hintergrund2;}
 
 }
 
-.gruen{color:green;}
-
-.fakebutton>div{width:20pt;
-height:100%;
-text-align:center;
-line-height:45pt;
-}
-.fakebutton{
-  width:20pt;
-}
-.klassenspalte1{
-  width:20pt;
+.gruen {
+  color: green;
 }
 
+.fakebutton>div {
+  width: 20pt;
+  height: 100%;
+  text-align: center;
+  line-height: 45pt;
+}
+
+.fakebutton {
+  width: 20pt;
+}
+
+.klassenspalte1 {
+  width: 20pt;
+}
 
 
-@media print{
-  
-#gesamtuebersicht{background-color:white;
-  color:black;}
-  .wochentagButton{
+
+@media print {
+
+  #gesamtuebersicht {
+    background-color: white;
+    color: black;
+  }
+
+  .wochentagButton {
     border-top: none;
   }
 
   .ok {
- 
-    border-radius:4pt;
-     color: blue;
-   }
-   
-   .blueback{color:blue;;
-      font-size:10pt;
-      font-weight: normal;
-  }
-   
-   
-   .huB{background-color:rgb(224, 200, 137);
-     color:black;
-   }
-   .schB{background-color:rgb(185, 214, 154);
-   color:black;}
-   .rhyB{background-color: rgb(231, 143, 135);
-   color:black;}
-    .normalB{background-color:white;
-   color:black;}
 
-   .huB,.schB,.rhyB,.normalB{
-     border:none;
-  border-right:1px black solid;
-  border-top:1px black solid;
-  
+    border-radius: 4pt;
+    color: blue;
   }
 
-  .klassenspalte {margin:0pt;}
+  .blueback {
+    color: blue;
+    ;
+    font-size: 10pt;
+    font-weight: normal;
+  }
 
-  #tabelle>div:nth-child(1) {border-right:1px black solid;}
 
-  button:last-child>.huB{
-    background-color:green;
+  .huB {
+    background-color: rgb(224, 200, 137);
+    color: black;
+  }
+
+  .schB {
+    background-color: rgb(185, 214, 154);
+    color: black;
+  }
+
+  .rhyB {
+    background-color: rgb(231, 143, 135);
+    color: black;
+  }
+
+  .normalB {
+    background-color: white;
+    color: black;
+  }
+
+  .huB,
+  .schB,
+  .rhyB,
+  .normalB {
+    border: none;
+    border-right: 1px black solid;
+    border-top: 1px black solid;
+
+  }
+
+  .klassenspalte {
+    margin: 0pt;
+  }
+
+  #tabelle>div:nth-child(1) {
+    border-right: 1px black solid;
+  }
+
+  button:last-child>.huB {
+    background-color: green;
   }
 
 
@@ -199,7 +317,7 @@ line-height:45pt;
 
   //button:nth-of-type(odd){border-top:1pt black solid;}
 
- 
+
 
 
 }

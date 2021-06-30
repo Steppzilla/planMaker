@@ -2,6 +2,31 @@ $color-text: rgb(182, 205, 221);
 $color-background:rgb(32, 56, 73);
 //$hover:rgb(98, 107, 146);
 
+
+$schriftfarbe:rgb(221, 200, 200);
+$hintergrund:rgb(77, 74, 78);
+//$linienDark:rgb(63, 63, 63);
+$hover:rgb(98, 107, 146);
+$hintergrund2:rgb(81, 78, 83);
+
+//aus zuweisung kopiert, noch nicht benutzt:
+$background:rgb(57, 61, 58);
+$background2:rgb(52, 57, 52);
+$color:rgb(153, 153, 134);
+$back-light:rgb(68, 68, 68);
+
+#gesamt{background-color:$color-background;
+    color:$color-text; 
+    background-image: repeating-linear-gradient(45deg,
+    $background 0%,
+    $background2 1%,
+    $background 2%);
+    color: $schriftfarbe;
+    
+    }
+    
+ 
+
 .zeile{
     display:grid;
     grid-template-columns: 15pt 80pt 80pt 80pt 80pt 80pt; 
@@ -17,6 +42,7 @@ $color-background:rgb(32, 56, 73);
    width:415pt;
     margin-left:auto;
     margin-right:auto;
+  
    
 }
 .zelle{
@@ -28,8 +54,6 @@ $color-background:rgb(32, 56, 73);
 .item{display:flex;}
 .fach, .klasse{width:100%;}
 
-#gesamt{background-color:$color-background;
-color:$color-text; }
 
 
 
