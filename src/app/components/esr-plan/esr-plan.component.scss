@@ -15,6 +15,7 @@ $back-light:rgb(68,68,68);
 
 //benutzen:aus esr
 
+tr{border-top:1px solid $background;}
 
 tr:nth-child(n){
   background-color:$background2;
