@@ -4,11 +4,13 @@ $color-text: rgb(182, 205, 221);
 $color-background:rgb(16, 71, 107);
 
 h1,h2{text-align:center}
-.tooltip-inner{
-  width:200pt;
-  max-width:400pt;
-
+.tooltip .arrow {display: none !important;
 }
+
+.tooltip-inner{
+  padding:0pt!important;
+}
+.tooltip.show{opacity: 0.95!important;}
 
 .blueback {
   color: rgb(84, 97, 209);

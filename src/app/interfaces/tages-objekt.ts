@@ -6,6 +6,9 @@ export interface TagesObjekt {
     wochenTag: string,
     unterricht: [],
     ganztaegig: {neun: [], zehn: [], elf: [] ,zwoelf: []},
+    rhytmus?: {neun: [], zehn: [], elf:[], zwoelf:[]},
+    epoche?: {neun: [], zehn: [], elf:[], zwoelf:[]},
+    schiene?: {neun: [], zehn: [], elf:[], zwoelf:[]}
 
     
 

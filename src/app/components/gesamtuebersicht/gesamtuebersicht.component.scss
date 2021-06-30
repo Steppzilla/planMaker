@@ -3,123 +3,98 @@
   margin: 0pt;
 }
 
-.fachItem{
-  display:flex;
+$schriftfarbe:rgb(221, 200, 200);
+$hintergrund:rgb(77, 74, 78);
+//$linienDark:rgb(63, 63, 63);
+$hover:rgb(98, 107, 146);
+$hintergrund2:rgb(81, 78, 83);
+
+
+
+#gesamtuebersicht{background-color:$hintergrund;
+  color:$schriftfarbe;}
+
+  
+button:hover {
+  background-color: $hover;
+}
+
+th{font-weight: normal;}
+
+table{width:100%;
+  border-collapse:collapse;
+  tr{
+    
+    th{text-align:center;}
+
+    td{height:45pt;
+      border-right:1pt $hintergrund solid;
+      border-left: 1pt $hintergrund solid;
+      button{height: 100%;
+        
+        div{
+
+        }
+      }
+    }
+  }
+}
+
+
+.fachItem{display:flex;
 }
 
 .fachItem div{width:100%;}
-#gesamtuebersicht{background-color:rgb(77, 74, 78);
-color:rgb(221, 200, 200);}
+
+
+
 
 h1,h2{text-align:center;
 margin-top:0pt;
 padding-top:10pt;}
 
-p {
-  margin: 0pt;
-}
+
 
 button {
   border: solid 0pt black;
 
-  /* border-radius:5pt;*/
-  padding: 2pt;
   background-color: inherit;
   width:100%;
   color:inherit;
-  
 }
 
+
+//obere buttons mo, di mittwoch
 .wochentagButton{
-  border-top: 1pt rgb(218, 199, 199) solid;
+  border-top: 1pt $schriftfarbe solid;
 }
 .buttonreihe{display:flex;}
-
+//obere buttons ende
 
  
 // $colors : #fedc00, #fcb712, #f7921e, #e87f24, #dd6227, #dc4c27, #ca3435, #b82841, #953751, #364c88, #16599d, #02609e, #0073a9, #008aa4, #239a87, #7cba6d, #becc2f, #e0d81d;
 
-#tabelle{
-
-  height: 750px;
-  display: flex;
-  width:98%;
-margin:1%;
-margin-bottom: 0pt;
-    
-}
-
-button:hover {
-  background-color: rgb(167, 209, 119);
-  color:black;
-}
 
 
-.klassenspalte {
-  display: flex;
-  flex-direction: column;
-  margin: 1pt;
-  border-radius: 9pt;
- // background-color: lightgrey;
-  width:100%;
-
-}
-
-.klassenspalte>div {
-  display: table-cell;
-  min-width: 30pt;
-  height: 45pt;
-  /*  background: red;*/
-  margin: 0pt;
-
-}
-.boxi{ //hier scheint nicht alles .huB, schB undso zugeordnet zu sein (HU klasse 1-8 nicht)
-
-  height:100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.huB,.schB,.rhyB,.normalB{
-  height:100%;  
-  border-top: 1pt solid rgb(63, 63, 63);
-}
-
-
-.th {
-  font-weight: bold;
-  text-align: center;
-  height: 30pt;
-}
-
-
-.klassenspalte>div>button {
-  padding: 0pt;
-  height: 100%;
-  width: 100%;
-  // overflow: hidden;
- 
-}
-
-.klassenspalte>.klasse.th{
-  font-weight: normal;
-    height: 30pt;
-  line-height: 30pt;  /*center-trick*/
-}
 
 .error {
   color: red;
 }
 
 .ok {
- 
  border-radius:4pt;
   color: rgb(255, 255, 255);
 }
 
 .blueback{color:rgb(82, 82, 241);}
 
+
+
+
+.huB,.schB,.rhyB,.normalB{
+  height:100%;  
+  border-top: 1pt solid $hintergrund;
+}
 
 .huB{background-color:rgb(153, 145, 59);
   color:rgb(223, 240, 128);
@@ -130,16 +105,26 @@ color:rgb(171, 240, 171);}
 color:rgb(216, 175, 165);}
  .normalB{background-color:rgb(102, 99, 104);
 color:rgb(143, 162, 195);}
+.empty{min-height:20pt;
+background-color:$hintergrund2;}
+
+
+
+
 
 
 #toggle-item-Container {
-  padding-top: 0pt;
-  padding-bottom: 0pt;
+  opacity:1;
+  background-color:$hover;
+  padding: 0pt;
+
   display: grid;
   width: auto;
   grid-template-columns: 35% 10% 10% 20% 25%;
-  border: 1pt solid grey;
+  border: none;
 }
+
+
 
 .toggle-items {
   font-size: 12pt;

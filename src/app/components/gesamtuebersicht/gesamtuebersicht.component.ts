@@ -2,7 +2,17 @@ import {
   Component,
   OnInit
 } from '@angular/core';
-import { Fach } from 'src/app/enums/fach.enum';
+import { element } from 'protractor';
+import {
+  concatMap,
+  filter,
+  map,
+  reduce,
+  take,
+} from 'rxjs/operators';
+import {
+  Fach
+} from 'src/app/enums/fach.enum';
 import {
   Lehrjahr
 } from 'src/app/enums/lehrjahr.enum';
@@ -42,30 +52,184 @@ export class GesamtuebersichtComponent implements OnInit {
   buttontext = "einblenden";
   selectLehrer: Lehrer;
 
- 
+
 
   klassen = Object.values(Lehrjahr);
+
+  gesamtRaster$ = this.klassenplanServ.grundPlanfaecher$.pipe( //Bei Änderungen im Plan updaten
+    concatMap(plan => {
+      return this.klassenplanServ.grundPlanfaecher$.pipe(take(1));
+    }),
+    map(z => {
+      let ar = {
+        montag: new Array(11).fill(null).map(x => new Array(13)),
+        dienstag: new Array(11).fill(null).map(x => new Array(13)),
+        mittwoch: new Array(11).fill(null).map(x => new Array(13)),
+        donnerstag: new Array(11).fill(null).map(x => new Array(13)),
+        freitag: new Array(11).fill(null).map(x => new Array(13))
+      };
+        z.forEach(el => {
+          el.zuweisung.uebstunde.forEach(zuw => {
+            //  ["Montag", "Dienstag", "Mittwoch", "Donnerstag"].forEach(wochenTag=>{
+            let std = zuw.stunde;
+            let woT = zuw.wochentag;
+            let klasse = parseInt(el.klasse)-1;
+            el.lehrer.forEach(lehr => {
+              if(ar[woT.toLowerCase()][std][klasse]===undefined){
+                ar[woT.toLowerCase()][std][klasse]=new Array();
+              }
+           //   console.log(el.fach);
+           //   console.log(lehr.kuerzel);
+              ar[woT.toLowerCase()][std][klasse].push([el.fach, lehr.kuerzel]);
+            });
+             });
+          });
+      return ar;
+    })
+  );
+
+
+  cellKlick(e, c, reiheKlasse) {
+    if (e.shiftKey) {
+       let neu=this.klassenplanServ.grundPlanfaecher.getValue();
+      // neu[c].zuweisung.uebstunde=[];
+     neu.forEach((element, el) => {
+        if (element != null) {
+          element.zuweisung.uebstunde.forEach((zuw, z) => {
+            if (element != null && zuw.wochentag == this.wochenTagauswahl && zuw.stunde == c && element.klasse == reiheKlasse) {
+              element.zuweisung.uebstunde.splice(z, 1);
+              console.log("gelöschte uebstunde:");
+              console.log(element);
+              console.log(z);
+              console.log(zuw);
+
+              //element.zuweisung.uebstunde=[];
+            }
+          });
+        }
+      });
+      // console.log(neu);
+       this.klassenplanServ.grundPlanfaecher.next(neu);
+      console.log("ende");
+    } else {}
+  }
+
+
+  markedd(lehr) {
+    if (lehr && this.selectLehrer && lehr == this.selectLehrer.kuerzel) {
+      return "blueback";
+    }
+  }
+
+  duplicatess(kuerz, z, fachd) { //
+    let duplicates = 0;
+    this.grundPlanfaecher.forEach((element, e) => {
+      if (element == null) {
+        this.grundPlanfaecher.splice(e, 1);
+      } else {
+        element.zuweisung.uebstunde.forEach(({
+          wochentag,
+          stunde
+        }, ue) => {
+          //  console.log(wochentag + "."+this.wochenTagauswahl);
+          if (wochentag == this.wochenTagauswahl && stunde == z) {
+            element.lehrer.forEach(le => {
+              if (kuerz == null || le == null) {
+
+              } else if (kuerz && element && kuerz == le.kuerzel) {
+                // console.log(element.lehrer[0].kuerzel + "." +r + ". " + element.klasse);
+
+                if (fachd != Fach.hauptunterricht && fachd != Fach.schiene && fachd != Fach.rhythmisch && fachd != Fach.orchester && fachd != Fach.wahlpflicht && fachd != Fach.chor && fachd != Fach.mittelstufenorchester) {
+                  duplicates++;
+                } else if (element.fach != Fach.hauptunterricht && element.fach != Fach.schiene && element.fach != Fach.rhythmisch && element.fach != Fach.orchester && element.fach != Fach.wahlpflicht && element.fach != Fach.chor && element.fach != Fach.mittelstufenorchester) {
+                  duplicates++;
+                }
+              }
+            });
+          }
+        });
+      }
+    });
+
+    if (fachd == Fach.hauptunterricht || fachd == Fach.schiene || fachd == Fach.rhythmisch) {
+      duplicates++;
+    }
+    return duplicates > 1 ? "error" : "ok";
+  }
+
+
+  hintergrundd(el) {
+   // console.log(el);
+
+    if (el&&el[0]) {
+      switch (el[0][0]) {
+        case Fach.hauptunterricht:
+          return "huB";
+        case Fach.schiene:
+          return "schB";
+        case Fach.rhythmisch:
+          return "rhyB";
+        case "HU":
+          return "huB";
+        default:
+          return "normalB";
+      }
+    } else {
+      return "empty";
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  tabellensortierung(klasse) {
+
+    let lehrerVonKlasse: Array < Elementt > = [];
+
+    if (this.grundPlanfaecher) {
+      this.grundPlanfaecher.forEach(element => {
+        if ((element != null) && (element.klasse == klasse) && (element.uebstunde > 0)) {
+          // let filter = this.grundPlanfaecher.filter(el => el.klasse == klasse&&el.uebstunde>0);//Alle Elemente der Klasse filtern
+          lehrerVonKlasse.push(element);
+        }
+      });
+    }
+
+    return lehrerVonKlasse;
+  }
+
 
   wochenStundenBerechnen() {
     // this.klassenplanServ.berechnung(); 
   }
-  klassengesamtstunden(kla){
-    let elementederKlasse=this.tabellensortierung(kla);
-    let zaehler=0;
-   // console.log(elementederKlasse);
+  klassengesamtstunden(kla) {
+    let elementederKlasse = this.tabellensortierung(kla);
+    let zaehler = 0;
+    // console.log(elementederKlasse);
     //console.log(Object.values(Fach));
 
-    let faecher=Object.values(Fach);
-    faecher.forEach(fach=>{
-    //  console.log(fach);
-      
-      let fachItems=elementederKlasse.filter(eles=>(eles.fach==fach));
-    //  console.log(fachItems);
- if(fachItems.length>0){
-  // console.log(" Kl. " +fachItems[0].klasse + " " + fachItems[0].fach+  " : " + fachItems[0].uebstunde);
-  zaehler=zaehler+fachItems[0].uebstunde;
- }
-   //   
+    let faecher = Object.values(Fach);
+    faecher.forEach(fach => {
+      //  console.log(fach);
+
+      let fachItems = elementederKlasse.filter(eles => (eles.fach == fach));
+      //  console.log(fachItems);
+      if (fachItems.length > 0) {
+        // console.log(" Kl. " +fachItems[0].klasse + " " + fachItems[0].fach+  " : " + fachItems[0].uebstunde);
+        zaehler = zaehler + fachItems[0].uebstunde;
+      }
+      //   
 
     });
 
@@ -75,19 +239,24 @@ export class GesamtuebersichtComponent implements OnInit {
   }
 
 
-  hintergrund(el){
-    if(el){
-    switch(el.fach){
-      case Fach.hauptunterricht: return "huB";
-      case Fach.schiene: return "schB";
-      case Fach.rhythmisch: return "rhyB";
-      case "HU": return "huB";
-      default: return "normalB";
+  hintergrund(el) {
+    if (el) {
+      switch (el.fach) {
+        case Fach.hauptunterricht:
+          return "huB";
+        case Fach.schiene:
+          return "schB";
+        case Fach.rhythmisch:
+          return "rhyB";
+        case "HU":
+          return "huB";
+        default:
+          return "normalB";
+      }
+    } else {
+      return "normalB";
     }
-  }else{
-    return "normalB";
   }
-}
   berechnungAktuelleStunden(elementt) {
     return this.klassenplanServ.berechnung(elementt);
   }
@@ -113,21 +282,7 @@ export class GesamtuebersichtComponent implements OnInit {
     this.wochenTagauswahl = x;
   }
 
-  tabellensortierung(klasse) {
 
-    let lehrerVonKlasse: Array < Elementt > = [];
-
-    if (this.grundPlanfaecher) {
-      this.grundPlanfaecher.forEach(element => {
-        if ((element != null) && (element.klasse == klasse) && (element.uebstunde > 0)) {
-          // let filter = this.grundPlanfaecher.filter(el => el.klasse == klasse&&el.uebstunde>0);//Alle Elemente der Klasse filtern
-          lehrerVonKlasse.push(element);
-        }
-      });
-    }
-
-    return lehrerVonKlasse;
-  }
 
   valueLoopinArray(obj) {
     // console.log(obj);
@@ -140,7 +295,7 @@ export class GesamtuebersichtComponent implements OnInit {
     return Object.values(Wochentag);
   }
 
-  
+
 
   marked(lehr) {
     if (lehr && this.selectLehrer && lehr.kuerzel == this.selectLehrer.kuerzel) {
@@ -172,32 +327,9 @@ export class GesamtuebersichtComponent implements OnInit {
     //Bei HU und epoche ggf nichts ändern? 
   }
 
-  cellKlick(e, c, reiheKlasse) {
-    if (e.shiftKey) {
-      // let neu=this.klassenplanServ.grundPlanfaecher.getValue();
-      // neu[c].zuweisung.uebstunde=[];
-      this.grundPlanfaecher.forEach((element, el) => {
-        if (element != null) {
-          element.zuweisung.uebstunde.forEach((zuw, z) => {
-            if (element != null && zuw.wochentag == this.wochenTagauswahl && zuw.stunde == c && element.klasse == reiheKlasse) {
-              element.zuweisung.uebstunde.splice(z, 1);
-              console.log("gelöschte uebstunde:");
-              console.log(element);
-              console.log(z);
-              console.log(zuw);
+ 
 
-              //element.zuweisung.uebstunde=[];
-            }
-          });
-        }
-      });
-      // console.log(neu);
-      // this.klassenplanServ.grundPlanfaecher.next(neu);
-      console.log("ende");
-    } else {}
-  }
-
-  duplicates(lehr, z,fachd) { //
+  duplicates(lehr, z, fachd) { //
     let duplicates = 0;
     this.grundPlanfaecher.forEach((element, e) => {
       if (element == null) {
@@ -214,24 +346,24 @@ export class GesamtuebersichtComponent implements OnInit {
 
               } else if (lehr && element && lehr.kuerzel == le.kuerzel) {
                 // console.log(element.lehrer[0].kuerzel + "." +r + ". " + element.klasse);
-               
-                if(fachd!=Fach.hauptunterricht&&fachd!=Fach.schiene&&fachd!=Fach.rhythmisch&&fachd!=Fach.orchester&&fachd!=Fach.wahlpflicht&&fachd!=Fach.chor&&fachd!=Fach.mittelstufenorchester){
-                duplicates++;
-                }else  if(element.fach!=Fach.hauptunterricht&&element.fach!=Fach.schiene&&element.fach!=Fach.rhythmisch&&element.fach!=Fach.orchester&&element.fach!=Fach.wahlpflicht&&element.fach!=Fach.chor&&element.fach!=Fach.mittelstufenorchester){
-                  duplicates++;
-                  }
 
-                
+                if (fachd != Fach.hauptunterricht && fachd != Fach.schiene && fachd != Fach.rhythmisch && fachd != Fach.orchester && fachd != Fach.wahlpflicht && fachd != Fach.chor && fachd != Fach.mittelstufenorchester) {
+                  duplicates++;
+                } else if (element.fach != Fach.hauptunterricht && element.fach != Fach.schiene && element.fach != Fach.rhythmisch && element.fach != Fach.orchester && element.fach != Fach.wahlpflicht && element.fach != Fach.chor && element.fach != Fach.mittelstufenorchester) {
+                  duplicates++;
+                }
+
+
               }
             });
           }
         });
-      } 
-      
-    
+      }
+
+
     });
 
-    if(fachd==Fach.hauptunterricht||fachd==Fach.schiene||fachd==Fach.rhythmisch){
+    if (fachd == Fach.hauptunterricht || fachd == Fach.schiene || fachd == Fach.rhythmisch) {
       duplicates++;
     }
     return duplicates > 1 ? "error" : "ok";

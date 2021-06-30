@@ -1,6 +1,12 @@
+$background:rgb(57, 61, 58);
+$background2:rgb(52, 57, 52);
+$color:rgb(153, 153, 134);
+$back-light:rgb(68,68,68);
+
 #alles {
-    color: rgb(153, 153, 134);
-    background-color: rgb(57, 61, 58);
+    color: $color;
+    background-color: $background;
+
     width:100%;
   }
 
@@ -8,11 +14,11 @@
   
   td{min-width:48pt;}
   tr:nth-child(odd){
-      background-color:rgb(52, 57, 52);
-    td{border-right:1pt solid rgb(57, 61, 58);}
+      background-color:$background2;
+    td{border-right:1pt solid $background}
     }
     tr:nth-child(even){
-        td{border-right:1pt solid rgb(52, 57, 52);
+        td{border-right:1pt solid $background2;
 
         }
     }
@@ -20,7 +26,8 @@
       width:100%;
       text-align:center;
       border-radius:5pt;
-      background-color:rgb(68,68,68);
+      background-color:$back-light;
+      min-height:10pt;
     }
  
 

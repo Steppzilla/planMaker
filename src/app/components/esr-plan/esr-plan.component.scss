@@ -2,10 +2,98 @@
   font-size: 9pt;
 }
 
-#gesamt {
-  color: rgb(182, 182, 150);
-  background-color: rgb(59, 61, 56);
+
+$color-background:rgb(59, 61, 56);
+$darkdarkText:rgb(95, 95, 78);
+$darkText:rgb(119, 119, 107);
+
+//aus zuweisung kopiert, noch nicht benutzt:
+$background:rgb(57, 61, 58);
+$background2:rgb(52, 57, 52);
+$color:rgb(153, 153, 134);
+$back-light:rgb(68,68,68);
+
+//benutzen:aus esr
+
+
+tr:nth-child(n){
+  background-color:$background2;
+td{border-right:1pt solid $background}
 }
+
+//tr:nth-child(even){
+//    td{border-right:1pt solid $background2;
+
+//    }
+//}
+//
+
+
+#gesamt {
+  color: $color;
+  background-color: $background;
+}
+
+
+.epoB{background-color:rgb(153, 145, 59);
+  color:rgb(223, 240, 128);
+}
+.schB{background-color:rgb(117, 150, 82);
+color:rgb(171, 240, 171);}
+.rhyB{background-color: rgb(167, 74, 65);
+color:rgb(216, 175, 165);}
+
+.epo2{color:rgb(192, 182, 71);
+
+}
+.sch2{color:rgb(134, 175, 91);
+}
+.rhy2{color: rgb(206, 105, 96);
+}
+
+.kuerzel{color:lightgrey;}
+ //.normalB{background-color:rgb(102, 99, 104);
+//color:rgb(143, 162, 195);}
+//.empty{min-height:20pt;
+//background-color:$hintergrund2;}
+
+//$hover:rgb(98, 107, 146);
+
+.projekt {
+  color: $color;
+}
+
+table {
+  margin-top: 10pt;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+td {
+  
+  text-align: center;
+}
+
+tr,
+td {
+  height: 20pt;
+  white-space: nowrap;
+}
+
+table {
+  button {
+    border: none;
+    width: 100%;
+    height: 100%;
+    background-color: inherit;
+    color: inherit;
+  }
+}
+
+
+
+
 
 .planRahmen {
   display: flex;
@@ -158,7 +246,7 @@
 
   border: solid 0pt black;
 
-  /* border-radius:5pt;*/
+
   padding: 2pt;
   background-color: inherit;
   width: 100%;
@@ -170,7 +258,7 @@
 .zeile button {
   border: solid 0pt black;
   margin: 5pt;
-  /* border-radius:5pt;*/
+
   padding: 2pt;
   background-color: inherit;
   width: 80pt;
@@ -199,7 +287,7 @@
   .EM,
   .Abi {
     background-color: rgb(226, 180, 94);
-    color:black;
+    color: black;
 
   }
 
@@ -239,47 +327,51 @@
   .Datum {
     border-top: 1pt solid black;
   }
+
   .tagesButtonContainer button {
     margin: 0pt;
     border-radius: 0pt;
-    background-color:white;
-    border-bottom:1px black solid;
-    border-right:1px black solid;
-    
+    background-color: white;
+    border-bottom: 1px black solid;
+    border-right: 1px black solid;
+
   }
 
-  .tagesButtonContainer button:first-child{
-    border-top:1px black solid;
+  .tagesButtonContainer button:first-child {
+    border-top: 1px black solid;
   }
 
-  .wochenRahmen:nth-child(1) button{
-    border-left:1px black solid;
+  .wochenRahmen:nth-child(1) button {
+    border-left: 1px black solid;
   }
 
   .tagesContainer {
-    width: 10pt;}
-    .Monat {
-      width: 10pt;}
+    width: 10pt;
+  }
 
-      .tagesButtonContainer.Mo {
-        width: 50pt;
-      }
-      
-      .tagesButtonContainer.Di,
-      .tagesButtonContainer.Mi,
-      .tagesButtonContainer.Do,
-      .tagesButtonContainer.Fr {
-        width: 50pt;
-      }
+  .Monat {
+    width: 10pt;
+  }
 
-      .ferienNotiz,
-.sonderNotiz {
+  .tagesButtonContainer.Mo {
+    width: 50pt;
+  }
 
-  font-size: 9pt;
-  line-height: 11pt;
-  padding-top: 3pt;
-  border-radius: 4pt;
+  .tagesButtonContainer.Di,
+  .tagesButtonContainer.Mi,
+  .tagesButtonContainer.Do,
+  .tagesButtonContainer.Fr {
+    width: 50pt;
+  }
 
-}
+  .ferienNotiz,
+  .sonderNotiz {
+
+    font-size: 9pt;
+    line-height: 11pt;
+    padding-top: 3pt;
+    border-radius: 4pt;
+
+  }
 
 }

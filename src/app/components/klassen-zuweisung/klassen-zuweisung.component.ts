@@ -58,6 +58,7 @@ export class KlassenZuweisungComponent implements OnInit {
     if (e.shiftKey) {
       this.klassenplanServ.elementeZuruecksetzen(ele.fach, ele.klasse);
     }
+    ele.lehrer.push(this.lehrerServ.lehrer[0]);
 
   }
   wochenstundenVerteilen(e, art, elementDerZeile, kIndex) {
@@ -120,16 +121,25 @@ export class KlassenZuweisungComponent implements OnInit {
 
     neuArray.forEach(obj => {
       if (obj != null) {
-        //  console.log(obj.fach + " / " + obj.klasse);
-        if ((obj.fach == fachI) && (obj.klasse == klasseI) && (obj.lehrer[0] == undefined)) {
+
+        if(obj.fach==fachI){
+          console.log(obj.fach + " / " + obj.klasse + "/" + obj.lehrer[0] + "kuerzel: " + obj.lehrer[0].kuerzel);
+          console.log(fachI + "/ " + klasseI + "/ " );
+        //  console.table( obj.lehrer);
+        }
+
+        if ((obj.fach == fachI) && (obj.klasse == klasseI) && (obj.lehrer[0].kuerzel===null)
+        ) {
           console.log("L. hinzugefügt, kein neues Element");
+          //Lehrer null rauschemeißen
+          obj.lehrer=[];
           obj.lehrer.push(lehrerI);
           neuesEle = false;
-        } else if ((obj.fach == fachI) && (obj.klasse == klasseI) && (obj.lehrer[0] != undefined)) {
+        } else if ((obj.fach == fachI) && (obj.klasse == klasseI) ) {
           console.log("neues Element hinzufügen");
           neuesEle = true;
         } else {
-          //console.log("das Element entspricht nicht dem angeklickten");
+     //   console.log("das Element entspricht nicht dem angeklickten");
         }
       }
     });
@@ -142,6 +152,16 @@ export class KlassenZuweisungComponent implements OnInit {
       this.klassenplanServ.grundPlanfaecher.next(neuArray);
     }
     // console.log(this.klassenplanServ.grundPlanfaecher);
+  }
+
+  wortInZahl(wort){
+    switch(wort){
+      case 'neun': return 9;
+      case 'zehn':return 10;
+      case 'elf': return 11;
+      case 'zwoelf': return 12;
+    }
+
   }
 
   toggleClick(lehrer: Lehrer, fach: Fach, klasse: Lehrjahr) {

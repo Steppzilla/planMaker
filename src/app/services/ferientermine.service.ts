@@ -5,7 +5,9 @@ import {
   isSameDay,
   eachDayOfInterval
 } from 'date-fns';
-import { Lehrjahr } from '../enums/lehrjahr.enum';
+import {
+  Lehrjahr
+} from '../enums/lehrjahr.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -63,6 +65,7 @@ export class FerientermineService {
   landbauEnde: Date = new Date(2022, 4, 13);
   kunstFahrtStart: Date = new Date(2022, 4, 9); //Kl 12
   kunstFahrtEnde: Date = new Date(2022, 4, 20);
+
   feldMessenStart: Date = new Date(2021, 7, 16); //Kl 10
   feldMessenEnde: Date = new Date(2021, 7, 20);
   sozialPraktikumStart: Date = new Date(2021, 9, 18); //kl 11
@@ -71,9 +74,199 @@ export class FerientermineService {
   klassenSpielEnde: Date = new Date(2021, 9, 1);
   eurhythmieAbschlussStart: Date = new Date(2022, 5, 7); //Kl 12
   eurhythmieAbschlussEnde: Date = new Date(2022, 5, 17);
-  projektWocheStart: Date = new Date(2022, 1, 28);
+  projektWocheStart: Date = new Date(2022, 1, 28); //Klasse 9,10,11,12
   projektWocheEnde: Date = new Date(2022, 2, 4);
-  //gf noch zwei eigene brückentage? Ausgleich is glaub ich, dass wir samstags oft feiern organisieren...?
+
+  fahrtenUndProjekteObj = {
+    neun: [{
+        titel: "Landbau",
+        start: new Date(2022, 3, 18),
+        ende: new Date(2022, 4, 13)
+      },
+      {
+        titel: "ProjektWoche",
+        start: new Date(2022, 1, 28),
+        ende: new Date(2022, 2, 4)
+      }
+    ],
+
+    zehn: [{
+        titel: "Feldmessen",
+        start: new Date(2021, 7, 16),
+        ende: new Date(2021, 7, 20)
+      },
+      {
+        titel: "ProjektWoche",
+        start: new Date(2022, 1, 28),
+        ende: new Date(2022, 2, 4)
+      }
+    ],
+
+    elf: [{
+        titel: "Sozialpraktikum",
+        start: new Date(2021, 9, 18),
+        ende: new Date(2021, 10, 5)
+      },
+      {
+        titel: "ProjektWoche",
+        start: new Date(2022, 1, 28),
+        ende: new Date(2022, 2, 4)
+      }
+    ],
+    zwoelf: [{
+        titel: "Kunstfahrt",
+        start: new Date(2022, 4, 9),
+        ende: new Date(2022, 4, 20)
+      },
+      {
+        titel: "Klassenspiel",
+        start: new Date(2021, 7, 30),
+        ende: new Date(2021, 9, 1)
+      },
+      {
+        titel: "Eurythmieabschluss",
+        start: new Date(2022, 5, 6),
+        ende: new Date(2022, 5, 17)
+      },
+      {
+        titel: "ProjektWoche",
+        start: new Date(2022, 1, 28),
+        ende: new Date(2022, 2, 4)
+      }
+    ],
+  }
+
+  feierTage_Pruefungen_Ferien_Obj={
+    pruefungen:[
+      {
+      titel: "Esa/Msa Englisch/Deutsch",
+      start: new Date(2022, 3, 28),
+      ende: new Date(2022, 3, 28)
+    },
+    {
+      titel: "Esa/Msa Deutsch/Mathematik",
+      start: new Date(2022, 4, 2),
+      ende: new Date(2022, 4, 2)
+    },
+    {
+      titel: "Esa/Msa Mathematik/Englisch",
+      start: new Date(2022, 4, 6),
+      ende: new Date(2022, 4, 6)
+    },
+    {
+      titel: "Esa/Msa mündliche Prüfungen",
+      start: new Date(2022, 5, 13),
+      ende: new Date(2022, 5, 13)
+    },
+    {
+      titel: "Abitur schriftlich Deutsch",
+      start: new Date(2022, 3, 27),
+      ende: new Date(2022, 3, 27)
+    },
+    {
+      titel: "Abitur schriftlich Mathematik",
+      start: new Date(2022, 4, 3),
+      ende: new Date(2022, 4, 3)
+    },
+    {
+      titel: "Abitur schriftlich Englisch",
+      start: new Date(2022, 3, 29),
+      ende: new Date(2022, 3, 29)
+    },
+    {
+      titel: "Abitur schriftlich Geographie",
+      start: new Date(2022, 2, 30),
+      ende: new Date(2022, 2, 30)
+    },
+    {
+      titel: "Abitur Sprechprüfung Englisch",
+      start: new Date(2022, 2, 23),
+      ende: new Date(2022, 2, 23)
+    },
+    {
+      titel: "Abitur mündliche Prüfungen",
+      start: new Date(2022, 5, 20),
+      ende: new Date(2022, 5, 20)
+    },
+  ],
+    feiertage:[
+      {
+        titel: "Pfingstferien",
+        start: new Date(2022, 4, 27),
+        ende: new Date(2022, 4, 28)
+      },
+      {
+        titel: "Tag der deutschen Einheit",
+        start: new Date(2021, 9, 3),
+        ende: new Date(2021, 9, 3)
+      },
+      {
+        titel: "Reformationstag",
+        start: new Date(2021, 9, 31),
+        ende: new Date(2021, 9, 31)
+      },
+      {
+        titel: "Weihnachtstage",
+        start: new Date(2021, 11, 25),
+        ende: new Date(2021, 11, 26)
+      },
+      {
+        titel: "Neujahr",
+        start: new Date(2022, 0, 1),
+        ende: new Date(2022, 0, 1)
+      },
+      {
+        titel: "Karfreitag",
+        start: new Date(2022, 3, 15),
+        ende: new Date(2022, 3, 15)
+      },
+      {
+        titel: "Ostermontag",
+        start: new Date(2022, 3, 18),
+        ende: new Date(2022, 3, 18)
+      },
+      {
+        titel: "Tag der Arbeit",
+        start: new Date(2022, 4, 1),
+        ende: new Date(2022, 4, 1)
+      },
+      {
+        titel: "Christi Himmelfahrt",
+        start: new Date(2022, 4, 26),
+        ende: new Date(2022, 4, 26)
+      },
+      {
+        titel: "Pfingstmontag",
+        start: new Date(2022, 5, 6),
+        ende: new Date(2022, 5, 6)
+      },
+    //gf noch zwei eigene brückentage? Ausgleich is glaub ich, dass wir samstags oft feiern organisieren...?
+
+    ],
+    ferien:[
+      {
+        titel: "Sommerferien",  //Ende: letzter Ferientag vorm Schuljahresbeginn, Start: Erster Ferientag am Ende des Schuljahres
+        start: new Date(2022, 6, 4), //ende des schuljahres quasi
+        ende: new Date(2021, 6, 30)
+      },
+      {
+        titel: "Herbstferien",  
+        start: new Date(2021, 9, 4), 
+        ende: new Date(2021, 9, 16)
+      },
+      {
+        titel: "Weihnachtsferien",  
+        start: new Date(2021, 11, 23), 
+        ende: new Date(2022, 0, 8)
+      },
+      {
+        titel: "Osterferien",  
+        start: new Date(2022, 3, 4), 
+        ende: new Date(2022, 3, 16)
+      },
+    ]
+  }
+
 
   get pruefungsTage() {
     return [
@@ -197,16 +390,26 @@ export class FerientermineService {
     let notiz = "no";
     let arr = [];
     let wochenTag = "";
-    let ganztagsProjekt=[];
+    let ganztagsProjekt = [];
     //neu:
-    let ganztag={neun:null, zehn: null, elf: null, zwoelf: null};
+    let ganztag = {
+      neun: null,
+      zehn: null,
+      elf: null,
+      zwoelf: null
+    };
 
     this.daysBetweenArray.forEach(day => {
-      ganztagsProjekt=[];
+      ganztagsProjekt = [];
       ferien = false;
       notiz = "";
       //nu:
-      ganztag={neun:null, zehn: null, elf: null, zwoelf: null};
+      ganztag = {
+        neun: null,
+        zehn: null,
+        elf: null,
+        zwoelf: null
+      };
       if ((day.getTime() >= this.herbstferienStart.getTime()) && (day.getTime() <= this.herbstferienEnde.getTime())) {
         ferien = true;
         notiz = "Herbstferien";
@@ -245,40 +448,40 @@ export class FerientermineService {
         });
       }
       //Fahrten
-       if ((day.getTime() >= this.landbauStart.getTime()) && (day.getTime() <= this.landbauEnde.getTime())) {
-         ganztagsProjekt.push(["Landbau",Lehrjahr.neun]); //9. Klasse
-         ganztag.neun="Landbau";
-       }
-       if ((day.getTime() >= this.kunstFahrtStart.getTime()) && (day.getTime() <= this.kunstFahrtEnde.getTime())) {
-        ganztagsProjekt.push(["Kunstfahrt",Lehrjahr.zwoelf]); //12. kLasse
-        ganztag.zwoelf="Kunstfahrt";
-       
+      if ((day.getTime() >= this.landbauStart.getTime()) && (day.getTime() <= this.landbauEnde.getTime())) {
+        ganztagsProjekt.push(["Landbau", Lehrjahr.neun]); //9. Klasse
+        ganztag.neun = "Landbau";
+      }
+      if ((day.getTime() >= this.kunstFahrtStart.getTime()) && (day.getTime() <= this.kunstFahrtEnde.getTime())) {
+        ganztagsProjekt.push(["Kunstfahrt", Lehrjahr.zwoelf]); //12. kLasse
+        ganztag.zwoelf = "Kunstfahrt";
+
       }
       if ((day.getTime() >= this.feldMessenStart.getTime()) && (day.getTime() <= this.feldMessenEnde.getTime())) {
-        ganztagsProjekt.push(["Feldmessen",Lehrjahr.zehn]); //10. Klasse
-        ganztag.zehn="Feldmessen";
+        ganztagsProjekt.push(["Feldmessen", Lehrjahr.zehn]); //10. Klasse
+        ganztag.zehn = "Feldmessen";
       }
       if ((day.getTime() >= this.sozialPraktikumStart.getTime()) && (day.getTime() <= this.sozialPraktikumEnde.getTime())) {
-        ganztagsProjekt.push(["Sozialpraktikum",Lehrjahr.elf]);// 11. Klasse
-        ganztag.elf="Sozialpraktikum";
+        ganztagsProjekt.push(["Sozialpraktikum", Lehrjahr.elf]); // 11. Klasse
+        ganztag.elf = "Sozialpraktikum";
       }
       if ((day.getTime() >= this.klassenSpielStart.getTime()) && (day.getTime() <= this.klassenSpielEnde.getTime())) {
-        ganztagsProjekt.push(["Klassenspiel",Lehrjahr.zwoelf]); // 12. Klasse
-        ganztag.zwoelf="Klassenspiel";
+        ganztagsProjekt.push(["Klassenspiel", Lehrjahr.zwoelf]); // 12. Klasse
+        ganztag.zwoelf = "Klassenspiel";
       }
       if ((day.getTime() >= this.eurhythmieAbschlussStart.getTime()) && (day.getTime() <= this.eurhythmieAbschlussEnde.getTime())) {
-        ganztagsProjekt.push(["Eurythmieabschluss",Lehrjahr.zwoelf]);// 12. Klasse
-        ganztag.zwoelf="Eurythmieabschluss";
+        ganztagsProjekt.push(["Eurythmieabschluss", Lehrjahr.zwoelf]); // 12. Klasse
+        ganztag.zwoelf = "Eurythmieabschluss";
       }
       if ((day.getTime() >= this.projektWocheStart.getTime()) && (day.getTime() <= this.projektWocheEnde.getTime())) {
-        ganztagsProjekt.push(["Projektwoche",Lehrjahr.zwoelf]);// 12. Klasse
-        ganztagsProjekt.push(["Projektwoche",Lehrjahr.elf]);// 11. Klasse
-        ganztagsProjekt.push(["Projektwoche",Lehrjahr.zehn]);// 10. Klasse
-        ganztagsProjekt.push(["Projektwoche",Lehrjahr.neun]);// 9. Klasse
-        ganztag.neun="Projektwoche";
-        ganztag.zehn="Projektwoche";
-        ganztag.elf="Projektwoche";
-        ganztag.zwoelf="Projektwoche";
+        ganztagsProjekt.push(["Projektwoche", Lehrjahr.zwoelf]); // 12. Klasse
+        ganztagsProjekt.push(["Projektwoche", Lehrjahr.elf]); // 11. Klasse
+        ganztagsProjekt.push(["Projektwoche", Lehrjahr.zehn]); // 10. Klasse
+        ganztagsProjekt.push(["Projektwoche", Lehrjahr.neun]); // 9. Klasse
+        ganztag.neun = "Projektwoche";
+        ganztag.zehn = "Projektwoche";
+        ganztag.elf = "Projektwoche";
+        ganztag.zwoelf = "Projektwoche";
       }
 
       wochenTag = this.tagZuString(day);
@@ -290,8 +493,13 @@ export class FerientermineService {
         unterricht: [],
         ganztags: ganztagsProjekt,
         //neu:
-        ganztaegig: {neun:ganztag.neun, zehn:ganztag.zehn, elf: ganztag.elf, zwoelf: ganztag.zwoelf} ,
-      
+        ganztaegig: {
+          neun: ganztag.neun,
+          zehn: ganztag.zehn,
+          elf: ganztag.elf,
+          zwoelf: ganztag.zwoelf
+        },
+
       }); //FORMAT der TAGE
     });
     return arr;
@@ -306,19 +514,70 @@ export class FerientermineService {
 
   tagZuString(tag: Date) {
     switch (tag.getDay()) {
-      case 0:        return "So";      case 1:        return "Mo";      case 2:        return "Di";      case 3:        return "Mi";
-      case 4:        return "Do";      case 5:        return "Fr";      case 6:        return "Sa";    }  }
-
-      zahlZuString(zahl) {
-        switch (zahl) {
-          case 0:        return "Mo";      case 1:        return "Di";      case 2:        return "Mi";      case 3:        return "Do";
-          case 4:        return "Fr";      case 5:        return "Sa";      case 6:        return "So";    }  }
-
-  monatZuString(tag: Date) {    switch (tag.getMonth()) {      case 0:        return "Jan";      case 1:        return "Feb";      case 2:        return "März";
-      case 3:        return "April";      case 4:        return "Mai";      case 5:        return "Juni";      case 6:        return "Juli";
-      case 7:        return "August";      case 8:        return "September";      case 9:        return "Oktober";      case 10:        return "November";
-      case 11:        return "Dezember";    }  }
-
-  constructor() {
+      case 0:
+        return "So";
+      case 1:
+        return "Mo";
+      case 2:
+        return "Di";
+      case 3:
+        return "Mi";
+      case 4:
+        return "Do";
+      case 5:
+        return "Fr";
+      case 6:
+        return "Sa";
+    }
   }
+
+  zahlZuString(zahl) {
+    switch (zahl) {
+      case 0:
+        return "Mo";
+      case 1:
+        return "Di";
+      case 2:
+        return "Mi";
+      case 3:
+        return "Do";
+      case 4:
+        return "Fr";
+      case 5:
+        return "Sa";
+      case 6:
+        return "So";
+    }
+  }
+
+  monatZuString(tag: Date) {
+    switch (tag.getMonth()) {
+      case 0:
+        return "Jan";
+      case 1:
+        return "Feb";
+      case 2:
+        return "März";
+      case 3:
+        return "April";
+      case 4:
+        return "Mai";
+      case 5:
+        return "Juni";
+      case 6:
+        return "Juli";
+      case 7:
+        return "August";
+      case 8:
+        return "September";
+      case 9:
+        return "Oktober";
+      case 10:
+        return "November";
+      case 11:
+        return "Dezember";
+    }
+  }
+
+  constructor() {}
 }

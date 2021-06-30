@@ -60,7 +60,9 @@ export class KlassenplaeneService {
       })
     );
 
-  lehrerArray$: Observable < {      [key: string]: Elementt[]    } > =
+  lehrerArray$: Observable < {
+      [key: string]: Elementt[]
+    } > =
     this.grundPlanfaecher$.pipe(
       filter(r => r !== null),
       map(x => {
@@ -68,15 +70,64 @@ export class KlassenplaeneService {
           [key: string]: Elementt[]
         } = {};
         x.forEach((ele: Elementt) => {
-            ele.lehrer.forEach(le=>{
-              if (obj[le.kuerzel] === undefined) {
-                obj[le.kuerzel] = [];
-              }
-              obj[le.kuerzel].push(ele);
-            });
+          ele.lehrer.forEach(le => {
+            if (obj[le.kuerzel] === undefined) {
+              obj[le.kuerzel] = [];
+            }
+            obj[le.kuerzel].push(ele);
+          });
         });
         return obj;
       }));
+
+  esrPlaan$=
+    this.grundPlanfaecher$.pipe(
+      filter(r => r !== null),
+      map(x => {
+        let obj = {
+          rhythmus: {
+            neun: [],
+            zehn: [],
+            elf: [],
+            zwoelf: []
+          },
+          epoche: {
+            neun: [],
+            zehn: [],
+            elf: [],
+            zwoelf: []
+          },
+          schiene: {
+            neun: [],
+            zehn: [],
+            elf: [],
+            zwoelf: []
+          }
+        };
+        x.forEach(ele => {
+          ["rhythmus", "schiene", "epoche"].forEach(esrR => {
+            if (ele[esrR] > 0) {
+              obj[esrR][this.zahlInWort(parseInt(ele.klasse))].push(ele);
+            }
+          });
+        });
+
+        return obj;
+      }));
+
+  zahlInWort(str: number) {
+    switch (str) {
+      case 9:
+        return "neun";
+      case 10:
+        return "zehn";
+      case 11:
+        return "elf";
+      case 12:
+        return "zwoelf";
+    }
+  }
+
 
   berechnung(element) {
     let grundplanf = this.grundPlanfaecher.getValue();
