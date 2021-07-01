@@ -148,6 +148,7 @@ td {
 
 table {
   button {
+    padding:0pt;
     border: none;
     width: 100%;
     height: 100%;
@@ -295,11 +296,7 @@ table {
   color: rgb(137, 143, 137);
 }
 
-.blueback {
-  color: rgb(147, 147, 184);
-  font-weight: bold;
-  font-size: 12pt;
-}
+
 
 
 
@@ -337,6 +334,19 @@ table {
   color: rgb(182, 182, 150);
 }
 
+.blueback {
+  color: rgb(147, 147, 184);
+ // background-color:rgb(147, 147, 184); 
+
+  background-image: repeating-linear-gradient(45deg, 
+  rgb(76, 76, 170)  4px, 
+  rgb(67, 57, 164)  8px,
+  rgb(76, 76, 170) 12px);
+
+
+  font-weight: bold;
+  font-size: 12pt;
+}
 
 @media print {
 

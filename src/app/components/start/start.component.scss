@@ -24,6 +24,11 @@ button:hover {
   background-color: rgb(59, 68, 92);
 }
 
+#leerraum{
+  min-height:80pt;
+  height:80pt;
+  background-color: rgb(59, 68, 92);
+}
 
 #menu button{
   border-radius:5pt;
@@ -37,15 +42,17 @@ button:hover {
 #Lehrerselect {
   position: fixed;
  bottom:2pt;
- left:20%;
-  display: flex;
+ left: 50%;
+ transform: translate(-50%);
+
+ display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
   width:400pt;
   background-color: rgb(59, 68, 92);
-  opacity:1;
-  z-index: 3;
+  opacity:0.9;
+  z-index: 4;
 }
 
 #Lehrerselect>button {
@@ -53,6 +60,7 @@ button:hover {
   margin: 0pt;
   padding:2pt;
   width: 30pt;
+
 }
 
 #Lehrerselect>button:nth-child(9){
@@ -73,7 +81,7 @@ button:hover {
 }
 
 
-#container{display:flex;
+#container{
 margin:0pt;
 padding:0pt;}
 

@@ -25,21 +25,15 @@ $back-light:rgb(68, 68, 68);
     
     }
     
- 
+ th{font-weight: normal;}
 
-.zeile{
-    display:grid;
-    grid-template-columns: 15pt 80pt 80pt 80pt 80pt 80pt; 
-}
 .th{
     text-align:center; 
 }
-.th.zeile div{border-bottom:1px solid $color-text;}
-.th.zeile div:nth-child(1){border-bottom:none;}
-.th.links{border-right:1px solid $color-text;}
+
 
 #gesamtbox{
-   width:415pt;
+   min-width:50%;
     margin-left:auto;
     margin-right:auto;
   
@@ -51,10 +45,102 @@ $back-light:rgb(68, 68, 68);
     padding-right:5pt;
 }
 
-.item{display:flex;}
-.fach, .klasse{width:100%;}
+
+.item{height:100%;
+    min-width:45pt;
+}
+
+.fach{height:100%;
+}
+
+.leer,.fach{
+    min-width:35pt;
+}
+
+.huB,
+.schB,
+.rhyB,
+.normalB,.empty,
+.fach, .HU,.Schiene,.StartUp {
+  border-right: 1px $hintergrund2 solid;
+  border-left: 1pt $hintergrund2 solid;
+  height: 100%;
+  border-top: 1pt solid $hintergrund;
+}
+
+.fach,.normalB {
+    background-image:
+      repeating-linear-gradient(45grad,
+      rgb(75,75, 75) 0%,
+        rgb(65, 65, 65) 4%,
+        rgb(75, 75, 75) 12%);
+  
+    color: rgb(143, 162, 195);
+  
+  
+  }
 
 
+
+
+.klasse{font-size:8pt;
+}
+
+
+
+.HU,.huB {
+    border:1px solid  rgb(153, 145, 59);
+  
+    background-color: rgb(153, 145, 59);
+    color: rgb(223, 240, 128);
+  
+    background-image:
+      repeating-linear-gradient(45grad,
+        rgb(153, 145, 59) 0%,
+        rgb(143, 135, 49) 4%,
+        rgb(135, 130, 49) 8%,
+        rgb(153, 145, 59) 12%);
+  }
+  
+  .Schiene,.schB {
+    border:1px solid  rgb(117, 150, 82);
+  
+    color: rgb(171, 240, 171);
+    background-image:
+      repeating-linear-gradient(45grad,
+        rgb(117, 150, 82) 0%,
+        rgb(100, 120, 75) 8%,
+        rgb(117, 150, 82) 12%);
+  }
+  
+  .StartUp,.rhyB {
+    border:1px solid  rgb(167, 74, 65);
+   
+    color: rgb(216, 175, 165);
+  
+    background-image:
+      repeating-linear-gradient(45grad,
+        rgb(147, 74, 65) 0%,
+        rgb(127, 53, 58) 4%,
+        rgb(130, 50, 58) 8%,
+        rgb(147, 74, 65) 12%);
+  
+  
+  
+  }
+
+  .empty,.leer {
+    border:1px solid  $hintergrund;
+    min-height: 20pt;
+    background-image:
+      repeating-linear-gradient(45grad,
+        $background 0%,
+        $background2 1%,
+        $back-light 2%,
+        $background 3%);
+        opacity: 0.6;
+    //background-color:$hintergrund2;
+  }
 
 
 

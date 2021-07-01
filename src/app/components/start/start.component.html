@@ -49,6 +49,13 @@
 
 
 <div id="container">
+  
+  <router-outlet></router-outlet>
+
+  <div id="leerraum">
+
+  </div>
+
   <div id="Lehrerselect" class="buttonreihe noprint" >
     <!-- -->
     <ng-container *ngFor="let lehrer of this.lehrer.lehrer; index as i">
@@ -57,6 +64,8 @@
       </button>
     </ng-container>
   </div>
-  <router-outlet></router-outlet>
 
 </div>
+
+
+

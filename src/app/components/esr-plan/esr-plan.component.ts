@@ -540,7 +540,7 @@ export class EsrPlanComponent implements OnInit {
   schienenPlan$ = this.klassenplanServ.esrPlaan$.pipe(
     map(z => {
       let fahrtenUndProjekte = this.ferienServ.fahrtenUndProjekteObj;
-
+   
       // let obj:{}|{fach:Fach,lehrer:Lehrer}|{ueberschrift:string}
       let neu: Array < Array < Array < Array < {
         fach ? : Fach,
@@ -588,6 +588,8 @@ export class EsrPlanComponent implements OnInit {
                 neu[aI][zahl][zaehler] = [];
               }
               let titel = "";
+             
+             
               fahrten.forEach(fahrtObj => {
                 if (fahrtObj.start <= tag.tag && fahrtObj.ende >= tag.tag) {
                   fahrt = true;
@@ -597,6 +599,11 @@ export class EsrPlanComponent implements OnInit {
                   let ende = new Date(fahrtObj.ende.getTime());
                   //Span-wochen ermitteln: 
                   //Wenn projekt über zeilt geht:
+                  if(fahrtObj.titel=="Landbau"){
+                  console.log(fahrtObj.titel);
+                  console.log(fahrtObj.start.getDate()+". " + fahrtObj.start.getMonth());
+                  }
+
                   if (start < abSCHN[0].tag) { //Wenn epoche vor Zeilenstart beginnt , dnan start auf zeilenstart ändern
                     //    console.log(start);
                     start.setTime(abSCHN[0].tag.getTime());
@@ -761,13 +768,7 @@ wortInZahl(neun){
 }
 
 
-
-
-
-
   //dooppelt
-
-
 
 
   schienePlan$ = this.klassenplanServ.esrPlaan$.pipe(

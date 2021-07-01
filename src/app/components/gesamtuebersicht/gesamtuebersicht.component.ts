@@ -110,7 +110,7 @@ export class GesamtuebersichtComponent implements OnInit {
       });
       // console.log(neu);
        this.klassenplanServ.grundPlanfaecher.next(neu);
-      console.log("ende");
+    //  console.log("ende");
     } else {}
   }
 

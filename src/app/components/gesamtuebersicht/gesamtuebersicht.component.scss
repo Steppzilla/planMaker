@@ -50,8 +50,8 @@ table {
 
     td {
       height: 45pt;
-      border-right: 1pt $hintergrund solid;
-      border-left: 1pt $hintergrund solid;
+ 
+      
 
       button {
         height: 100%;
@@ -129,16 +129,17 @@ button {
 .huB,
 .schB,
 .rhyB,
-.normalB {
+.normalB,.empty {
+  border-right: 1px $hintergrund solid;
+  border-left: 1pt $hintergrund solid;
   height: 100%;
   border-top: 1pt solid $hintergrund;
-
-
-
 }
 
 
 .huB {
+  border:1px solid  rgb(153, 145, 59);
+
   background-color: rgb(153, 145, 59);
   color: rgb(223, 240, 128);
 
@@ -151,7 +152,8 @@ button {
 }
 
 .schB {
-  background-color: rgb(117, 150, 82);
+  border:1px solid  rgb(117, 150, 82);
+
   color: rgb(171, 240, 171);
   background-image:
     repeating-linear-gradient(45grad,
@@ -161,7 +163,8 @@ button {
 }
 
 .rhyB {
-  background-color: rgb(167, 74, 65);
+  border:1px solid  rgb(167, 74, 65);
+ 
   color: rgb(216, 175, 165);
 
   background-image:
@@ -206,13 +209,14 @@ button {
 
 #toggle-item-Container {
   opacity: 1;
-  background-color: $hover;
+  background-color: rgb(69, 56, 73);
   padding: 0pt;
 
   display: grid;
   width: auto;
   grid-template-columns: 35% 10% 10% 20% 25%;
   border: none;
+  white-space: nowrap;
 }
 
 

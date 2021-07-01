@@ -59,15 +59,14 @@
                       <ng-container *ngIf="cell[0]&&cell[0].ganztaegig.length>0; else INHALT">
                         <div class="projekt">
 
-                          {{cell[0].ganztaegig}}
+                          {{cell[0].ganztaegig}}|{{cell[0].start|date: "d. M"}}({{cell[0].spanNr}})
                         </div>
                       </ng-container>
 
                       <!-- nur anzeigen, wenn kein Sonder-Event ist: -->
                       <ng-template #INHALT>
                         <div *ngFor="let u of cell" class="{{markedd(u.lehrer)}}">
-                          {{u.fach}} <span class="kuerzel">{{u.lehrer}}</span>
-                        </div>
+                          {{u.fach}} <span class="kuerzel">{{u.lehrer}}</span>| {{cell[0].start|date: "d. M"}}({{cell[0].spanNr}}                    </div>
                       </ng-template>
 
                     </button>
@@ -321,7 +320,7 @@
 
 
 
-
+<!--
 
   <div class="planRahmen">
     <ng-container *ngFor="let montagtag of esrPlan; index as d">
@@ -479,3 +478,4 @@
     </ng-container>
   </div>
 </div>
+-->
