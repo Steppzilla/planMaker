@@ -22,7 +22,7 @@
         <table class="absch rhy2">
           <tr *ngFor="let reihe of abschnitt, index as r">
             <ng-container *ngIf="r==0; else KLASSE">
-              <td  colSpan="1" *ngFor="let cell of reihe, index as c"
+              <td colSpan="1" *ngFor="let cell of reihe, index as c"
                 (click)="clickN($event,r+8,  abschnitt[0][c][0].ueberschrift)">
                 <div *ngFor="let u of cell">
                   {{u.ueberschrift|date: 'd. M'}}
@@ -50,7 +50,7 @@
 
                   <!--  IF: c==0||(equals(abschnitt[r][c],abschnitt[r][c-1])===false)-->
 
-                  <td  colSpan="{{abschnitt[r][c][0]?abschnitt[r][c][0].spanNr:1}}">
+                  <td colSpan="{{abschnitt[r][c][0]?abschnitt[r][c][0].spanNr:1}}">
                     <button triggers="click" [ngbTooltip]="FachAuswahl" placement="bottom" [autoClose]="true"
                       (click)="clickN($event,r+8,  abschnitt[0][c][0].ueberschrift)">
 
@@ -59,14 +59,16 @@
                       <ng-container *ngIf="cell[0]&&cell[0].ganztaegig.length>0; else INHALT">
                         <div class="projekt">
 
-                          {{cell[0].ganztaegig}}|{{cell[0].start|date: "d. M"}}({{cell[0].spanNr}})
+                          {{cell[0].ganztaegig}}
                         </div>
                       </ng-container>
 
                       <!-- nur anzeigen, wenn kein Sonder-Event ist: -->
                       <ng-template #INHALT>
                         <div *ngFor="let u of cell" class="{{markedd(u.lehrer)}}">
-                          {{u.fach}} <span class="kuerzel">{{u.lehrer}}</span>| {{cell[0].start|date: "d. M"}}({{cell[0].spanNr}}                    </div>
+                          {{u.fach}} <span class="kuerzel">{{u.lehrer}}</span>
+                          <!--| {{cell[0].start|date: "d. M"}}({{cell[0].spanNr}}       -->
+                        </div>
                       </ng-template>
 
                     </button>
@@ -116,7 +118,7 @@
                   ||
                   c==0
                 ">
-                  <td  colSpan="{{abschnitt[r][c][0]?abschnitt[r][c][0].spanNr:1}}">
+                  <td colSpan="{{abschnitt[r][c][0]?abschnitt[r][c][0].spanNr:1}}">
                     <button triggers="click" [ngbTooltip]="FachAuswahl" placement="bottom" [autoClose]="true"
                       (click)="clickN($event,r+8,  abschnitt[0][c][0].ueberschrift)">
                       <ng-container *ngIf="cell[0]&&cell[0].ganztaegig.length>0; else INHALT">
@@ -151,7 +153,7 @@
   </ng-container>
 
 
-  
+
   <ng-container *ngIf="gewaehlterPlan=='schiene'">
     <ng-container *ngIf="schienenPlan$|async as rhyPlan">
       <ng-container *ngFor="let abschnitt of rhyPlan">
@@ -174,7 +176,7 @@
                   ||
                   c==0
                 ">
-                  <td  colSpan="{{abschnitt[r][c][0]?abschnitt[r][c][0].spanNr:1}}">
+                  <td colSpan="{{abschnitt[r][c][0]?abschnitt[r][c][0].spanNr:1}}">
                     <button triggers="click" [ngbTooltip]="FachAuswahl" placement="bottom" [autoClose]="true"
                       (click)="clickN($event,r+8,  abschnitt[0][c][0].ueberschrift)">
                       <ng-container *ngIf="cell[0]&&cell[0].ganztaegig.length>0; else INHALT">
@@ -320,7 +322,7 @@
 
 
 
-<!--
+  <!--
 
   <div class="planRahmen">
     <ng-container *ngFor="let montagtag of esrPlan; index as d">
