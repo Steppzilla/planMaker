@@ -58,6 +58,26 @@ export class EsrPlanComponent implements OnInit {
 
   selectLehrer;
 
+  rechts(){
+    if(this.gewaehlterPlan==="rhythmus"){
+      this.gewaehlterPlan="epoche"
+    }else if(this.gewaehlterPlan==="epoche"){
+      this.gewaehlterPlan="schiene";
+    }else if(this.gewaehlterPlan==="schiene"){
+      this.gewaehlterPlan="rhythmus";
+    }
+  }
+  links(){
+    if(this.gewaehlterPlan==="rhythmus"){
+      this.gewaehlterPlan="schiene"
+    }else if(this.gewaehlterPlan==="schiene"){
+      this.gewaehlterPlan="epoche";
+    }else if(this.gewaehlterPlan==="epoche"){
+      this.gewaehlterPlan="rhythmus";
+    }
+
+  }
+
   rhythmusElemente$ = this.klassenplanServ.esrPlaan$.pipe(
     concatMap(b => {
       return this.klassenplanServ.esrPlaan$.pipe(take(1));

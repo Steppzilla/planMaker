@@ -30,14 +30,47 @@ $schieneBackground: rgb(117, 150, 82);
 
 tr:nth-child(n) {
   background-color: $background2;
+
   td {
     border-right: 1pt solid $background
   }
 }
 
 
+.iconBut{
+  background:none;
+  border:none;
+}
 
+.flex3 {
 
+  display: flex;
+  width: 100%;
+}
+
+.flex3>div:nth-child(1) {
+  text-align: center;
+  button{
+    position:fixed;
+    top:50%;
+    left:10pt;
+  }
+
+}
+
+.flex3>div:nth-child(2) {
+  width: 100%;
+}
+
+.flex3>div:nth-child(3) {
+  text-align: center;
+  button{
+    position: fixed;
+    top: 50%;
+    right:10pt;
+  }
+  
+}
 
 
 //tr:nth-child(even){
@@ -51,10 +84,10 @@ tr:nth-child(n) {
 #gesamt {
   color: $color;
   //background-color: $background;
-  background-image: repeating-linear-gradient(45deg, 
-  $background 0%, 
-  $background2 1%,
-  $background 2%);
+  background-image: repeating-linear-gradient(45deg,
+      $background 0%,
+      $background2 1%,
+      $background 2%);
 }
 
 
@@ -82,21 +115,23 @@ tr:nth-child(n) {
 
   tr:nth-child(1) {
     td {
-      background-color:  $epoBackground;
-      color:$epoText;
+      background-color: $epoBackground;
+      color: $epoText;
     }
   }
-  color:    rgb(192, 182, 71);
+
+  color: rgb(192, 182, 71);
 }
 
 .sch2 {
 
   tr:nth-child(1) {
     td {
-      background-color:  $schieneBackground;
-      color:$schieneText;
+      background-color: $schieneBackground;
+      color: $schieneText;
     }
   }
+
   color: rgb(134, 175, 91);
 }
 
@@ -104,10 +139,11 @@ tr:nth-child(n) {
 
   tr:nth-child(1) {
     td {
-      background-color:  $rhybackground;
-      color:$rhytext;
+      background-color: $rhybackground;
+      color: $rhytext;
     }
   }
+
   color: rgb(206, 105, 96);
 }
 
@@ -127,7 +163,7 @@ tr:nth-child(n) {
 }
 
 table {
-  
+
 
   margin-top: 10pt;
   margin-left: auto;
@@ -148,7 +184,7 @@ td {
 
 table {
   button {
-    padding:0pt;
+    padding: 0pt;
     border: none;
     width: 100%;
     height: 100%;
@@ -336,12 +372,12 @@ table {
 
 .blueback {
   color: rgb(147, 147, 184);
- // background-color:rgb(147, 147, 184); 
+  // background-color:rgb(147, 147, 184); 
 
-  background-image: repeating-linear-gradient(45deg, 
-  rgb(76, 76, 170)  4px, 
-  rgb(67, 57, 164)  8px,
-  rgb(76, 76, 170) 12px);
+  background-image: repeating-linear-gradient(45deg,
+      rgb(76, 76, 170) 4px,
+      rgb(67, 57, 164) 8px,
+      rgb(76, 76, 170) 12px);
 
 
   font-weight: bold;

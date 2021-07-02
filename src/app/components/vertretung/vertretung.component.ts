@@ -256,7 +256,7 @@ export class VertretungComponent implements OnInit {
       let zellenI = zelle.findIndex(ele => ele.fach == this.vertretungsElement.fach && ele.lehrerKuerz === this.vertretungsElement.lehrer.kuerzel);
       //zellenI bestimmen index
 
-      this.index = zellenI;
+
 
       let aktuelleVertret = this.vertretungsSer.vertretung.getValue();
       this.vertretungsElement.vertretung = clickedElementt;
@@ -417,11 +417,6 @@ export class VertretungComponent implements OnInit {
 
 
 
-  //ab hier doppelte?
-
-  wochenStundenBerechnen() {
-    // this.klassenplanServ.berechnung(); 
-  }
   klassengesamtstunden(kla) {
     let elementederKlasse = this.tabellensortierung(kla);
     let zaehler = 0;
@@ -452,92 +447,7 @@ export class VertretungComponent implements OnInit {
   }
 
 
-  zellenInhalt(klas, std) {
-    let inhalt = [];
-    this.grundPlanfaecher.forEach(element => {
-      if (element && element.zuweisung && element.zuweisung.uebstunde) {
-        element.zuweisung.uebstunde.forEach(woStd => {
-          if (woStd.wochentag == this.wochenTagauswahl && woStd.stunde == std && element.klasse == klas) {
-            if (element.fach != Fach.hauptunterricht && element.fach != Fach.schiene && element.fach != Fach.rhythmisch || parseInt(element.klasse) <= 8) {
-              inhalt.push(element);
-            } else {
-              //aktuelle Epoche reinschreiben:
-              if (element.fach == Fach.hauptunterricht) {
-                // console.log(this.vertretungsSer.aktuelleESRElemente);
-                // console.log(this.vertretungsSer.aktuelleESRElemente.filter(ele => ele[0].klasse == klas && ele[2] == "epoche"));
-                let auswahl = this.vertretungsSer.aktuelleESRElemente.filter(ele => ele[0].klasse == klas && ele[2] == "epoche");
-                let speicher = [];
-                let neu = [];
-                let bo = true;
-                let kollektion = Fach.hauptunterricht;
-                auswahl.forEach(ehl => {
-                  if (speicher.length > 0) {
-                    speicher.forEach(speichELEM => {
-                      if (speichELEM.fach == ehl[0].fach && speichELEM.lehrer[0].kuerzel == ehl[0].lehrer[0].kuerzel) {
-                        //       console.log("false");
-                        bo = false;
-                      }
-                    });
-                  }
-                  if (bo == true) {
-                    ehl[0].kollektion = kollektion;
-                    neu.push(ehl[0]);
-                    //   console.log(neu);
-                  }
-                  speicher.push(ehl[0]);
-                });
-                inhalt = neu;
-              } else if (element.fach == Fach.schiene) {
-                //  console.log(this.vertretungsSer.aktuelleESRElemente);
-                ///  console.log(this.vertretungsSer.aktuelleESRElemente.filter(ele => ele[0].klasse == klas && ele[2] == "schiene"));
-                let auswahl = this.vertretungsSer.aktuelleESRElemente.filter(ele => ele[0].klasse == klas && ele[2] == "schiene");
-                let speicher = [];
-                let neu = [];
-                let bo = true;
-                let kollektion = Fach.schiene;
-                auswahl.forEach(ehl => {
-                  speicher.forEach(speichELEM => {
-                    if (speichELEM.fach == ehl[0].fach && speichELEM.lehrer[0].kuerzel == ehl[0].lehrer[0].kuerzel) {
-                      bo = false;
-                    }
-                  });
-                  if (bo == true) {
-                    ehl[0].kollektion = kollektion;
-                    neu.push(ehl[0]);
-                  }
-                  speicher.push(ehl[0]);
-                })
-                inhalt = neu;
-              } else if (element.fach == Fach.rhythmisch) {
-                //   console.log(this.vertretungsSer.aktuelleESRElemente);
-                //   console.log(this.vertretungsSer.aktuelleESRElemente.filter(ele => ele[0].klasse == klas && ele[2] == "rhythmus"));
-                let auswahl = this.vertretungsSer.aktuelleESRElemente.filter(ele => ele[0].klasse == klas && ele[2] == "rhythmus");
-                let speicher = [];
-                let neu = [];
-                let bo = true;
-                let kollektion = Fach.rhythmisch;
-                auswahl.forEach(ehl => {
-                  speicher.forEach(speichELEM => {
-                    if (speichELEM.fach == ehl[0].fach && speichELEM.lehrer[0].kuerzel == ehl[0].lehrer[0].kuerzel) {
-                      bo = false;
-                    }
-                  });
-                  if (bo == true) {
-                    ehl[0].kollektion = kollektion;
-                    neu.push(ehl[0]);
-                  }
-                  speicher.push(ehl[0]);
-                })
-                inhalt = neu;
-              }
-            }
-          }
-        });
-      }
-    });
-    // console.log(inhalt);
-    return inhalt;
-  }
+  
 
   wochentagWahl(x: string) {
     this.wochenTagauswahl = x;
@@ -593,17 +503,7 @@ export class VertretungComponent implements OnInit {
     return lehrerVonKlasse;
   }
 
-  valueLoopinArray(obj) {
-    // console.log(obj);
-    return Object.values(obj);
-  }
-  keyinArray(obj) {
-    return Object.keys(obj);
-  }
-  wochenTagLoop() {
-    return Object.values(Wochentag);
-  }
-
+  
 
 
   marked(lehr) {
@@ -690,80 +590,7 @@ export class VertretungComponent implements OnInit {
     return duplicates > 0 ? "error" : "ok";
   }
 
-  leherkuerzelToggle() {
-    if (this.kuerzeleinblenden == true) {
-      this.kuerzeleinblenden = false;
-      this.buttontext = "einblenden";
-    } else {
-      this.kuerzeleinblenden = true;
-      this.buttontext = "ausblenden";
-    }
-  }
-
-  //ANDERS als beim gesamtraster
-  index = 0;
-
-
-
-  frei() {
-    let aktuelleVertret = this.vertretungsSer.vertretung.getValue();
-    this.vertretungsElement.vertretung = null; //VERTRETUNG IST NULL aber dafür notiz "frei"
-    this.vertretungsElement.notiz = "frei";
-    aktuelleVertret.push(this.vertretungsElement);
-    this.vertretungsSer.vertretung.next(aktuelleVertret);
-    this.vertretungsElement = {
-      wochentag: null,
-      datum: null,
-      klasse: null,
-      stunde: null,
-      lehrer: null,
-      fach: null,
-      vertretung: null,
-      sonderfach: null,
-      notiz: null,
-      vertretungsLehrer: null
-    };
-
-  }
-  selbstaendig() {
-    let aktuelleVertret = this.vertretungsSer.vertretung.getValue();
-    this.vertretungsElement.vertretung = null;
-    this.vertretungsElement.notiz = "selbständig";
-    aktuelleVertret.push(this.vertretungsElement); //VERTRETUNG IST UNDEFINED dafür notiz: selbständig
-    this.vertretungsSer.vertretung.next(aktuelleVertret);
-    this.vertretungsElement = {
-      wochentag: null,
-      datum: null,
-      klasse: null,
-      stunde: null,
-      lehrer: null,
-      fach: null,
-      vertretung: null,
-      sonderfach: null,
-      notiz: null,
-      vertretungsLehrer: null
-    };
-  }
-  freieLehrerClick(lehr) {
-    let aktuelleVertret = this.vertretungsSer.vertretung.getValue();
-    this.vertretungsElement.vertretung = null; //kein element vorhanden
-    this.vertretungsElement.vertretungsLehrer = lehr;
-    aktuelleVertret.push(this.vertretungsElement); //VERTRETUNG IST UNDEFINED dafür notiz: selbständig
-    this.vertretungsSer.vertretung.next(aktuelleVertret);
-    this.vertretungsElement = {
-      wochentag: null,
-      datum: null,
-      klasse: null,
-      stunde: null,
-      lehrer: null,
-      fach: null,
-      vertretung: null,
-      sonderfach: null,
-      notiz: null,
-      vertretungsLehrer: null
-    };
-
-  }
+ 
 
 
   vertretungsElement: VertretungsElement = {
@@ -780,66 +607,8 @@ export class VertretungComponent implements OnInit {
   };
 
 
-  cellKlick(e, c, reiheKlasse) {
-    // let neu=this.klassenplanServ.grundPlanfaecher.getValue();
-    // neu[c].zuweisung.uebstunde=[];
 
-    this.grundPlanfaecher.forEach((element, el) => {
-      if (element != null) {
-        element.zuweisung.uebstunde.forEach((zuw, z) => {
-          if (element != null && zuw.wochentag == this.wochenTagauswahl && zuw.stunde == c && element.klasse == reiheKlasse) {
-
-            //NUr wenn auch vorher markiert wurde:
-            element.lehrer.forEach(leHHR => {
-              if (this.marked(leHHR) == "blueback") {
-                //bei Übstunde gleich reinpushen
-                if (element.fach != Fach.hauptunterricht && element.fach != Fach.schiene && element.fach != Fach.rhythmisch || parseInt(element.klasse) <= 8) {
-                  this.vertretungsElement.wochentag = element.zuweisung.uebstunde[z].wochentag;
-                  //vertretungsElement.datum=element.zuweisung.uebstunde
-                  this.vertretungsElement.klasse = parseInt(element.klasse);
-                  this.vertretungsElement.stunde = element.zuweisung.uebstunde[z].stunde;
-                  this.vertretungsElement.lehrer = element.lehrer[0];
-                  this.vertretungsElement.fach = element.fach;
-                  //  this.vertretungsSer.vertretung.push(vertretungsElement);
-                }
-                //Bei hauptunterricht schiene oder epoche erst aktuelle Epoche finden:
-                else {
-                  if (this.aktuellesElementdesESR(leHHR, element.klasse) != undefined) {
-                    this.vertretungsElement.wochentag = element.zuweisung.uebstunde[z].wochentag;
-                    this.vertretungsElement.klasse = parseInt(element.klasse);
-                    this.vertretungsElement.stunde = element.zuweisung.uebstunde[z].stunde;
-                    this.vertretungsElement.lehrer = leHHR;
-                    this.vertretungsElement.fach = this.aktuellesElementdesESR(leHHR, element.klasse); //nur aktueller Lehrer geamrkt
-                    if (element.fach == Fach.hauptunterricht) {
-                      this.vertretungsElement.sonderfach = Fach.hauptunterricht;
-                    } else if (element.fach == Fach.schiene) {
-                      this.vertretungsElement.sonderfach = Fach.schiene;
-
-                    } else if (element.fach == Fach.rhythmisch) {
-                      this.vertretungsElement.sonderfach = Fach.rhythmisch;
-                    }
-                    //this.vertretungsSer.vertretung.push(vertretungsElement);
-                  }
-                }
-              }
-              //  console.log(this.vertretungsSer.vertretung);
-            });
-          }
-        });
-      }
-    });
-    // console.log(neu);
-    // this.klassenplanServ.grundPlanfaecher.next(neu);
-
-  }
-
-  aktuellesElementdesESR(le, klas) {
-    let aktuell = this.vertretungsSer.aktuelleESRElemente.filter(el => el[0].lehrer[0].kuerzel == le.kuerzel && el[0].klasse == klas);
-    return aktuell[0] ? aktuell[0][0].fach : undefined;
-
-    //element=>element[0].klasse==klasse&&esr==element[2]
-    ///  console.log(aktuell);
-  }
+  
 
 
   hintergrund(el) {
