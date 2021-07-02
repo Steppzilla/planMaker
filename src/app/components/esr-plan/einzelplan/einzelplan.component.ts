@@ -203,19 +203,17 @@ export class EinzelplanComponent implements OnInit {
                   el => el.lehrer.findIndex(lehr => (lehr.kuerzel !== null && lehr.kuerzel === this.gewaehlterLehrer.kuerzel)) !== -1);
 
                   
-                    console.log(lehrerRhyKlas.length);
-                    console.log(lehrerEpoKlas.length);
-                    console.log(lehrerSchKlas.length);
+        
                 
 
                   if(lehrerRhyKlas.length===0&&lehrerEpoKlas.length===0&&lehrerSchKlas.length===0){
                     anzeig=true;
                   }else{}
 
-                  console.log(this.anzeigen);
+                //  console.log(this.anzeigen);
 
                   //console.log(lehrerRhyKlas);
-                  console.log(this.gewaehlterLehrer);
+              //    console.log(this.gewaehlterLehrer);
 
                 lehrerRhyKlas.forEach((element) => {
                   bool = false;

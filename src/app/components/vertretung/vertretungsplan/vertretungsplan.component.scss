@@ -1,11 +1,40 @@
 
+* {
+  padding: 0pt;
+  margin: 0pt;
+}
 
 $color-text: rgb(182, 205, 221);
 $color-background:rgb(32, 56, 73);
+$color-background2:rgb(38, 67, 87);
+
+
+$schriftfarbe:rgb(221, 200, 200);
+$hintergrund:rgb(77, 74, 78);
+//$linienDark:rgb(63, 63, 63);
+$hover:rgb(98, 107, 146);
+$hintergrund2:rgb(81, 78, 83);
+
+//aus zuweisung kopiert, noch nicht benutzt:
+$background:rgb(57, 61, 58);
+$background2:rgb(52, 57, 52);
+$color:rgb(153, 153, 134);
+$back-light:rgb(68, 68, 68);
+
+#gesamtuebersicht {
+ 
+  color: $schriftfarbe;
+}
+
+
 
 #gesamt{
   padding-top:10pt;
-  background-color: $color-background;
+   
+  background-image: repeating-linear-gradient(45deg,
+      $color-background2 0%,
+      $color-background 1%,
+      $color-background2 2%);
   color:  $color-text;
 }
 

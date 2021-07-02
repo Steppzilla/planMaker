@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { EpochenPlaeneService } from 'src/app/services/epochen-plaene.service';
 import { FerientermineService } from 'src/app/services/ferientermine.service';
 import { VertretungServService } from 'src/app/services/vertretung-serv.service';
 
@@ -48,7 +49,7 @@ export class VertretungsplanComponent implements OnInit {
   return tagesitems;
   }
 
-  constructor(public vertretungsServ: VertretungServService, public ferienTerminServ:FerientermineService) { 
+  constructor(public vertretungsServ: VertretungServService, public ferienTerminServ:FerientermineService,public epoPlan:EpochenPlaeneService) { 
     vertretungsServ.vertretung$.subscribe(data=>this.vertretung=data);
  
   }

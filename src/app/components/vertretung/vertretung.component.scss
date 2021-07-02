@@ -2,40 +2,266 @@
   padding: 0pt;
   margin: 0pt;
 }
-.fachItem{
-  display:flex;
-}
-.fachItem div{width:100%;}
-#gesamtuebersicht{background-color:rgb(77, 74, 78);
-color:rgb(221, 200, 200);}
 
-h1,h2{text-align:center;
-margin-top:0pt;
-padding-top:10pt;}
+$schriftfarbe:rgb(221, 200, 200);
+$hintergrund:rgb(77, 74, 78);
+//$linienDark:rgb(63, 63, 63);
+$hover:rgb(98, 107, 146);
+$hintergrund2:rgb(81, 78, 83);
+
+//aus zuweisung kopiert, noch nicht benutzt:
+$background:rgb(57, 61, 58);
+$background2:rgb(52, 57, 52);
+$color:rgb(153, 153, 134);
+$back-light:rgb(68, 68, 68);
+
+#gesamtuebersicht {
+  
+  background-image: repeating-linear-gradient(45deg,
+      $background 0%,
+      $background2 1%,
+      $background 2%);
+  color: $schriftfarbe;
+}
+
+
+button:hover {
+  background-image: repeating-linear-gradient(45deg,
+      $hover 0%,
+      rgb(59, 66, 97) 1%,
+      $hover 2%);
+}
+
+th {
+  font-weight: normal;
+}
+
+table {
+  margin-right:auto;
+  margin-left:auto;
+  width: 95%;
+  border-collapse: collapse;
+
+  tr {
+
+    th {
+      text-align: center;
+    }
+
+    td {
+      height: 45pt;
+ 
+      
+
+      button {
+        height: 100%;
+
+        div {}
+      }
+    }
+  }
+}
+
+
+.fachItem {
+  display: flex;
+}
+
+.fachItem div {
+  width: 100%;
+}
+
+
+
+
+h1,
+h2 {
+  text-align: center;
+  margin-top: 0pt;
+  padding-top: 10pt;
+}
+
+
+
+
+
 
 p {
   margin: 0pt;
 }
 
+
 button {
   border: solid 0pt black;
-
-  /* border-radius:5pt;*/
-  padding: 2pt;
-  background-color: inherit;
-  width:100%;
-  color:inherit;
-  
+  width: 100%;
+  color: inherit;
+  background-image: inherit;
 }
 
-.wochentagButton{
-  border-top: 1pt rgb(218, 199, 199) solid;
+
+
+
+
+
+
+
+
+
+
+.error {
+  color: red;
 }
-.buttonreihe{display:flex;}
+
+.ok {
+  border-radius: 4pt;
+  color: rgb(255, 255, 255);
+}
+
+.blueback {
+  color: rgb(82, 82, 241);
+}
+
+
+
+
+.huB,
+.schB,
+.rhyB,
+.normalB,.empty {
+  border-right: 1px $hintergrund solid;
+  border-left: 1pt $hintergrund solid;
+  height: 100%;
+  border-top: 1pt solid $hintergrund;
+}
+
+
+.huB {
+  border:1px solid  rgb(153, 145, 59);
+
+  background-color: rgb(153, 145, 59);
+  color: rgb(223, 240, 128);
+
+  background-image:
+    repeating-linear-gradient(45grad,
+      rgb(153, 145, 59) 0%,
+      rgb(143, 135, 49) 4%,
+      rgb(135, 130, 49) 8%,
+      rgb(153, 145, 59) 12%);
+}
+
+.schB {
+  border:1px solid  rgb(117, 150, 82);
+
+  color: rgb(171, 240, 171);
+  background-image:
+    repeating-linear-gradient(45grad,
+      rgb(117, 150, 82) 0%,
+      rgb(100, 120, 75) 8%,
+      rgb(117, 150, 82) 12%);
+}
+
+.rhyB {
+  border:1px solid  rgb(167, 74, 65);
+ 
+  color: rgb(216, 175, 165);
+
+  background-image:
+    repeating-linear-gradient(45grad,
+      rgb(147, 74, 65) 0%,
+      rgb(127, 53, 58) 4%,
+      rgb(130, 50, 58) 8%,
+      rgb(147, 74, 65) 12%);
+
+
+
+}
+
+.normalB {
+  background-image:
+    repeating-linear-gradient(45grad,
+    rgb(75,75, 75) 0%,
+      rgb(65, 65, 65) 4%,
+      rgb(75, 75, 75) 12%);
+
+  color: rgb(143, 162, 195);
+
+
+}
+
+.empty {
+  min-height: 20pt;
+  background-image:
+    repeating-linear-gradient(45grad,
+      $background 0%,
+      $background2 1%,
+      $back-light 2%,
+      $background 3%);
+      opacity: 0.4;
+  //background-color:$hintergrund2;
+}
+
+
+
+
+
+
+#toggle-item-Container {
+  opacity: 1;
+  background-color: rgb(69, 56, 73);
+  padding: 0pt;
+
+  display: grid;
+  width: auto;
+  grid-template-columns: 35% 10% 10% 20% 25%;
+  border: none;
+  white-space: nowrap;
+}
+
+
+
+.toggle-items {
+  font-size: 12pt;
+  line-height: 12t;
+  width: 100%;
+
+}
+
+
+
+
+
+.wochentagButton {
+  border-top: 1pt $schriftfarbe solid;
+
+}
+
+.buttonreihe {
+  display: flex;
+  background-image: inherit;
+}
+
 
 
  
+
+
+
+
+
+
+
+
+
+
+
+
+
 // $colors : #fedc00, #fcb712, #f7921e, #e87f24, #dd6227, #dc4c27, #ca3435, #b82841, #953751, #364c88, #16599d, #02609e, #0073a9, #008aa4, #239a87, #7cba6d, #becc2f, #e0d81d;
+
+
+
+
+
 
 #tabelle{
 
