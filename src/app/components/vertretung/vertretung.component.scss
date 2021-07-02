@@ -24,6 +24,41 @@ $back-light:rgb(68, 68, 68);
   color: $schriftfarbe;
 }
 
+.iconBut{
+  background:none;
+  border:none;
+}
+
+.flex3 {
+  display: flex;
+  width: 100%;
+}
+
+.flex3>div:nth-child(1) {
+  text-align: center;
+  min-width:20pt;
+  button{
+    position:fixed;
+    top:50%;
+    left:0pt;
+  }
+
+}
+
+.flex3>div:nth-child(2) {
+  width: 100%;
+}
+
+.flex3>div:nth-child(3) {
+  text-align: center;
+  min-width:20pt;
+  button{
+    position: fixed;
+    top: 50%;
+    right:0pt;
+  }
+}
+
 
 button:hover {
   background-image: repeating-linear-gradient(45deg,
@@ -93,7 +128,7 @@ p {
 
 button {
   border: solid 0pt black;
-  width: 100%;
+
   color: inherit;
   background-image: inherit;
 }
@@ -232,13 +267,15 @@ button {
 
 .wochentagButton {
   border-top: 1pt $schriftfarbe solid;
-
+button{  width: 100%;}
 }
 
 .buttonreihe {
   display: flex;
   background-image: inherit;
 }
+
+table button{  width: 100%;}
 
 
 

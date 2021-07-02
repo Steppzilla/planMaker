@@ -74,6 +74,35 @@ export class VertretungComponent implements OnInit {
   klassen = Object.values(Lehrjahr);
 
 
+  links(){
+    if(this.wochenTagauswahl==="Montag"){
+      this.wochenTagauswahl="Dienstag"
+    }else if(this.wochenTagauswahl==="Dienstag"){
+      this.wochenTagauswahl="Mittwoch";
+    }else if(this.wochenTagauswahl==="Mittwoch"){
+      this.wochenTagauswahl="Donnerstag";
+    }else if(this.wochenTagauswahl==="Donnerstag"){
+      this.wochenTagauswahl="Freitag";
+    }else if(this.wochenTagauswahl==="Freitag"){
+      this.wochenTagauswahl="Montag";
+    }
+  }
+  rechts(){
+    if(this.wochenTagauswahl==="Montag"){
+      this.wochenTagauswahl="Freitag"
+    }else if(this.wochenTagauswahl==="Freitag"){
+      this.wochenTagauswahl="Donnerstag";
+    }else if(this.wochenTagauswahl==="Donnerstag"){
+      this.wochenTagauswahl="Mittwoch";
+    }else if(this.wochenTagauswahl==="Mittwoch"){
+      this.wochenTagauswahl="Dienstag";
+    }else if(this.wochenTagauswahl==="Dienstag"){
+      this.wochenTagauswahl="Montag";
+    }
+
+  }
+
+
   zahlinKlasse(za) {
     // console.log(za);
     let zahl = parseInt(za);
@@ -255,8 +284,6 @@ export class VertretungComponent implements OnInit {
       console.log(zelle);
       let zellenI = zelle.findIndex(ele => ele.fach == this.vertretungsElement.fach && ele.lehrerKuerz === this.vertretungsElement.lehrer.kuerzel);
       //zellenI bestimmen index
-
-
 
       let aktuelleVertret = this.vertretungsSer.vertretung.getValue();
       this.vertretungsElement.vertretung = clickedElementt;

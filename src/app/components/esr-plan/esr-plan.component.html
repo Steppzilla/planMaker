@@ -12,7 +12,8 @@
 
     <div id="left" class="noprint">
 
-      <button class="iconBut" (click)="rechts()"><img width="60pt " src="../../../assets/iconsNav/pfeilweißLinks.png"/></button>
+      <button class="iconBut" (click)="rechts()"><img width="60pt "
+          src="../../../assets/iconsNav/pfeilweißLinks.png" /></button>
     </div>
     <div id="main" class="noprint">
       <h2 class="{{gewaehlterPlan.substring(0,3)}}B">
@@ -220,10 +221,12 @@
 
     <div id="right" class="noprint">
 
-      <button class="iconBut" (click)="links()"><img width="60pt" src="../../../assets/iconsNav/pfeilweiß.png"/></button>
+      <button class="iconBut" (click)="links()"><img width="60pt"
+          src="../../../assets/iconsNav/pfeilweiß.png" /></button>
     </div>
   </div>
-  <!--
+</div>
+<!--
   <ng-container *ngIf="gewaehlterPlan=='epoche'">
     <ng-container *ngIf="epochePlan$|async as epoPlan">
       <ng-container *ngFor="let abschnitt of epoPlan">
@@ -334,7 +337,7 @@
 
 
 
-  <!--
+<!--
 
   <div class="planRahmen">
     <ng-container *ngFor="let montagtag of esrPlan; index as d">

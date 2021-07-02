@@ -56,6 +56,34 @@ export class GesamtuebersichtComponent implements OnInit {
 
   klassen = Object.values(Lehrjahr);
 
+  links(){
+    if(this.wochenTagauswahl==="Montag"){
+      this.wochenTagauswahl="Dienstag"
+    }else if(this.wochenTagauswahl==="Dienstag"){
+      this.wochenTagauswahl="Mittwoch";
+    }else if(this.wochenTagauswahl==="Mittwoch"){
+      this.wochenTagauswahl="Donnerstag";
+    }else if(this.wochenTagauswahl==="Donnerstag"){
+      this.wochenTagauswahl="Freitag";
+    }else if(this.wochenTagauswahl==="Freitag"){
+      this.wochenTagauswahl="Montag";
+    }
+  }
+  rechts(){
+    if(this.wochenTagauswahl==="Montag"){
+      this.wochenTagauswahl="Freitag"
+    }else if(this.wochenTagauswahl==="Freitag"){
+      this.wochenTagauswahl="Donnerstag";
+    }else if(this.wochenTagauswahl==="Donnerstag"){
+      this.wochenTagauswahl="Mittwoch";
+    }else if(this.wochenTagauswahl==="Mittwoch"){
+      this.wochenTagauswahl="Dienstag";
+    }else if(this.wochenTagauswahl==="Dienstag"){
+      this.wochenTagauswahl="Montag";
+    }
+
+  }
+
   gesamtRaster$ = this.klassenplanServ.grundPlanfaecher$.pipe( //Bei Änderungen im Plan updaten
     concatMap(plan => {
       return this.klassenplanServ.grundPlanfaecher$.pipe(take(1));

@@ -15,6 +15,16 @@ $background2:rgb(52, 57, 52);
 $color:rgb(153, 153, 134);
 $back-light:rgb(68, 68, 68);
 
+
+
+
+
+
+
+
+
+
+
 #gesamtuebersicht {
   
   background-image: repeating-linear-gradient(45deg,
@@ -85,7 +95,6 @@ h2 {
 
 button {
   border: solid 0pt black;
-  width: 100%;
   color: inherit;
   background-image: inherit;
 }
@@ -93,9 +102,11 @@ button {
 
 //obere buttons mo, di mittwoch
 .wochentagButton {
+  button{width:100%;}
   border-top: 1pt $schriftfarbe solid;
-
 }
+
+table button{width:100%;}
 
 .buttonreihe {
   display: flex;
@@ -249,6 +260,46 @@ button {
 
 
 
+
+
+
+.iconBut{
+  background:none;
+  border:none;
+}
+
+.flex3 {
+  display: flex;
+  width: 100%;
+}
+
+.flex3>div:nth-child(1) {
+  text-align: center;
+  min-width:20pt;
+  button{
+    position:fixed;
+    top:50%;
+    left:0pt;
+  }
+
+}
+
+.flex3>div:nth-child(2) {
+  width: 100%;
+}
+
+.flex3>div:nth-child(3) {
+  text-align: center;
+  min-width:20pt;
+  button{
+    position: fixed;
+    top: 50%;
+    right:0pt;
+  }
+}
+
+
+
 @media print {
 
   #gesamtuebersicht {
@@ -325,3 +376,6 @@ button {
 
 
 }
+
+
+
