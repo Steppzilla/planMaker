@@ -24,11 +24,7 @@ button:hover {
   background-color: rgb(59, 68, 92);
 }
 
-#leerraum{
-  min-height:80pt;
-  height:80pt;
-  background-color: rgb(59, 68, 92);
-}
+
 
 #menu button{
   border-radius:5pt;
@@ -39,38 +35,7 @@ button:hover {
   display: flex;
 }
 
-#Lehrerselect {
-  div{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-  width:98%;
-  position: fixed;
- bottom:2pt;
- left: 2pt;
 
- 
-
-  justify-content: center;
-
-  background-color: rgb(59, 68, 92);
-  opacity:0.9;
-  z-index: 4;
-}
-
-#Lehrerselect>div>button {
-  // background-color:rgb(77, 33, 68);
-  margin: 0pt;
-  padding:2pt;
-  width: 30pt;
-
-}
-
-#Lehrerselect>button:nth-child(9){
-    border-left: 1pt solid rgb(114, 163, 196);
-    margin-left:10pt;
-}
 
 .save {
   background-color: rgb(126, 45, 45);
@@ -85,7 +50,58 @@ button:hover {
 }
 
 
+
+
+
 #container{
-margin:0pt;
-padding:0pt;}
+  margin:0pt;
+  padding:0pt;
+  display:block;
+  
+  }
+
+
+  
+#leerraum{
+  min-height:10pt;
+  height:80pt;
+  background-color: rgb(59, 68, 92);
+}
+
+#Lehrerselect {
+  div{
+    
+    
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    button{  margin: 0pt;
+      padding:2pt;
+      width: 30pt;
+    }
+  }
+ 
+  width:98%;
+  position: fixed;
+ bottom:2pt;
+ left: 2pt;
+  
+
+  background-color: rgb(59, 68, 92);
+  opacity:0.9;
+  z-index: 4;
+}
+#Lehrerselect>button:nth-child(9){
+  border-left: 1pt solid rgb(114, 163, 196);
+  margin-left:10pt;
+}
+
+
+
+
+
+
+
+
 

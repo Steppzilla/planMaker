@@ -52,6 +52,7 @@ th {
 }
 
 table {
+  page-break-inside: auto;
   margin-right:auto;
   margin-left:auto;
   border-collapse: collapse;
@@ -223,19 +224,10 @@ table {
 
 }
 
-
-
-
-
-
-
-
-
 .iconBut{
   background:none;
   border:none;
 }
-
 
 
 #left 
