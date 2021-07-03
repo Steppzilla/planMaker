@@ -40,22 +40,26 @@ button:hover {
 }
 
 #Lehrerselect {
+  div{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  width:98%;
   position: fixed;
  bottom:2pt;
- left: 50%;
- transform: translate(-50%);
+ left: 2pt;
 
- display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+ 
+
   justify-content: center;
-  width:400pt;
+
   background-color: rgb(59, 68, 92);
   opacity:0.9;
   z-index: 4;
 }
 
-#Lehrerselect>button {
+#Lehrerselect>div>button {
   // background-color:rgb(77, 33, 68);
   margin: 0pt;
   padding:2pt;

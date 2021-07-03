@@ -57,12 +57,14 @@
   </div>
 
   <div id="Lehrerselect" class="buttonreihe noprint" >
+    <div>
     <!-- -->
     <ng-container *ngFor="let lehrer of this.lehrer.lehrer; index as i">
       <button *ngIf="i>0" (click)="lehrerwahl(i)">
         {{lehrer.kuerzel}}
       </button>
     </ng-container>
+  </div>
   </div>
 
 </div>

@@ -77,7 +77,7 @@ export class LoginService {
               startEnde.ende = datum;
                 //Aktuelle epoche, schiene, rhythmus speichern in Vertretung:
            if(startEnde.start<=this.vertretungS.datum&&startEnde.ende>=this.vertretungS.datum){
-            aktuell=[el,z,plan];
+            aktuell=[el,z,plan]; //z ist der Index in der zuweisung im Elementt
       //  console.log(aktuell);
         ////    console.log(startEnde.start);
          //   console.log(startEnde.ende);

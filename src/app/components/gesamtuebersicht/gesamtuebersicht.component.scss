@@ -15,15 +15,20 @@ $background2:rgb(52, 57, 52);
 $color:rgb(153, 153, 134);
 $back-light:rgb(68, 68, 68);
 
+h1,
+h2 {
+  text-align: center;
+  margin-top: 0pt;
+  padding-top: 10pt;
+}
 
 
 
-
-
-
-
-
-
+button {
+  border: solid 0pt black;
+  color: inherit;
+  background-image: inherit;
+}
 
 #gesamtuebersicht {
   
@@ -49,7 +54,6 @@ th {
 table {
   margin-right:auto;
   margin-left:auto;
-  width: 95%;
   border-collapse: collapse;
 
   tr {
@@ -60,11 +64,11 @@ table {
 
     td {
       height: 45pt;
- 
-      
+    
 
       button {
         height: 100%;
+        width:100%;
 
         div {}
       }
@@ -75,43 +79,21 @@ table {
 
 .fachItem {
   display: flex;
-}
-
-.fachItem div {
-  width: 100%;
+  div{width:100%;}
 }
 
 
 
-
-h1,
-h2 {
-  text-align: center;
-  margin-top: 0pt;
-  padding-top: 10pt;
-}
-
-
-
-button {
-  border: solid 0pt black;
-  color: inherit;
-  background-image: inherit;
-}
 
 
 //obere buttons mo, di mittwoch
-.wochentagButton {
+.buttonreihe.wochentagButton{
+  display: flex;
+  background-image: inherit;
   button{width:100%;}
   border-top: 1pt $schriftfarbe solid;
 }
 
-table button{width:100%;}
-
-.buttonreihe {
-  display: flex;
-  background-image: inherit;
-}
 
 //obere buttons ende
 
@@ -134,7 +116,9 @@ table button{width:100%;}
   color: rgb(82, 82, 241);
 }
 
-
+.gruen {
+  color: green;
+}
 
 
 .huB,
@@ -239,24 +223,8 @@ table button{width:100%;}
 
 }
 
-.gruen {
-  color: green;
-}
 
-.fakebutton>div {
-  width: 20pt;
-  height: 100%;
-  text-align: center;
-  line-height: 45pt;
-}
 
-.fakebutton {
-  width: 20pt;
-}
-
-.klassenspalte1 {
-  width: 20pt;
-}
 
 
 
@@ -311,15 +279,9 @@ table button{width:100%;}
     border-top: none;
   }
 
-  .ok {
-
-    border-radius: 4pt;
-    color: blue;
-  }
 
   .blueback {
-    color: blue;
-    ;
+    color: black;    ;
     font-size: 10pt;
     font-weight: normal;
   }
@@ -363,9 +325,10 @@ table button{width:100%;}
     border-right: 1px black solid;
   }
 
+  /*
   button:last-child>.huB {
     background-color: green;
-  }
+  }*/
 
 
 

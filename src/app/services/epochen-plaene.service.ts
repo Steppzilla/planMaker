@@ -65,12 +65,10 @@ export class EpochenPlaeneService {
        obj[this.zahlinKlasse(element.klasse)].epo.push({fach:element.fach, lehrerKuerz:element.lehrer[0].kuerzel});
     });
     rhyItems.forEach(element => {
-      obj[this.zahlinKlasse(element.klasse)].rhy.push({fach:element.fach, lehrerKuerz:element.lehrer[0].kuerzel});
-      
+      obj[this.zahlinKlasse(element.klasse)].rhy.push({fach:element.fach, lehrerKuerz:element.lehrer[0].kuerzel});  
     });
     schItems.forEach(element => {
       obj[this.zahlinKlasse(element.klasse)].sch.push({fach:element.fach, lehrerKuerz:element.lehrer[0].kuerzel});
-      
     });
     return obj;
   })

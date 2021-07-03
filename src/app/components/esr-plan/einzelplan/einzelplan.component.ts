@@ -202,9 +202,7 @@ export class EinzelplanComponent implements OnInit {
                 let lehrerSchKlas = z.schiene[kla].filter(
                   el => el.lehrer.findIndex(lehr => (lehr.kuerzel !== null && lehr.kuerzel === this.gewaehlterLehrer.kuerzel)) !== -1);
 
-                  
-        
-                
+       
 
                   if(lehrerRhyKlas.length===0&&lehrerEpoKlas.length===0&&lehrerSchKlas.length===0){
                     anzeig=true;
