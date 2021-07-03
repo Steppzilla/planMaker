@@ -19,34 +19,37 @@ button:hover {
   background-color: inherit;
 }
 
-#menu {
+#menu , #ansichtMenu, #topmenu{
   display: flex;
   background-color: rgb(59, 68, 92);
 }
 
 
 
-#menu button{
+#menu button, #ansichtMenu button, #topmenu button{
   border-radius:5pt;
   margin:5pt;
+  width:100%;
 }
 
 .loadSaveContain {
   display: flex;
+  button{width:100%;}
 }
-
-
+ #ansichtMenu button,
+ #topMenu{}
 
 .save {
   background-color: rgb(126, 45, 45);
   color: rgb(214, 181, 176);
-  width:75pt;
+
 }
 
 .load {
   background-color: rgb(38, 110, 38);
   color: rgb(170, 214, 180);
-  width:55pt;
+
+  
 }
 
 

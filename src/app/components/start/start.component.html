@@ -1,18 +1,9 @@
-<div id="menu" class="noprint">
-
-  <button (click)="redirect('lehrerListe')"> Übersicht</button>
-  <button (click)="redirect('klasseFach')"> Zuweisung (Edit)</button>
-  <button (click)="redirect('gesamtplan')"> Gesamtplan (Edit) </button>
-  <!--<button class="noprint" (click)="redirect('epoche')"> Epoche</button>
-  <button class="noprint" (click)="redirect('schiene')"> Schiene</button>
-  <button class="noprint" (click)="redirect('rhythmus')"> Rhythmus</button>-->
-  <button (click)="redirect('ESR')"> ESR (Edit)</button>
-  <button (click)="redirect('vertretung')">(Vertretung)</button>
-  <div class="date noprint"> Datum:
+<div id="topmenu" class="noprint"> 
+  <div class="date "> 
     {{termine.datumHeute.getDate()}}.{{termine.datumHeute.getMonth()+1}}.{{termine.datumHeute.getFullYear()}}
   </div>
 
-  <div class="loadSaveContain noprint">
+  <ng-container class="loadSaveContain">
     <button class=" load" (click)="load(5)">laden (5)</button>
     <!--
   <button class="noprint load"  (click)="load(0)">L0</button>
@@ -41,8 +32,26 @@
   <button class="save noprint" (click)="save(10)">S10</button>
   -->
     <button class="save" (click)="save(5)">speichern (5)</button>
-  </div>
+  </ng-container>
 
+
+</div>
+
+<div id="ansichtMenu" class="noprint">
+  Ansicht <button (click)="redirect('lehrerListe')"> Lehrer-Übersicht</button> <button (click)="redirect('Einzelplan')"> Einzelplaene </button>
+</div>
+
+<div id="menu" class="noprint">
+
+ Edit
+  <button (click)="redirect('klasseFach')"> Zuweisung </button>
+  <button (click)="redirect('gesamtplan')"> Gesamtplan  </button>
+  <!--<button class="noprint" (click)="redirect('epoche')"> Epoche</button>
+  <button class="noprint" (click)="redirect('schiene')"> Schiene</button>
+  <button class="noprint" (click)="redirect('rhythmus')"> Rhythmus</button>-->
+  <button (click)="redirect('ESR')"> ESR </button>
+  <button (click)="redirect('vertretung')">Vertretung</button>
+  
 </div>
 
 
