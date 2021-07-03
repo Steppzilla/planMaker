@@ -242,11 +242,11 @@ table {
   button, #right button{
     position:fixed;
     top:50%;
-    left:0pt;
+
 
 }
-
-
+#left button{left: 0pt;}
+#right button{right: 0pt;}
 
 
 
