@@ -4,47 +4,38 @@
   </div>
 
   <ng-container class="loadSaveContain">
-    <button class=" load" (click)="load(5)">laden (5)</button>
-    <!--
-  <button class="noprint load"  (click)="load(0)">L0</button>
-  <button class="noprint load"  (click)="load(1)">L1</button>
-  <button class="noprint load"  (click)="load(2)">L2</button>
-  <button class="noprint load"  (click)="load(3)">L3</button>
-  <button class="noprint load"  (click)="load(4)">L4</button>
+
   
-  <button class="noprint load"  (click)="load(6)">L6</button>
-  <button class="noprint load"  (click)="load(7)">L7</button>
-  <button class="noprint load"  (click)="load(8)">L8</button>
-  <button class="noprint load"  (click)="load(9)">L9</button>
-  <button class="noprint load"  (click)="load(10)">L10</button>
+    <button class=" load" (click)="load()">laden ({{speicherPlatzNr}}) </button>
+ 
+   
+  <button class="noprint"  (click)="wahl(0)">0</button>
+  <button class="noprint"  (click)="wahl(1)">1</button>
+  <button class="noprint"  (click)="wahl(2)">2</button>
+  <button class="noprint"  (click)="wahl(3)">3</button>
+  <button class="noprint"  (click)="wahl(4)">4</button>
+  <button class="noprint"  (click)="wahl(5)">5</button>
+  <button class="noprint"  (click)="wahl(6)">6</button>
+  <button class="noprint"  (click)="wahl(7)">7</button>
+  <button class="noprint"  (click)="wahl(8)">8</button>
+  <button class="noprint"  (click)="wahl(9)">9</button>
+  <button class="noprint"  (click)="wahl(10)">10</button>
   
-  
-  <button class="save noprint" (click)="save(0)">S0</button>
-  <button class="save noprint" (click)="save(1)">S1</button>
-  <button class="save noprint" (click)="save(2)">S2</button>
-  <button class="save noprint" (click)="save(3)">S3</button>
-  <button class="save noprint" (click)="save(4)">S4</button>
-  
-  <button class="save noprint" (click)="save(6)">S6</button>
-  <button class="save noprint" (click)="save(7)">S7</button>
-  <button class="save noprint" (click)="save(8)">S8</button>
-  <button class="save noprint" (click)="save(9)">S9</button>
-  <button class="save noprint" (click)="save(10)">S10</button>
-  -->
-    <button class="save" (click)="save(5)">speichern (5)</button>
+
+
+    <button class="save" (click)="save()">speichern ({{speicherPlatzNr}})</button>
   </ng-container>
 
 
 </div>
 
 <div id="ansichtMenu" class="noprint">
-  Ansicht <button (click)="redirect('lehrerListe')"> Lehrer-Übersicht</button> <button (click)="redirect('Einzelplan')"> Einzelplaene </button>
+<button (click)="redirect('lehrerListe')"> Lehrer-Übersicht</button> <button (click)="redirect('stundenPlan')"> Einzelplaene </button>
 </div>
 
 <div id="menu" class="noprint">
 
- Edit
-  <button (click)="redirect('klasseFach')"> Zuweisung </button>
+   <button (click)="redirect('klasseFach')"> Zuweisung </button>
   <button (click)="redirect('gesamtplan')"> Gesamtplan  </button>
   <!--<button class="noprint" (click)="redirect('epoche')"> Epoche</button>
   <button class="noprint" (click)="redirect('schiene')"> Schiene</button>

@@ -1,50 +1,168 @@
-<div id="gesamt">
-  <h2>Lehrer: {{gewaehlterLehrer?gewaehlterLehrer.kuerzel :" "}}</h2>
+<div id="printContainer">
+  <button (click)="show()">
+    jooj
+  </button>
 
-  <table id="gesamtbox" *ngIf="lehrerItems$|async as lehrerItems">
-    <tr class="zeile th">
-      <th></th>
-      <th> Mo </th>
-      <th>Di</th>
-      <th> Mi </th>
-      <th> Do</th>
-      <th> Fr </th>
-    </tr>
 
-    <tr class="zeile" *ngFor="let stunde of lehrerItems; index as std">
-         <div class="th links"> {{std+1}}</div>
-         <ng-container *ngFor="let item of stunde; index as woTa">
-         <ng-container *ngIf="item else ITEM">
-      <td  class="fach {{item?.fach}}">
-          <div >
-            {{   item?.fach}}
-            <span class="klasse" *ngFor="let x of item?.klasse">
-              {{x}}
-            </span>
-          </div>
-      </td>
+  <ng-container *ngIf="printAktiv">
+
+
+      <ng-container *ngFor="let lehre of alleLehrer$|async">
+       
+
+        <h2>Lehrer: {{lehre.kuerzel }}</h2>
+
+        <table *ngIf="lehre.planB as planB">
+          <tr class="zeile th">
+            <th></th>
+            <th> Mo </th>
+            <th>Di</th>
+            <th> Mi </th>
+            <th> Do</th>
+            <th> Fr </th>
+          </tr>
+
+          <tr class="zeile" *ngFor="let stunde of planB; index as std">
+            <div class="th links"> {{std+1}}</div>
+            <ng-container *ngFor="let item of stunde; index as woTa">
+              <ng-container *ngIf="item else ITEM">
+                <td class="fach {{item?.fach}}">
+                  <div>
+                    {{   item?.fach}}
+                    <span class="klasse" *ngFor="let x of item?.klasse">
+                      {{x}}
+                    </span>
+                  </div>
+                </td>
+              </ng-container>
+              <ng-template #ITEM>
+                <td class="leer">
+                </td>
+              </ng-template>
+
+
+
+            </ng-container>
+          </tr>
+
+
+        </table>
+
+        <!--
+  <ng-container *ngIf="gewaehlterLehrer.kuerzel!==null">
+    <ng-container *ngIf="rhythmusPlan$|async as rhyPlan">
+      <ng-container *ngFor="let abschnitt of rhyPlan">
+        <table class="absch rhy2">
+          <ng-container *ngFor="let reihe of abschnitt, index as r">
+          <tr *ngIf="zeileMitInhalt(reihe)">
+            <ng-container *ngIf="r==0; else KLASSE">
+              <td  class="" colSpan="1" *ngFor="let cell of reihe, index as c"
+                (click)="clickN($event,r+8,  abschnitt[0][c][0].ueberschrift)">
+                <div *ngFor="let u of cell">
+                  {{u.ueberschrift|date: 'd. M'}}
+                </div>
+              </td>
+            </ng-container>
+            <ng-template #KLASSE>
+              <ng-container *ngFor="let cell of reihe, index as c">
+               
+      <ng-container *ngIf="
+                  (cell&&cell[0]&&cell[0].start!==null&&abschnitt[0][c][0].ueberschrift.getTime()===cell[0].start.getTime())
+                  ||
+                  (cell?.length===0)
+                  ||
+                  c==0
+                
+                ">
+      
+
+     
+
+        <td colSpan="{{abschnitt[r][c][0]?abschnitt[r][c][0].spanNr:1}}">
+          <button>
+
+           
+
+            <ng-container *ngIf="cell[0]&&cell[0].ganztaegig.length>0; else INHALT">
+              <div *ngFor="let ce of cell" class="projekt">
+
+                {{ce.ganztaegig}}
+              </div>
+            </ng-container>
+
+           
+            <ng-template #INHALT>
+              <div *ngFor="let u of cell">
+                {{u.fach}} <span class="kuerzel">{{u.klasse}}</span>
+              </div>
+            </ng-template>
+
+          </button>
+
+        </td>
+      </ng-container>
     </ng-container>
-    <ng-template #ITEM>
-      <td class="leer">
-      </td>
-    </ng-template>
-
-
-
-    </ng-container>
-    </tr>
+  </ng-template>
+  </tr>
+  </ng-container>
   </table>
+  </ng-container>
+  </ng-container>
+  </ng-container>
+-->
+
+      </ng-container>
+
+   
+
+  </ng-container>
 </div>
 
 
 
-<div *ngIf="lehrerItems$|async as lehrerItems">
-  <div *ngFor="let wochenTag of ['montag','dienstag','mittwoch','donnerstag','freitag']">
 
-    <span *ngFor="let item of lehrerItems[wochenTag]">
-      {{item?.fach}}
-      {{item?.klasse}}
-    </span>
+
+
+
+<div id="gesamt">
+
+
+  <div id="gesamtbox">
+    <h2>Lehrer: {{gewaehlterLehrer?gewaehlterLehrer.kuerzel :" "}}</h2>
+
+    <table *ngIf="lehrerItems$|async as lehrerItems">
+      <tr class="zeile th">
+        <th></th>
+        <th> Mo </th>
+        <th>Di</th>
+        <th> Mi </th>
+        <th> Do</th>
+        <th> Fr </th>
+      </tr>
+
+      <tr class="zeile" *ngFor="let stunde of lehrerItems; index as std">
+        <div class="th links"> {{std+1}}</div>
+        <ng-container *ngFor="let item of stunde; index as woTa">
+          <ng-container *ngIf="item else ITEM">
+            <td class="fach {{item?.fach}}">
+              <div>
+                {{   item?.fach}}
+                <span class="klasse" *ngFor="let x of item?.klasse">
+                  {{x}}
+                </span>
+              </div>
+            </td>
+          </ng-container>
+          <ng-template #ITEM>
+            <td class="leer">
+            </td>
+          </ng-template>
+
+
+
+        </ng-container>
+      </tr>
+    </table>
   </div>
-
+  <app-einzelplan></app-einzelplan>
 </div>

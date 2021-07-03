@@ -24,6 +24,7 @@ $back-light:rgb(68, 68, 68);
     color: $schriftfarbe;
     
     }
+
     
  th{font-weight: normal;}
 
@@ -32,13 +33,25 @@ $back-light:rgb(68, 68, 68);
 }
 
 
-#gesamtbox{
+#gesamtbox{ //table-box drum.
    min-width:50%;
-    margin-left:auto;
-    margin-right:auto;
+
+  
+      background-image: repeating-linear-gradient(45deg,
+    $background 0%,
+    $background2 1%,
+    $background 2%);
+    color: $schriftfarbe;
+    
   
    
 }
+
+table{
+  margin-left:auto;
+  margin-right:auto;
+}
+
 .zelle{
     text-align:center;
     padding-left:5pt;

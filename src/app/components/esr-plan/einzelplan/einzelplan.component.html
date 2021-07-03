@@ -7,9 +7,10 @@
   <ng-container *ngIf="rhythmusPlan$|async as rhyPlan">
     <ng-container *ngFor="let abschnitt of rhyPlan">
       <table class="absch rhy2">
-        <tr *ngFor="let reihe of abschnitt, index as r">
+        <ng-container *ngFor="let reihe of abschnitt, index as r">
+        <tr *ngIf="zeileMitInhalt(reihe)">
           <ng-container *ngIf="r==0; else KLASSE">
-            <td  colSpan="1" *ngFor="let cell of reihe, index as c"
+            <td  class="" colSpan="1" *ngFor="let cell of reihe, index as c"
               (click)="clickN($event,r+8,  abschnitt[0][c][0].ueberschrift)">
               <div *ngFor="let u of cell">
                 {{u.ueberschrift|date: 'd. M'}}
@@ -46,14 +47,14 @@
                     <ng-container *ngIf="cell[0]&&cell[0].ganztaegig.length>0; else INHALT">
                       <div *ngFor="let ce of cell" class="projekt">
 
-                        {{ce.ganztaegig}}{{ce.start|date: 'd. M'}}|{{ce.spanNr}}
+                        {{ce.ganztaegig}}
                       </div>
                     </ng-container>
 
                     <!-- nur anzeigen, wenn kein Sonder-Event ist: -->
                     <ng-template #INHALT>
-                      <div *ngFor="let u of cell" >
-                        {{u.fach}} <span class="kuerzel">{{u.klasse}}</span> {{u.start|date: 'd. M'}}|{{u.spanNr}}
+                      <div *ngFor="let u of cell" class="{{hintergrund(r)}}">
+                        {{u.fach}} <span class="kuerzel">{{u.klasse}}</span> 
                       </div>
                     </ng-template>
 
@@ -64,6 +65,7 @@
             </ng-container>
           </ng-template>
         </tr>
+      </ng-container>
       </table>
     </ng-container>
   </ng-container>

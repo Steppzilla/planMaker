@@ -162,19 +162,27 @@ table {
 }
 
 .rhy {
-  color: red;
-  border-top: 1px solid red;
+  width:98%;
+  color:$rhybackground;
+  border-top:1pt solid $rhybackground;
 }
 
 .epo {
-  color: goldenrod;
-  border-top: 1px solid goldenrod;
+  width:98%;
+  //  background-color:  $epoBackground;
+  border-top:1pt solid $epoBackground;
+    color:$epoBackground;
 }
 
 .sch {
-  color: forestgreen;
-  border-top: 1px solid forestgreen;
+  width:98%;
+  //  background-color:  $schieneBackground;
+  border-top:1pt solid $schieneBackground;
+    color:$schieneBackground;
 }
+
+
+
 
 
 .epoB {
@@ -193,30 +201,6 @@ table {
 }
 
 
-tr:nth-child(2) {
-  td div{
-    width:98%;
-    border-top:1pt solid $rhybackground;
-   // background-color:  $rhybackground;
-    color:$rhybackground;
-  }
-}
-tr:nth-child(3) {
-  td div{
-    width:98%;
-  //  background-color:  $epoBackground;
-  border-top:1pt solid $epoBackground;
-    color:$epoBackground;
-  }
-}
-tr:nth-child(4) {
-  td div{
-    width:98%;
-  //  background-color:  $schieneBackground;
-  border-top:1pt solid $schieneBackground;
-    color:$schieneBackground;
-  }
-}
 
 
 

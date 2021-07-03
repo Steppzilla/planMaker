@@ -10,17 +10,26 @@ import { LoginService } from 'src/app/services/login.service';
   styleUrls: ['./start.component.scss']
 })
 export class StartComponent implements OnInit {
+
+speicherPlatzNr;
+
+wahl(zahl){
+  this.speicherPlatzNr=zahl;
+}
+
+
+
   redirect(x:string){
     this.router.navigate([x]);
   }
 
-  save(zahl) {
-    this.login.saveAll(zahl)
+  save() {
+    this.login.saveAll(this.speicherPlatzNr)
     console.log("save?");
   }
 
-  load(zahl) {
-    this.login.gesamtPlanLaden(zahl); //login.stundenplandaten wird neu belegt mit Daten, also observed durch this.stundenRaster ändert sich das dann auch
+  load() {
+    this.login.gesamtPlanLaden(this.speicherPlatzNr); //login.stundenplandaten wird neu belegt mit Daten, also observed durch this.stundenRaster ändert sich das dann auch
      }
 
      lehrerwahl(lehrerNR) { //Blaumarkierung der gewählten lehrer
@@ -32,6 +41,7 @@ export class StartComponent implements OnInit {
   constructor(public lehrer: LehrerService, public login: LoginService, public router:Router,public termine:FerientermineService) {
     this.login.login();
     this.login.gesamtPlanLaden(5);
+    this.speicherPlatzNr=5;
    }
 
   ngOnInit(): void {

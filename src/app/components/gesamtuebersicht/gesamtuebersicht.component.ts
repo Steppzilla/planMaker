@@ -2,7 +2,9 @@ import {
   Component,
   OnInit
 } from '@angular/core';
-import { element } from 'protractor';
+import {
+  element
+} from 'protractor';
 import {
   concatMap,
   filter,
@@ -56,38 +58,36 @@ export class GesamtuebersichtComponent implements OnInit {
 
   klassen = Object.values(Lehrjahr);
 
-  links(){
-    if(this.wochenTagauswahl==="Montag"){
-      this.wochenTagauswahl="Dienstag"
-    }else if(this.wochenTagauswahl==="Dienstag"){
-      this.wochenTagauswahl="Mittwoch";
-    }else if(this.wochenTagauswahl==="Mittwoch"){
-      this.wochenTagauswahl="Donnerstag";
-    }else if(this.wochenTagauswahl==="Donnerstag"){
-      this.wochenTagauswahl="Freitag";
-    }else if(this.wochenTagauswahl==="Freitag"){
-      this.wochenTagauswahl="Montag";
+  links() {
+    if (this.wochenTagauswahl === "Montag") {
+      this.wochenTagauswahl = "Dienstag"
+    } else if (this.wochenTagauswahl === "Dienstag") {
+      this.wochenTagauswahl = "Mittwoch";
+    } else if (this.wochenTagauswahl === "Mittwoch") {
+      this.wochenTagauswahl = "Donnerstag";
+    } else if (this.wochenTagauswahl === "Donnerstag") {
+      this.wochenTagauswahl = "Freitag";
+    } else if (this.wochenTagauswahl === "Freitag") {
+      this.wochenTagauswahl = "Montag";
     }
   }
-  rechts(){
-    if(this.wochenTagauswahl==="Montag"){
-      this.wochenTagauswahl="Freitag"
-    }else if(this.wochenTagauswahl==="Freitag"){
-      this.wochenTagauswahl="Donnerstag";
-    }else if(this.wochenTagauswahl==="Donnerstag"){
-      this.wochenTagauswahl="Mittwoch";
-    }else if(this.wochenTagauswahl==="Mittwoch"){
-      this.wochenTagauswahl="Dienstag";
-    }else if(this.wochenTagauswahl==="Dienstag"){
-      this.wochenTagauswahl="Montag";
+  rechts() {
+    if (this.wochenTagauswahl === "Montag") {
+      this.wochenTagauswahl = "Freitag"
+    } else if (this.wochenTagauswahl === "Freitag") {
+      this.wochenTagauswahl = "Donnerstag";
+    } else if (this.wochenTagauswahl === "Donnerstag") {
+      this.wochenTagauswahl = "Mittwoch";
+    } else if (this.wochenTagauswahl === "Mittwoch") {
+      this.wochenTagauswahl = "Dienstag";
+    } else if (this.wochenTagauswahl === "Dienstag") {
+      this.wochenTagauswahl = "Montag";
     }
 
   }
 
   gesamtRaster$ = this.klassenplanServ.grundPlanfaecher$.pipe( //Bei Änderungen im Plan updaten
-    concatMap(plan => {
-      return this.klassenplanServ.grundPlanfaecher$.pipe(take(1));
-    }),
+  
     map(z => {
       let ar = {
         montag: new Array(11).fill(null).map(x => new Array(13)),
@@ -96,22 +96,34 @@ export class GesamtuebersichtComponent implements OnInit {
         donnerstag: new Array(11).fill(null).map(x => new Array(13)),
         freitag: new Array(11).fill(null).map(x => new Array(13))
       };
-        z.forEach(el => {
-          el.zuweisung.uebstunde.forEach(zuw => {
-            //  ["Montag", "Dienstag", "Mittwoch", "Donnerstag"].forEach(wochenTag=>{
-            let std = zuw.stunde;
-            let woT = zuw.wochentag;
-            let klasse = parseInt(el.klasse)-1;
-            el.lehrer.forEach(lehr => {
-              if(ar[woT.toLowerCase()][std][klasse]===undefined){
-                ar[woT.toLowerCase()][std][klasse]=new Array();
-              }
-           //   console.log(el.fach);
-           //   console.log(lehr.kuerzel);
+      z.forEach(el => {
+        el.zuweisung.uebstunde.forEach(zuw => {
+          //  ["Montag", "Dienstag", "Mittwoch", "Donnerstag"].forEach(wochenTag=>{
+          let std = zuw.stunde;
+          let woT = zuw.wochentag;
+          let klasse = parseInt(el.klasse) - 1;
+
+          if (ar[woT.toLowerCase()][std][klasse] === undefined) {
+            ar[woT.toLowerCase()][std][klasse] = new Array();
+          }
+
+          if(el.lehrer.length===0){
+            ar[woT.toLowerCase()][std][klasse].push([el.fach, "NN"]);
+          }
+
+          //wenn lehrer vorhanden
+          el.lehrer.forEach(lehr => {
+            //   console.log(el.fach);
+            //   console.log(lehr.kuerzel
+            if (lehr) {
               ar[woT.toLowerCase()][std][klasse].push([el.fach, lehr.kuerzel]);
-            });
-             });
+            } else {
+             
+
+            }
           });
+        });
+      });
       return ar;
     })
   );
@@ -119,9 +131,9 @@ export class GesamtuebersichtComponent implements OnInit {
 
   cellKlick(e, c, reiheKlasse) {
     if (e.shiftKey) {
-       let neu=this.klassenplanServ.grundPlanfaecher.getValue();
+      let neu = this.klassenplanServ.grundPlanfaecher.getValue();
       // neu[c].zuweisung.uebstunde=[];
-     neu.forEach((element, el) => {
+      neu.forEach((element, el) => {
         if (element != null) {
           element.zuweisung.uebstunde.forEach((zuw, z) => {
             if (element != null && zuw.wochentag == this.wochenTagauswahl && zuw.stunde == c && element.klasse == reiheKlasse) {
@@ -137,8 +149,8 @@ export class GesamtuebersichtComponent implements OnInit {
         }
       });
       // console.log(neu);
-       this.klassenplanServ.grundPlanfaecher.next(neu);
-    //  console.log("ende");
+      this.klassenplanServ.grundPlanfaecher.next(neu);
+      //  console.log("ende");
     } else {}
   }
 
@@ -187,9 +199,9 @@ export class GesamtuebersichtComponent implements OnInit {
 
 
   hintergrundd(el) {
-   // console.log(el);
+    // console.log(el);
 
-    if (el&&el[0]) {
+    if (el && el[0]) {
       switch (el[0][0]) {
         case Fach.hauptunterricht:
           return "huB";
@@ -219,7 +231,7 @@ export class GesamtuebersichtComponent implements OnInit {
 
 
 
-  
+
 
   tabellensortierung(klasse) {
 
@@ -267,24 +279,7 @@ export class GesamtuebersichtComponent implements OnInit {
   }
 
 
-  hintergrund(el) {
-    if (el) {
-      switch (el.fach) {
-        case Fach.hauptunterricht:
-          return "huB";
-        case Fach.schiene:
-          return "schB";
-        case Fach.rhythmisch:
-          return "rhyB";
-        case "HU":
-          return "huB";
-        default:
-          return "normalB";
-      }
-    } else {
-      return "normalB";
-    }
-  }
+  
   berechnungAktuelleStunden(elementt) {
     return this.klassenplanServ.berechnung(elementt);
   }
@@ -336,7 +331,7 @@ export class GesamtuebersichtComponent implements OnInit {
     neu.forEach((element, e) => {
       if (element != null && element.fach == clickedElementt.fach && element.klasse == clickedElementt.klasse && (element.uebstunde > 0)) {
 
-        if (element.lehrer[0] == null) {
+        if (element.lehrer[0] == null||element.lehrer[0].kuerzel===null) {
           element.zuweisung.uebstunde.push({
             wochentag: this.wochenTagauswahl,
             stunde: stdZ
@@ -355,7 +350,7 @@ export class GesamtuebersichtComponent implements OnInit {
     //Bei HU und epoche ggf nichts ändern? 
   }
 
- 
+
 
   duplicates(lehr, z, fachd) { //
     let duplicates = 0;
@@ -429,15 +424,7 @@ export class GesamtuebersichtComponent implements OnInit {
     return duplicates > 0 ? "error" : "ok";
   }
 
-  leherkuerzelToggle() {
-    if (this.kuerzeleinblenden == true) {
-      this.kuerzeleinblenden = false;
-      this.buttontext = "einblenden";
-    } else {
-      this.kuerzeleinblenden = true;
-      this.buttontext = "ausblenden";
-    }
-  }
+
 
   constructor(public lehrerService: LehrerService, public login: LoginService, public klassenplanServ: KlassenplaeneService) {
     this.wochenTagauswahl = 'Montag';

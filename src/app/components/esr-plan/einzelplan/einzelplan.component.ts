@@ -40,6 +40,13 @@ export class EinzelplanComponent implements OnInit {
 
   grundPlanfaecher;
 
+hintergrund(r){
+  if(r==1){
+    return "rhy";
+  }else if(r===2){return "epo"}else if(r===3){return "sch"}
+
+}
+
 
   lehrerItems(lehrer) {
     let ar = [];
@@ -57,6 +64,23 @@ export class EinzelplanComponent implements OnInit {
     return ar;
   }
 
+  zeileMitInhalt(reihe){
+   // console.log(reihe);
+    let bo=false;
+
+    if(reihe===undefined||reihe.length==0){
+      bo=false;
+    }else{
+    reihe.forEach(cell => {
+      //console.log(cell);
+      if(cell.length>0){
+        bo=true;
+      }
+      
+    });
+  }
+    return bo;
+  }
 
   anzeigen=false;
 // this.lehrerServ.lehrerSelected$
