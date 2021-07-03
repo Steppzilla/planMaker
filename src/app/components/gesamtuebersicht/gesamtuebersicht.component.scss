@@ -236,15 +236,10 @@ table {
   border:none;
 }
 
-.flex3 {
-  display: flex;
-  width: 100%;
-}
 
-.flex3>div:nth-child(1) {
-  text-align: center;
-  min-width:20pt;
-  button{
+
+#left {
+  button, #right button{
     position:fixed;
     top:50%;
     left:0pt;
@@ -252,19 +247,7 @@ table {
 
 }
 
-.flex3>div:nth-child(2) {
-  width: 100%;
-}
 
-.flex3>div:nth-child(3) {
-  text-align: center;
-  min-width:20pt;
-  button{
-    position: fixed;
-    top: 50%;
-    right:0pt;
-  }
-}
 
 
 
