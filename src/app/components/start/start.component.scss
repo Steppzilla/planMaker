@@ -24,6 +24,12 @@ button:hover {
   background-color: rgb(59, 68, 92);
 }
 
+#ansichtMenu, #topmenu{background-image: 
+  repeating-linear-gradient(45deg, 
+  rgb(50, 60, 80) 0pt,
+  rgb(43, 49, 68) 8pt, 
+  rgb(50, 60, 80) 12pt);}
+
 
 
 #menu button, #ansichtMenu button, #topmenu button{
@@ -40,13 +46,13 @@ button:hover {
  #topMenu{}
 
 .save {
-  background-color: rgb(126, 45, 45);
+  background-color: rgb(122, 36, 36);
   color: rgb(214, 181, 176);
 
 }
 
 .load {
-  background-color: rgb(38, 110, 38);
+  background-color: rgb(43, 95, 43);
   color: rgb(170, 214, 180);
 
   
