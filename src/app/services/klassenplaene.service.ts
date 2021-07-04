@@ -214,7 +214,7 @@ export class KlassenplaeneService {
     if (element.klasse == Lehrjahr.dreizehn && element.fach == Fach.deutsch) {
       uebstundeIST = uebstundeIST * 2;
     }
-    return uebstundeIST;
+    return Math.round(uebstundeIST*10)/10;
   }
 
   grundPlanerstellen() { //einmal im Konstruktor ausgeführt
