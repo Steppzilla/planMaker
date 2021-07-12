@@ -77,8 +77,8 @@ export class LehrerListeComponent implements OnInit {
       
     
     if(fac==Fach.wahlpflicht){
-      ueb=ueb-2; // 4 abziehen weil 2 übstunden und zwei Epochen/schiene doppelt gezählt wurden (also in 2 Klassen)
-      sch=sch-2;
+      ueb=ueb-4 ; // 4 abziehen weil 2 übstunden und zwei Epochen/schiene doppelt gezählt wurden (also in 2 Klassen)
+      sch=sch-0; //hier nur wenn wahlpflicht in der schiene ist was abziehn 
     }
     if(fac==Fach.chor||fac==Fach.orchester){
       ueb=ueb-6; // in 4KLassen je 2 Stunden, also 3x2 Stunden zu viel gerechnet weil gleichzeitig

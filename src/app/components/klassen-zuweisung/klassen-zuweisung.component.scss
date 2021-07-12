@@ -69,7 +69,8 @@ tr:nth-child(even) {
 
 .oben {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: 8pt auto;
+  
 }
 
 th {
@@ -89,9 +90,13 @@ th {
 .add {
   text-align: center;
   margin: auto;
-  border: 1pt solid rgb(153, 153, 134);
-  border-radius: 10pt;
-  line-height: 10pt;
+}
+
+.add img, .minus img{
+  width:10pt;
+  filter:invert(50%);
+  //filter:grayscale(0.5);
+  //-webkit-filter:saturate(100%); 
 }
 
 .ueb {
@@ -139,6 +144,7 @@ th {
   #alles {
     color: black;
     background-color: white;
+    
   }
 
   .ueb {
@@ -185,5 +191,33 @@ th {
     border-top: 1px solid black;
   }
 
+
+}
+
+
+
+th {
+  background-image: repeating-linear-gradient(45deg,
+  rgb(98, 60, 98) 0pt,
+  rgb(90, 44, 80)  8pt,
+  rgb(98, 60, 98) 14pt
+  );
+ 
+  text-shadow: 2px 2px black;
+
+}
+
+th.links{
+  background-image: none;
+  color:   rgb(175, 87, 175) ;
+
+}
+
+td{
+  text-shadow: 2px 2px black;
+}
+
+#tabell>tr>td{
+  width:auto;
 
 }

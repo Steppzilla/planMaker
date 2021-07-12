@@ -232,11 +232,8 @@ export class GesamtuebersichtComponent implements OnInit {
 
 
 
-
   tabellensortierung(klasse) {
-
     let lehrerVonKlasse: Array < Elementt > = [];
-
     if (this.grundPlanfaecher) {
       this.grundPlanfaecher.forEach(element => {
         if ((element != null) && (element.klasse == klasse) && (element.uebstunde > 0)) {
@@ -245,7 +242,6 @@ export class GesamtuebersichtComponent implements OnInit {
         }
       });
     }
-
     return lehrerVonKlasse;
   }
 
@@ -272,9 +268,6 @@ export class GesamtuebersichtComponent implements OnInit {
       //   
 
     });
-
-
-
     return zaehler;
   }
 

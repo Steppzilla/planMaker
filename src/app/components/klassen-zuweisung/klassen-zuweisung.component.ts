@@ -24,8 +24,12 @@ import {
   Elementt
 } from 'src/app/interfaces/elementt';
 import {
-  reduceEachLeadingCommentRange
-} from 'typescript';
+  filter,
+  map
+} from 'rxjs/operators';
+import {
+  stringify
+} from '@angular/compiler/src/util';
 
 
 @Component({
@@ -49,11 +53,18 @@ export class KlassenZuweisungComponent implements OnInit {
   }
 
   addieren(e, fa, kl) {
+   // console.log(fa);
+    //console.log(kl);
     this.klassenplanServ.elementHinzufuegen(fa, kl);
     if (e.shiftKey) {
       this.klassenplanServ.elementLoeschen(fa, kl);
     }
   }
+  loeschen(fa, kl) {
+    this.klassenplanServ.elementLoeschen(fa, kl);
+  }
+
+
   mainButtonClick(e, ele) {
     if (e.shiftKey) {
       this.klassenplanServ.elementeZuruecksetzen(ele.fach, ele.klasse);
@@ -104,16 +115,6 @@ export class KlassenZuweisungComponent implements OnInit {
     }
   }
 
-  fachElemente(rowI: number, klasse: number) { //i ist die reihe (des fachs, alle lehrer mit dem fach werden in allen klassen angezeigt)
-    let alleFilter: Array < Elementt > = [];
-    this.grundPlanfaecher.forEach((element, e) => {
-      if ((element) && (klasse == element.klasse) && (this.faecher[rowI] == element.fach)) {
-        alleFilter.push(element);
-        //Anzahl Epoche/Rhythmus oder Schiene in HU etc->Lehrer einfügen?
-      }
-    });
-    return alleFilter; //zb alle Elemente für französisch
-  }
 
   lehrerHinzufuegen(lehrerI: Lehrer, klasseI: Lehrjahr, fachI: Fach) {
     let neuesEle: boolean;
@@ -122,24 +123,23 @@ export class KlassenZuweisungComponent implements OnInit {
     neuArray.forEach(obj => {
       if (obj != null) {
 
-        if(obj.fach==fachI){
-          console.log(obj.fach + " / " + obj.klasse + "/" + obj.lehrer[0] + "kuerzel: " + obj.lehrer[0].kuerzel);
-          console.log(fachI + "/ " + klasseI + "/ " );
-        //  console.table( obj.lehrer);
+        if (obj.fach == fachI) {
+        //  console.log(obj.fach + " / " + obj.klasse + "/" + obj.lehrer[0] + "kuerzel: " + obj.lehrer[0].kuerzel);
+        //  console.log(fachI + "/ " + klasseI + "/ ");
+          //  console.table( obj.lehrer);
         }
 
-        if ((obj.fach == fachI) && (obj.klasse == klasseI) && (obj.lehrer[0].kuerzel===null)
-        ) {
-          console.log("L. hinzugefügt, kein neues Element");
+        if ((obj.fach == fachI) && (obj.klasse == klasseI) && (obj.lehrer[0].kuerzel === null)) {
+        //  console.log("L. hinzugefügt, kein neues Element");
           //Lehrer null rauschemeißen
-          obj.lehrer=[];
+          obj.lehrer = [];
           obj.lehrer.push(lehrerI);
           neuesEle = false;
-        } else if ((obj.fach == fachI) && (obj.klasse == klasseI) ) {
-          console.log("neues Element hinzufügen");
+        } else if ((obj.fach == fachI) && (obj.klasse == klasseI)) {
+        //  console.log("neues Element hinzufügen");
           neuesEle = true;
         } else {
-     //   console.log("das Element entspricht nicht dem angeklickten");
+          //   console.log("das Element entspricht nicht dem angeklickten");
         }
       }
     });
@@ -154,61 +154,51 @@ export class KlassenZuweisungComponent implements OnInit {
     // console.log(this.klassenplanServ.grundPlanfaecher);
   }
 
-  wortInZahl(wort){
-    switch(wort){
-      case 'neun': return 9;
-      case 'zehn':return 10;
-      case 'elf': return 11;
-      case 'zwoelf': return 12;
+  wortInZahl(wort) {
+    switch (wort) {
+      case 'neun':
+        return 9;
+      case 'zehn':
+        return 10;
+      case 'elf':
+        return 11;
+      case 'zwoelf':
+        return 12;
     }
-
   }
 
   toggleClick(lehrer: Lehrer, fach: Fach, klasse: Lehrjahr) {
     this.lehrerHinzufuegen(lehrer, klasse, fach);
   }
 
-  lehrerZuweisung(zeileI) {
-    let liste: Array < Lehrer >= [];
-    this.lehrerauswahl.forEach((fachLehrer) => {
-      if (this.faecher[zeileI] == fachLehrer.fach) { //grundplanfächer als Bezug der Reihen [0] ist das Fach
-        fachLehrer.lehrer.forEach((lehrer) => {
-          liste.push(lehrer);
-        });
-      }
-    });
-    return liste;
-  }
+
 
   esrFuellen(esr, fach, klasse) { //geht nur von neun bis zwölf
-
     let klassenElemente = this.grundPlanfaecher.filter((element) => (element != null && element.klasse == klasse)); //Alle klasse 9 zb.
     let hu = klassenElemente.filter(element => element[esr] >= 1); //esr muss epoche schiene oder rhythmus sein //Alle mit z.b.epochenzuweisung
-    let fachDerKlasse=hu.filter(element=>element.klasse==klasse);
-    // console.log(hu);
-    let lehrermerker = []; 
+    let fachDerKlasse = hu.filter(element => element.klasse == klasse);
+    let lehrermerker = [];
     let bo = true;
 
-   
     this.grundPlanfaecher.forEach((element, e) => {
       if (element != null) {
         if (parseInt(element.klasse) == parseInt(klasse) && element.fach == fach) { //erst: 9. klasse Hauptunterricht
           element.lehrer = [];
           fachDerKlasse.forEach(el => {
-            bo=true;
-              //doppelte rauskicken
-              if (lehrermerker.length >=1) {
-                lehrermerker.forEach(le => {          
-                  if (le!=undefined&&el.lehrer[0]!=undefined&&le.kuerzel == el.lehrer[0].kuerzel) {                  
-                    bo = false;
-                  }
-                });
-              }
-              //reinschreiben
-              if (el.lehrer[0]&&bo == true) {              
-                lehrermerker.push(el.lehrer[0]);
-                element.lehrer.push(el.lehrer[0]);
-              }  
+            bo = true;
+            //doppelte rauskicken
+            if (lehrermerker.length >= 1) {
+              lehrermerker.forEach(le => {
+                if (le != undefined && el.lehrer[0] != undefined && le.kuerzel == el.lehrer[0].kuerzel) {
+                  bo = false;
+                }
+              });
+            }
+            //reinschreiben
+            if (el.lehrer[0] && bo == true) {
+              lehrermerker.push(el.lehrer[0]);
+              element.lehrer.push(el.lehrer[0]);
+            }
           });
         }
       }
@@ -229,7 +219,201 @@ export class KlassenZuweisungComponent implements OnInit {
     this.esrFuellen("rhythmus", Fach.rhythmisch, Lehrjahr.zwoelf);
     this.esrFuellen("schiene", Fach.schiene, Lehrjahr.zwoelf);
 
+
   }
+
+
+  lehrerZuweisung(zeileI) {
+    let liste: Array < Lehrer >= [];
+    this.lehrerauswahl.forEach((fachLehrer) => {
+      if (this.faecher[zeileI] == fachLehrer.fach) { //grundplanfächer als Bezug der Reihen [0] ist das Fach
+        fachLehrer.lehrer.forEach((lehrer) => {
+          liste.push(lehrer);
+        });
+      }
+    });
+    return liste;
+  }
+
+  fachElemente(rowI: number, klasse: number) { //i ist die reihe (des fachs, alle lehrer mit dem fach werden in allen klassen angezeigt)
+    let alleFilter: Array < Elementt > = [];
+    this.grundPlanfaecher.forEach((element, e) => {
+      if ((element) && (klasse == element.klasse) && (this.faecher[rowI] == element.fach)) {
+        alleFilter.push(element);
+        //Anzahl Epoche/Rhythmus oder Schiene in HU etc->Lehrer einfügen?
+      }
+    });
+    return alleFilter; //zb alle Elemente für französisch
+  }
+
+  lehrerZuw(fach){
+   // console.log(fach);
+    
+    let fachElemente=this.lehrerServ.lehrernachFach();
+  //  console.log(fachElemente.filter(elem=>elem.fach===fach));
+    return fachElemente.filter(elem=>elem.fach===fach);
+
+  }
+
+  mainClickk(e, ele) {
+    if (e.shiftKey) {
+      this.klassenplanServ.elementeZuruecksetzen(ele.fach, ele.klasse);
+    }
+    
+  }
+
+  toggleClickk(lehrer: Lehrer, fach: Fach, klasse: Lehrjahr) {
+    this.lehrerHinzufuegen(lehrer, klasse, fach);
+  }
+
+
+  wochenstundenVerteilenn(e, art, zelle, kIndex) {
+    //  console.log(elementDerZeile);
+    if (zelle[0].klasse == kIndex) {
+      switch (art) {
+        case "ueb":
+          if ((e.shiftKey) && (zelle[0].uebstunde > 0)) {
+            zelle.forEach(element => {
+              element.uebstunde--;  
+            });
+          } else {
+            zelle.forEach(element => {
+              element.uebstunde++;  
+            });
+          }
+          this.epocheSchieneRhythmusBefuellen();
+          break;
+        case "rhythmus":
+          if ((e.shiftKey) && (zelle[0].rhythmus > 0)) {
+            zelle.forEach(element => {
+              element.rhythmus--;  
+            });
+          } else {
+            zelle.forEach(element => {
+              element.rhythmus++;  
+            });
+            //Lehrer in rhythmus hinzufügen?
+          }
+          this.epocheSchieneRhythmusBefuellen();
+          break;
+        case "epoche":
+          if ((e.shiftKey) && (zelle[0].epoche > 0)) {
+            zelle.forEach(element => {
+              element.epoche--;  
+            });
+          } else {
+            zelle.forEach(element => {
+              element.epoche++;  
+            });
+            //Lehrer in epoche hinzufügen?
+          }
+          this.epocheSchieneRhythmusBefuellen();
+          break;
+        case "schiene":
+          if ((e.shiftKey) && (zelle[0].schiene > 0)) {
+            zelle.forEach(element => {
+              element.schiene--;  
+            });
+          } else {
+            zelle.forEach(element => {
+              element.schiene++;  
+            });
+            //Lehrer in schiene hinzufügen?
+          }
+          this.epocheSchieneRhythmusBefuellen(); //für gesamtplan, damit der im HU gezählt wird
+          break;
+      }
+    }
+  }
+
+
+  fachElemente$ = this.klassenplanServ.grundPlanfaecher$.pipe(
+    map(z => {
+
+      let ar = new Array(Object.values(Fach).length).fill(null).map(z => new Array(Object.values(Lehrjahr).length).fill(null));
+    //  console.log(ar);
+      z.forEach((element) => {
+      //  console.log(element);
+        let fachIndex = -1;
+        let klaIndex = parseInt(element.klasse) - 1;
+
+        Object.values(Fach).forEach((facH, e) => {
+
+          if (element !== null && element.fach.toString() === facH) {
+           fachIndex = e;
+          }
+        });
+
+
+        if (fachIndex !== -1) {
+          if(!ar[fachIndex][klaIndex]){
+            ar[fachIndex][klaIndex]=[];
+          }
+
+          ar[fachIndex][klaIndex].push(element);
+        }
+   
+          
+
+      });
+     
+      return ar;
+    })
+  );
+
+  rhythmusElemente$ = this.klassenplanServ.esrPlaan$.pipe(
+    map(z => {
+      let obj = {
+        neun: z.rhythmus.neun,
+        zehn: z.rhythmus.zehn,
+        elf: z.rhythmus.elf,
+        zwoelf: z.rhythmus.zwoelf
+      }
+      return obj;
+    })
+  );
+
+  epochenElemente$ = this.klassenplanServ.esrPlaan$.pipe(
+    map(z => {
+      let obj = {
+        neun: z.epoche.neun,
+        zehn: z.epoche.zehn,
+        elf: z.epoche.elf,
+        zwoelf: z.epoche.zwoelf
+      }
+      return obj;
+    })
+  );
+
+  schieneElemente$ = this.klassenplanServ.esrPlaan$.pipe(
+    map(z => {
+      let obj = {
+        neun: z.schiene.neun,
+        zehn: z.schiene.zehn,
+        elf: z.schiene.elf,
+        zwoelf: z.schiene.zwoelf
+      }
+      return obj;
+    })
+  );
+
+
+  zahlInWort(zahl) {
+    switch (zahl) {
+      case Lehrjahr.neun:
+        return "neun";
+      case Lehrjahr.zehn:
+        return "zehn";
+      case Lehrjahr.elf:
+        return "elf";
+      case Lehrjahr.zwoelf:
+        return "zwoelf";
+      default:
+        console.log("kein Lehrjahr für die Epoche erkannt");
+    }
+  }
+
+
 
   rechner(klasse) {
     let klassenElemente = this.grundPlanfaecher.filter((element) => (element != null && element.klasse == klasse)); //Alle klasse 9 zb.

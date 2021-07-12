@@ -1,6 +1,170 @@
 <div id="alles">
   <h1>Lehrer-Zuordnung</h1>
 
+
+
+
+  <ng-container *ngIf="fachElemente$| async as Rhythmus">
+    <table id="tabell">
+      <tr>
+        <th></th>
+        <th *ngFor="let cell of Rhythmus[0], index as kla">
+          {{kla+1}}
+          <br>
+          <span class="ueb">{{ rechner(kla+1)[0]}}</span>
+          
+          <ng-container *ngIf="kla>=8&&kla!==12">(<span class="rhy">{{ rechner(kla+1)[1]}}</span>/<span class="epo">
+          {{rechner(kla+1)[2]}}</span>/<span class="sch">{{rechner(kla+1)[3]}}</span>)
+
+        </ng-container>
+
+
+        </th>
+      </tr>
+
+      <tr *ngFor="let reihe of Rhythmus index as fachIndex">
+        <th class="links">{{faecher[fachIndex]}}</th>
+
+        <td *ngFor="let cell of reihe, index as klas">
+          <!-- Nur in leeren Zellen nen plus anzeigen-->
+          <ng-container *ngIf="cell==null else CELLE">
+            <span class="add noprint">
+              <img (click)="addieren($event,faecher[fachIndex],klas+1)" src="../../../assets/icons/add.png" />
+            </span>
+          </ng-container>
+          <ng-template #CELLE>
+            <span class="add noprint">
+              <img (click)="loeschen(faecher[fachIndex],klas+1)" src="../../../assets/icons/minus.png" />
+            </span>
+            <span *ngFor="let item of cell">
+              <ng-container *ngIf="item.fach!='StartUp'&&item.fach!='HU'&&item.fach!='Schiene'||item.klasse<=8">
+                <span class="dropButt" [ngbTooltip]="Lehrer2" placement="right" triggers="click"
+                  (click)="mainClickk($event,item)">
+
+                  <span class="kuerzel {{marked(item.lehrer[0])}}" *ngFor="let lehre of item.lehrer">
+                    {{lehre.kuerzel?lehre.kuerzel:"Lehrer?"}}
+                  </span>
+                  <ng-container *ngIf="!item.lehrer[0]">
+                    Lehrer?
+                  </ng-container>
+
+                </span>
+                <ng-template id="" #Lehrer2>
+                  <ng-container *ngFor="let lehrer of lehrerZuw(faecher[fachIndex])[0].lehrer">
+                    <span id="kuerzelPop" (click)="toggleClickk(lehrer,faecher[fachIndex],klas+1)">
+                      {{lehrer?.kuerzel }}
+                    </span>
+                  </ng-container>
+                </ng-template>
+
+
+              </ng-container>
+
+              
+
+
+
+              <span>
+              </span>
+
+            </span>
+
+
+            <span class="">
+              <span class=" {{farbeUESR('uebstunde',cell[0].uebstunde)}}"
+                (click)="wochenstundenVerteilenn($event,'ueb',cell,klas+1)" style="font-style:italic">
+                {{cell[0].uebstunde!=0?cell[0].uebstunde:"Ü"}}
+              </span>
+              <ng-container *ngIf="klas>=8">
+                <span class=" {{farbeUESR('rhythmus',cell[0].rhythmus)}}"
+                  (click)="wochenstundenVerteilenn($event,'rhythmus',cell,klas+1)" style="font-style:italic">
+                  {{cell[0].rhythmus!=0?cell[0].rhythmus:"R"}}
+                </span>
+                <span class=" {{farbeUESR('epoche',cell[0].epoche)}}"
+                  (click)="wochenstundenVerteilenn($event,'epoche',cell,klas+1)" style="font-style:italic">
+                  {{cell[0].epoche!=0?cell[0].epoche:"E"}}
+                </span>
+                <span class=" {{farbeUESR('schiene',cell[0].schiene)}}"
+                  (click)="wochenstundenVerteilenn($event,'schiene',cell,klas+1)" style="font-style:italic">
+                  {{cell[0].schiene!=0?cell[0].schiene:"S"}}
+
+                </span>
+
+              </ng-container>
+
+            </span>
+          </ng-template>
+
+        </td>
+      </tr>
+
+    </table>
+
+  </ng-container>
+
+
+
+
+
+
+
+  <!--
+
+  
+  <ng-template #ANZAHL>
+    <ng-container *ngIf="ele.fach=='StartUp'">
+      <div class="rhy">
+        {{ rechner(klass)[1] }}
+
+      </div>
+
+    </ng-container>
+    <ng-container *ngIf="ele.fach=='HU'">
+      <div class="epo">
+        {{ rechner(klass)[2] }}
+
+      </div>
+
+    </ng-container>
+
+
+    <ng-container *ngIf="ele.fach==='Schiene'">
+      <div class="sch">
+        {{ rechner(klass)[3] }}
+
+      </div>
+
+    </ng-container>
+  </ng-template>
+</div>
+-->
+
+
+
+
+        <!--
+                          <div class="rhy">
+
+
+                            <ng-container *ngIf="rhythmusElemente$| async as Rhythmus">
+                              <div *ngFor="let obj of Rhythmus[zahlInWort(ele.klasse)]" class="kuerzel">
+                               {{obj.fach}}
+                            
+                               ({{obj.lehrer[0]?.kuerzel}}) 
+
+                               {{obj.rhythmus}}
+                              </div>
+                            </ng-container>
+
+
+                          </div>
+                          -->
+
+
+
+<!--
+
+
   <table id="FachLehrerUebersicht-Tabelle">
     <tbody>
       <tr>
@@ -17,10 +181,13 @@
         <td></td>
         <td *ngFor="let klasse of klassen">
 
-          <span class="ueb">{{ rechner(klasse)[0]}}</span>({{ rechner(klasse)[1]+ 
-        rechner(klasse)[2]+  rechner(klasse)[3]}})
+          
         </td>
       </tr>
+
+
+
+
 
 
 
@@ -29,19 +196,18 @@
           <th>{{fach}}
           <th>
           <td *ngFor="let klass of klassen index as kIndex">
-            <!--<button>
-        </button>-->
+
             <div class="oben">
-              <div (click)="addieren($event,fach,klass)" class="add noprint">+</div>
+              <div class="add noprint">
+                <img (click)="addieren($event,fach,klass)" src="../../../assets/icons/add.png" />
+                <img (click)="loeschen(fach,klass)" src="../../../assets/icons/minus.png" />
+              </div>
               <div class="itemBehaelter">
                 <ng-container *ngFor="let ele of fachElemente( rIndex , kIndex+1 ) index as innerCellIndex">
                   <div class="dropButton" [ngbTooltip]="Lehrer" placement="bottom" triggers="click"
                     (click)="mainButtonClick($event,ele)">
-                    <!-- -->
-
-                    <!--  {{ele?ele.fach:"noFach"}}-->
+                              
                     <div class="{{marked(ele.lehrer[0])}}" *ngIf="ele">
-                      <!-- sollte nur ein Lehrer sein, aber in diesem fall alle verschiedenen im Array anzeigen...-->
                       <ng-container
                         *ngIf="ele.fach!='StartUp'&&ele.fach!='HU'&&ele.fach!='Schiene'||ele.klasse<=8; else ANZAHL">
                         <ng-container *ngFor="let lehrerR of ele.lehrer">
@@ -50,23 +216,31 @@
                           </div>
                         </ng-container>
                       </ng-container>
+
                       <ng-template #ANZAHL>
                         <ng-container *ngIf="ele.fach=='StartUp'">
                           <div class="rhy">
                             {{ rechner(klass)[1] }}
+
                           </div>
+                  
                         </ng-container>
                         <ng-container *ngIf="ele.fach=='HU'">
                           <div class="epo">
                             {{ rechner(klass)[2] }}
+
                           </div>
-                        </ng-container>
-                        <ng-container *ngIf="ele.fach=='Schiene'">
-                          <div class="sch">
-                            {{ rechner(klass)[3] }}
-                          </div>
+                   
                         </ng-container>
 
+
+                        <ng-container *ngIf="ele.fach==='Schiene'">
+                          <div class="sch">
+                            {{ rechner(klass)[3] }}
+
+                          </div>
+                
+                        </ng-container>
                       </ng-template>
                     </div>
 
@@ -119,3 +293,4 @@
 
 
 </div>
+-->

@@ -41,6 +41,8 @@ export class LehrerService {
   }
 
 
+
+
   lehrer: Lehrer[] = [{
       name: null,
       kuerzel: null,
