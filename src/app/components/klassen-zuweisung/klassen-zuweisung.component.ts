@@ -25,7 +25,8 @@ import {
 } from 'src/app/interfaces/elementt';
 import {
   filter,
-  map
+  map,
+  reduce
 } from 'rxjs/operators';
 import {
   stringify
@@ -47,8 +48,10 @@ export class KlassenZuweisungComponent implements OnInit {
 
 
   marked(lehr) {
-    if (lehr && this.selectLehrer && lehr.kuerzel == this.selectLehrer.kuerzel) {
+    if (lehr && this.selectLehrer && lehr.kuerzel == this.selectLehrer.kuerzel&&lehr.kuerzel!==null) {
       return "blueback";
+    }else if(lehr.kuerzel===null){
+      return "";
     }
   }
 

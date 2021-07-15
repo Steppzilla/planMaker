@@ -54,6 +54,9 @@ export class GesamtuebersichtComponent implements OnInit {
   buttontext = "einblenden";
   selectLehrer: Lehrer;
 
+  printAktiv=false;
+
+  print(){this.printAktiv=true;}
 
 
   klassen = Object.values(Lehrjahr);

@@ -13,11 +13,10 @@ import { ErstesElementPipe } from './pipe/erstes-element.pipe';
 import { StartComponent } from './components/start/start.component';
 import { LehrerListeComponent } from './components/lehrer-liste/lehrer-liste.component';
 import { EsrPlanComponent } from './components/esr-plan/esr-plan.component';
-import { StundenplanComponent } from './components/gesamtuebersicht/stundenplan/stundenplan.component';
 import { VertretungComponent } from './components/vertretung/vertretung.component';
 import { VertretungsplanComponent } from './components/vertretung/vertretungsplan/vertretungsplan.component';
-import { EinzelplanComponent } from './components/esr-plan/einzelplan/einzelplan.component';
 import { HinweiseComponent } from './components/hinweise/hinweise.component';
+import { EinzelplaeneComponent } from './components/einzelplaene/einzelplaene.component';
 
 const config = {
   //apiKey: '<your-key>',
@@ -39,11 +38,10 @@ const config = {
     StartComponent,
     LehrerListeComponent,
     EsrPlanComponent,
-    StundenplanComponent,
     VertretungComponent,
     VertretungsplanComponent,
-    EinzelplanComponent,
-    HinweiseComponent
+    HinweiseComponent,
+    EinzelplaeneComponent
   ],
   imports: [
     BrowserModule,

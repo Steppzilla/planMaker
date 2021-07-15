@@ -2,12 +2,9 @@ import {
   Component,
   OnInit
 } from '@angular/core';
-import {
-  endOfDecade
-} from 'date-fns';
+
 import {
   concatMap,
-  filter,
   map,
   take
 } from 'rxjs/operators';
@@ -1146,6 +1143,11 @@ wortInZahl(neun){
       case 12:
         return "zwoelf";
     }
+  }
+
+printAktiv=false;
+  print(){
+    this.printAktiv=true;
   }
 
   constructor(public epochenPlanS: EpochenPlaeneService, public ferienServ: FerientermineService, public klassenplanServ: KlassenplaeneService, public lehrerServ: LehrerService) {

@@ -315,15 +315,29 @@ only screen and (max-width: 760px),
 
 @media print {
 
-  #gesamtuebersicht {
+
+  *{font-size:14pt;
+  padding:0pt;
+margin:0pt;
+background-image: none;}
+
+h1{//font-weight:bold;
+  padding-top:0pt;
+  margin:0pt;
+font-size:20pt;
+color:black;}
+  h2{color:black;
+  font-size:16pt;}
+      #gesamtuebersicht {
+        background-image:none;
     background-color: white;
     color: black;
+    border:none;
   }
 
-  .wochentagButton {
-    border-top: none;
-  }
+ .buttonreihe.wochentagButton{display:block;}//sonst noprint kenie wirkung
 
+  .kuerzl{color:mediumblue;}
 
   .blueback {
     color: black;    ;
@@ -352,23 +366,83 @@ only screen and (max-width: 760px),
     color: black;
   }
 
+  .empty{
+    min-height:10pt;
+    opacity:0;
+    background-color:white;
+   // height:10pt;
+  }
+
+  button{
+    //min-height:10pt;
+  height:10pt;
+}
+
+ 
+
   .huB,
   .schB,
   .rhyB,
-  .normalB {
-    border: none;
-    border-right: 1px black solid;
-    border-top: 1px black solid;
+  .normalB,.empty {
+    background-image:none;
+    border:  1pt black solid;
+
+  //  border-right: 1px grey dotted;
+  //  border-top: none;
+   // border-left:  none;
+   // border-bottom: none;
+    color:black;
+    height:10pt;
 
   }
 
-  .klassenspalte {
-    margin: 0pt;
+  table {
+
+   width:90%;
+
+    page-break-inside: none;
+    margin-left:auto;
+    margin-right:auto;
+    border-collapse: collapse;
+    line-height:14pt;
+
+    th:first-child{
+    //  border-right:1px grey solid;
+    }
+  
+    tr {
+    //  border-bottom: 1px grey dotted;
+  
+      th {
+        height:10pt;
+        text-align: center;
+        color:black;
+        font-weight: bold;
+      }
+  
+      td {
+        height: 10pt;
+      
+  
+        button {
+          height: 100%;
+          width:100%;
+  
+          div {}
+        }
+      }
+    }
   }
 
-  #tabelle>div:nth-child(1) {
-    border-right: 1px black solid;
-  }
+
+
+  //.klassenspalte {
+  //  margin: 0pt;
+  //}
+
+  ///#tabelle>div:nth-child(1) {
+  //  border-right: 1px black solid;
+  //}
 
   /*
   button:last-child>.huB {

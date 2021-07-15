@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StundenplanComponent } from './stundenplan.component';
+import { EinzelplaeneComponent } from './einzelplaene.component';
 
-describe('StundenplanComponent', () => {
-  let component: StundenplanComponent;
-  let fixture: ComponentFixture<StundenplanComponent>;
+describe('EinzelplaeneComponent', () => {
+  let component: EinzelplaeneComponent;
+  let fixture: ComponentFixture<EinzelplaeneComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ StundenplanComponent ]
+      declarations: [ EinzelplaeneComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StundenplanComponent);
+    fixture = TestBed.createComponent(EinzelplaeneComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

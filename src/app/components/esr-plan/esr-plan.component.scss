@@ -37,9 +37,9 @@ tr:nth-child(n) {
 }
 
 
-.iconBut{
-  background:none;
-  border:none;
+.iconBut {
+  background: none;
+  border: none;
 }
 
 .flex3 {
@@ -50,10 +50,11 @@ tr:nth-child(n) {
 
 .flex3>div:nth-child(1) {
   text-align: center;
-  button{
-    position:fixed;
-    top:50%;
-    left:10pt;
+
+  button {
+    position: fixed;
+    top: 50%;
+    left: 10pt;
   }
 
 }
@@ -64,10 +65,11 @@ tr:nth-child(n) {
 
 .flex3>div:nth-child(3) {
   text-align: center;
-  button{
+
+  button {
     position: fixed;
     top: 50%;
-    right:10pt;
+    right: 10pt;
   }
 }
 
@@ -377,17 +379,124 @@ table {
   font-size: 12pt;
 }
 
+.abschnittContainer {
+  margin-left: 30pt;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.abschnittContainer>table {
+  width: 45%;
+}
+
 @media print {
+  * {
+    font-size: 11pt;
+  }
+
+  h2,h1 {
+    display:inline-block;
+    margin-top: 0pt;
+   
+    margin-bottom: 0pt;
+    padding: 0pt;
+    text-align:center;
+  }
+  h1{margin-bottom:10pt;}
 
 
-  #gesamt {
+
+
+  .epo2,
+  .sch2,
+  .rhy2 {
+
+    tr:nth-child(1) {
+      td {
+        background-color: lightgrey;
+        color: black;
+      }
+    }
+
     color: black;
-    background-color: white;
+  }
+
+
+
+  .kuerzel {
+    color: blue;
+  }
+
+.ueberschriftContainer{
+width:100%;
+display:block;
+text-align:center;
+}
+
+.rhyB{
+  background-color:green;
+}
+
+  .epoB,
+  .schB,
+  .rhyB {
+  //  background-color: green;
+    color: black;
+    width:auto;
+    margin-left:auto;
+    margin-right:auto;
+  }
+
+  .epoB{
+    border-bottom: 1pt yellow solid;
+  }
+  .schB{
+    border-bottom: 1pt green solid;
+  }
+  .rhyB {
+    border-bottom: 1pt red solid;
+  }
+
+
+
+
+  .projekt {
+    color: black;
+    font-style: italic;
   }
 
   .ganztag {
     color: black;
   }
+
+  #gesamt {
+
+    color: black;
+    background-color: white;
+  }
+
+  #main {
+    width: 100%;
+    background-color: blue;
+    display: flex;
+
+  }
+
+  .flex3>div:nth-child(1) {
+    width: 50%;
+    background-color: green;
+  }
+
+
+
+  table {
+    border: 1pt black solid;
+    margin-top: 5pt;
+    margin-left: 5pt;
+    margin-right: auto;
+  }
+
+
 
   .EM,
   .Abi {
@@ -426,7 +535,7 @@ table {
   .blueback {
     color: black;
     font-weight: bold;
-    font-size: 12pt;
+    font-size: 14pt;
   }
 
   .Datum {
