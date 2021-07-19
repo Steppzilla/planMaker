@@ -25,6 +25,10 @@
 
       <ng-container *ngIf="gewaehlterPlan=='rhythmus'">
         <ng-container *ngIf="rhythmusPlan$|async as rhyPlan">
+
+
+
+
           <ng-container *ngFor="let abschnitt of rhyPlan">
             <table class="absch rhy2 noprint">
               <tr *ngFor="let reihe of abschnitt, index as r">
@@ -96,6 +100,76 @@
               </tr>
             </table>
           </ng-container>
+
+
+
+          <!-- ALTER PLAN: -->
+          <div class="planRahmen noprint">
+            <ng-container *ngFor="let abschnitt of rhyPlan">
+              <table class="absch rhy2 noprint">
+                <tr *ngFor="let reihe of abschnitt, index as r">
+                  <ng-container *ngIf="r==0; else KLASSE">
+                    <td colSpan="1" *ngFor="let cell of reihe, index as c"
+                      (click)="clickN($event,r+8,  abschnitt[0][c][0].ueberschrift)">
+                      <div *ngFor="let u of cell">
+                        {{u.ueberschrift|date: 'd. M'}}
+                      </div>
+                    </td>
+                  </ng-container>
+                  <ng-template #KLASSE>
+                    <ng-container *ngFor="let cell of reihe, index as c">
+                      <!-- 
+                    1. Bedingung: Wenn eine neue Epoche//Klassenspiel anfängt (Startdatum übereinstimmt mit überschrift)
+                  2. wenn Celle leer ist natürlich anzeigen!
+                  3. erstes Element anzeigen (Da e bie Startwechsel auf Anfang das Datum falsch gesetzt wird auf Samstag oÄ)
+                  4. Elemente, deren Startdatum etwas daneben liegt auch anzeigen...
+                  -->
+                      <ng-container >
+                        <!-- bei lehrer== null ist ganztagsabfrage. Dazu  muss kommen, wenn länge definiert wird:
+                  &&abschnitt[r][c][0].lehrer!==abschnitt[r][c-1][0].lehrer-->
+
+                        <!--  IF: c==0||(equals(abschnitt[r][c],abschnitt[r][c-1])===false)-->
+
+                        <td colSpan="1">
+                          <button triggers="click" [ngbTooltip]="FachAuswahl" placement="bottom" [autoClose]="true"
+                            (click)="clickN($event,r+8,  abschnitt[0][c][0].ueberschrift)">
+
+                            <!-- sonder-Event (ganztaegig?)-->
+
+                            <ng-container *ngIf="cell[0]&&cell[0].ganztaegig.length>0; else INHALT">
+                              <div class="projekt">
+
+                                {{cell[0].ganztaegig}}
+                              </div>
+                            </ng-container>
+
+                            <!-- nur anzeigen, wenn kein Sonder-Event ist: -->
+                            <ng-template #INHALT>
+                              <div *ngFor="let u of cell" class="{{markedd(u.lehrer)}}">
+                                {{u.fach}} <span class="kuerzel">{{u.lehrer}}</span>
+                                <!--| {{cell[0].start|date: "d. M"}}({{cell[0].spanNr}}       -->
+                              </div>
+                            </ng-template>
+
+                          </button>
+                          <ng-template #FachAuswahl>
+                            <ng-container *ngIf="klassenplanServ.esrPlaan$|async as esrPlann">
+                              <button *ngFor="let ele of esrPlann[gewaehlterPlan][zahlInWort(r+8)]"
+                                (click)="toggleClick(ele, abschnitt[0][c][0].ueberschrift)">
+                                {{ele.lehrer[0]?.kuerzel}}({{ele?.fach}})
+                                {{ele[gewaehlterPlan]}}|{{ele.zuweisung[gewaehlterPlan].length}}
+                              </button>
+                            </ng-container>
+                          </ng-template>
+
+                        </td>
+                      </ng-container>
+                    </ng-container>
+                  </ng-template>
+                </tr>
+              </table>
+            </ng-container>
+          </div>
         </ng-container>
       </ng-container>
 
@@ -103,8 +177,12 @@
 
 
 
+
+
+
+
       <ng-container *ngIf="gewaehlterPlan=='epoche'">
-        <ng-container *ngIf="epochenPlan$|async as rhyPlan">
+        <ng-container *ngIf="'gewaehlterPlan'+nPlan$|async as rhyPlan">
           <ng-container *ngFor="let abschnitt of rhyPlan">
             <table class="absch epo2">
               <tr *ngFor="let reihe of abschnitt, index as r">
@@ -234,18 +312,18 @@
 <ng-container *ngIf="printAktiv">
   <div class="printContainer">
     <div class="ueberschriftContainer">
-    <h1 style="color:black;">Rhythmus / Epoche / Schiene-Plan</h1>
+      <h1 style="color:black;">Rhythmus / Epoche / Schiene-Plan</h1>
     </div>
 
-    <div id="" >
+    <div id="">
       <div class="ueberschriftContainer">
-      <h2 class="rhyB">
-      Rhythmus 2021/2022
-      </h2>
-    </div>
+        <h2 class="rhyB">
+          Rhythmus 2021/2022
+        </h2>
+      </div>
 
-        <ng-container *ngIf="rhythmusPlan$|async as rhyPlan">
-          <div class="abschnittContainer">
+      <ng-container *ngIf="rhythmusPlan$|async as rhyPlan">
+        <div class="abschnittContainer">
           <ng-container *ngFor="let abschnitt of rhyPlan">
             <table class=" rhy2">
               <tr *ngFor="let reihe of abschnitt, index as r">
@@ -279,7 +357,7 @@
                       <!--  IF: c==0||(equals(abschnitt[r][c],abschnitt[r][c-1])===false)-->
 
                       <td colSpan="{{abschnitt[r][c][0]?abschnitt[r][c][0].spanNr:1}}">
-                        <button  >
+                        <button>
 
                           <!-- sonder-Event (ganztaegig?)-->
 
@@ -317,21 +395,23 @@
             </table>
           </ng-container>
         </div>
-        </ng-container>
-     
+      </ng-container>
 
-        
-        <div class="ueberschriftContainer">
-          <h2 class="epoB">
-        Epoche 2021/2022
+
+
+
+
+      <div class="ueberschriftContainer">
+        <h2 class="epoB">
+          Epoche 2021/2022
         </h2>
-        </div>
+      </div>
 
 
 
-     
-        <ng-container *ngIf="epochenPlan$|async as rhyPlan">
-          <div class="abschnittContainer">
+
+      <ng-container *ngIf="epochenPlan$|async as rhyPlan">
+        <div class="abschnittContainer">
           <ng-container *ngFor="let abschnitt of rhyPlan">
             <table class="absch epo2">
               <tr *ngFor="let reihe of abschnitt, index as r">
@@ -353,7 +433,7 @@
                   c==0
                 ">
                       <td colSpan="{{abschnitt[r][c][0]?abschnitt[r][c][0].spanNr:1}}">
-                        <button >
+                        <button>
                           <ng-container *ngIf="cell[0]&&cell[0].ganztaegig.length>0; else INHALT">
                             <div class="projekt">
                               {{cell[0].ganztaegig.slice(0,8)}}
@@ -383,19 +463,21 @@
             </table>
           </ng-container>
         </div>
-        </ng-container>
-     
+      </ng-container>
 
 
-        <div class="ueberschriftContainer">
+
+
+
+      <div class="ueberschriftContainer">
         <h2 class="schB">
-        Schiene 2021/2022
+          Schiene 2021/2022
         </h2>
-        </div>
-      
-        <ng-container *ngIf="schienenPlan$|async as rhyPlan">
-          <div class="abschnittContainer" >
-            <ng-container *ngFor="let abschnitt of rhyPlan">
+      </div>
+
+      <ng-container *ngIf="schienenPlan$|async as rhyPlan">
+        <div class="abschnittContainer">
+          <ng-container *ngFor="let abschnitt of rhyPlan">
             <table class="absch sch2">
               <tr *ngFor="let reihe of abschnitt, index as r">
                 <ng-container *ngIf="r==0; else KLASSE">
@@ -416,7 +498,7 @@
                   c==0
                 ">
                       <td colSpan="{{abschnitt[r][c][0]?abschnitt[r][c][0].spanNr:1}}">
-                        <button >
+                        <button>
                           <ng-container *ngIf="cell[0]&&cell[0].ganztaegig.length>0; else INHALT">
                             <div class="projekt">
                               {{cell[0].ganztaegig.slice(0,8)}}
@@ -444,10 +526,10 @@
                 </ng-template>
               </tr>
             </table>
-            </ng-container>
-          </div>
-        </ng-container>
-     
+          </ng-container>
+        </div>
+      </ng-container>
+
     </div>
 
   </div>
@@ -576,9 +658,9 @@
 
 
 
-<!--
+<!--alter Plan mit einzelnen Kacheln
 
-  <div class="planRahmen">
+  <div class="planRahmen noprint">
     <ng-container *ngFor="let montagtag of esrPlan; index as d">
       <ng-container *ngIf="montagtag.tag.getDay()==1">
         <ng-container *ngIf="d<esrPlan.length-4">
@@ -733,5 +815,4 @@
       </ng-container>
     </ng-container>
   </div>
-</div>
 -->
