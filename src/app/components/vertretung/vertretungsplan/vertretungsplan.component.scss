@@ -40,7 +40,7 @@ $back-light:rgb(68, 68, 68);
 
 
 * {
-  font-size: 14pt;
+
   line-height: 14pt;
 }
 
@@ -62,16 +62,18 @@ h1 {
   width: 100%;
 }
 
+.klein{font-size:10pt;}
+
 .klasStunde {
-  width: 42%;
+  width: 20%;
 }
 
 .lehrerFehlt {
-  width: 28%;
+  width: 35%;
 }
 
 .vertretungsLehrer {
-  width: 28%;
+  width: 45%;
 }
 
 
@@ -119,6 +121,8 @@ h1 {
   border-right: 1pt solid $color-text;
   border-top: 1pt solid $color-text;
 }
+
+
 
 @media print{
 

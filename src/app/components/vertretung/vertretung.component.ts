@@ -9,7 +9,13 @@ import {
   OnInit
 } from '@angular/core';
 import {
-  map
+  combineLatest
+} from 'rxjs';
+import {
+  concatMap,
+  map,
+  take,
+  timeout
 } from 'rxjs/operators';
 import {
   Fach
@@ -32,6 +38,7 @@ import {
 import {
   EpochenPlaeneService
 } from 'src/app/services/epochen-plaene.service';
+import { FerientermineService } from 'src/app/services/ferientermine.service';
 import {
   KlassenplaeneService
 } from 'src/app/services/klassenplaene.service';
@@ -57,11 +64,13 @@ export class VertretungComponent implements OnInit {
 
   aktuellESRArray: Array < Elementt > ;
 
-  wochenTagauswahl: string;
+
   grundPlanfaecher: Array < Elementt > ; //statt stundenLehrerArray?
   lehrerAuswahl = []; //nur übstundenFilter von grundplanfaecher
   tagesPlan = [];
   // stundenRaster: Gesamtstundenraster;
+
+  wochenTagauswahl: string;
 
   wochentage = Wochentag;
   kuerzeleinblenden: boolean;
@@ -73,31 +82,63 @@ export class VertretungComponent implements OnInit {
 
   klassen = Object.values(Lehrjahr);
 
+  sonderEvent(klasse){
+    let datum=this.epoPlan.planDatum.getValue();
+   //console.log(this.feriTermServ.fahrtenUndProjekteObj);
+   // console.log(klasse);
+    let klasEventArray=this.feriTermServ.fahrtenUndProjekteObj[this.klasseInWort(klasse)] ;  //.neun Array mit objekten
+    let fahrtaktuell=null;
+    klasEventArray.forEach(obj=>{
+      if(obj.start.getTime()<=datum.getTime()&&datum.getTime()<=obj.ende.getTime()){
+        fahrtaktuell=obj.titel;
+      }
+    });
+    console.log(fahrtaktuell);
+    return fahrtaktuell;
+  }
 
-  links(){
-    if(this.wochenTagauswahl==="Montag"){
-      this.wochenTagauswahl="Dienstag"
-    }else if(this.wochenTagauswahl==="Dienstag"){
-      this.wochenTagauswahl="Mittwoch";
-    }else if(this.wochenTagauswahl==="Mittwoch"){
-      this.wochenTagauswahl="Donnerstag";
-    }else if(this.wochenTagauswahl==="Donnerstag"){
-      this.wochenTagauswahl="Freitag";
-    }else if(this.wochenTagauswahl==="Freitag"){
-      this.wochenTagauswahl="Montag";
+  klasseInWort(kla){
+    switch(kla){
+      case  1:return "eins";
+     case 2: return "zwei";
+     case 3: return "drei";
+     case 4: return "vier";
+     case  5:return "fuenf";
+     case 6: return "sechs";
+     case 7: return "sieben";
+     case 8: return "acht";
+     case  9:return "neun";
+     case 10: return "zehn";
+     case 11: return "elf";
+     case 12: return "zwoelf";
+
     }
   }
-  rechts(){
-    if(this.wochenTagauswahl==="Montag"){
-      this.wochenTagauswahl="Freitag"
-    }else if(this.wochenTagauswahl==="Freitag"){
-      this.wochenTagauswahl="Donnerstag";
-    }else if(this.wochenTagauswahl==="Donnerstag"){
-      this.wochenTagauswahl="Mittwoch";
-    }else if(this.wochenTagauswahl==="Mittwoch"){
-      this.wochenTagauswahl="Dienstag";
-    }else if(this.wochenTagauswahl==="Dienstag"){
-      this.wochenTagauswahl="Montag";
+
+  links() {
+    if (this.wochenTagauswahl === "Montag") {
+      this.wochenTagauswahl = "Dienstag"
+    } else if (this.wochenTagauswahl === "Dienstag") {
+      this.wochenTagauswahl = "Mittwoch";
+    } else if (this.wochenTagauswahl === "Mittwoch") {
+      this.wochenTagauswahl = "Donnerstag";
+    } else if (this.wochenTagauswahl === "Donnerstag") {
+      this.wochenTagauswahl = "Freitag";
+    } else if (this.wochenTagauswahl === "Freitag") {
+      this.wochenTagauswahl = "Montag";
+    }
+  }
+  rechts() {
+    if (this.wochenTagauswahl === "Montag") {
+      this.wochenTagauswahl = "Freitag"
+    } else if (this.wochenTagauswahl === "Freitag") {
+      this.wochenTagauswahl = "Donnerstag";
+    } else if (this.wochenTagauswahl === "Donnerstag") {
+      this.wochenTagauswahl = "Mittwoch";
+    } else if (this.wochenTagauswahl === "Mittwoch") {
+      this.wochenTagauswahl = "Dienstag";
+    } else if (this.wochenTagauswahl === "Dienstag") {
+      this.wochenTagauswahl = "Montag";
     }
 
   }
@@ -120,8 +161,8 @@ export class VertretungComponent implements OnInit {
   }
 
   esr;
-  gesamtRaster$ = this.klassenplanServ.grundPlanfaecher$.pipe( //Bei Änderungen im Plan updaten
-
+  gesamtRaster$ = this.epoPlan.planDatum$.pipe( //Bei Änderungen im Plan updaten
+    concatMap(x=>{return this.klassenplanServ.grundPlanfaecher$.pipe(take(1))}),
     map(z => {
       let ar = {
         montag: new Array(11).fill(null).map(x => new Array(13)),
@@ -175,12 +216,34 @@ export class VertretungComponent implements OnInit {
               });
             }
 
+
+
           });
         });
       });
+
+
       return ar;
     })
   );
+
+  dupli = [];
+
+  duplicatess(kuerzL, stdL, fachL, ganzeZeile) {
+
+    let duplicate = 0;
+  //  console.log(ganzeZeile);
+    if (ganzeZeile) {
+      ganzeZeile.forEach(klassenZelle => {
+        klassenZelle.forEach(unterrichtObj => {
+          if (unterrichtObj.lehrerKuerz === kuerzL) {
+            duplicate++;
+          }
+        });
+      });
+    }
+    return duplicate > 1 &&kuerzL!=="bob"&&fachL!==Fach.orchester&&fachL!==Fach.chor&&fachL!==Fach.wahlpflicht&&fachL!==Fach.mittelstufenorchester? "error" : "ok"; //error
+  }
 
   hintergrundd(el) {
     // console.log(el);
@@ -208,58 +271,45 @@ export class VertretungComponent implements OnInit {
     }
   }
 
-  duplicatess(kuerz, z, fachd) { //
-    let duplicates = 0;
-    this.grundPlanfaecher.forEach((element, e) => {
-      if (element == null) {
-        this.grundPlanfaecher.splice(e, 1);
-      } else {
-        element.zuweisung.uebstunde.forEach(({
-          wochentag,
-          stunde
-        }, ue) => {
-          //  console.log(wochentag + "."+this.wochenTagauswahl);
-          if (wochentag == this.wochenTagauswahl && stunde == z) {
-            element.lehrer.forEach(le => {
-              if (kuerz == null || le == null) {
 
-              } else if (kuerz && element && kuerz == le.kuerzel) {
-                // console.log(element.lehrer[0].kuerzel + "." +r + ". " + element.klasse);
 
-                if (fachd != Fach.hauptunterricht && fachd != Fach.schiene && fachd != Fach.rhythmisch && fachd != Fach.orchester && fachd != Fach.wahlpflicht && fachd != Fach.chor && fachd != Fach.mittelstufenorchester) {
-                  duplicates++;
-                } else if (element.fach != Fach.hauptunterricht && element.fach != Fach.schiene && element.fach != Fach.rhythmisch && element.fach != Fach.orchester && element.fach != Fach.wahlpflicht && element.fach != Fach.chor && element.fach != Fach.mittelstufenorchester) {
-                  duplicates++;
-                }
-              }
-            });
-          }
-        });
+
+  wocheVorher(){
+    
+    let speicherDatum= new Date(this.epoPlan.planDatum.getValue().getTime());
+    if(speicherDatum.getDay()!==1){
+      while(speicherDatum.getDay()!==1){
+        speicherDatum.setDate(speicherDatum.getDate()-1);
       }
-    });
-
-    if (fachd == Fach.hauptunterricht || fachd == Fach.schiene || fachd == Fach.rhythmisch) {
-      duplicates++;
     }
-    return duplicates > 1 ? "error" : "ok";
-  }
+   // console.log(this.epoPlan.planDatum.getValue());
+    speicherDatum.setDate(speicherDatum.getDate()-7);
 
+    this.epoPlan.planDatum.next(new Date (speicherDatum.getTime()));
+  }
+ wocheNext(){
+    let speicherDatum= new Date(this.epoPlan.planDatum.getValue().getTime());
+   
+    if(speicherDatum.getDay()!==1){
+      while(speicherDatum.getDay()!==1){
+        speicherDatum.setDate(speicherDatum.getDate()-1);
+      }
+    }
+
+    speicherDatum.setDate(speicherDatum.getDate()+7)
+
+    this.epoPlan.planDatum.next(new Date (speicherDatum.getTime()));
+
+  }
 
 
   cellKlickk(e, c, i, cell) { //c ist zeilennummer, i ist die celle waagerecht!
 
-    let raster;
-    this.gesamtRaster$.subscribe(data=> raster=data);
-    //this.esr sind alle aktuellen epochen drin mit .neun.rhy z.b. oder .zwoelf.epo=Zelle
-
-    //
-    let stringTag=this.wochenTagauswahl;
-
-    //raster[stringTag][c][i]
+    if(cell){
     cell.forEach(fachLehrer => {
-      if(this.markedd(fachLehrer.lehrerKuerz)=='blueback'){
+      if (this.markedd(fachLehrer.lehrerKuerz) == 'blueback') {
 
-        if (fachLehrer.fach != Fach.hauptunterricht && fachLehrer.fach != Fach.schiene && fachLehrer.fach != Fach.rhythmisch ) { //alle normalen stunden und hu unter 9. klasse
+       
           this.vertretungsElement.wochentag = this.wochenTagauswahl;
           //vertretungsElement.datum=element.zuweisung.uebstunde
           this.vertretungsElement.klasse = i;
@@ -267,16 +317,17 @@ export class VertretungComponent implements OnInit {
           this.vertretungsElement.lehrer = this.selectLehrer;
           this.vertretungsElement.fach = fachLehrer.fach;
           //  this.vertretungsSer.vertretung.push(vertretungsElement);
-        }
+        
         //Bei hauptunterricht schiene oder epoche erst aktuelle Epoche finden:
-      
-    }
-  });
-}
 
-    //Wenn lehrer in der zelle markiert ist
+      }
+    });
+  }
+  }
 
-   
+  //Wenn lehrer in der zelle markiert ist
+
+
 
 
   togglezellenClickk(stdZ, clickedElementt: Elementt, zelle) { //ganze Zelle/stunden zeile als Zahl
@@ -301,7 +352,7 @@ export class VertretungComponent implements OnInit {
       this.vertretungsraster2[this.wochenTagauswahl.toLowerCase()][this.vertretungsElement.klasse - 1][this.vertretungsElement.stunde][zellenI].push(this.vertretungsElement);
 
 
-      
+
     } else {
       console.error("bitte klicke vorher einen Lehrer an");
     }
@@ -343,7 +394,7 @@ export class VertretungComponent implements OnInit {
       this.vertretungsraster2[this.wochenTagauswahl.toLowerCase()][this.vertretungsElement.klasse - 1][this.vertretungsElement.stunde][zellenI].push(this.vertretungsElement);
 
 
-     
+
     } else {
       console.error("bitte klicke vorher einen Lehrer an");
     }
@@ -383,7 +434,7 @@ export class VertretungComponent implements OnInit {
       this.vertretungsraster2[this.wochenTagauswahl.toLowerCase()][this.vertretungsElement.klasse - 1][this.vertretungsElement.stunde][zellenI].push(this.vertretungsElement);
 
 
-      
+
     } else {
       console.error("bitte klicke vorher einen Lehrer an");
     }
@@ -423,7 +474,7 @@ export class VertretungComponent implements OnInit {
 
 
 
-     
+
     } else {
       console.error("bitte klicke vorher einen Lehrer an");
     }
@@ -474,7 +525,7 @@ export class VertretungComponent implements OnInit {
   }
 
 
-  
+
 
   wochentagWahl(x: string) {
     this.wochenTagauswahl = x;
@@ -530,7 +581,7 @@ export class VertretungComponent implements OnInit {
     return lehrerVonKlasse;
   }
 
-  
+
 
 
   marked(lehr) {
@@ -617,7 +668,7 @@ export class VertretungComponent implements OnInit {
     return duplicates > 0 ? "error" : "ok";
   }
 
- 
+
 
 
   vertretungsElement: VertretungsElement = {
@@ -635,7 +686,7 @@ export class VertretungComponent implements OnInit {
 
 
 
-  
+
 
 
   hintergrund(el) {
@@ -651,8 +702,16 @@ export class VertretungComponent implements OnInit {
     }
   }
 
-  constructor(public vertretungsSer: VertretungServService, public lehrerService: LehrerService, public login: LoginService, public klassenplanServ: KlassenplaeneService, public epoPlan: EpochenPlaeneService) {
-    this.wochenTagauswahl = 'Montag';
+  constructor(
+    public vertretungsSer: VertretungServService, 
+    public lehrerService: LehrerService, 
+    public login: LoginService, 
+    public klassenplanServ: KlassenplaeneService,
+     public epoPlan: EpochenPlaeneService,
+     public feriTermServ: FerientermineService) {
+    //this.wochenTagauswahl="Montag";
+    this.wochenTagauswahl = lehrerService.wochenTagSelect;
+
     this.kuerzeleinblenden = false;
     this.klassenplanServ.grundPlanfaecher$.subscribe((data) => {
       this.grundPlanfaecher = data;
@@ -664,6 +723,8 @@ export class VertretungComponent implements OnInit {
     lehrerService.lehrerSelected$.subscribe(data => {
       this.selectLehrer = data;
     });
+
+
 
     vertretungsSer.vertretung$.subscribe(data => this.vertretung = data);
 
@@ -687,6 +748,8 @@ export class VertretungComponent implements OnInit {
 
       this.esr = data;
     });
+
+
 
   }
 

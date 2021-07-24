@@ -262,7 +262,20 @@ button {
 }
 
 
+.sonderEvent{
+  position:relative;
+  height:0pt;
+top:90pt;
+}
 
+.kippbox{
+  padding-left:5pt;
+  background-color:green;
+  font-size:28pt;
+  writing-mode: vertical-lr; 
+ // text-orientation: upright; 
+  width:28pt;
+}
 
 
 .wochentagButton {

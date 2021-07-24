@@ -182,7 +182,7 @@
 
 
       <ng-container *ngIf="gewaehlterPlan=='epoche'">
-        <ng-container *ngIf="'gewaehlterPlan'+nPlan$|async as rhyPlan">
+        <ng-container *ngIf="epochenPlan$|async as rhyPlan">
           <ng-container *ngFor="let abschnitt of rhyPlan">
             <table class="absch epo2">
               <tr *ngFor="let reihe of abschnitt, index as r">

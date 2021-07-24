@@ -15,6 +15,9 @@ import {
 })
 export class LehrerService {
 
+  //wochenTagSelect=new BehaviorSubject(null);
+  wochenTagSelect="Montag";
+
   lehrerSelected = new BehaviorSubject(null);
   lehrerSelected$ = this.lehrerSelected.asObservable();
 

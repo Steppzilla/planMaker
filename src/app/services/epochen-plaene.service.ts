@@ -1,14 +1,14 @@
 import {
   Injectable
 } from '@angular/core';
-import { element } from 'protractor';
 import {
   BehaviorSubject
 } from 'rxjs';
 import {
-  map
+  concatMap,
+  map,
+  take
 } from 'rxjs/operators';
-import { Fach } from '../enums/fach.enum';
 import {
   FerientermineService
 } from './ferientermine.service';
@@ -23,18 +23,21 @@ export class EpochenPlaeneService {
   esr_plan = new BehaviorSubject(null);
   esr_plan$ = this.esr_plan.asObservable();
   datum = new Date();
-  planDatum = new Date(2021, 8, 14);
 
-  aktuelleEpo$ = this.klassenplan.grundPlanfaecher$.pipe(
+  planDatum = new BehaviorSubject(null);
+  planDatum$= this.planDatum.asObservable();
+
+  aktuelleEpo$ = this.planDatum$.pipe(
+    concatMap(x=>{return this.klassenplan.grundPlanfaecher$.pipe(take(1))}),
     map(
 
       z => {
 
         //Ich teile die Items auf, da ich sonst in epoche und schiene dasselbe Item bekomme mit aktueller lokik am ende
 
-        let schItems=z.filter(ele=>ele.schiene>0&&ele.zuweisung.schiene.findIndex(eleh=>eleh.start<=this.planDatum&&eleh.ende>=this.planDatum)!==-1);
-        let epoItems=z.filter(ele=>ele.epoche>0&&ele.zuweisung.epoche.findIndex(eleh=>eleh.start<=this.planDatum&&eleh.ende>=this.planDatum)!==-1);
-        let rhyItems=z.filter(ele=>ele.rhythmus>0&&ele.zuweisung.rhythmus.findIndex(eleh=>eleh.start<=this.planDatum&&eleh.ende>=this.planDatum)!==-1);
+        let schItems=z.filter(ele=>ele.schiene>0&&ele.zuweisung.schiene.findIndex(eleh=>eleh.start<=this.planDatum.getValue()&&eleh.ende>=this.planDatum.getValue())!==-1);
+        let epoItems=z.filter(ele=>ele.epoche>0&&ele.zuweisung.epoche.findIndex(eleh=>eleh.start<=this.planDatum.getValue()&&eleh.ende>=this.planDatum.getValue())!==-1);
+        let rhyItems=z.filter(ele=>ele.rhythmus>0&&ele.zuweisung.rhythmus.findIndex(eleh=>eleh.start<=this.planDatum.getValue()&&eleh.ende>=this.planDatum.getValue())!==-1);
     
     let obj = {
       neun: {
@@ -89,6 +92,8 @@ zahlinKlasse(za){
 
 constructor(public ferienTermServ: FerientermineService, public klassenplan: KlassenplaeneService) {
   this.esr_plan.next(this.ferienTermServ.daysBetween());
+  let datum=new Date();
+  this.planDatum.next(datum);
 
 
 }
