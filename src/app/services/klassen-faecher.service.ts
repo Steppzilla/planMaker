@@ -83,6 +83,9 @@ export class KlassenFaecherService {
     [Fach.wirtschaftspolitik, [Lehrjahr.elf, Lehrjahr.zwoelf], 1],
     [Fach.wahlpflicht, [Lehrjahr.elf, Lehrjahr.zwoelf], 2],
     [Fach.hgw, [Lehrjahr.sechs, Lehrjahr.sieben, Lehrjahr.acht], 2],
+
+
+    [Fach.landbauNachbereitung, [Lehrjahr.neun],1],
   ];
 
 

@@ -15,6 +15,8 @@ import {
 export class FerientermineService {
   datumHeute: Date = new Date(); //achtung hat aktuelle Zeit
 
+  
+
   //Manuell gesetzt. 
   sommerFerienEnde: Date = new Date(2021, 6, 30); //Jahr/Monat- 1/tag des Monats
 
@@ -81,24 +83,24 @@ export class FerientermineService {
     neun: [{
         titel: "Landbau",
         start: new Date(2022, 3, 18),
-        ende: new Date(2022, 4, 13)
+        ende: new Date(2022, 4, 6)
       },
       {
         titel: "ProjektWoche",
-        start: new Date(2022, 1, 28),
-        ende: new Date(2022, 2, 4)
+        start: new Date(2022, 1, 21),
+        ende: new Date(2022, 1, 25)
       }
     ],
 
     zehn: [{
         titel: "Feldmessen",
-        start: new Date(2021, 7, 16),
-        ende: new Date(2021, 7, 20)
+        start: new Date(2021, 8, 20),
+        ende: new Date(2021, 8, 24)
       },
       {
         titel: "ProjektWoche",
-        start: new Date(2022, 1, 28),
-        ende: new Date(2022, 2, 4)
+        start: new Date(2022, 1, 21),
+        ende: new Date(2022, 1, 25)
       }
     ],
 
@@ -109,163 +111,170 @@ export class FerientermineService {
       },
       {
         titel: "ProjektWoche",
-        start: new Date(2022, 1, 28),
-        ende: new Date(2022, 2, 4)
+        start: new Date(2022, 1, 21),
+        ende: new Date(2022, 1, 25)
       }
     ],
     zwoelf: [{
         titel: "Kunstfahrt",
-        start: new Date(2022, 4, 9),
-        ende: new Date(2022, 4, 20)
+        start: new Date(2022, 4, 16),
+        ende: new Date(2022, 4, 28)
       },
       {
         titel: "Klassenspiel",
-        start: new Date(2021, 7, 30),
-        ende: new Date(2021, 9, 1)
+        start: new Date(2021, 8, 13),
+        ende: new Date(2021, 8, 31)
       },
       {
         titel: "Eurythmieabschluss",
         start: new Date(2022, 5, 6),
-        ende: new Date(2022, 5, 17)
+        ende: new Date(2022, 5, 24)
       },
       {
         titel: "ProjektWoche",
-        start: new Date(2022, 1, 28),
-        ende: new Date(2022, 2, 4)
+        start: new Date(2022, 1, 21),
+        ende: new Date(2022, 1, 25)
       }
     ],
   }
 
-  feierTage_Pruefungen_Ferien_Obj={
-    pruefungen:[
+  feierTage_Pruefungen_Ferien_Array=[
+  
       {
       titel: "Esa/Msa Englisch/Deutsch",
       start: new Date(2022, 3, 28),
-      ende: new Date(2022, 3, 28)
+      ende: new Date(2022, 3, 28),
+      notiz: "Prüfung",
     },
     {
       titel: "Esa/Msa Deutsch/Mathematik",
       start: new Date(2022, 4, 2),
-      ende: new Date(2022, 4, 2)
+      ende: new Date(2022, 4, 2),
+      notiz: "Prüfung",
     },
     {
       titel: "Esa/Msa Mathematik/Englisch",
       start: new Date(2022, 4, 6),
-      ende: new Date(2022, 4, 6)
+      ende: new Date(2022, 4, 6),
+      notiz: "Prüfung",
+
     },
     {
       titel: "Esa/Msa mündliche Prüfungen",
       start: new Date(2022, 5, 13),
-      ende: new Date(2022, 5, 13)
+      ende: new Date(2022, 5, 13),
+      notiz: "Prüfung",
     },
     {
       titel: "Abitur schriftlich Deutsch",
       start: new Date(2022, 3, 27),
-      ende: new Date(2022, 3, 27)
+      ende: new Date(2022, 3, 27),
+      notiz: "Prüfung",
     },
     {
       titel: "Abitur schriftlich Mathematik",
       start: new Date(2022, 4, 3),
-      ende: new Date(2022, 4, 3)
+      ende: new Date(2022, 4, 3),
+      notiz: "Prüfung",
     },
     {
       titel: "Abitur schriftlich Englisch",
       start: new Date(2022, 3, 29),
-      ende: new Date(2022, 3, 29)
+      ende: new Date(2022, 3, 29),  notiz: "Prüfung",
     },
     {
       titel: "Abitur schriftlich Geographie",
       start: new Date(2022, 2, 30),
-      ende: new Date(2022, 2, 30)
+      ende: new Date(2022, 2, 30),  notiz: "Prüfung",
     },
     {
       titel: "Abitur Sprechprüfung Englisch",
       start: new Date(2022, 2, 23),
-      ende: new Date(2022, 2, 23)
+      ende: new Date(2022, 2, 23),  notiz: "Prüfung",
     },
     {
       titel: "Abitur mündliche Prüfungen",
       start: new Date(2022, 5, 20),
-      ende: new Date(2022, 5, 20)
+      ende: new Date(2022, 5, 20),  notiz: "Prüfung",
     },
-  ],
-    feiertage:[
+  
+    
       {
         titel: "Pfingstferien",
         start: new Date(2022, 4, 27),
-        ende: new Date(2022, 4, 28)
+        ende: new Date(2022, 4, 28), notiz:"Feiertag"
       },
       {
         titel: "Tag der deutschen Einheit",
         start: new Date(2021, 9, 3),
-        ende: new Date(2021, 9, 3)
+        ende: new Date(2021, 9, 3),notiz:"Feiertag"
       },
       {
         titel: "Reformationstag",
         start: new Date(2021, 9, 31),
-        ende: new Date(2021, 9, 31)
+        ende: new Date(2021, 9, 31),notiz:"Feiertag"
       },
       {
         titel: "Weihnachtstage",
         start: new Date(2021, 11, 25),
-        ende: new Date(2021, 11, 26)
+        ende: new Date(2021, 11, 26),notiz:"Feiertag"
       },
       {
         titel: "Neujahr",
         start: new Date(2022, 0, 1),
-        ende: new Date(2022, 0, 1)
+        ende: new Date(2022, 0, 1),notiz:"Feiertag"
       },
       {
         titel: "Karfreitag",
         start: new Date(2022, 3, 15),
-        ende: new Date(2022, 3, 15)
+        ende: new Date(2022, 3, 15),notiz:"Feiertag"
       },
       {
         titel: "Ostermontag",
         start: new Date(2022, 3, 18),
-        ende: new Date(2022, 3, 18)
+        ende: new Date(2022, 3, 18),notiz:"Feiertag"
       },
       {
         titel: "Tag der Arbeit",
         start: new Date(2022, 4, 1),
-        ende: new Date(2022, 4, 1)
+        ende: new Date(2022, 4, 1),notiz:"Feiertag"
       },
       {
         titel: "Christi Himmelfahrt",
         start: new Date(2022, 4, 26),
-        ende: new Date(2022, 4, 26)
+        ende: new Date(2022, 4, 26),notiz:"Feiertag"
       },
       {
         titel: "Pfingstmontag",
         start: new Date(2022, 5, 6),
-        ende: new Date(2022, 5, 6)
+        ende: new Date(2022, 5, 6),notiz:"Feiertag"
       },
     //gf noch zwei eigene brückentage? Ausgleich is glaub ich, dass wir samstags oft feiern organisieren...?
 
-    ],
-    ferien:[
+  
+    
       {
         titel: "Sommerferien",  //Ende: letzter Ferientag vorm Schuljahresbeginn, Start: Erster Ferientag am Ende des Schuljahres
         start: new Date(2022, 6, 4), //ende des schuljahres quasi
-        ende: new Date(2021, 6, 30)
+        ende: new Date(2021, 6, 30),notiz:"Ferien",
       },
       {
         titel: "Herbstferien",  
         start: new Date(2021, 9, 4), 
-        ende: new Date(2021, 9, 16)
+        ende: new Date(2021, 9, 16),notiz:"Ferien",
       },
       {
         titel: "Weihnachtsferien",  
         start: new Date(2021, 11, 23), 
-        ende: new Date(2022, 0, 8)
+        ende: new Date(2022, 0, 8),notiz:"Ferien",
       },
       {
         titel: "Osterferien",  
         start: new Date(2022, 3, 4), 
-        ende: new Date(2022, 3, 16)
+        ende: new Date(2022, 3, 16),notiz:"Ferien",
       },
+    
     ]
-  }
 
 
   get pruefungsTage() {

@@ -27,6 +27,8 @@ import { VertretungServService } from './vertretung-serv.service';
   providedIn: 'root'
 })
 export class LoginService {
+
+  
   store: AngularFirestore; //db
 
   saveAll(version) {

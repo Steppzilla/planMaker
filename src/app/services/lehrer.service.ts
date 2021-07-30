@@ -149,7 +149,7 @@ export class LehrerService {
       name: 'Ehrhardt',
       kuerzel: 'Eh',
       anrede: "Frau",
-      faecher: [Fach.englisch],
+      faecher: [Fach.englisch, Fach.rhethorik],
       aufgaben: ["Schulführung"],
     },
     {
@@ -248,7 +248,7 @@ export class LehrerService {
       name: 'Sodemann',
       kuerzel: 'Sod',
       anrede: "Frau",
-      faecher: [Fach.deutsch, Fach.poetik, Fach.geschichte, Fach.kunstgeschichte, Fach.klassenbetreuer],
+      faecher: [Fach.kartographie,Fach.deutsch, Fach.poetik, Fach.geschichte, Fach.kunstgeschichte, Fach.klassenbetreuer],
       aufgaben: ["Schulplattform-Admin", "Prüfungen ESA/MSA/Abitur", "Projektwoche"]
     },
     {
@@ -334,6 +334,13 @@ export class LehrerService {
 
     },
 
+    {
+      name: 'Pe',
+      kuerzel: 'Pe',
+      anrede: "?",
+      faecher: [Fach.franzoesisch],
+
+    },
  
   ];
 

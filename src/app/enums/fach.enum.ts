@@ -3,6 +3,8 @@ export enum Fach {
 //Fachübergreifende Fächer
 
 
+landbauNachbereitung="Landb.Nachber.",
+
 rhythmisch = "StartUp",
   hauptunterricht = "HU",
   schiene = "Schiene",
@@ -11,8 +13,9 @@ rhythmisch = "StartUp",
   hgw="HGW",
   wochenabschluss="WoAb", 
 
+  rhethorik="Rhethorik",
 
-  
+  kartographie="Karto",
   klassenbetreuer = "Betreuer",
   religion = "Rel",
   ethik = "Ethik",

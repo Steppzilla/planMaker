@@ -104,7 +104,7 @@
 
 
           <!-- ALTER PLAN: -->
-          <div class="planRahmen noprint">
+                  <div class="planRahmen noprint">
             <ng-container *ngFor="let abschnitt of rhyPlan">
               <table class="absch rhy2 noprint">
                 <tr *ngFor="let reihe of abschnitt, index as r">
@@ -547,118 +547,10 @@
 
 
 
+
+
+<!--alter Plan mit einzelnen Kacheln-->
 <!--
-  <ng-container *ngIf="gewaehlterPlan=='epoche'">
-    <ng-container *ngIf="epochePlan$|async as epoPlan">
-      <ng-container *ngFor="let abschnitt of epoPlan">
-        <table class="absch">
-          <tr *ngFor="let reihe of abschnitt, index as r">
-            <ng-container *ngIf="r==0; else KLASSE">
-              <th *ngFor="let cell of reihe, index as c" (click)="clickN($event,r+8,  abschnitt[0][c][0])">
-                <div *ngFor="let u of cell">
-                  {{u.getDate()}}.{{u.getMonth()}}
-                </div>
-              </th>
-            </ng-container>
-            <ng-template #KLASSE>
-              <td *ngFor="let cell of reihe, index as c">
-                <button triggers="click" [ngbTooltip]="FachAuswahl" placement="bottom" [autoClose]="true"
-                  (click)="clickN($event,r+8,  abschnitt[0][c][0])">
-
-
-                  <ng-container *ngIf="getGanztagsEvent(abschnitt[0][c][0], r+8)!==''; else INHALT">
-                    <div class="projekt">
-                      {{getGanztagsEvent(abschnitt[0][c][0], r+8)}}
-                    </div>
-                  </ng-container>
-
-
-
-                  <ng-template #INHALT>
-                    <div *ngFor="let u of cell" class="{{markedd(u[1])}}">
-                      {{u.fach}} {{u.lehrer}}
-                    </div>
-                  </ng-template>
-
-                </button>
-                <ng-template #FachAuswahl>
-                  <ng-container *ngIf="klassenplanServ.esrPlaan$|async as esrPlann">
-                    <button *ngFor="let ele of esrPlann[gewaehlterPlan][zahlInWort(r+8)]"
-                      (click)="toggleClick(ele, abschnitt[0][c][0])">
-                      {{ele.lehrer[0]?.kuerzel}}({{ele?.fach}})
-                      {{ele[gewaehlterPlan]}}|{{ele.zuweisung[gewaehlterPlan].length}}
-                    </button>
-                  </ng-container>
-                </ng-template>
-
-              </td>
-            </ng-template>
-          </tr>
-        </table>
-      </ng-container>
-    </ng-container>
-  </ng-container>
-
-  <ng-container *ngIf="gewaehlterPlan=='schiene'">
-    <ng-container *ngIf="schienePlan$|async as schiePlan">
-      <ng-container *ngFor="let abschnitt of schiePlan">
-        <table class="absch">
-          <tr *ngFor="let reihe of abschnitt, index as r">
-            <ng-container *ngIf="r==0; else KLASSE">
-              <th *ngFor="let cell of reihe, index as c" (click)="clickN($event,r+8,  abschnitt[0][c][0])">
-                <div *ngFor="let u of cell">
-                  {{u.getDate()}}.{{u.getMonth()}}
-                </div>
-              </th>
-            </ng-container>
-            <ng-template #KLASSE>
-              <td *ngFor="let cell of reihe, index as c">
-                <button triggers="click" [ngbTooltip]="FachAuswahl" placement="bottom" [autoClose]="true"
-                  (click)="clickN($event,r+8,  abschnitt[0][c][0])">
-
-
-                  <ng-container *ngIf="getGanztagsEvent(abschnitt[0][c][0], r+8)!==''; else INHALT">
-                    <div class="projekt">
-                      {{getGanztagsEvent(abschnitt[0][c][0], r+8)}}
-                    </div>
-                  </ng-container>
-
-
-
-                
-                  <ng-template #INHALT>
-                    <div *ngFor="let u of cell" class="{{markedd(u[1])}}">
-                      {{u.fach}} {{u.lehrer}}
-                    </div>
-                  </ng-template>
-
-                </button>
-                <ng-template #FachAuswahl>
-                  <ng-container *ngIf="klassenplanServ.esrPlaan$|async as esrPlann">
-                    <button *ngFor="let ele of esrPlann[gewaehlterPlan][zahlInWort(r+8)]"
-                      (click)="toggleClick(ele, abschnitt[0][c][0])">
-                      {{ele.lehrer[0]?.kuerzel}}({{ele?.fach}})
-                      {{ele[gewaehlterPlan]}}|{{ele.zuweisung[gewaehlterPlan].length}}
-                    </button>
-                  </ng-container>
-                </ng-template>
-
-              </td>
-            </ng-template>
-          </tr>
-        </table>
-      </ng-container>
-    </ng-container>
-  </ng-container>
-  -->
-
-
-
-
-
-
-
-<!--alter Plan mit einzelnen Kacheln
 
   <div class="planRahmen noprint">
     <ng-container *ngFor="let montagtag of esrPlan; index as d">
