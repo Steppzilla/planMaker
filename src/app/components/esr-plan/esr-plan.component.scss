@@ -26,7 +26,8 @@ $schieneBackground: rgb(176, 219, 130);
 }
 
 
-.planRahmen,#gesamt {
+.planRahmen,
+#gesamt {
   color: $color;
 
 }
@@ -85,8 +86,8 @@ $schieneBackground: rgb(176, 219, 130);
 
 .projekt {
   color: $color;
+  font-style: italic;
 }
-
 
 
 td {
@@ -103,6 +104,7 @@ table {
   margin-top: 10pt;
   margin-left: auto;
   margin-right: auto;
+
   button {
     padding: 2pt;
     border: none;
@@ -121,213 +123,38 @@ table {
 .esrWahl button {
   padding: 2pt;
   width: 100%;
-  border:none;
+  border: none;
 
 }
 
 .blueback {
   color: rgb(147, 147, 184);
   font-weight: bold;
-  background-color:blue;
+  background-color: blue;
 }
-
-
 
 
 @media print {
   * {
     font-size: 10pt;
-    padding:0pt;
-  }
-
-  h2,h1 {
-    display:inline-block;
-    margin-top: 0pt;
-   
-    margin-bottom: 0pt;
     padding: 0pt;
-    text-align:center;
   }
-  h1{margin-bottom:10pt;}
-
-  .epo2,
-  .sch2,
-  .rhy2 {
-
-    tr:nth-child(1) {
-      td {
-        background-color: lightgrey;
-        color: black;
-      }
-    }
-
-    color: black;
-  }
-
-
+ 
   .kuerzel {
     color: blue;
   }
 
-.ueberschriftContainer{
-width:100%;
-display:block;
-text-align:center;
-}
-
-.rhyB{
-  background-color:green;
-}
-
-  .epoB,
-  .schB,
-  .rhyB {
-  //  background-color: green;
-    color: black;
-    width:auto;
-    margin-left:auto;
-    margin-right:auto;
-  }
-
-  .epoB{
-    border-bottom: 1pt yellow solid;
-  }
-  .schB{
-    border-bottom: 1pt green solid;
-  }
-  .rhyB {
-    border-bottom: 1pt red solid;
-  }
-
-
-
-
-  .projekt {
-    color: black;
-    font-style: italic;
-  }
-
-  .ganztag {
-    color: black;
-  }
-
-  #gesamt {
-
-    color: black;
-    background-color: white;
-  }
-
-  #main {
+  .container {
     width: 100%;
-    background-color: blue;
     display: flex;
+    flex-wrap: wrap;
 
   }
 
-  .flex3>div:nth-child(1) {
-    width: 50%;
-    background-color: green;
-  }
+ 
 
 
 
-  table {
-    border: 1pt black solid;
-    margin-top: 5pt;
-    margin-left: 5pt;
-    margin-right: auto;
-  }
 
-
-
-  .EM,
-  .Abi {
-    background-color: rgb(226, 180, 94);
-    color: black;
-
-  }
-
-  .Herbstferien,
-  .Weihnachtsferien,
-  .Osterferien,
-  .Sommerferien,
-  .WE,
-  .Pfingstmontag,
-  .Pfingstferien,
-  .Himmelfahrt,
-  .Arbeit,
-  .Ostermontag,
-  .Karfreitag,
-  .Neujahr,
-  .Weihnachtstag,
-  .Reformationstag,
-  .Einheit {
-    background-color: rgba(63, 94, 119, 0.8);
-    color: black;
-  }
-
-  .error {
-    color: rgb(219, 105, 105);
-  }
-
-  .ok {
-    color: black;
-  }
-
-  .blueback {
-    color: black;
-    font-weight: bold;
-    font-size: 14pt;
-  }
-
-  .Datum {
-    border-top: 1pt solid black;
-  }
-
-  .tagesButtonContainer button {
-    margin: 0pt;
-    border-radius: 0pt;
-    background-color: white;
-    border-bottom: 1px black solid;
-    border-right: 1px black solid;
-
-  }
-
-  .tagesButtonContainer button:first-child {
-    border-top: 1px black solid;
-  }
-
-  .wochenRahmen:nth-child(1) button {
-    border-left: 1px black solid;
-  }
-
-  .tagesContainer {
-    width: 10pt;
-  }
-
-  .Monat {
-    width: 10pt;
-  }
-
-  .tagesButtonContainer.Mo {
-    width: 50pt;
-  }
-
-  .tagesButtonContainer.Di,
-  .tagesButtonContainer.Mi,
-  .tagesButtonContainer.Do,
-  .tagesButtonContainer.Fr {
-    width: 50pt;
-  }
-
-  .ferienNotiz,
-  .sonderNotiz {
-
-    font-size: 9pt;
-    line-height: 11pt;
-    padding-top: 3pt;
-    border-radius: 4pt;
-
-  }
 
 }
