@@ -61,8 +61,8 @@
   <div id="Lehrerselect" class="buttonreihe noprint">
     <div>
       <!-- -->
-      <ng-container *ngFor="let lehrer of this.lehrer.lehrer; index as i">
-        <button *ngIf="i>0" (click)="lehrerwahl(i)" triggers="hover"  [ngbTooltip]="Kuerzel" placement="top">
+      <ng-container *ngFor="let lehrer of this.lehrerListe; index as i">
+        <button (click)="lehrerwahl(i)" triggers="hover"  [ngbTooltip]="Kuerzel" placement="top">
    <!--   <button triggers="click" [autoClose]="true" class="{{hintergrundd(cell)}}" [ngbTooltip]="Lehrer2"
               placement="bottom" (click)="cellKlick($event,std,r+1)">-->
           {{lehrer.kuerzel}}
@@ -72,7 +72,6 @@
           </div>
          </ng-template>
         </button>
-        
       </ng-container>
     </div>
   </div>

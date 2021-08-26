@@ -14,10 +14,8 @@ import {
   providedIn: 'root'
 })
 export class LehrerService {
-
   //wochenTagSelect=new BehaviorSubject(null);
   wochenTagSelect="Montag";
-
   lehrerSelected = new BehaviorSubject(null);
   lehrerSelected$ = this.lehrerSelected.asObservable();
 
@@ -42,10 +40,6 @@ export class LehrerService {
     });
     return listeLehrerNachFach;
   }
-
-
-
-
   lehrer: Lehrer[] = [{
       name: null,
       kuerzel: null,
@@ -53,7 +47,6 @@ export class LehrerService {
       faecher: [Fach.null]
     },
     // faecherKlassen: Array<[Fach,Lehrjahr[]]>; //Kompentenzn, können mehr sein als zugewiesen
-    
     {
       name: 'Stuchlik',
       kuerzel: 'Stk',
@@ -83,16 +76,13 @@ export class LehrerService {
       anrede: "Frau",
       faecher: [Fach.hauptunterricht,Fach.wochenabschluss, Fach.religion, Fach.uebstunde, Fach.spielturnen, Fach.griechisch, Fach.latein],
     },
-
     {
       name: 'Schmidt',
       kuerzel: 'Sm',
       anrede: "Frau",
       faecher: [Fach.hauptunterricht, Fach.uebstunde, Fach.geographie],
       aufgaben: ["Schulfuehrung", "Stundenplan-Vertretung"],
-
     },
-
     {
       name: 'Kießig',
       kuerzel: 'Ki',
@@ -100,25 +90,19 @@ export class LehrerService {
       faecher: [Fach.hauptunterricht, Fach.englisch, Fach.uebstunde, Fach.handarbeit],
       aufgaben: ["Schulführung"],
     },
-
     {
       name: 'Güldenpenning',
       kuerzel: 'Gü',
       anrede: "Frau",
       faecher: [Fach.hauptunterricht, Fach.handarbeit, Fach.religion, Fach.uebstunde],
     },
-
     {
       name: 'Hertinger',
       kuerzel: 'He',
       anrede: "Frau",
       faecher: [Fach.hauptunterricht, Fach.religion, Fach.ethik, Fach.uebstunde],
     },
-  
-
-
-
-    {
+      {
       name: 'Bayas',
       kuerzel: 'By',
       anrede: "Herr",
@@ -161,8 +145,6 @@ export class LehrerService {
     },
     // { id: 6, name: 'Fucke', kuerzel: 'Fu'  , anrede: "Frau" , faecher: [Fach.]},
   
-
- 
     {
       name: 'Haarmeier',
       kuerzel: 'Hm',
@@ -228,20 +210,13 @@ export class LehrerService {
       anrede: "Herr",
       faecher: [Fach.werken, Fach.hgw,Fach.klassenbetreuer],
     },
-    {
-      name: 'Santa',
-      kuerzel: 'San',
-      anrede: "Frau",
-      faecher: [Fach.musik, Fach.franzoesisch, Fach.chor, Fach.orchester, Fach.mittelstufenorchester,Fach.musikgeschichte],
-
-    },
+    
     {
       name: 'Scheunemann',
       kuerzel: 'Sc',
       anrede: "Herr",
       faecher: [Fach.musik, Fach.wirtschaftspolitik, Fach.chor, Fach.orchester, Fach.mittelstufenorchester,Fach.musikgeschichte],
       aufgaben: ["Stundenplan"],
-
     },
     
     {

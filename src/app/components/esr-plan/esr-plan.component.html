@@ -1,7 +1,6 @@
 <div id="gesamt" class="">
   <h1>ESR-Plan</h1>
 
-
   <div class="esrWahl noprint">
     <button class="noprint rhyB" (click)="wahl('rhythmus')">Rhythmus</button>
     <button class="noprint epoB" (click)="wahl('epoche')">Epoche</button>
@@ -10,16 +9,12 @@
 
   <div class="flex3 ">
 
-    
     <div id="main" class="">
-     
       <ng-container *ngIf="gewaehlterPlan=='rhythmus'||printAktiv==true">
         <h2 class=" rhyB">
           Rhythmus 2021/2022
         </h2>
         <div class="container" *ngIf="rhythmusPlan$|async as rhyPlan">
-
-
           <ng-container *ngFor="let abschnitt of rhyPlan">
             <table class="absch rhy2 ">
               <tr *ngFor="let reihe of abschnitt, index as r">
@@ -45,26 +40,16 @@
                   (cell.length===0)
                   ||
                   c==0
-                
                 ">
-                      <!-- bei lehrer== null ist ganztagsabfrage. Dazu  muss kommen, wenn länge definiert wird:
-                &&abschnitt[r][c][0].lehrer!==abschnitt[r][c-1][0].lehrer-->
-
-                      <!--  IF: c==0||(equals(abschnitt[r][c],abschnitt[r][c-1])===false)-->
-
                       <td colSpan="{{abschnitt[r][c][0]?abschnitt[r][c][0].spanNr:1}}">
                         <button triggers="click" [ngbTooltip]="FachAuswahl" placement="bottom" [autoClose]="true"
                           (click)="clickN($event,r+8,  abschnitt[0][c][0].ueberschrift)">
-
                           <!-- sonder-Event (ganztaegig?)-->
-
                           <ng-container *ngIf="cell[0]&&cell[0].ganztaegig.length>0; else INHALT">
                             <div class="projekt">
-
                               {{cell[0].ganztaegig}}
                             </div>
                           </ng-container>
-
                           <!-- nur anzeigen, wenn kein Sonder-Event ist: -->
                           <ng-template #INHALT>
                             <div *ngFor="let u of cell" class="{{markedd(u.lehrer)}}">
@@ -155,13 +140,6 @@
           -->
         </div>
       </ng-container>
-
-
-
-
-
-
-
 
 
       <ng-container *ngIf="gewaehlterPlan=='epoche'||printAktiv==true">
@@ -285,8 +263,8 @@
       </ng-container>
     </div>
     <div id="left" class="noprint">
-      <button class="iconBut" (click)="rechts()"><img width="60pt "
-        src="../../../assets/iconsNav/pfeilSchwR.png" style="transform: rotate(180deg);"></button>
+      <button class="iconBut" (click)="rechts()"><img width="60pt " src="../../../assets/iconsNav/pfeilSchwR.png"
+          style="transform: rotate(180deg);"></button>
     </div>
     <div id="right" class="noprint">
       <button class="iconBut" (click)="links()"><img width="60pt"

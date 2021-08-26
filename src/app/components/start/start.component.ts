@@ -47,6 +47,7 @@ toggleColor(){
     this.login.gesamtPlanLaden(5);
     this.speicherPlatzNr=5;
     this.lehrerListe=lehrer.lehrer.sort((a,b)=> a.kuerzel.localeCompare(b.kuerzel));
+    console.log(this.lehrerListe);
    }
 
   ngOnInit(): void {

@@ -15,70 +15,6 @@ import {
 export class FerientermineService {
   datumHeute: Date = new Date(); //achtung hat aktuelle Zeit
 
-  
-
-  //Manuell gesetzt. 
-  sommerFerienEnde: Date = new Date(2021, 6, 30); //Jahr/Monat- 1/tag des Monats
-
-  herbstferienStart: Date = new Date(2021, 9, 4); //-1 für letzten Schultag davor. Wenn sa, so,feiertag weiter -1
-  herbstferienEnde: Date = new Date(2021, 9, 16); // + 1 für ersten Schultag danach, wenn sa oder so oder feiertag weiter +1
-
-  weihnachtsferienStart: Date = new Date(2021, 11, 23);
-  weihnachtsferienEnde: Date = new Date(2022, 0, 8);
-
-  osterferienStart: Date = new Date(2022, 3, 4);
-  osterferienEnde: Date = new Date(2022, 3, 16);
-
-  sommerferienStart: Date = new Date(2022, 6, 4); //ab 4.7. 2022 sind Ferien
-
-  //Pfingstferien gehören zu den Feiertagen bei mir:!
-  pfingstferienStart: Date = new Date(2022, 4, 27);
-  pfingstferienEnde: Date = new Date(2022, 4, 28);
-
-  feiertag_TagDerDeutschenEinheit: Date = new Date(2021, 9, 3);
-  feiertag_Reformationstag: Date = new Date(2021, 9, 31);
-  feiertag_weihnachtsTag1: Date = new Date(2021, 11, 25);
-  feiertag_weihnachtsTag2: Date = new Date(2021, 11, 26);
-  //2022:
-  feiertag_Neujahr: Date = new Date(2022, 0, 1);
-  feiertag_karFreitag: Date = new Date(2022, 3, 15);
-  feiertag_ostermontag: Date = new Date(2022, 3, 18);
-  feiertag_tagDerArbeit: Date = new Date(2022, 4, 1);
-  feiertag_christiHimmelfahrt: Date = new Date(2022, 4, 26);
-  feiertag_pfingstMontag: Date = new Date(2022, 5, 6);
-
-  //Prüfungstermine Abitur (rot?)
-  abiSchriftl_Deutsch: Date = new Date(2022, 3, 27);
-  abiSchriftl_Mathematik: Date = new Date(2022, 4, 3);
-  abiSchriftl_Englisch: Date = new Date(2022, 3, 29);
-  abiSchriftl_Geo: Date = new Date(2022, 2, 30);
-
-  abiEnglischSprechpruefung: Date = new Date(2022, 2, 23);
-
-  abiMuendlichWoche: Date = new Date(2022, 5, 20); //ganzwoechig
-  //Prüfungen ESA /MSA: 
-  EM_EnglischDeutsch: Date = new Date(2022, 3, 28);
-  EM_DeutschMathematik: Date = new Date(2022, 4, 2);
-  EM_MathematikEnglisch: Date = new Date(2022, 4, 6);
-  EM_muendlich: Date = new Date(2022, 5, 13);
-
-  //Klassenfahrten, ganztagsProjekte (gelb)?:
-  landbauStart: Date = new Date(2022, 3, 19); //Kl 9
-  landbauEnde: Date = new Date(2022, 4, 13);
-  kunstFahrtStart: Date = new Date(2022, 4, 9); //Kl 12
-  kunstFahrtEnde: Date = new Date(2022, 4, 20);
-
-  feldMessenStart: Date = new Date(2021, 7, 16); //Kl 10
-  feldMessenEnde: Date = new Date(2021, 7, 20);
-  sozialPraktikumStart: Date = new Date(2021, 9, 18); //kl 11
-  sozialPraktikumEnde: Date = new Date(2021, 10, 5);
-  klassenSpielStart: Date = new Date(2021, 7, 30); //Kl 12
-  klassenSpielEnde: Date = new Date(2021, 9, 1);
-  eurhythmieAbschlussStart: Date = new Date(2022, 5, 7); //Kl 12
-  eurhythmieAbschlussEnde: Date = new Date(2022, 5, 17);
-  projektWocheStart: Date = new Date(2022, 1, 28); //Klasse 9,10,11,12
-  projektWocheEnde: Date = new Date(2022, 2, 4);
-
   fahrtenUndProjekteObj = {
     neun: [{
         titel: "Landbau",
@@ -139,8 +75,7 @@ export class FerientermineService {
   }
 
   feierTage_Pruefungen_Ferien_Array=[
-  
-      {
+    {
       titel: "Esa/Msa Englisch/Deutsch",
       start: new Date(2022, 3, 28),
       ende: new Date(2022, 3, 28),
@@ -277,121 +212,13 @@ export class FerientermineService {
     ]
 
 
-  get pruefungsTage() {
-    return [
-      //Abi
-      {
-        tag: this.abiSchriftl_Deutsch,
-        notiz: "Abi schr. Deu"
-      },
-      {
-        tag: this.abiSchriftl_Mathematik,
-        notiz: "Abi schr. Ma"
-      },
-      {
-        tag: this.abiSchriftl_Englisch,
-        notiz: "Abi schr. Eng"
-      },
-      {
-        tag: this.abiSchriftl_Geo,
-        notiz: "Abi schr. Geo"
-      },
-
-      {
-        tag: this.abiEnglischSprechpruefung,
-        notiz: "Abi Sprechpr. Eng"
-      },
-      {
-        tag: this.abiMuendlichWoche,
-        notiz: "Abi mündlich"
-      },
-
-      //ESA MSA
-      {
-        tag: this.EM_EnglischDeutsch,
-        notiz: "EM Eng/Deu"
-      },
-      {
-        tag: this.EM_DeutschMathematik,
-        notiz: "EM Deu/Ma"
-      },
-      {
-        tag: this.EM_MathematikEnglisch,
-        notiz: "EM Ma/Eng"
-      },
-
-      //pfingstferien
-      {
-        tag: this.EM_muendlich,
-        notiz: "EM mündlich"
-      },
-      //Sommerferien
-    ]
-  };
-
-  get feiertage() {
-    return [{
-        tag: this.feiertag_TagDerDeutschenEinheit,
-        notiz: "Tag der deutschen Einheit"
-      },
-      //herbstferien
-      {
-        tag: this.feiertag_Reformationstag,
-        notiz: "Reformationstag"
-      },
-      {
-        tag: this.feiertag_weihnachtsTag1,
-        notiz: "1. Weihnachtstag"
-      },
-      {
-        tag: this.feiertag_weihnachtsTag2,
-        notiz: "2. Weihnachtstag"
-      },
-      //weihnachten
-      //2022:
-      {
-        tag: this.feiertag_Neujahr,
-        notiz: "Neujahr"
-      },
-      {
-        tag: this.feiertag_karFreitag,
-        notiz: "Karfreitag"
-      },
-      //osterferien
-      {
-        tag: this.feiertag_ostermontag,
-        notiz: "Ostermontag"
-      },
-      {
-        tag: this.feiertag_tagDerArbeit,
-        notiz: "Tag der Arbeit"
-      },
-      {
-        tag: this.feiertag_christiHimmelfahrt,
-        notiz: "Himmelfahrt"
-      },
-      //pfingstferien
-      {
-        tag: this.pfingstferienStart,
-        notiz: "Pfingstferien"
-      },
-      {
-        tag: this.pfingstferienEnde,
-        notiz: "Pfingstferien"
-      },
-      {
-        tag: this.feiertag_pfingstMontag,
-        notiz: "Pfingstmontag"
-      },
-      //Sommerferien
-    ]
-  };
+ 
 
   // WochenArrays von Sommer bis Herbst /Herbst-Weihnachten/Weihnachten-Ostern/ostern-sommer:
 
   daysBetweenArray = eachDayOfInterval({
-    start: this.sommerFerienEnde,
-    end: this.sommerferienStart
+    start: this.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Sommerferien").ende,
+    end: this.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Sommerferien").start
   }, {});
 
   daysBetween() {
@@ -419,19 +246,25 @@ export class FerientermineService {
         elf: null,
         zwoelf: null
       };
-      if ((day.getTime() >= this.herbstferienStart.getTime()) && (day.getTime() <= this.herbstferienEnde.getTime())) {
+      if (
+        (day.getTime() >= this.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Herbstferien").start.getTime()) && 
+      (day.getTime() <= this.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Herbstferien").ende.getTime())
+      ) {
+        
         ferien = true;
         notiz = "Herbstferien";
-      } else if ((day.getTime() >= this.weihnachtsferienStart.getTime()) && (day.getTime() <= this.weihnachtsferienEnde.getTime())) {
+      } else if ((day.getTime() >= this.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Weihnachtsferien").start.getTime()) && (day.getTime() 
+      <= this.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel="Weihnachtsferien").ende.getTime())) {
         ferien = true;
         notiz = "Weihnachtsferien";
-      } else if ((day.getTime() >= this.osterferienStart.getTime()) && (day.getTime() <= this.osterferienEnde.getTime())) {
+      } else if ((day.getTime() >= this.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Osterferien").start.getTime()) && (day.getTime() 
+      <= this.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel="Osterferien").ende.getTime())) {
         ferien = true;
         notiz = "Osterferien";
-      } else if (day.getTime() == this.sommerFerienEnde.getTime()) {
+      } else if (day.getTime() == this.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Sommerferien").ende.getTime()) {
         ferien = true;
         notiz = "Sommerferien";
-      } else if (day.getTime() == this.sommerferienStart.getTime()) {
+      } else if (day.getTime() == this.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Sommerferien").start.getTime()) {
         ferien = true;
         notiz = "Sommerferien";
       } else if ((day.getDay() == 0) || (day.getDay() == 6)) { //SAMSTAG, SONNTAG
@@ -441,48 +274,52 @@ export class FerientermineService {
       {
         ferien = false;
         notiz = "schule";
-        this.feiertage.forEach(tag => { //das hier in else-klammer, wenn man in ferien die feiertage nicht reinschreiben/überschreiben will
-          if (isSameDay(tag.tag, day)) {
+        this.feierTage_Pruefungen_Ferien_Array.forEach(obj => { //das hier in else-klammer, wenn man in ferien die feiertage nicht reinschreiben/überschreiben will
+          if (isSameDay(obj.start, day)) {
             ferien = true;
-            notiz = tag.notiz;
-          } else { //
-          }
-        });
-        this.pruefungsTage.forEach(tag => { //prüfungstage
-          if (isSameDay(tag.tag, day)) {
-            ferien = false;
-            notiz = tag.notiz;
+            notiz = obj.titel +obj.notiz;  //Feiertag oder ähnliches
           } else { //
           }
         });
       }
       //Fahrten
-      if ((day.getTime() >= this.landbauStart.getTime()) && (day.getTime() <= this.landbauEnde.getTime())) {
+      if ((day.getTime() >=  this.fahrtenUndProjekteObj.neun.find(element=>element.titel==="Landbau").start.getTime())&&
+      
+       (day.getTime() <=  this.fahrtenUndProjekteObj.neun.find(element=>element.titel==="Landbau").ende.getTime())) {
         ganztagsProjekt.push(["Landbau", Lehrjahr.neun]); //9. Klasse
         ganztag.neun = "Landbau";
       }
-      if ((day.getTime() >= this.kunstFahrtStart.getTime()) && (day.getTime() <= this.kunstFahrtEnde.getTime())) {
+      if ((day.getTime() >=  this.fahrtenUndProjekteObj.zwoelf.find(element=>element.titel==="Kunstfahrt").start.getTime()) && (day.getTime() 
+      <=  this.fahrtenUndProjekteObj.zwoelf.find(element=>element.titel==="Kunstfahrt").ende.getTime())) {
         ganztagsProjekt.push(["Kunstfahrt", Lehrjahr.zwoelf]); //12. kLasse
         ganztag.zwoelf = "Kunstfahrt";
 
       }
-      if ((day.getTime() >= this.feldMessenStart.getTime()) && (day.getTime() <= this.feldMessenEnde.getTime())) {
+      if ((day.getTime() >=  this.fahrtenUndProjekteObj.zehn.find(element=>element.titel==="Feldmessen").start.getTime()) && (day.getTime() 
+      <=  this.fahrtenUndProjekteObj.zehn.find(element=>element.titel==="Feldmessen").ende.getTime())) {
         ganztagsProjekt.push(["Feldmessen", Lehrjahr.zehn]); //10. Klasse
         ganztag.zehn = "Feldmessen";
       }
-      if ((day.getTime() >= this.sozialPraktikumStart.getTime()) && (day.getTime() <= this.sozialPraktikumEnde.getTime())) {
+      if ((day.getTime() >= 
+      this.fahrtenUndProjekteObj.elf.find(element=>element.titel==="Sozialpraktikum").start.getTime()) && (day.getTime() <= 
+      this.fahrtenUndProjekteObj.elf.find(element=>element.titel==="Sozialpraktikum").ende.getTime())) {
         ganztagsProjekt.push(["Sozialpraktikum", Lehrjahr.elf]); // 11. Klasse
         ganztag.elf = "Sozialpraktikum";
       }
-      if ((day.getTime() >= this.klassenSpielStart.getTime()) && (day.getTime() <= this.klassenSpielEnde.getTime())) {
+      if ((day.getTime() >= 
+      this.fahrtenUndProjekteObj.zwoelf.find(element=>element.titel==="Klassenspiel").start.getTime()) && (day.getTime() 
+      <= this.fahrtenUndProjekteObj.zwoelf.find(element=>element.titel==="Klassenspiel").ende.getTime())) {
         ganztagsProjekt.push(["Klassenspiel", Lehrjahr.zwoelf]); // 12. Klasse
         ganztag.zwoelf = "Klassenspiel";
       }
-      if ((day.getTime() >= this.eurhythmieAbschlussStart.getTime()) && (day.getTime() <= this.eurhythmieAbschlussEnde.getTime())) {
+      if ((day.getTime() >= 
+      this.fahrtenUndProjekteObj.zwoelf.find(element=>element.titel==="Eurythmieabschluss").start.getTime()) && (day.getTime() <= 
+      this.fahrtenUndProjekteObj.zwoelf.find(element=>element.titel==="Eurythmieabschluss").ende.getTime())) {
         ganztagsProjekt.push(["Eurythmieabschluss", Lehrjahr.zwoelf]); // 12. Klasse
         ganztag.zwoelf = "Eurythmieabschluss";
       }
-      if ((day.getTime() >= this.projektWocheStart.getTime()) && (day.getTime() <= this.projektWocheEnde.getTime())) {
+      if ((day.getTime() >=  this.fahrtenUndProjekteObj.neun.find(element=>element.titel==="ProjektWoche").start.getTime()) && (day.getTime() <= 
+      this.fahrtenUndProjekteObj.neun.find(element=>element.titel==="ProjektWoche").ende.getTime())) {
         ganztagsProjekt.push(["Projektwoche", Lehrjahr.zwoelf]); // 12. Klasse
         ganztagsProjekt.push(["Projektwoche", Lehrjahr.elf]); // 11. Klasse
         ganztagsProjekt.push(["Projektwoche", Lehrjahr.zehn]); // 10. Klasse

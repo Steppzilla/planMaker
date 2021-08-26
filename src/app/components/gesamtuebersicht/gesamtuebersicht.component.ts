@@ -465,8 +465,6 @@ export class GesamtuebersichtComponent implements OnInit {
     return duplicates > 0 ? "error" : "ok";
   }
 
-
-
   constructor(public lehrerService: LehrerService, public login: LoginService, public klassenplanServ: KlassenplaeneService) {
     this.wochenTagauswahl = 'Montag';
     this.kuerzeleinblenden = false;

@@ -218,11 +218,25 @@ export class EinzelplaeneComponent implements OnInit {
       z => {
         let fahrtenUndProjekte = this.ferienServ.fahrtenUndProjekteObj;
 
-        let abschnitt1 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >= this.ferienServ.sommerFerienEnde && ele.tag < this.ferienServ.herbstferienStart); //erster Abschnitt
-        let abschnitt2 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >= this.ferienServ.herbstferienEnde && ele.tag < this.ferienServ.weihnachtsferienStart); //zweiter
-        let abschnitt3 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >= this.ferienServ.weihnachtsferienEnde && ele.tag < this.ferienServ.osterferienStart); //dritter
-        let abschnitt4 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >= this.ferienServ.osterferienEnde && ele.tag < this.ferienServ.sommerferienStart); //viere
-
+        let abschnitt1 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >= 
+          this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Sommerferien").ende
+          && ele.tag < 
+          this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Herbstferien").start); //erster Abschnitt
+        let abschnitt2 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >= 
+          this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Herbstferien").ende
+          && ele.tag < 
+          this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Weihnachtsferien").start
+          ); //zweiter
+        let abschnitt3 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >= 
+          this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Weihnachtsferien").ende 
+          && ele.tag < 
+          this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Osterferien").start
+          ); //dritter
+        let abschnitt4 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >= 
+          this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Osterferien").ende
+          && ele.tag < 
+          this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Sommerferien").start
+          ); //vierer
 
         let ar = [];
 
@@ -461,7 +475,6 @@ export class EinzelplaeneComponent implements OnInit {
                                   if (tag.tag.getTime() >= epoche.start.getTime() && tag.tag.getTime() <= fahrtOBj.start.getTime()) {
                                     //Start bleibt wie definiert
                                     ende.setTime(fahrtOBj.start.getTime()); //Achtung hier nimmt er auch Datum vom anderen Praktikum der Klasse...
-
                                     while (ende.getDay() !== 5) { //solange nicht Freitag ist
                                       ende.setDate(ende.getDate() - 1);
                                     }
@@ -570,11 +583,25 @@ export class EinzelplaeneComponent implements OnInit {
 
       // let obj:{}|{fach:Fach,lehrer:Lehrer}|{ueberschrift:string}
 
-      let abschnitt1 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >= this.ferienServ.sommerFerienEnde && ele.tag < this.ferienServ.herbstferienStart); //erster Abschnitt
-      let abschnitt2 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >= this.ferienServ.herbstferienEnde && ele.tag < this.ferienServ.weihnachtsferienStart); //zweiter
-      let abschnitt3 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >= this.ferienServ.weihnachtsferienEnde && ele.tag < this.ferienServ.osterferienStart); //dritter
-      let abschnitt4 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >= this.ferienServ.osterferienEnde && ele.tag < this.ferienServ.sommerferienStart); //viere
-
+      let abschnitt1 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >= 
+        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Sommerferien").ende
+        && ele.tag < 
+        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Herbstferien").start); //erster Abschnitt
+      let abschnitt2 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >= 
+        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Herbstferien").ende
+        && ele.tag < 
+        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Weihnachtsferien").start
+        ); //zweiter
+      let abschnitt3 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >= 
+        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Weihnachtsferien").ende 
+        && ele.tag < 
+        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Osterferien").start
+        ); //dritter
+      let abschnitt4 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >= 
+        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Osterferien").ende
+        && ele.tag < 
+        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Sommerferien").start
+        ); //vierer
       let neu: Array < Array < Array < Array < {
         fach ? : Fach,
         klasse ? : Lehrjahr,
