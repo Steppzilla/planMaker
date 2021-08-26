@@ -239,7 +239,7 @@
       <ng-container *ngFor="let abschnitt of rhyPlan">
         <table class="absch rhy2">
           <ng-container *ngFor="let reihe of abschnitt, index as r">
-            <tr *ngIf="zeileMitInhalt(reihe)">
+            <tr *ngIf="zeileMitInhalt(reihe)&&r!==4">
               <ng-container *ngIf="r==0; else KLASSE">
                 <td class="" colSpan="1" *ngFor="let cell of reihe, index as c"
                   (click)="clickN($event,r+8,  abschnitt[0][c][0].ueberschrift)">
@@ -248,15 +248,8 @@
                   </div>
                 </td>
               </ng-container>
-
               <ng-template #KLASSE>
                 <ng-container *ngFor="let cell of reihe, index as c">
-                  <!-- 
-                  1. Bedingung: Wenn eine neue Epoche//Klassenspiel anfängt (Startdatum übereinstimmt mit überschrift)
-                2. wenn Celle leer ist natürlich anzeigen!
-                3. erstes Element anzeigen (Da e bie Startwechsel auf Anfang das Datum falsch gesetzt wird auf Samstag oÄ)
-                4. Elemente, deren Startdatum etwas daneben liegt auch anzeigen...
-                -->
                   <ng-container *ngIf="
                   (cell&&cell[0]&&cell[0].start!==null&&abschnitt[0][c][0].ueberschrift.getTime()===cell[0].start.getTime())
                   ||
