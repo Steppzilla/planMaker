@@ -1,34 +1,31 @@
-$color-text: rgb(182, 205, 221);
-$color-background:rgb(32, 56, 73);
+$color-text: black;
+$color-background:white;
 //$hover:rgb(98, 107, 146);
 
 
-$schriftfarbe:rgb(221, 200, 200);
-$hintergrund:rgb(77, 74, 78);
+$schriftfarbe:black;
+$hintergrund:white;
 //$linienDark:rgb(63, 63, 63);
 $hover:rgb(98, 107, 146);
-$hintergrund2:rgb(81, 78, 83);
+$hintergrund2:grey;
 
 //aus zuweisung kopiert, noch nicht benutzt:
-$background:rgb(57, 61, 58);
-$background2:rgb(52, 57, 52);
-$color:rgb(153, 153, 134);
-$back-light:rgb(68, 68, 68);
+$background:white;
+$background2:white;
+$color:black;
+$back-light:grey;
 
 
-$color-background:rgb(59, 61, 56);
-$darkdarkText:rgb(95, 95, 78);
-$darkText:rgb(119, 119, 107);
+$color-background:white;
+$darkdarkText:black;
+$darkText:black;
 
 
 
 #StundenPlan {
   background-color: $color-background;
   color: $color-text;
-  background-image: repeating-linear-gradient(45deg,
-      $background 0%,
-      $background2 1%,
-      $background 2%);
+
   color: $schriftfarbe;
 
 }
@@ -47,10 +44,6 @@ th {
   //table-box drum.
   min-width: 50%;
 
-  background-image: repeating-linear-gradient(45deg,
-      $background 0%,
-      $background2 1%,
-      $background 2%);
 
   color: $schriftfarbe;
 
@@ -101,11 +94,7 @@ table {
 
 .fach,
 .normalB {
-  background-image:
-    repeating-linear-gradient(45grad,
-      rgb(75, 75, 75) 0%,
-      rgb(65, 65, 65) 4%,
-      rgb(75, 75, 75) 12%);
+
 
   color: rgb(143, 162, 195);
 
@@ -128,12 +117,7 @@ table {
   background-color: rgb(153, 145, 59);
   color: rgb(223, 240, 128);
 
-  background-image:
-    repeating-linear-gradient(45grad,
-      rgb(153, 145, 59) 0%,
-      rgb(143, 135, 49) 4%,
-      rgb(135, 130, 49) 8%,
-      rgb(153, 145, 59) 12%);
+
 }
 
 .Schiene,
@@ -141,11 +125,7 @@ table {
   border: 1px solid rgb(117, 150, 82);
 
   color: rgb(171, 240, 171);
-  background-image:
-    repeating-linear-gradient(45grad,
-      rgb(117, 150, 82) 0%,
-      rgb(100, 120, 75) 8%,
-      rgb(117, 150, 82) 12%);
+
 }
 
 .StartUp,
@@ -154,12 +134,7 @@ table {
 
   color: rgb(216, 175, 165);
 
-  background-image:
-    repeating-linear-gradient(45grad,
-      rgb(147, 74, 65) 0%,
-      rgb(127, 53, 58) 4%,
-      rgb(130, 50, 58) 8%,
-      rgb(147, 74, 65) 12%);
+
 
 
 
@@ -169,12 +144,7 @@ table {
 .leer {
   border: 1px solid $hintergrund;
   min-height: 20pt;
-  background-image:
-    repeating-linear-gradient(45grad,
-      $background 0%,
-      $background2 1%,
-      $back-light 2%,
-      $background 3%);
+
   opacity: 0.6;
   //background-color:$hintergrund2;
 }

@@ -2,19 +2,14 @@
   padding: 0pt;
   margin: 0pt;
 }
+
 $schriftfarbe:rgb(0, 0, 0);
-
 $hover:rgb(98, 107, 146);
-
 
 //aus zuweisung kopiert, noch nicht benutzt:
 $background:rgb(126, 126, 126);
-
 $background2:rgb(194, 199, 194);
-
 $back-light:rgb(231, 224, 224);
-
-
 
 h1,
 h2 {
@@ -25,16 +20,13 @@ h2 {
 
 button {
   border: solid 0pt black;
-  color: inherit;
   background-image: inherit;
 }
 
 #gesamtuebersicht {
-  
- background-color: rgb(255, 255, 255);
+  background-color: rgb(255, 255, 255);
   color: $schriftfarbe;
 }
-
 
 button:hover {
   background-image: repeating-linear-gradient(45deg,
@@ -49,44 +41,44 @@ th {
 
 table {
   page-break-inside: auto;
-  margin-right:auto;
-  margin-left:auto;
+  margin-right: auto;
+  margin-left: auto;
   //border-collapse: collapse;
   border-collapse: separate;
   row-gap: 20px;
   column-gap: 100px;
 
   tr {
-
     th {
       text-align: center;
     }
     td {
       height: 45pt;
-    
-
       button {
         height: 100%;
-        width:100%;
-
+        width: 100%;
+        padding-left:4pt;
+        padding-right:4pt;
         div {}
       }
     }
   }
 }
 
-
 .fachItem {
   display: flex;
-  div{width:100%;}
+  div {
+    width: 100%;
+  }
 }
 
-
 //obere buttons mo, di mittwoch
-.buttonreihe.wochentagButton{
+.buttonreihe.wochentagButton {
   display: flex;
   background-image: inherit;
-  button{width:100%;}
+  button {
+    width: 100%;
+  }
   border-top: 1pt $schriftfarbe solid;
 }
 
@@ -96,12 +88,10 @@ table {
 .error {
   color: red;
 }
-
 .ok {
   border-radius: 4pt;
   color: green;
 }
-
 .blueback {
   color: rgb(82, 82, 241);
 }
@@ -109,87 +99,36 @@ table {
 .huB,
 .schB,
 .rhyB,
-.normalB,.empty {
- // border-right: 1px $background solid;
- // border-left: 1pt $background solid;
+.normalB,
+.empty {
   height: 100%;
- // border-top: 1pt solid $background;
 }
 
 .huB {
-  //border:1pt $background solid;
-
   background-color: rgb(238, 198, 22);
-  /*background-image:
-    repeating-linear-gradient(45grad,
-      rgb(153, 145, 59) 0%,
-      rgb(143, 135, 49) 4%,
-      rgb(135, 130, 49) 8%,
-      rgb(153, 145, 59) 12%);
-      */
 }
 
 .schB {
-  //border:1px solid  rgb(117, 150, 82);
   background-color: rgb(245, 229, 11);
- /* background-image:
-    repeating-linear-gradient(45grad,
-      rgb(117, 150, 82) 0%,
-      rgb(100, 120, 75) 8%,
-      rgb(117, 150, 82) 12%);*/
 }
 
 .rhyB {
   background-color: rgb(59, 182, 76);
- // border:1px solid  rgb(167, 74, 65);
- 
-
- /* background-image:
-    repeating-linear-gradient(45grad,
-      rgb(147, 74, 65) 0%,
-      rgb(127, 53, 58) 4%,
-      rgb(130, 50, 58) 8%,
-      rgb(147, 74, 65) 12%);*/
-
-
-
 }
 
 .normalB {
   background-color: rgb(227, 228, 227);
- /* background-image:
-    repeating-linear-gradient(45grad,
-    rgb(75,75, 75) 0%,
-      rgb(65, 65, 65) 4%,
-      rgb(75, 75, 75) 12%);*/
-
- // color: rgb(143, 162, 195);
-
-
 }
 
 .empty {
   min-height: 20pt;
- /* background-image:
-    repeating-linear-gradient(45grad,
-      $background 0%,
-      $background2 1%,
-      $back-light 2%,
-      $background 3%);*/
-      opacity: 0.1;
-  //background-color:$hintergrund2;
+  opacity: 0.1;
 }
-
-
-
-
-
 
 #toggle-item-Container {
   opacity: 1;
   background-color: rgb(187, 236, 228);
   padding: 0pt;
-
   display: grid;
   width: auto;
   grid-template-columns: 35% 10% 10% 20% 25%;
@@ -197,90 +136,78 @@ table {
   white-space: nowrap;
 }
 
-
-
 .toggle-items {
+  opacity: 1;
+  background-color: rgb(187, 236, 228);
   font-size: 12pt;
   line-height: 12t;
   width: 100%;
-
 }
 
-.iconBut{
-  background:none;
-  border:none;
+.iconBut {
+  background: none;
+  border: none;
 }
 
-
-#left 
-  button, #right button{
-    position:fixed;
-    top:50%;
-
-
+#left button,
+#right button {
+  position: fixed;
+  top: 50%;
 }
-#left button{left: 0pt;}
-#right button{right: 0pt;}
 
+#left button {
+  left: 0pt;
+}
 
+#right button {
+  right: 0pt;
+}
 
-
-@media 
-only screen and (max-width: 760px),
-(min-device-width: 768px) and (max-device-width: 1024px)  {
-
-	/* Force table to not be like tables anymore */
-	
-
-
+@media only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px) {
+  /* Force table to not be like tables anymore */
   .fachItem {
     display: block;
-
-    
   }
-
   //nur erste fachitems anzeigen:
   /*button>.fachItem{display:none;}
   button>.fachItem:first-child{
-    display:block;
-  }*/
-  .kuerzl{display:block;}
-  .fach{display:none;}
+    display:block;}*/
+  .kuerzl {
+    display: block;
+  }
 
-
-	
-	/* Hide table headers (but not display: none;, for accessibility) */
-	/*thead tr { 
+  .fach {
+    display: none;
+  }
+  /* Hide table headers (but not display: none;, for accessibility) */
+  /*thead tr { 
 		position: absolute;
 		top: -9999px;
 		left: -9999px;
 	}
-	
-	tr { border: 1px solid #ccc; }
-	
-	td { 
+		tr { border: 1px solid #ccc; }
+		td { 
 		/* Behave  like a "row" */
-	/*	border: none;
+  /*	border: none;
 		border-bottom: 1px solid #eee; 
 		position: relative;
 		padding-left: 50%; 
 	}
-	
-	td:before { 
+		td:before { 
 		/* Now like a table header */
-	/*	position: absolute;
+  /*	position: absolute;
 		/* Top/left values mimic padding */
-	/*	top: 6px;
+  /*	top: 6px;
 		left: 6px;
 		width: 45%; 
 		padding-right: 10px; 
 		white-space: nowrap;
 	}
-	
-	/*
+		/*
 	Label the data
 	*/
-	/*td:nth-of-type(1):before { content: "First Name"; }
+  /*td:nth-of-type(1):before { content: "First Name"; }
 	td:nth-of-type(2):before { content: "Last Name"; }
 	td:nth-of-type(3):before { content: "Job Title"; }
 	td:nth-of-type(4):before { content: "Favorite Color"; }
@@ -293,41 +220,50 @@ only screen and (max-width: 760px),
 }
 
 
-
-
 @media print {
-
-
-  *{font-size:14pt;
-  padding:0pt;
-margin:0pt;
-background-image: none;}
-
-h1{//font-weight:bold;
-  padding-top:0pt;
-  margin:0pt;
-font-size:20pt;
-color:black;}
-  h2{color:black;
-  font-size:16pt;}
-      #gesamtuebersicht {
-        background-image:none;
+  * {
+    font-size: 14pt;
+    padding: 0pt;
+    margin: 0pt;
+    background-image: none;
+  }
+  h1 {
+    //font-weight:bold;
+    padding-top: 0pt;
+    margin: 0pt;
+    font-size: 20pt;
+    color: $schriftfarbe;
+  }
+  h2 {
+    color:  $schriftfarbe;
+    font-size: 16pt;
+  }
+  #gesamtuebersicht {
+    background-image: none;
     background-color: white;
-    color: black;
-    border:none;
+    color:  $schriftfarbe;
+    border: none;
   }
 
- .buttonreihe.wochentagButton{display:block;}//sonst noprint kenie wirkung
+  .buttonreihe.wochentagButton {
+    display: block;
+  }
+  //sonst noprint kenie wirkung
 
-  .kuerzl{color:mediumblue;}
-  .kuerzl.error{color:red;}
+  .kuerzl {
+    color: mediumblue;
+  }
+
+  .kuerzl.error {
+    color: red;
+  }
 
   .blueback {
-    color: black;    ;
+    color: black;
+    ;
     font-size: 10pt;
     font-weight: normal;
   }
-
 
   .huB {
     background-color: rgb(224, 200, 137);
@@ -349,77 +285,65 @@ color:black;}
     color: black;
   }
 
-  .empty{
-    min-height:10pt;
-    opacity:0;
-    background-color:white;
-   // height:10pt;
+  .empty {
+    min-height: 10pt;
+    opacity: 0;
+    background-color: white;
+    // height:10pt;
   }
 
-  button{
+  button {
     //min-height:10pt;
-  height:10pt;
-}
-
- 
+    height: 10pt;
+  }
 
   .huB,
   .schB,
   .rhyB,
-  .normalB,.empty {
-    background-image:none;
-    border:  1pt black solid;
-
-    color:black;
-    height:10pt;
+  .normalB,
+  .empty {
+    background-image: none;
+    border: 1pt black solid;
+    color: black;
+    height: 10pt;
 
   }
 
-
-  .wochenTagContainer{
+  .wochenTagContainer {
     page-break-inside: avoid;
   }
 
   table {
-
-   width:90%;
-
+    width: 90%;
     page-break-inside: avoid;
-    margin-left:auto;
-    margin-right:auto;
+    margin-left: auto;
+    margin-right: auto;
     border-collapse: collapse;
-    line-height:14pt;
+    line-height: 14pt;
 
-    th:first-child{
-    //  border-right:1px grey solid;
+    th:first-child {
+      //  border-right:1px grey solid;
     }
-  
+
     tr {
-    //  border-bottom: 1px grey dotted;
-  
+      //  border-bottom: 1px grey dotted;
       th {
-        height:10pt;
+        height: 10pt;
         text-align: center;
-        color:black;
+        color: black;
         font-weight: bold;
       }
-  
+
       td {
         height: 10pt;
-      
-  
         button {
           height: 100%;
-          width:100%;
-  
+          width: 100%;
           div {}
         }
       }
     }
   }
-
-
-
   //.klassenspalte {
   //  margin: 0pt;
   //}
@@ -432,16 +356,5 @@ color:black;}
   button:last-child>.huB {
     background-color: green;
   }*/
-
-
-
-
   //button:nth-of-type(odd){border-top:1pt black solid;}
-
-
-
-
 }
-
-
-

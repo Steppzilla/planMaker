@@ -12,6 +12,7 @@ import { LoginService } from 'src/app/services/login.service';
 export class StartComponent implements OnInit {
 
 speicherPlatzNr;
+lehrerListe;
 
 wahl(zahl){
   this.speicherPlatzNr=zahl;
@@ -45,6 +46,7 @@ toggleColor(){
     this.login.login();
     this.login.gesamtPlanLaden(5);
     this.speicherPlatzNr=5;
+    this.lehrerListe=lehrer.lehrer.sort((a,b)=> a.kuerzel.localeCompare(b.kuerzel));
    }
 
   ngOnInit(): void {

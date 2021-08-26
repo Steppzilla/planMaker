@@ -3,7 +3,7 @@
   margin: 0pt;
 }
 
-$schriftfarbe:rgb(221, 200, 200);
+$schriftfarbe:black; //rgb(221, 200, 200);
 $hintergrund:rgb(77, 74, 78);
 //$linienDark:rgb(63, 63, 63);
 $hover:rgb(98, 107, 146);
@@ -12,23 +12,22 @@ $hintergrund2:rgb(81, 78, 83);
 //aus zuweisung kopiert, noch nicht benutzt:
 $background:rgb(57, 61, 58);
 $background2:rgb(52, 57, 52);
-$color:rgb(153, 153, 134);
+$color:black; //rgb(153, 153, 134);
 $back-light:rgb(68, 68, 68);
 
 #gesamtuebersicht {
-  
-  background-image: repeating-linear-gradient(45deg,
-      $background 0%,
-      $background2 1%,
-      $background 2%);
+  background-color: rgb(255, 255, 255);
   color: $schriftfarbe;
 }
 
-.iconBut{
-  background:none;
-  border:none;
+.iconBut {
+  background: none;
+  border: none;
 }
-h1>button{background:none;}
+
+h1>button {
+  background: none;
+}
 
 .flex3 {
   display: flex;
@@ -37,13 +36,12 @@ h1>button{background:none;}
 
 .flex3>div:nth-child(1) {
   text-align: center;
-  min-width:20pt;
-  button{
-    position:fixed;
-    top:50%;
-    left:0pt;
+  min-width: 20pt;
+  button {
+    position: fixed;
+    top: 50%;
+    left: 0pt;
   }
-
 }
 
 .flex3>div:nth-child(2) {
@@ -52,14 +50,14 @@ h1>button{background:none;}
 
 .flex3>div:nth-child(3) {
   text-align: center;
-  min-width:20pt;
-  button{
+  min-width: 20pt;
+
+  button {
     position: fixed;
     top: 50%;
-    right:0pt;
+    right: 0pt;
   }
 }
-
 
 button:hover {
   background-image: repeating-linear-gradient(45deg,
@@ -73,31 +71,31 @@ th {
 }
 
 table {
-  margin-right:auto;
-  margin-left:auto;
-  width: 95%;
-  border-collapse: collapse;
+  page-break-inside: auto;
+  margin-right: auto;
+  margin-left: auto;
+  //border-collapse: collapse;
+  border-collapse: separate;
+  row-gap: 20px;
+  column-gap: 100px;
 
   tr {
-
     th {
       text-align: center;
     }
-
     td {
+
       height: 45pt;
- 
-      
-
       button {
+        padding-left:4pt;
+        padding-right:4pt;
         height: 100%;
-
+        width: 100%;
         div {}
       }
     }
   }
 }
-
 
 .fachItem {
   display: flex;
@@ -107,9 +105,6 @@ table {
   width: 100%;
 }
 
-
-
-
 h1,
 h2 {
   text-align: center;
@@ -117,32 +112,15 @@ h2 {
   padding-top: 10pt;
 }
 
-
-
-
-
-
 p {
   margin: 0pt;
 }
 
-
 button {
   border: solid 0pt black;
-
-  color: inherit;
+  color: black;
   background-image: inherit;
 }
-
-
-
-
-
-
-
-
-
-
 
 .error {
   color: red;
@@ -150,141 +128,73 @@ button {
 
 .ok {
   border-radius: 4pt;
-  color: rgb(255, 255, 255);
+  color: green;
 }
 
 .blueback {
   color: rgb(82, 82, 241);
 }
 
-
-
+.gruen {
+  color: green;
+}
 
 .huB,
 .schB,
 .rhyB,
-.normalB,.empty {
-  border-right: 1px $hintergrund solid;
-  border-left: 1pt $hintergrund solid;
+.normalB,
+.empty {
   height: 100%;
-  border-top: 1pt solid $hintergrund;
 }
 
-
 .huB {
-  border:1px solid  rgb(153, 145, 59);
-
-  background-color: rgb(153, 145, 59);
-  color: rgb(223, 240, 128);
-
-  background-image:
-    repeating-linear-gradient(45grad,
-      rgb(153, 145, 59) 0%,
-      rgb(143, 135, 49) 4%,
-      rgb(135, 130, 49) 8%,
-      rgb(153, 145, 59) 12%);
+   background-color: rgb(238, 198, 22);
 }
 
 .schB {
-  border:1px solid  rgb(117, 150, 82);
-
-  color: rgb(171, 240, 171);
-  background-image:
-    repeating-linear-gradient(45grad,
-      rgb(117, 150, 82) 0%,
-      rgb(100, 120, 75) 8%,
-      rgb(117, 150, 82) 12%);
+  background-color: rgb(245, 229, 11);
 }
 
 .rhyB {
-  border:1px solid  rgb(167, 74, 65);
- 
-  color: rgb(216, 175, 165);
-
-  background-image:
-    repeating-linear-gradient(45grad,
-      rgb(147, 74, 65) 0%,
-      rgb(127, 53, 58) 4%,
-      rgb(130, 50, 58) 8%,
-      rgb(147, 74, 65) 12%);
-
-
-
+  background-color: rgb(59, 182, 76);
 }
 
 .normalB {
-  background-image:
-    repeating-linear-gradient(45grad,
-    rgb(75,75, 75) 0%,
-      rgb(65, 65, 65) 4%,
-      rgb(75, 75, 75) 12%);
-
-  color: rgb(143, 162, 195);
-
-
+  background-color: rgb(227, 228, 227);
 }
 
 .empty {
   min-height: 20pt;
-  background-image:
-    repeating-linear-gradient(45grad,
-      $background 0%,
-      $background2 1%,
-      $back-light 2%,
-      $background 3%);
-      opacity: 0.4;
-  //background-color:$hintergrund2;
+  opacity: 0.1;
 }
-
-
-
-
-
-
-#toggle-item-Container {
-  opacity: 1;
-  background-color: rgb(69, 56, 73);
-  padding: 0pt;
-
-  display: grid;
-  width: auto;
-  grid-template-columns: 35% 10% 10% 20% 25%;
-  border: none;
-  white-space: nowrap;
-}
-
-
 
 .toggle-items {
+  background-color: rgb(187, 236, 228);
   font-size: 12pt;
   line-height: 12t;
-  width: 100%;
-
+  width: auto;
 }
 
-
-.sonderEvent{
-  position:relative;
-  height:0pt;
-top:90pt;
+.sonderEvent {
+  position: relative;
+  height: 0pt;
+  top: 90pt;
 }
 
-
-
-
-.kippbox{
-  padding-left:5pt;
-  background-color:green;
-  font-size:28pt;
-  writing-mode: vertical-lr; 
- // text-orientation: upright; 
-  width:28pt;
+.kippbox {
+  padding-left: 5pt;
+  background-color: green;
+  font-size: 28pt;
+  writing-mode: vertical-lr;
+  // text-orientation: upright; 
+  width: 28pt;
 }
-
 
 .wochentagButton {
   border-top: 1pt $schriftfarbe solid;
-button{  width: 100%;}
+  button {
+    width: 100%;
+  }
 }
 
 .buttonreihe {
@@ -292,57 +202,31 @@ button{  width: 100%;}
   background-image: inherit;
 }
 
-table button{  width: 100%;}
-
-
-
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
+table button {
+  width: 100%;
+}
 
 // $colors : #fedc00, #fcb712, #f7921e, #e87f24, #dd6227, #dc4c27, #ca3435, #b82841, #953751, #364c88, #16599d, #02609e, #0073a9, #008aa4, #239a87, #7cba6d, #becc2f, #e0d81d;
 
-
-
-
-
-
-#tabelle{
-
+#tabelle {
   height: 750px;
   display: flex;
-  width:98%;
-margin:1%;
-margin-bottom: 0pt;
-    
+  width: 98%;
+  margin: 1%;
+  margin-bottom: 0pt;
 }
 
 button:hover {
   background-color: rgb(167, 209, 119);
-  color:black;
 }
-
 
 .klassenspalte {
   display: flex;
   flex-direction: column;
   margin: 1pt;
   border-radius: 9pt;
- // background-color: lightgrey;
-  width:100%;
-
+  // background-color: lightgrey;
+  width: 100%;
 }
 
 .klassenspalte>div {
@@ -351,20 +235,16 @@ button:hover {
   height: 45pt;
   /*  background: red;*/
   margin: 0pt;
-
 }
-.boxi{ //hier scheint nicht alles .huB, schB undso zugeordnet zu sein (HU klasse 1-8 nicht)
 
-  height:100%;
+.boxi {
+  //hier scheint nicht alles .huB, schB undso zugeordnet zu sein (HU klasse 1-8 nicht)
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-.huB,.schB,.rhyB,.normalB{
-  height:100%;  
-  border-top: 1pt solid rgb(63, 63, 63);
-}
 
 
 .th {
@@ -373,43 +253,20 @@ button:hover {
   height: 30pt;
 }
 
-
 .klassenspalte>div>button {
   padding: 0pt;
   height: 100%;
   width: 100%;
   // overflow: hidden;
- 
+
 }
 
-.klassenspalte>.klasse.th{
+.klassenspalte>.klasse.th {
   font-weight: normal;
-    height: 30pt;
-  line-height: 30pt;  /*center-trick*/
+  height: 30pt;
+  line-height: 30pt;
+  /*center-trick*/
 }
-
-.error {
-  color: red;
-}
-
-.ok {
- 
- border-radius:4pt;
-  color: rgb(255, 255, 255);
-}
-
-.blueback{color:rgb(82, 82, 241);}
-
-
-.huB{background-color:rgb(153, 145, 59);
-  color:rgb(223, 240, 128);
-}
-.schB{background-color:rgb(117, 150, 82);
-color:rgb(171, 240, 171);}
-.rhyB{background-color: rgb(167, 74, 65);
-color:rgb(216, 175, 165);}
- .normalB{background-color:rgb(102, 99, 104);
-color:rgb(143, 162, 195);}
 
 
 #toggle-item-Container {
@@ -428,63 +285,87 @@ color:rgb(143, 162, 195);}
 
 }
 
-.gruen{color:green;}
 
-.fakebutton>div{width:20pt;
-height:100%;
-text-align:center;
-line-height:45pt;
-}
-.fakebutton{
-  width:20pt;
-}
-.klassenspalte1{
-  width:20pt;
+
+.fakebutton>div {
+  width: 20pt;
+  height: 100%;
+  text-align: center;
+  line-height: 45pt;
 }
 
+.fakebutton {
+  width: 20pt;
+}
+
+.klassenspalte1 {
+  width: 20pt;
+}
 
 
-@media print{
-  
-#gesamtuebersicht{background-color:white;
-  color:black;}
-  .wochentagButton{
+
+@media print {
+
+  #gesamtuebersicht {
+
+    background-color: rgb(255, 255, 255);
+    color: $schriftfarbe;
+  }
+
+  .wochentagButton {
     border-top: none;
   }
 
   .ok {
- 
-    border-radius:4pt;
-     color: blue;
-   }
-   
-   .blueback{color:black;}
-   
-   
-   .huB{background-color:rgb(224, 200, 137);
-     color:black;
-   }
-   .schB{background-color:rgb(185, 214, 154);
-   color:black;}
-   .rhyB{background-color: rgb(231, 143, 135);
-   color:black;}
-    .normalB{background-color:white;
-   color:black;}
 
-   .huB,.schB,.rhyB,.normalB{
-     border:none;
-  border:1px black solid;
-  
+    border-radius: 4pt;
+    color: blue;
   }
 
-  .klassenspalte {margin:1px;}
+  .blueback {
+    color: black;
+  }
+
+
+  .huB {
+    background-color: rgb(224, 200, 137);
+    color: black;
+  }
+
+  .schB {
+    background-color: rgb(185, 214, 154);
+    color: black;
+  }
+
+  .rhyB {
+    background-color: rgb(231, 143, 135);
+    color: black;
+  }
+
+  .normalB {
+    background-color: white;
+    color: black;
+  }
+
+  .huB,
+  .schB,
+  .rhyB,
+  .normalB {
+    border: none;
+    //border:1px black solid;
+
+  }
+
+  .klassenspalte {
+    margin: 1px;
+  }
 
 
 
 
   //button:nth-of-type(odd){border-top:1pt black solid;}
 
- 
+
 
 
 }

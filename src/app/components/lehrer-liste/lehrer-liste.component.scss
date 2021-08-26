@@ -1,17 +1,5 @@
 
 
-$schriftfarbe:rgb(143, 134, 134);
-$hintergrund:rgb(77, 74, 78);
-//$linienDark:rgb(63, 63, 63);
-$hover:rgb(98, 107, 146);
-$hintergrund2:rgb(81, 78, 83);
-
-//aus zuweisung kopiert, noch nicht benutzt:
-$background:rgb(57, 61, 58);
-$background2:rgb(52, 57, 52);
-$color:rgb(153, 153, 134);
-$back-light:rgb(68, 68, 68);
-
 
 
 td,th{padding:4pt;
@@ -22,17 +10,18 @@ span{
   padding-right:10pt;
 }
 
-tr{border-top:1pt solid $back-light;}
+tr{}
+
+tr:nth-child(2n){
+  background-color:rgb(241, 238, 238);
+}
 
 table{
-  color:$schriftfarbe;
+  color:black;
  // background-color:rgb(47, 54, 77);
 
   
-  background-image: repeating-linear-gradient(45deg,
-      $background 0%,
-      $background2 1%,
-      $background 2%);
+ 
 }
 
 @media print{

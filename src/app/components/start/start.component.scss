@@ -75,37 +75,38 @@ button:hover {
   
 #leerraum{
   min-height:10pt;
-  height:80pt;
-  background-color: rgb(59, 68, 92);
+  height:60pt;
+  
 }
 
 #Lehrerselect {
+  height:30pt;
+  text-align: center;
+  width:99%;
+ 
   div{
-    
-    
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
     button{  margin: 0pt;
-      padding:2pt;
-      width: 30pt;
+      padding:0.5pt;
+      width: auto;
     }
   }
  
-  width:auto;
   position: fixed;
- bottom:2pt;
- left: 0pt;
-  
-
-  background-color: rgb(59, 68, 92);
-  opacity:0.9;
+ bottom:20pt;
+ left: 2pt;
+ margin-right:2pt;
+    opacity:0.9;
   z-index: 4;
+  background-color: rgb(103, 111, 136);
+  border:3pt black solid;
+  border-radius:5pt;
+  padding:5pt;
+ 
 }
-#Lehrerselect>button:nth-child(9){
-  border-left: 1pt solid rgb(114, 163, 196);
-  margin-left:10pt;
+
+
+.kuerzelGroß{font-size:24pt;
+  color:green;
 }
 
 

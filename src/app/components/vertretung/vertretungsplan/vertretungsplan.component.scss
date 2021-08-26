@@ -4,7 +4,7 @@
   margin: 0pt;
 }
 
-$color-text: rgb(182, 205, 221);
+$color-text: black;
 $color-background:rgb(32, 56, 73);
 $color-background2:rgb(38, 67, 87);
 
@@ -31,10 +31,7 @@ $back-light:rgb(68, 68, 68);
 #gesamt{
   padding-top:10pt;
    
-  background-image: repeating-linear-gradient(45deg,
-      $color-background2 0%,
-      $color-background 1%,
-      $color-background2 2%);
+  
   color:  $color-text;
 }
 

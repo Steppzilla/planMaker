@@ -7,9 +7,7 @@
     <!--
 <button (click)="toggleColor()">color</button>  -->
     <button class=" load" (click)="load()">laden ({{speicherPlatzNr}}) </button>
- 
-
-   <button class="noprint"  (click)="wahl(0)">0</button>
+    <button class="noprint"  (click)="wahl(0)">0</button>
   <button class="noprint"  (click)="wahl(1)">1</button>
   <button class="noprint"  (click)="wahl(2)">2</button>
   <button class="noprint"  (click)="wahl(3)">3</button>
@@ -64,9 +62,17 @@
     <div>
       <!-- -->
       <ng-container *ngFor="let lehrer of this.lehrer.lehrer; index as i">
-        <button *ngIf="i>0" (click)="lehrerwahl(i)">
+        <button *ngIf="i>0" (click)="lehrerwahl(i)" triggers="hover"  [ngbTooltip]="Kuerzel" placement="top">
+   <!--   <button triggers="click" [autoClose]="true" class="{{hintergrundd(cell)}}" [ngbTooltip]="Lehrer2"
+              placement="bottom" (click)="cellKlick($event,std,r+1)">-->
           {{lehrer.kuerzel}}
+         <ng-template #Kuerzel>
+           <div class="kuerzelGroß">
+           {{lehrer.anrede}} {{lehrer.name}}
+          </div>
+         </ng-template>
         </button>
+        
       </ng-container>
     </div>
   </div>

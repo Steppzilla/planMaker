@@ -1,10 +1,15 @@
-$background:rgb(57, 61, 58);
-$background2:rgb(52, 57, 52);
-$color:rgb(153, 153, 134);
-$back-light:rgb(68, 68, 68);
+$background:white;
+$background2:white;
+$color:black;
+$back-light:rgb(228, 227, 227);
+
+$lila: rgb(149, 16, 121);
 
 
-$schriftfarbe:rgb(221, 200, 200);
+$schatten:black;
+
+
+$schriftfarbe:black;
 
 //$linienDark:rgb(63, 63, 63);
 $hover:rgb(98, 107, 146);
@@ -14,10 +19,7 @@ th {
 }
 
 #alles {
-  background-image: repeating-linear-gradient(45deg,
-  $background 0%,
-  $background2 0.5%,
-  $background 1%);
+ 
   color: $schriftfarbe;
 
   width: 100%;
@@ -33,10 +35,6 @@ td {
 }
 
 tr:nth-child(odd) {
-  background-image: repeating-linear-gradient(45deg,
-  $background2 0%,
-  rgb(45, 52, 47) 2%,
-  $background2 4%);
   
 
   td {
@@ -45,14 +43,10 @@ tr:nth-child(odd) {
 }
 
 tr:nth-child(even) {
-  background-image: inherit;
+  background-color:$back-light;
 
   td {
     border-right: 1pt solid $background2;
-
-  
-
-
   }
 }
 
@@ -63,9 +57,6 @@ tr:nth-child(even) {
   background-color: $back-light;
   min-height: 10pt;
 }
-
-
-
 
 .oben {
   display: grid;
@@ -99,24 +90,29 @@ th {
   //-webkit-filter:saturate(100%); 
 }
 
+
+.ueb,.rhy,.epo,.sch,.nix{
+ border:1pt black solid;
+ border-radius:3pt;
+}
 .ueb {
-  color: rgb(72, 145, 228);
+  background-color: rgb(181, 162, 250);
 }
 
 .rhy {
-  color: rgb(245, 115, 115);
+  background-color: rgb(192, 69, 69);
 }
 
 .epo {
-  color: rgb(241, 203, 106);
+ background-color: rgb(197, 152, 38);
 }
 
 .sch {
-  color: rgb(122, 240, 167);
+  background-color: rgb(61, 160, 99);
 }
 
 .nix {
-  color: rgb(99, 92, 92);
+  background-color: rgb(189, 183, 183);
 }
 
 @media print {
@@ -197,24 +193,21 @@ th {
 
 
 th {
-  background-image: repeating-linear-gradient(45deg,
-  rgb(98, 60, 98) 0pt,
-  rgb(90, 44, 80)  8pt,
-  rgb(98, 60, 98) 14pt
-  );
  
-  text-shadow: 2px 2px black;
+ 
+ // text-shadow: 1px 1px $schatten;
 
 }
 
 th.links{
-  background-image: none;
-  color:   rgb(175, 87, 175) ;
+
+  color:   $lila;
+  font-weight: bold;
 
 }
 
 td{
-  text-shadow: 2px 2px black;
+ // text-shadow: 1px 1px $schatten;
 }
 
 #tabell>tr>td{

@@ -10,6 +10,7 @@ h1,h2{text-align:center}
 .tooltip-inner{
   color:black!important;
   padding:0pt!important;
+  background-color: rgb(187, 236, 228);
 }
 .tooltip.show{opacity: 0.95!important;}
 
@@ -21,13 +22,10 @@ h1,h2{text-align:center}
 
 
 @media print {
-  
-
-  @page {
+    @page {
     margin:0pt;
     color:blue;
     size: landscape;
-
   }
 
   body{ height:100%; width:100%;  }
