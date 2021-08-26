@@ -18,6 +18,9 @@ wahl(zahl){
 }
 
 
+toggleColor(){
+  
+}
 
   redirect(x:string){
     this.router.navigate([x]);

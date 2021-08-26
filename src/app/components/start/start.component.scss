@@ -1,5 +1,4 @@
-* {
-  color: rgb(114, 163, 196);
+* {color:black;
  // background-color: rgb(88, 70, 116);
 }
 
@@ -21,14 +20,17 @@ button:hover {
 
 #menu , #ansichtMenu, #topmenu{
   display: flex;
-  background-color: rgb(59, 68, 92);
+  background-color:rgb(5, 157, 134);
 }
 
-#ansichtMenu, #topmenu{background-image: 
+#ansichtMenu{
+  background-color:rgb(15, 172, 145);
+  /*background-image: 
   repeating-linear-gradient(45deg, 
   rgb(50, 60, 80) 0pt,
   rgb(43, 49, 68) 8pt, 
-  rgb(50, 60, 80) 12pt);}
+  rgb(50, 60, 80) 12pt);*/
+}
 
 
 

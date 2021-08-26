@@ -391,7 +391,8 @@ table {
 
 @media print {
   * {
-    font-size: 11pt;
+    font-size: 10pt;
+    padding:0pt;
   }
 
   h2,h1 {
@@ -403,6 +404,7 @@ table {
     text-align:center;
   }
   h1{margin-bottom:10pt;}
+
 
 
 

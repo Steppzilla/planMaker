@@ -132,7 +132,7 @@
     
     <ng-container *ngIf="gesamtRaster$|async as gesRaster">
 
-<ng-container class="wochenTagContainer" *ngFor="let wochenTag of ['montag','dienstag','mittwoch','donnerstag','freitag']">
+<div class="wochenTagContainer" *ngFor="let wochenTag of ['montag','dienstag','mittwoch','donnerstag','freitag']">
       <h2>{{wochenTag.substring(1,0).toUpperCase()+wochenTag.slice(1,wochenTag.length)}}</h2>
       <table >
         <tr>
@@ -154,7 +154,7 @@
                 </div>
 
                 <ng-container *ngIf="item[0]!='StartUp'&&item[0]!='HU'&&item[0]!='Schiene'||r<8; else ESR">
-                  <div class="{{markedd(item[1])}} {{duplicatess(item[1] ,std,item[0])}} kuerzl">
+                  <div class="{{markedd(item[1])}} {{duplicatesss(item[1] ,std,item[0],wochenTag)}} kuerzl">
                     {{item[1] }}
                   </div>
 
@@ -162,8 +162,8 @@
 
                 <ng-template #ESR>
                   <ng-container *ngIf="item[1]!=null">
-                    <ng-container *ngIf="markedd(item[1])=='blueback'||duplicatess(item[1],std,item[0])=='error'">
-                      <div class=" {{markedd(item[1])}} {{duplicatess(item[1] ,std,item[0])}} kuerzl">
+                    <ng-container *ngIf="markedd(item[1])=='blueback'||duplicatess(item[1],std,item[0])==='error'">
+                      <div class=" {{markedd(item[1])}} {{duplicatesss(item[1] ,std,item[0],wochenTag)}} kuerzl">
                         {{item[1] }}
                       </div>
                     </ng-container>
@@ -222,7 +222,7 @@
         </tr>
       </table>
 
-    </ng-container>
+    </div>
 
 
     </ng-container>

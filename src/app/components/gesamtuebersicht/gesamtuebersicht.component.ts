@@ -200,6 +200,51 @@ export class GesamtuebersichtComponent implements OnInit {
     return duplicates > 1 ? "error" : "ok";
   }
 
+ 
+
+  duplicatesss(kuerz, z, fachd, wochentagKlein) { //
+    let wochenT=wochentagKlein.substring(1,0).toUpperCase()+wochentagKlein.slice(1,wochentagKlein.length);
+  
+  //  let gesamtR=this.gesamtRast();
+    let duplicates = 0;
+   
+  //statt grundfäecher muss man hier gesamtRast bzw gesamtR benutzen, schaff das aber nich ausm promise rauszubekommen...
+
+    this.grundPlanfaecher.forEach((element, e) => {
+      if (element == null) {
+        this.grundPlanfaecher.splice(e, 1);
+      } else {
+        element.zuweisung.uebstunde.forEach(({
+          wochentag,
+          stunde
+        }, ue) => {
+          //  console.log(wochentag + "."+this.wochenTagauswahl);
+          if (wochentag == wochenT && stunde == z) {
+         //   console.log(wochenT);
+            element.lehrer.forEach(le => {
+              if (kuerz == null || le == null) {
+
+              } else if (kuerz && element && kuerz == le.kuerzel) {
+                // console.log(element.lehrer[0].kuerzel + "." +r + ". " + element.klasse);
+
+                if (fachd != Fach.hauptunterricht && fachd != Fach.schiene && fachd != Fach.rhythmisch && fachd != Fach.orchester && fachd != Fach.wahlpflicht && fachd != Fach.chor && fachd != Fach.mittelstufenorchester) {
+                  duplicates++;
+                } else if (element.fach != Fach.hauptunterricht && element.fach != Fach.schiene && element.fach != Fach.rhythmisch && element.fach != Fach.orchester && element.fach != Fach.wahlpflicht && element.fach != Fach.chor && element.fach != Fach.mittelstufenorchester) {
+                  duplicates++;
+                }
+              }
+            });
+          }
+        });
+      }
+    });
+
+    if (fachd == Fach.hauptunterricht || fachd == Fach.schiene || fachd == Fach.rhythmisch) {
+      duplicates++;
+    }
+    return duplicates > 1 ? "error" : "ok";
+  }
+
 
   hintergrundd(el) {
     // console.log(el);

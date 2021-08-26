@@ -141,14 +141,15 @@
                   </button>
                 </ng-container>
 
+                <!-- Pop-Up-Vertretungslehrer-->
                 <ng-template #Lehrer2>
                   <ng-container *ngIf="klassenplanServ.klassenArray$|async as klassArray">
                     <ng-container *ngFor="let elementt of klassArray[r+1]">
                       <ng-container
-                        *ngIf="elementt.zuweisung.uebstunde.length>0&&duplicateToggle(std,elementt)!=='error'">
+                        *ngIf="elementt.zuweisung.uebstunde.length>0&&duplicateToggle(zeile,elementt)!=='error'">
                         <div id="toggle-item-Container" *ngIf="elementt!=undefined"
                           (click)="togglezellenClickk(std,elementt,cell)">
-                          <div class="toggle-items {{duplicateToggle(std,elementt)}}">
+                          <div class="toggle-items {{duplicateToggle(zeile,elementt)}}">
                             {{elementt?elementt.fach:"kein Fach"}}
                           </div>
                           <div class="toggle-items error">

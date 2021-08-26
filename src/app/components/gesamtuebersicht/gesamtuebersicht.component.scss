@@ -2,18 +2,19 @@
   padding: 0pt;
   margin: 0pt;
 }
+$schriftfarbe:rgb(0, 0, 0);
 
-$schriftfarbe:rgb(221, 200, 200);
-$hintergrund:rgb(77, 74, 78);
-//$linienDark:rgb(63, 63, 63);
 $hover:rgb(98, 107, 146);
-$hintergrund2:rgb(81, 78, 83);
+
 
 //aus zuweisung kopiert, noch nicht benutzt:
-$background:rgb(57, 61, 58);
-$background2:rgb(52, 57, 52);
-$color:rgb(153, 153, 134);
-$back-light:rgb(68, 68, 68);
+$background:rgb(126, 126, 126);
+
+$background2:rgb(194, 199, 194);
+
+$back-light:rgb(231, 224, 224);
+
+
 
 h1,
 h2 {
@@ -21,8 +22,6 @@ h2 {
   margin-top: 0pt;
   padding-top: 10pt;
 }
-
-
 
 button {
   border: solid 0pt black;
@@ -32,10 +31,7 @@ button {
 
 #gesamtuebersicht {
   
-  background-image: repeating-linear-gradient(45deg,
-      $background 0%,
-      $background2 1%,
-      $background 2%);
+ background-color: rgb(255, 255, 255);
   color: $schriftfarbe;
 }
 
@@ -55,14 +51,16 @@ table {
   page-break-inside: auto;
   margin-right:auto;
   margin-left:auto;
-  border-collapse: collapse;
+  //border-collapse: collapse;
+  border-collapse: separate;
+  row-gap: 20px;
+  column-gap: 100px;
 
   tr {
 
     th {
       text-align: center;
     }
-
     td {
       height: 45pt;
     
@@ -84,9 +82,6 @@ table {
 }
 
 
-
-
-
 //obere buttons mo, di mittwoch
 .buttonreihe.wochentagButton{
   display: flex;
@@ -95,14 +90,8 @@ table {
   border-top: 1pt $schriftfarbe solid;
 }
 
-
 //obere buttons ende
-
-
 // $colors : #fedc00, #fcb712, #f7921e, #e87f24, #dd6227, #dc4c27, #ca3435, #b82841, #953751, #364c88, #16599d, #02609e, #0073a9, #008aa4, #239a87, #7cba6d, #becc2f, #e0d81d;
-
-
-
 
 .error {
   color: red;
@@ -110,91 +99,84 @@ table {
 
 .ok {
   border-radius: 4pt;
-  color: rgb(255, 255, 255);
+  color: green;
 }
 
 .blueback {
   color: rgb(82, 82, 241);
 }
 
-.gruen {
-  color: green;
-}
-
-
 .huB,
 .schB,
 .rhyB,
 .normalB,.empty {
-  border-right: 1px $hintergrund solid;
-  border-left: 1pt $hintergrund solid;
+ // border-right: 1px $background solid;
+ // border-left: 1pt $background solid;
   height: 100%;
-  border-top: 1pt solid $hintergrund;
+ // border-top: 1pt solid $background;
 }
 
-
 .huB {
-  border:1px solid  rgb(153, 145, 59);
+  //border:1pt $background solid;
 
-  background-color: rgb(153, 145, 59);
-  color: rgb(223, 240, 128);
-
-  background-image:
+  background-color: rgb(238, 198, 22);
+  /*background-image:
     repeating-linear-gradient(45grad,
       rgb(153, 145, 59) 0%,
       rgb(143, 135, 49) 4%,
       rgb(135, 130, 49) 8%,
       rgb(153, 145, 59) 12%);
+      */
 }
 
 .schB {
-  border:1px solid  rgb(117, 150, 82);
-
-  color: rgb(171, 240, 171);
-  background-image:
+  //border:1px solid  rgb(117, 150, 82);
+  background-color: rgb(245, 229, 11);
+ /* background-image:
     repeating-linear-gradient(45grad,
       rgb(117, 150, 82) 0%,
       rgb(100, 120, 75) 8%,
-      rgb(117, 150, 82) 12%);
+      rgb(117, 150, 82) 12%);*/
 }
 
 .rhyB {
-  border:1px solid  rgb(167, 74, 65);
+  background-color: rgb(59, 182, 76);
+ // border:1px solid  rgb(167, 74, 65);
  
-  color: rgb(216, 175, 165);
 
-  background-image:
+ /* background-image:
     repeating-linear-gradient(45grad,
       rgb(147, 74, 65) 0%,
       rgb(127, 53, 58) 4%,
       rgb(130, 50, 58) 8%,
-      rgb(147, 74, 65) 12%);
+      rgb(147, 74, 65) 12%);*/
 
 
 
 }
 
 .normalB {
-  background-image:
+  background-color: rgb(227, 228, 227);
+ /* background-image:
     repeating-linear-gradient(45grad,
     rgb(75,75, 75) 0%,
       rgb(65, 65, 65) 4%,
-      rgb(75, 75, 75) 12%);
+      rgb(75, 75, 75) 12%);*/
 
-  color: rgb(143, 162, 195);
+ // color: rgb(143, 162, 195);
 
 
 }
 
 .empty {
   min-height: 20pt;
-  background-image:
+ /* background-image:
     repeating-linear-gradient(45grad,
       $background 0%,
       $background2 1%,
       $back-light 2%,
-      $background 3%);
-      opacity: 0.4;
+      $background 3%);*/
+      opacity: 0.1;
   //background-color:$hintergrund2;
 }
 
@@ -205,7 +187,7 @@ table {
 
 #toggle-item-Container {
   opacity: 1;
-  background-color: rgb(69, 56, 73);
+  background-color: rgb(187, 236, 228);
   padding: 0pt;
 
   display: grid;
@@ -338,6 +320,7 @@ color:black;}
  .buttonreihe.wochentagButton{display:block;}//sonst noprint kenie wirkung
 
   .kuerzl{color:mediumblue;}
+  .kuerzl.error{color:red;}
 
   .blueback {
     color: black;    ;
@@ -387,20 +370,21 @@ color:black;}
     background-image:none;
     border:  1pt black solid;
 
-  //  border-right: 1px grey dotted;
-  //  border-top: none;
-   // border-left:  none;
-   // border-bottom: none;
     color:black;
     height:10pt;
 
+  }
+
+
+  .wochenTagContainer{
+    page-break-inside: avoid;
   }
 
   table {
 
    width:90%;
 
-    page-break-inside: none;
+    page-break-inside: avoid;
     margin-left:auto;
     margin-right:auto;
     border-collapse: collapse;
