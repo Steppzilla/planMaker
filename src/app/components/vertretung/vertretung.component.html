@@ -73,7 +73,7 @@
                       <ng-container
                         *ngIf="!vertretungsraster2[wochenTagauswahl.toLowerCase()][r][std][i] else VERTRETUNG">
 
-                        <div *ngIf="
+                        <div class="fach" *ngIf="
                          (item.fach!=='HU'&& item.fach!=='Schiene'&&item.fach!=='StartUp')
                           ||
                           (item.fach==='HU'&&r<8)

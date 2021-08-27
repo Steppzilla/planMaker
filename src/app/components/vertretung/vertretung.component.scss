@@ -302,6 +302,62 @@ button:hover {
   width: 20pt;
 }
 
+@media only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px) {
+  .fachItem {
+    display: block;
+    div{
+      overflow: hidden;
+      
+    }
+  }
+  .kuerzl {
+    display: block;
+  }
+  .fach {
+    display:none;
+    
+  }
+  th>span{display:none;} //Anzahl der stunden einer klasse
+ .wochenTagContainer table{
+ 
+
+   tr{
+     td{
+       button{
+         width:20pt;
+         overflow: hidden;
+         padding:0pt;
+       
+       }
+     }
+   }
+
+ }
+}
+
+@media only screen and (max-width: 460px),
+(min-device-width: 468px) and (max-device-width: 624px) {
+  table{
+    border-collapse: collapse;
+    width:90%;
+
+  tr{
+    td{
+      border:1pt solid black;
+      button{
+        padding:0pt;
+        width:100%;
+        overflow: hidden;
+      font-size:9pt;
+      }
+    }
+  }
+  }
+}
+
+
+
 
 
 @media print {
