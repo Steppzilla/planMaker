@@ -5,11 +5,10 @@
 button {
   border: none;
   background-color: inherit;
-  width: 120pt;
 }
 
 button:hover {
-  background-color: green;
+  background-color: steelblue;
 }
 
 .date {
@@ -37,12 +36,12 @@ button:hover {
 #menu button, #ansichtMenu button, #topmenu button{
   border-radius:5pt;
   margin:5pt;
-  width:100%;
+
 }
 
 .loadSaveContain {
   display: flex;
-  button{width:100%;}
+  button{}
 }
  #ansichtMenu button,
  #topMenu{}

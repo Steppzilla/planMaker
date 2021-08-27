@@ -1,5 +1,5 @@
-<div id="topmenu" class="noprint"> 
-  <div class="date "> 
+<div id="topmenu" class="noprint">
+  <div class="date ">
     {{termine.datumHeute.getDate()}}.{{termine.datumHeute.getMonth()+1}}.{{termine.datumHeute.getFullYear()}}
   </div>
 
@@ -7,18 +7,23 @@
     <!--
 <button (click)="toggleColor()">color</button>  -->
     <button class=" load" (click)="load()">laden ({{speicherPlatzNr}}) </button>
-    <button class="noprint"  (click)="wahl(0)">0</button>
-  <button class="noprint"  (click)="wahl(1)">1</button>
-  <button class="noprint"  (click)="wahl(2)">2</button>
-  <button class="noprint"  (click)="wahl(3)">3</button>
-  <button class="noprint"  (click)="wahl(4)">4</button>
-  <button class="noprint"  (click)="wahl(5)">5</button>
-  <button class="noprint"  (click)="wahl(6)">6</button>
-  <button class="noprint"  (click)="wahl(7)">7</button>
-  <button class="noprint"  (click)="wahl(8)">8</button>
-  <button class="noprint"  (click)="wahl(9)">9</button>
-  <button class="noprint"  (click)="wahl(10)">10</button>
-  
+    <div triggers="click" [ngbTooltip]="Speicherplaetze" > Speicherplatz ändern
+
+    <ng-template #Speicherplaetze>
+      <button class="noprint" (click)="wahl(0)">0</button>
+      <button class="noprint" (click)="wahl(1)">1</button>
+      <button class="noprint" (click)="wahl(2)">2</button>
+      <button class="noprint" (click)="wahl(3)">3</button>
+      <button class="noprint" (click)="wahl(4)">4</button>
+      <button class="noprint" (click)="wahl(5)">5</button>
+      <button class="noprint" (click)="wahl(6)">6</button>
+      <button class="noprint" (click)="wahl(7)">7</button>
+      <button class="noprint" (click)="wahl(8)">8</button>
+      <button class="noprint" (click)="wahl(9)">9</button>
+      <button class="noprint" (click)="wahl(10)">10</button>
+    </ng-template>
+  </div>
+
 
 
     <button class="save" (click)="save()">speichern ({{speicherPlatzNr}})</button>
@@ -28,19 +33,20 @@
 </div>
 
 <div id="ansichtMenu" class="noprint">
-<button (click)="redirect('lehrerListe')"> Lehrer-Übersicht</button> <button (click)="redirect('einzelplaene')"> Einzelplaene </button>
+  <button (click)="redirect('lehrerListe')"> Lehrer-Übersicht</button> <button (click)="redirect('einzelplaene')">
+    Einzelplaene </button>
 </div>
 
 <div id="menu" class="noprint">
 
-   <button (click)="redirect('klasseFach')"> Zuweisung </button>
-  <button (click)="redirect('gesamtplan')"> Gesamtplan  </button>
+  <button (click)="redirect('klasseFach')"> Zuweisung </button>
+  <button (click)="redirect('gesamtplan')"> Gesamtplan </button>
   <!--<button class="noprint" (click)="redirect('epoche')"> Epoche</button>
   <button class="noprint" (click)="redirect('schiene')"> Schiene</button>
   <button class="noprint" (click)="redirect('rhythmus')"> Rhythmus</button>-->
   <button (click)="redirect('ESR')"> ESR </button>
   <button (click)="redirect('vertretung')">Vertretung</button>
-  
+
 </div>
 
 
@@ -58,21 +64,20 @@
 </div>
 
 
-  <div id="Lehrerselect" class="buttonreihe noprint">
-    <div>
-      <!-- -->
-      <ng-container *ngFor="let lehrer of this.lehrerListe; index as i">
-        <button (click)="lehrerwahl(i)" triggers="hover"  [ngbTooltip]="Kuerzel" placement="top">
-   <!--   <button triggers="click" [autoClose]="true" class="{{hintergrundd(cell)}}" [ngbTooltip]="Lehrer2"
+<div id="Lehrerselect" class="buttonreihe noprint">
+  <div>
+    <!-- -->
+    <ng-container *ngFor="let lehrer of this.lehrerListe; index as i">
+      <button (click)="lehrerwahl(i)" triggers="hover" [ngbTooltip]="Kuerzel" placement="top">
+        <!--   <button triggers="click" [autoClose]="true" class="{{hintergrundd(cell)}}" [ngbTooltip]="Lehrer2"
               placement="bottom" (click)="cellKlick($event,std,r+1)">-->
-          {{lehrer.kuerzel}}
-         <ng-template #Kuerzel>
-           <div class="kuerzelGroß">
-           {{lehrer.anrede}} {{lehrer.name}}
+        {{lehrer.kuerzel}}
+        <ng-template #Kuerzel>
+          <div class="kuerzelGroß">
+            {{lehrer.anrede}} {{lehrer.name}}
           </div>
-         </ng-template>
-        </button>
-      </ng-container>
-    </div>
+        </ng-template>
+      </button>
+    </ng-container>
   </div>
-
+</div>
