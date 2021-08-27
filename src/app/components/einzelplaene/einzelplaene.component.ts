@@ -48,24 +48,15 @@ import {
 })
 export class EinzelplaeneComponent implements OnInit {
 
-
   printAktiv = false;
-
   show() {
     this.printAktiv = true;
   }
-
-
-
-
-
-
   gewaehlterLehrer: Lehrer;
   //grundFaecher;
 
   breite = new Array(5);
   hoehe = new Array(11);
-
 
   alleLehrer$ = this.klassenS.lehrerArray$.pipe(
 
@@ -82,7 +73,6 @@ export class EinzelplaeneComponent implements OnInit {
             klasse: []
           }))
         );
-
         if (lehrerElemente !== undefined) {
           lehrerElemente.forEach(element => {
             element.zuweisung.uebstunde.forEach(zuweisung => {
@@ -93,8 +83,6 @@ export class EinzelplaeneComponent implements OnInit {
             });
           });
         }
-
-
         return {
           kuerzel: gg.kuerzel,
           planB: wochenPlan,
@@ -108,8 +96,6 @@ export class EinzelplaeneComponent implements OnInit {
     })
 
   );
-
-
 
   lehrerItems$ = this.lehrerServ.lehrerSelected$.pipe(
     filter(f => f.kuerzel !== null),
@@ -156,10 +142,7 @@ export class EinzelplaeneComponent implements OnInit {
   }
 
 
-
-
   esrPlan;
-
   grundPlanfaecher;
 
   hintergrund(r) {
@@ -172,7 +155,6 @@ export class EinzelplaeneComponent implements OnInit {
     }
 
   }
-
 
   lehrerItems(lehrer) {
     let ar = [];
