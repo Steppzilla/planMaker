@@ -187,6 +187,7 @@ table {
        button{
          width:20pt;
          overflow: hidden;
+         padding:0pt;
        
        }
      }
@@ -198,12 +199,16 @@ table {
 @media only screen and (max-width: 460px),
 (min-device-width: 468px) and (max-device-width: 624px) {
   .wochenTagContainer table{
+    border-collapse: collapse;
+
   tr{
     td{
+      border:1pt solid black;
       button{
-        width:10pt;
+        padding:0pt;
+        width:12pt;
         overflow: hidden;
-      
+      font-size:9pt;
       }
     }
   }
