@@ -167,12 +167,46 @@ table {
 (min-device-width: 768px) and (max-device-width: 1024px) {
   .fachItem {
     display: block;
+    div{
+      overflow: hidden;
+      
+    }
   }
   .kuerzl {
     display: block;
   }
   .fach {
     display: none;
+  }
+  th>span{display:none;} //Anzahl der stunden einer klasse
+ .wochenTagContainer table{
+ 
+
+   tr{
+     td{
+       button{
+         width:20pt;
+         overflow: hidden;
+       
+       }
+     }
+   }
+
+ }
+}
+
+@media only screen and (max-width: 460px),
+(min-device-width: 468px) and (max-device-width: 624px) {
+  .wochenTagContainer table{
+  tr{
+    td{
+      button{
+        width:10pt;
+        overflow: hidden;
+      
+      }
+    }
+  }
   }
 }
 
@@ -302,17 +336,5 @@ table {
       }
     }
   }
-  //.klassenspalte {
-  //  margin: 0pt;
-  //}
-
-  ///#tabelle>div:nth-child(1) {
-  //  border-right: 1px black solid;
-  //}
-
-  /*
-  button:last-child>.huB {
-    background-color: green;
-  }*/
-  //button:nth-of-type(odd){border-top:1pt black solid;}
+  
 }

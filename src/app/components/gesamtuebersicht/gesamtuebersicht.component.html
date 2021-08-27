@@ -42,7 +42,8 @@
             <tr>
               <th></th>
               <th *ngFor="let cell of gesRaster[wochenTag][0]; index as k">
-                {{k+1}}({{klassengesamtstunden(k+1)}}) </th>
+                {{k+1}}
+                <span>({{klassengesamtstunden(k+1)}}) </span></th>
             </tr>
             <tr *ngFor="let zeile of gesRaster[wochenTag], index as std">
               <th>
