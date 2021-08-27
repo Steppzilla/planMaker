@@ -200,13 +200,14 @@ table {
 (min-device-width: 468px) and (max-device-width: 624px) {
   .wochenTagContainer table{
     border-collapse: collapse;
+    width:90%;
 
   tr{
     td{
       border:1pt solid black;
       button{
         padding:0pt;
-        width:12pt;
+        width:100%;
         overflow: hidden;
       font-size:9pt;
       }
