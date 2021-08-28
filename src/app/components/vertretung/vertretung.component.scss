@@ -15,49 +15,7 @@ $background2:rgb(52, 57, 52);
 $color:black; //rgb(153, 153, 134);
 $back-light:rgb(68, 68, 68);
 
-#gesamtuebersicht {
-  background-color: rgb(255, 255, 255);
-  color: $schriftfarbe;
-}
 
-.iconBut {
-  background: none;
-  border: none;
-}
-
-h1>button {
-  background: none;
-}
-
-.flex3 {
-  display: flex;
-  width: 100%;
-}
-
-.flex3>div:nth-child(1) {
-  text-align: center;
-  min-width: 20pt;
-  button {
-    position: fixed;
-    top: 50%;
-    left: 0pt;
-  }
-}
-
-.flex3>div:nth-child(2) {
-  width: 100%;
-}
-
-.flex3>div:nth-child(3) {
-  text-align: center;
-  min-width: 20pt;
-
-  button {
-    position: fixed;
-    top: 50%;
-    right: 0pt;
-  }
-}
 
 button:hover {
   background-image: repeating-linear-gradient(45deg,
@@ -71,21 +29,19 @@ th {
 }
 
 table {
+  line-height:1;
   page-break-inside: auto;
   margin-right: auto;
   margin-left: auto;
   //border-collapse: collapse;
   border-collapse: separate;
-  row-gap: 20px;
-  column-gap: 100px;
 
   tr {
     th {
       text-align: center;
     }
     td {
-
-      height: 45pt;
+      height: 30pt;
       button {
         padding-left:4pt;
         padding-right:4pt;
@@ -137,14 +93,6 @@ button {
 
 .gruen {
   color: green;
-}
-
-.huB,
-.schB,
-.rhyB,
-.normalB,
-.empty {
-  height: 100%;
 }
 
 .huB {
@@ -202,105 +150,11 @@ button {
   background-image: inherit;
 }
 
-table button {
-  width: 100%;
-}
+
 
 // $colors : #fedc00, #fcb712, #f7921e, #e87f24, #dd6227, #dc4c27, #ca3435, #b82841, #953751, #364c88, #16599d, #02609e, #0073a9, #008aa4, #239a87, #7cba6d, #becc2f, #e0d81d;
 
-#tabelle {
-  height: 750px;
-  display: flex;
-  width: 98%;
-  margin: 1%;
-  margin-bottom: 0pt;
-}
 
-button:hover {
-  background-color: rgb(167, 209, 119);
-}
-
-.klassenspalte {
-  display: flex;
-  flex-direction: column;
-  margin: 1pt;
-  border-radius: 9pt;
-  // background-color: lightgrey;
-  width: 100%;
-}
-
-.klassenspalte>div {
-  display: table-cell;
-  min-width: 30pt;
-  height: 45pt;
-  /*  background: red;*/
-  margin: 0pt;
-}
-
-.boxi {
-  //hier scheint nicht alles .huB, schB undso zugeordnet zu sein (HU klasse 1-8 nicht)
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-
-
-.th {
-  font-weight: bold;
-  text-align: center;
-  height: 30pt;
-}
-
-.klassenspalte>div>button {
-  padding: 0pt;
-  height: 100%;
-  width: 100%;
-  // overflow: hidden;
-
-}
-
-.klassenspalte>.klasse.th {
-  font-weight: normal;
-  height: 30pt;
-  line-height: 30pt;
-  /*center-trick*/
-}
-
-
-#toggle-item-Container {
-  padding-top: 0pt;
-  padding-bottom: 0pt;
-  display: grid;
-  width: auto;
-  grid-template-columns: 35% 10% 10% 20% 25%;
-  border: 1pt solid grey;
-}
-
-.toggle-items {
-  font-size: 12pt;
-  line-height: 12t;
-  width: 100%;
-
-}
-
-
-
-.fakebutton>div {
-  width: 20pt;
-  height: 100%;
-  text-align: center;
-  line-height: 45pt;
-}
-
-.fakebutton {
-  width: 20pt;
-}
-
-.klassenspalte1 {
-  width: 20pt;
-}
 
 @media only screen and (max-width: 760px),
 (min-device-width: 768px) and (max-device-width: 1024px) {

@@ -2,9 +2,9 @@
   Einzelpläne drucken
 </button>
 
-<div id="printContainer">
-  <ng-container *ngIf="printAktiv">
-    <ng-container *ngFor="let lehre of alleLehrer$|async index as zZ">
+
+  <ng-container *ngFor="let lehre of alleLehrer$|async index as zZ">
+    <ng-container *ngIf="printAktiv||gewaehlterLehrer.kuerzel==lehre.kuerzel">
       <div class="lehrerBehaelter">
         <h2>Lehrer: {{lehre.kuerzel }}</h2>
         <div class="plaeneContainer">
@@ -23,7 +23,7 @@
                 <ng-container *ngIf="item?.fach else ITEM">
                   <td class="fach {{item?.fach}}">
                     <div>
-                      {{   item?.fach}}
+                      {{item?.fach}}
                       <span class="klasse" *ngFor="let x of item?.klasse">
                         {{x}}
                       </span>
@@ -76,7 +76,7 @@
                                     <!-- nur anzeigen, wenn kein Sonder-Event ist: -->
                                     <ng-template #INHALT>
                                       <div *ngFor="let u of cell" class="{{hintergrund(r)}}">
-                                        {{u.fach}} <span class="kuerzel">{{u.klasse}}</span>
+                                        {{u.fach}} <span class="klasse">{{u.klasse}}</span>
                                       </div>
                                     </ng-template>
                                   </button>
@@ -166,123 +166,12 @@
 
 
   </ng-container>
-</div>
-
-
-<div id="StundenPlan" class="noprint">
-
-  <div id="gesamtbox">
-    <h2>Lehrer: {{gewaehlterLehrer?gewaehlterLehrer.kuerzel :" "}}</h2>
-
-    <table *ngIf="lehrerItems$|async as lehrerItems">
-      <tr class="zeile th">
-        <th></th>
-        <th> Mo </th>
-        <th>Di</th>
-        <th> Mi </th>
-        <th> Do</th>
-        <th> Fr </th>
-      </tr>
-
-      <tr class="zeile" *ngFor="let stunde of lehrerItems; index as std">
-        <div class="th links"> {{std+1}}</div>
-        <ng-container *ngFor="let item of stunde; index as woTa">
-          <ng-container *ngIf="item else ITEM">
-            <td class="fach {{item?.fach}}">
-              <div>
-                {{   item?.fach}}
-                <span class="klasse" *ngFor="let x of item?.klasse">
-                  {{x}}
-                </span>
-              </div>
-            </td>
-          </ng-container>
-          <ng-template #ITEM>
-            <td class="leer">
-            </td>
-          </ng-template>
-
-
-
-        </ng-container>
-      </tr>
-    </table>
-  </div>
-</div>
 
 
 
 
 
-
-
-<div id="EpochenPlan" class="noprint">
-  <h1>Epochen-Plan: {{gewaehlterLehrer.kuerzel}} </h1>
-
-  <ng-container *ngIf="gewaehlterLehrer.kuerzel!==null">
-    <ng-container *ngIf="rhythmusPlan$|async as rhyPlan">
-      <ng-container *ngFor="let abschnitt of rhyPlan">
-        <table class="absch rhy2">
-          <ng-container *ngFor="let reihe of abschnitt, index as r">
-            <tr *ngIf="zeileMitInhalt(reihe)&&r!==4">
-              <ng-container *ngIf="r==0; else KLASSE">
-                <td class="" colSpan="1" *ngFor="let cell of reihe, index as c"
-                  (click)="clickN($event,r+8,  abschnitt[0][c][0].ueberschrift)">
-                  <div *ngFor="let u of cell">
-                    {{u.ueberschrift|date: 'd. M'}}
-                  </div>
-                </td>
-              </ng-container>
-              <ng-template #KLASSE>
-                <ng-container *ngFor="let cell of reihe, index as c">
-                  <ng-container *ngIf="
-                  (cell&&cell[0]&&cell[0].start!==null&&abschnitt[0][c][0].ueberschrift.getTime()===cell[0].start.getTime())
-                  ||
-                  (cell?.length===0)
-                  ||
-                  c==0
-                
-                ">
-                    <!-- bei lehrer== null ist ganztagsabfrage. Dazu  muss kommen, wenn länge definiert wird:
-                &&abschnitt[r][c][0].lehrer!==abschnitt[r][c-1][0].lehrer-->
-
-                    <!--  IF: c==0||(equals(abschnitt[r][c],abschnitt[r][c-1])===false)-->
-
-                    <td colSpan="{{abschnitt[r][c][0]?abschnitt[r][c][0].spanNr:1}}">
-                      <button triggers="click" [ngbTooltip]="FachAuswahl" placement="bottom" [autoClose]="true"
-                        (click)="clickN($event,r+8,  abschnitt[0][c][0].ueberschrift)">
-
-                        <!-- sonder-Event (ganztaegig?)-->
-
-                        <ng-container *ngIf="cell[0]&&cell[0].ganztaegig.length>0; else INHALT">
-                          <div *ngFor="let ce of cell" class="projekt">
-
-                            {{ce.ganztaegig}}
-                          </div>
-                        </ng-container>
-
-                        <!-- nur anzeigen, wenn kein Sonder-Event ist: -->
-                        <ng-template #INHALT>
-                          <div *ngFor="let u of cell" class="{{hintergrund(r)}}">
-                            {{u.fach}} <span class="kuerzel">{{u.klasse}}</span>
-                          </div>
-                        </ng-template>
-
-                      </button>
-
-                    </td>
-                  </ng-container>
-                </ng-container>
-              </ng-template>
-            </tr>
-          </ng-container>
-        </table>
-      </ng-container>
-    </ng-container>
-  </ng-container>
-
-
-  <!--
+<!--
 
   <div class="planRahmen">
     <ng-container *ngFor="let tag of esrPlan; index as d">

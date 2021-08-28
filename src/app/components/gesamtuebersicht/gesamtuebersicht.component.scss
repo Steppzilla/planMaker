@@ -11,6 +11,8 @@ $background:rgb(126, 126, 126);
 $background2:rgb(194, 199, 194);
 $back-light:rgb(231, 224, 224);
 
+
+
 h1,
 h2 {
   text-align: center;
@@ -40,6 +42,7 @@ th {
 }
 
 table {
+  line-height:1;
   page-break-inside: auto;
   margin-right: auto;
   margin-left: auto;
@@ -53,7 +56,7 @@ table {
       text-align: center;
     }
     td {
-      height: 45pt;
+      height: 30pt;
       button {
         height: 100%;
         width: 100%;
