@@ -92,7 +92,7 @@ export class EinzelplaeneComponent implements OnInit {
 
     }),
     tap(z => {
-      console.log(z);
+     // console.log(z);
     })
 
   );
@@ -173,7 +173,7 @@ export class EinzelplaeneComponent implements OnInit {
   }
 
   zeileMitInhalt(reihe) {
-    // console.log(reihe);
+
     let bo = false;
 
     if (reihe === undefined || reihe.length == 0) {
@@ -190,6 +190,18 @@ export class EinzelplaeneComponent implements OnInit {
     }
     // console.log(bo);
     return bo;
+  }
+
+  stundenPlanZeileLeer(reihe){
+    console.log(reihe);
+    let bo=false;
+    reihe.forEach(obj => {
+      if(obj.fach!=null||obj.klasse.length!=0){
+      bo=true;
+      }
+      
+    });
+ return bo;
   }
 
   anzeigen = false;

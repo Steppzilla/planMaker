@@ -54,9 +54,11 @@ export class GesamtuebersichtComponent implements OnInit {
   buttontext = "einblenden";
   selectLehrer: Lehrer;
 
-  printAktiv=false;
+  printAktiv = false;
 
-  print(){this.printAktiv=true;}
+  print() {
+    this.printAktiv = true;
+  }
 
 
   klassen = Object.values(Lehrjahr);
@@ -90,7 +92,7 @@ export class GesamtuebersichtComponent implements OnInit {
   }
 
   gesamtRaster$ = this.klassenplanServ.grundPlanfaecher$.pipe( //Bei Änderungen im Plan updaten
-  
+
     map(z => {
       let ar = {
         montag: new Array(11).fill(null).map(x => new Array(13)),
@@ -110,7 +112,7 @@ export class GesamtuebersichtComponent implements OnInit {
             ar[woT.toLowerCase()][std][klasse] = new Array();
           }
 
-          if(el.lehrer.length===0){
+          if (el.lehrer.length === 0) {
             ar[woT.toLowerCase()][std][klasse].push([el.fach, "NN"]);
           }
 
@@ -121,7 +123,7 @@ export class GesamtuebersichtComponent implements OnInit {
             if (lehr) {
               ar[woT.toLowerCase()][std][klasse].push([el.fach, lehr.kuerzel]);
             } else {
-             
+
 
             }
           });
@@ -200,48 +202,39 @@ export class GesamtuebersichtComponent implements OnInit {
     return duplicates > 1 ? "error" : "ok";
   }
 
- 
-
-  duplicatesss(kuerz, z, fachd, wochentagKlein) { //
-    let wochenT=wochentagKlein.substring(1,0).toUpperCase()+wochentagKlein.slice(1,wochentagKlein.length);
-  
-  //  let gesamtR=this.gesamtRast();
+  duplicatesss(kuerz, zeile,  fachd) { // zeile war vorher nur zeilen-nummer
     let duplicates = 0;
-   
-  //statt grundfäecher muss man hier gesamtRast bzw gesamtR benutzen, schaff das aber nich ausm promise rauszubekommen...
-
-    this.grundPlanfaecher.forEach((element, e) => {
-      if (element == null) {
-        this.grundPlanfaecher.splice(e, 1);
-      } else {
-        element.zuweisung.uebstunde.forEach(({
-          wochentag,
-          stunde
-        }, ue) => {
-          //  console.log(wochentag + "."+this.wochenTagauswahl);
-          if (wochentag == wochenT && stunde == z) {
-         //   console.log(wochenT);
-            element.lehrer.forEach(le => {
-              if (kuerz == null || le == null) {
-
-              } else if (kuerz && element && kuerz == le.kuerzel) {
-                // console.log(element.lehrer[0].kuerzel + "." +r + ". " + element.klasse);
-
-                if (fachd != Fach.hauptunterricht && fachd != Fach.schiene && fachd != Fach.rhythmisch && fachd != Fach.orchester && fachd != Fach.wahlpflicht && fachd != Fach.chor && fachd != Fach.mittelstufenorchester) {
-                  duplicates++;
-                } else if (element.fach != Fach.hauptunterricht && element.fach != Fach.schiene && element.fach != Fach.rhythmisch && element.fach != Fach.orchester && element.fach != Fach.wahlpflicht && element.fach != Fach.chor && element.fach != Fach.mittelstufenorchester) {
-                  duplicates++;
-                }
-              }
-            });
+    zeile.forEach(cell => {
+      cell.forEach(element => {
+        //Zeitversetzte oder klassenübergreifende fächer aussschließen!
+        if (kuerz === element[1]) {
+          if ((fachd === Fach.hauptunterricht //aktuelle zelle ist nicht hu/Sch oder rhy, dann direkt hochzählen
+            || fachd === Fach.schiene 
+            || fachd === Fach.rhythmisch 
+            || fachd=== Fach.orchester 
+            || fachd === Fach.wahlpflicht 
+            || fachd === Fach.chor 
+            || fachd === Fach.mittelstufenorchester
+            ) &&(element[0] === Fach.hauptunterricht ||  //Vergleichszelle ist nicht hu/sch oder rhy. 
+              //Hier geht er auch aktuelle zelle durch, daher entsteht automatisch eine dopplung
+              element[0] === Fach.schiene || 
+              element[0] === Fach.rhythmisch || 
+              element[0] === Fach.orchester ||
+              element[0] === Fach.wahlpflicht || 
+              element[0] === Fach.chor || 
+              element[0] === Fach.mittelstufenorchester)){
+                //wenn er selbst schiene ist zählt er nur einmal hoch, weil beim Verglecih mit sich selbst beidesmal schiene ist
+           
+          } else {
+            duplicates++;
+            if(fachd=== (Fach.hauptunterricht||Fach.schiene||Fach.rhythmisch ||Fach.orchester
+              ||Fach.wahlpflicht||Fach.chor ||Fach.mittelstufenorchester )){
+                duplicates++;
+            }
           }
-        });
-      }
+        }
+      });
     });
-
-    if (fachd == Fach.hauptunterricht || fachd == Fach.schiene || fachd == Fach.rhythmisch) {
-      duplicates++;
-    }
     return duplicates > 1 ? "error" : "ok";
   }
 
@@ -320,7 +313,7 @@ export class GesamtuebersichtComponent implements OnInit {
   }
 
 
-  
+
   berechnungAktuelleStunden(elementt) {
     return this.klassenplanServ.berechnung(elementt);
   }
@@ -372,7 +365,7 @@ export class GesamtuebersichtComponent implements OnInit {
     neu.forEach((element, e) => {
       if (element != null && element.fach == clickedElementt.fach && element.klasse == clickedElementt.klasse && (element.uebstunde > 0)) {
 
-        if (element.lehrer[0] == null||element.lehrer[0].kuerzel===null) {
+        if (element.lehrer[0] == null || element.lehrer[0].kuerzel === null) {
           element.zuweisung.uebstunde.push({
             wochentag: this.wochenTagauswahl,
             stunde: stdZ

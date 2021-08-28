@@ -63,7 +63,7 @@
                     </div>
 
                     <ng-container *ngIf="item[0]!='StartUp'&&item[0]!='HU'&&item[0]!='Schiene'||r<8; else ESR">
-                      <div class="{{markedd(item[1])}} {{duplicatesss(item[1] ,std,item[0],wochenTag)}} kuerzl">
+                      <div class="{{markedd(item[1])}} {{duplicatesss(item[1] ,zeile,item[0])}} kuerzl">
                         {{item[1] }}
                       </div>
 
@@ -71,8 +71,8 @@
 
                     <ng-template #ESR>
                       <ng-container *ngIf="item[1]!=null">
-                        <ng-container *ngIf="markedd(item[1])=='blueback'||duplicatess(item[1],std,item[0])==='error'">
-                          <div class=" {{markedd(item[1])}} {{duplicatesss(item[1] ,std,item[0],wochenTag)}} kuerzl">
+                        <ng-container *ngIf="markedd(item[1])=='blueback'||duplicatesss(item[1],zeile,item[0])==='error'">
+                          <div class=" {{markedd(item[1])}} {{duplicatesss(item[1] ,zeile,item[0])}} kuerzl">
                             {{item[1] }}
                           </div>
                         </ng-container>
