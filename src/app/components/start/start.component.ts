@@ -25,6 +25,9 @@ toggleColor(){
 
   redirect(x:string){
     this.router.navigate([x]);
+    this.lehrer.gewaehlterPlan=x;
+    console.log(x);
+    console.log(this.lehrer.gewaehlterPlan);
   }
 
   save() {

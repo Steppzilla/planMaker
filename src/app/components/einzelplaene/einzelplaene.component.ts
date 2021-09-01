@@ -193,7 +193,7 @@ export class EinzelplaeneComponent implements OnInit {
   }
 
   stundenPlanZeileLeer(reihe){ //Einzelplan Stundenplan ausblenden wenn alle reihen leer sind.
-    console.log(reihe);
+    //console.log(reihe);
     let bo=false;
     reihe.forEach(obj => {
       if(obj.fach!=null||obj.klasse.length!=0){
@@ -1066,7 +1066,7 @@ export class EinzelplaeneComponent implements OnInit {
 
 
 
-  constructor(private klassenS: KlassenplaeneService, public ferienServ: FerientermineService, private lehrerServ: LehrerService, public epochenPlanS: EpochenPlaeneService) {
+  constructor(private klassenS: KlassenplaeneService, public ferienServ: FerientermineService, public lehrerServ: LehrerService, public epochenPlanS: EpochenPlaeneService) {
     lehrerServ.lehrerSelected$.subscribe(data => {
       this.gewaehlterLehrer = data;
     });

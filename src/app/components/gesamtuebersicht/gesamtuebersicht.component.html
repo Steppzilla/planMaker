@@ -14,7 +14,7 @@
         src="../../../assets/iconsNav/pfeilSchwR.png" /></button>
   </div>
 </div>
-<button (click)="print()" class="noprint"> Gesamtpläne drucken </button>
+<button *ngIf="lehrerService.gewaehlterPlan==='gesamtplan'" (click)="print()" class="noprint"> Gesamtpläne drucken </button>
 
 <h1 >Gesamtplan</h1>
 <div id="main">

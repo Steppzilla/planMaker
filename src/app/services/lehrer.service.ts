@@ -14,6 +14,8 @@ import {
   providedIn: 'root'
 })
 export class LehrerService {
+
+  gewaehlterPlan="gesamtplan";
   //wochenTagSelect=new BehaviorSubject(null);
   wochenTagSelect="Montag";
   lehrerSelected = new BehaviorSubject(null);
