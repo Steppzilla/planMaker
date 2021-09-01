@@ -192,14 +192,13 @@ export class EinzelplaeneComponent implements OnInit {
     return bo;
   }
 
-  stundenPlanZeileLeer(reihe){
+  stundenPlanZeileLeer(reihe){ //Einzelplan Stundenplan ausblenden wenn alle reihen leer sind.
     console.log(reihe);
     let bo=false;
     reihe.forEach(obj => {
       if(obj.fach!=null||obj.klasse.length!=0){
-      bo=true;
+        bo=true;
       }
-      
     });
  return bo;
   }

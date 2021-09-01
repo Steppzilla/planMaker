@@ -2,22 +2,14 @@
   font-size: 9pt;
 }
 
-
-
 //aus zuweisung kopiert, noch nicht benutzt:
 $background:white;
 $color:black;
 $kuerzel: grey;
 $back-light:rgb(228, 228, 228);
 
-
-$rhytext:black;
 $rhybackground: rgb(255, 144, 133);
-
-$epoText:rgb(0, 0, 0);
 $epoBackground: rgb(207, 198, 98);
-
-$schieneText:rgb(0, 0, 0);
 $schieneBackground: rgb(176, 219, 130);
 
 .iconBut {
@@ -25,63 +17,51 @@ $schieneBackground: rgb(176, 219, 130);
   border: none;
 }
 
-
 .planRahmen,
 #gesamt {
-  color: $color;
-
+  //color: $color;
 }
 
 .epoB {
   background-color: $epoBackground;
-  color: $epoText;
 }
 
 .schB {
   background-color: $schieneBackground;
-  color: $schieneText;
+
 }
 
 .rhyB {
   background-color: $rhybackground;
-  color: $rhytext;
+
 }
 
 .epo2 {
   tr:nth-child(1) {
     td {
       background-color: $epoBackground;
-      color: $epoText;
     }
   }
-
-  color: $epoText;
 }
 
 .sch2 {
   tr:nth-child(1) {
     td {
       background-color: $schieneBackground;
-      color: $schieneText;
     }
   }
-
-  color: $schieneText;
 }
 
 .rhy2 {
   tr:nth-child(1) {
     td {
       background-color: $rhybackground;
-      color: $rhytext;
     }
   }
-
-  color: $rhytext;
 }
 
 .kuerzel {
-  color: $kuerzel;
+  //color: $kuerzel;
 }
 
 .projekt {
@@ -128,11 +108,11 @@ table {
 }
 
 .blueback {
-  color: rgb(147, 147, 184);
+ // color: rgb(147, 147, 184);
+ color:black;
   font-weight: bold;
-  background-color: blue;
+  background-color: rgb(160, 160, 241);
 }
-
 
 @media print {
   * {
@@ -153,11 +133,4 @@ margin-right:auto;}
     flex-wrap: wrap;
 
   }
-
- 
-
-
-
-
-
 }

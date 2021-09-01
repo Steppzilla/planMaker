@@ -15,8 +15,6 @@ $background2:rgb(52, 57, 52);
 $color:black; //rgb(153, 153, 134);
 $back-light:rgb(68, 68, 68);
 
-
-
 button:hover {
   background-image: repeating-linear-gradient(45deg,
       $hover 0%,
@@ -34,19 +32,20 @@ table {
   margin-right: auto;
   margin-left: auto;
   //border-collapse: collapse;
-  border-collapse: separate;
+  border-collapse: collapse;
 
   tr {
     th {
       text-align: center;
     }
     td {
+      border:1px black solid;
       height: 30pt;
       button {
-        padding-left:4pt;
-        padding-right:4pt;
         height: 100%;
         width: 100%;
+        padding-left:4pt;
+        padding-right:4pt;
         div {}
       }
     }
@@ -83,8 +82,7 @@ button {
 }
 
 .ok {
-  border-radius: 4pt;
-  color: green;
+
 }
 
 .blueback {
@@ -96,15 +94,15 @@ button {
 }
 
 .huB {
-   background-color: rgb(238, 198, 22);
+  background-color: rgb(207, 198, 98);
 }
 
 .schB {
-  background-color: rgb(245, 229, 11);
+  background-color: rgb(176, 219, 130);
 }
 
 .rhyB {
-  background-color: rgb(59, 182, 76);
+  background-color: rgb(255, 144, 133);
 }
 
 .normalB {

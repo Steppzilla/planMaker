@@ -5,24 +5,19 @@
 
 $schriftfarbe:rgb(0, 0, 0);
 $hover:rgb(98, 107, 146);
-
 //aus zuweisung kopiert, noch nicht benutzt:
 $background:rgb(126, 126, 126);
 $background2:rgb(194, 199, 194);
 $back-light:rgb(231, 224, 224);
 
-
-
 h1,
 h2 {
   text-align: center;
-  margin-top: 0pt;
-  padding-top: 10pt;
+
 }
 
 button {
-  border: solid 0pt black;
-  background-image: inherit;
+  border: solid 1pt black;
 }
 
 #gesamtuebersicht {
@@ -41,28 +36,46 @@ th {
   font-weight: normal;
 }
 
-table {
-  line-height:1;
-  page-break-inside: auto;
-  margin-right: auto;
-  margin-left: auto;
-  //border-collapse: collapse;
-  border-collapse: separate;
-  row-gap: 20px;
-  column-gap: 100px;
-
-  tr {
-    th {
-      text-align: center;
+.wochenTagContainer {
+  h2 button{
+    border-radius:5pt;
+    line-height:1;
+  }
+  .wochentagButton{
+    width:80pt;
+    display:block;
+    button{
+      width:100%;
+      border:none;
+      background-color: inherit;
     }
-    td {
-      height: 30pt;
-      button {
-        height: 100%;
-        width: 100%;
-        padding-left:4pt;
-        padding-right:4pt;
-        div {}
+  }
+
+  table {
+    line-height: 1;
+    page-break-inside: auto;
+    margin-right: auto;
+    margin-left: auto;
+    //border-collapse: collapse;
+    border-collapse: collapse;
+
+    tr {
+      th {
+        text-align: center;
+      }
+
+      td {
+        border: 1px black solid;
+        height: 30pt;
+
+        button {
+          height: 100%;
+          width: 100%;
+          padding-left: 4pt;
+          padding-right: 4pt;
+
+          div {}
+        }
       }
     }
   }
@@ -70,20 +83,12 @@ table {
 
 .fachItem {
   display: flex;
+
   div {
     width: 100%;
   }
 }
 
-//obere buttons mo, di mittwoch
-.buttonreihe.wochentagButton {
-  display: flex;
-  background-image: inherit;
-  button {
-    width: 100%;
-  }
-  border-top: 1pt $schriftfarbe solid;
-}
 
 //obere buttons ende
 // $colors : #fedc00, #fcb712, #f7921e, #e87f24, #dd6227, #dc4c27, #ca3435, #b82841, #953751, #364c88, #16599d, #02609e, #0073a9, #008aa4, #239a87, #7cba6d, #becc2f, #e0d81d;
@@ -91,10 +96,11 @@ table {
 .error {
   color: red;
 }
+
 .ok {
-  border-radius: 4pt;
-  color: green;
+  // border-radius: 4pt;
 }
+
 .blueback {
   color: rgb(82, 82, 241);
 }
@@ -108,15 +114,15 @@ table {
 }
 
 .huB {
-  background-color: rgb(238, 198, 22);
+  background-color: rgb(207, 198, 98);
 }
 
 .schB {
-  background-color: rgb(245, 229, 11);
+  background-color: rgb(176, 219, 130);
 }
 
 .rhyB {
-  background-color: rgb(59, 182, 76);
+  background-color: rgb(255, 144, 133);
 }
 
 .normalB {
@@ -170,53 +176,65 @@ table {
 (min-device-width: 768px) and (max-device-width: 1024px) {
   .fachItem {
     display: block;
-    div{
+
+    div {
       overflow: hidden;
-      
+
     }
   }
+
   .kuerzl {
     display: block;
   }
+
   .fach {
-    display:none;
-    
+    display: none;
+
   }
-  th>span{display:none;} //Anzahl der stunden einer klasse
- .wochenTagContainer table{
- 
 
-   tr{
-     td{
-       button{
-         width:20pt;
-         overflow: hidden;
-         padding:0pt;
-       
-       }
-     }
-   }
+  th>span {
+    display: none;
+  }
 
- }
+  //Anzahl der stunden einer klasse
+  .wochenTagContainer {
+    button {}
+
+    table {
+
+
+      tr {
+        td {
+          button {
+            width: 20pt;
+            overflow: hidden;
+            padding: 0pt;
+
+          }
+        }
+      }
+    }
+  }
 }
 
 @media only screen and (max-width: 460px),
 (min-device-width: 468px) and (max-device-width: 624px) {
-  .wochenTagContainer table{
+  .wochenTagContainer table {
     border-collapse: collapse;
-    width:90%;
+    width: 90%;
 
-  tr{
-    td{
-      border:1pt solid black;
-      button{
-        padding:0pt;
-        width:100%;
-        overflow: hidden;
-      font-size:9pt;
+    tr {
+      td {
+        border: 1pt solid black;
+
+        button {
+          padding: 0pt;
+          width: 100%;
+          overflow: hidden;
+          font-size: 9pt;
+        }
       }
     }
-  }
   }
 }
 
@@ -229,27 +247,33 @@ table {
     margin: 0pt;
     background-image: none;
   }
-  h1 {
+
+  h1,
+  h2 {
     //font-weight:bold;
+    margin-top: 4pt;
     padding-top: 0pt;
     margin: 0pt;
     font-size: 20pt;
     color: $schriftfarbe;
   }
+
   h2 {
-    color:  $schriftfarbe;
+    color: $schriftfarbe;
     font-size: 16pt;
   }
+
   #gesamtuebersicht {
     background-image: none;
     background-color: white;
-    color:  $schriftfarbe;
+    color: $schriftfarbe;
     border: none;
   }
 
   .buttonreihe.wochentagButton {
     display: block;
   }
+
   //sonst noprint kenie wirkung
 
   .kuerzl {
@@ -311,6 +335,13 @@ table {
 
   .wochenTagContainer {
     page-break-inside: avoid;
+
+    div h2 button {
+      background-color: white;
+      border: none;
+      font-size: 20pt;
+      font-weight: bold;
+    }
   }
 
   table {
@@ -326,6 +357,7 @@ table {
     }
 
     tr {
+
       //  border-bottom: 1px grey dotted;
       th {
         height: 10pt;
@@ -336,13 +368,15 @@ table {
 
       td {
         height: 10pt;
+
         button {
           height: 100%;
           width: 100%;
+
           div {}
         }
       }
     }
   }
-  
+
 }

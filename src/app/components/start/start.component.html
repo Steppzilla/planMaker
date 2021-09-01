@@ -2,43 +2,30 @@
   <div class="date ">
     {{termine.datumHeute.getDate()}}.{{termine.datumHeute.getMonth()+1}}.{{termine.datumHeute.getFullYear()}}
   </div>
-
-  <ng-container class="loadSaveContain">
-    <!--
-<button (click)="toggleColor()">color</button>  -->
-    <button class=" load" (click)="load()">laden ({{speicherPlatzNr}}) </button>
-    <div triggers="click" [ngbTooltip]="Speicherplaetze" > Speicherplatz ändern
-
-    <ng-template #Speicherplaetze>
-      <button class="noprint" (click)="wahl(0)">0</button>
-      <button class="noprint" (click)="wahl(1)">1</button>
-      <button class="noprint" (click)="wahl(2)">2</button>
-      <button class="noprint" (click)="wahl(3)">3</button>
-      <button class="noprint" (click)="wahl(4)">4</button>
-      <button class="noprint" (click)="wahl(5)">5</button>
-      <button class="noprint" (click)="wahl(6)">6</button>
-      <button class="noprint" (click)="wahl(7)">7</button>
-      <button class="noprint" (click)="wahl(8)">8</button>
-      <button class="noprint" (click)="wahl(9)">9</button>
-      <button class="noprint" (click)="wahl(10)">10</button>
-    </ng-template>
-  </div>
-
-
-
-    <button class="save" (click)="save()">speichern ({{speicherPlatzNr}})</button>
-  </ng-container>
-
-
+ <div class="loadSaveContain">
+    <button class=" load" (click)="load()">load  </button>
+    <button class="speicherWahl" triggers="click" [ngbTooltip]="Speicherplaetze"> {{speicherPlatzNr}}
+      <ng-template #Speicherplaetze>
+        <button class="noprint" (click)="wahl(0)">0</button>
+        <button class="noprint" (click)="wahl(1)">1</button>
+        <button class="noprint" (click)="wahl(2)">2</button>
+        <button class="noprint" (click)="wahl(3)">3</button>
+        <button class="noprint" (click)="wahl(4)">4</button>
+        <button class="noprint" (click)="wahl(5)">5</button>
+        <button class="noprint" (click)="wahl(6)">6</button>
+        <button class="noprint" (click)="wahl(7)">7</button>
+        <button class="noprint" (click)="wahl(8)">8</button>
+        <button class="noprint" (click)="wahl(9)">9</button>
+        <button class="noprint" (click)="wahl(10)">10</button>
+      </ng-template>
+    </button>
+    <button class="save" (click)="save()">save </button>
+ </div>
 </div>
 
-<div id="ansichtMenu" class="noprint">
-  <button (click)="redirect('lehrerListe')"> Lehrer-Übersicht</button> <button (click)="redirect('einzelplaene')">
-    Einzelplaene </button>
-</div>
 
-<div id="menu" class="noprint">
 
+<span id="menu" class="noprint">
   <button (click)="redirect('klasseFach')"> Zuweisung </button>
   <button (click)="redirect('gesamtplan')"> Gesamtplan </button>
   <!--<button class="noprint" (click)="redirect('epoche')"> Epoche</button>
@@ -46,23 +33,19 @@
   <button class="noprint" (click)="redirect('rhythmus')"> Rhythmus</button>-->
   <button (click)="redirect('ESR')"> ESR </button>
   <button (click)="redirect('vertretung')">Vertretung</button>
+  </span>
 
-</div>
-
-
-
+  <span id="ansichtMenu" class="noprint">
+    <button (click)="redirect('lehrerListe')"> Lehrer-Übersicht</button> <button (click)="redirect('einzelplaene')">
+      Einzelplaene </button>
+    </span>
 
 <div id="container">
-
   <router-outlet></router-outlet>
-
 </div>
-
 
 <div id="leerraum" class="noprint">
-
 </div>
-
 
 <div id="Lehrerselect" class="buttonreihe noprint">
   <div>
