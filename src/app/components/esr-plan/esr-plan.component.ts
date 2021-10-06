@@ -64,6 +64,10 @@ export class EsrPlanComponent implements OnInit {
 
   printAktiv = false;
 
+  kuerzen(text){
+    return text.slice(0,5);
+  }
+
   breite(klassenItems, tag, zeilenIndex, esrLang, abschnitt) {
     //console.log(abschnitt);
 
@@ -131,6 +135,8 @@ export class EsrPlanComponent implements OnInit {
 
     return counter >= cell2.length && counter != 0 ? true : false;
   }
+
+
 
   klassenFahrtBreite(abschnitt, box, klasseZahl, i) {
     let tag = box.tag;

@@ -53,8 +53,10 @@ background-color:$rhybackground;
 }
 
 #printContain{
-  table{margin-left:auto;
-    margin-right:auto;
+  display:flex;
+  flex-wrap:wrap;
+  table{
+    margin:5pt;
     tr{
       td{
         text-align: center;
@@ -201,7 +203,7 @@ button.B6 {
 
 .klein{font-size:8pt;}
 
-
+.fahrt{font-style: italic;}
 
 @media print {
   * {
