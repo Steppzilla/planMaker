@@ -2,16 +2,13 @@ import {
   Component,
   OnInit
 } from '@angular/core';
-import {
-  zip
-} from 'rxjs';
+import { Observable } from 'rxjs';
 import {
   concatMap,
   filter,
   map,
   take,
-  tap,
-  toArray
+  tap
 } from 'rxjs/operators';
 import {
   Fach
@@ -22,12 +19,14 @@ import {
 import {
   Wochentag
 } from 'src/app/enums/wochentag.enum';
+import { Elementt } from 'src/app/interfaces/elementt';
 import {
   Lehrer
 } from 'src/app/interfaces/lehrer';
 import {
   TagesObjekt
 } from 'src/app/interfaces/tages-objekt';
+import { Termin } from 'src/app/interfaces/termin';
 import {
   EpochenPlaeneService
 } from 'src/app/services/epochen-plaene.service';
@@ -54,19 +53,42 @@ export class EinzelplaeneComponent implements OnInit {
   }
   gewaehlterLehrer: Lehrer;
   //grundFaecher;
+  lehrerListe;
 
-  breite = new Array(5);
-  hoehe = new Array(11);
 
-  alleLehrer$ = this.klassenS.lehrerArray$.pipe(
 
+  esrPlan;//aus epochenplan
+  grundPlanfaecher;
+  termine;
+  ferien;
+  pruefung;
+
+  lehrerArray$: Observable < {
+    [key: string]: Elementt[]
+  } > =
+  this.klassenS.grundPlanfaecher$.pipe(
+    filter(r => r !== null),
+    map(x => {
+      let obj: {
+        [key: string]: Elementt[]
+      } = {};
+      x.forEach((ele: Elementt) => {
+        ele.lehrer.forEach(le => {
+          if (obj[le.kuerzel] === undefined) {
+            obj[le.kuerzel] = [];
+          }
+          obj[le.kuerzel].push(ele);
+        });
+      });
+      return obj;
+    })); 
+ 
+   alleLehrer$ =   this.lehrerArray$.pipe(
     //tap(lkj => console.log(lkj)),
     map(z => {
       //   let ar = new Array();
-
-      return this.lehrerServ.lehrer.slice(1, this.lehrerServ.lehrer.length).map(gg => {
+       return  this.lehrerListe.slice(1, this.lehrerListe.length).map(gg => {
         let lehrerElemente = z[gg.kuerzel];
-
         let wochenPlan = new Array(11).fill(null).map(g =>
           new Array(5).fill(null).map(() => ({
             fach: null,
@@ -89,18 +111,16 @@ export class EinzelplaeneComponent implements OnInit {
           //  planB:
         }
       });
-
     }),
     tap(z => {
-     // console.log(z);
+      // console.log(z);
     })
-
   );
 
   lehrerItems$ = this.lehrerServ.lehrerSelected$.pipe(
     filter(f => f.kuerzel !== null),
     concatMap(lehrSel => {
-      return this.klassenS.lehrerArray$.pipe(
+      return this.lehrerArray$.pipe(
         take(1),
         map(l => l[lehrSel.kuerzel])
       ).toPromise();
@@ -137,13 +157,7 @@ export class EinzelplaeneComponent implements OnInit {
       case Wochentag.freitag:
         return 4;
     }
-
-
-  }
-
-
-  esrPlan;
-  grundPlanfaecher;
+  }  
 
   hintergrund(r) {
     if (r == 1) {
@@ -153,7 +167,6 @@ export class EinzelplaeneComponent implements OnInit {
     } else if (r === 3) {
       return "sch"
     }
-
   }
 
   lehrerItems(lehrer) {
@@ -192,16 +205,18 @@ export class EinzelplaeneComponent implements OnInit {
     return bo;
   }
 
-  stundenPlanZeileLeer(reihe){ //Einzelplan Stundenplan ausblenden wenn alle reihen leer sind.
+  stundenPlanZeileLeer(reihe) { //Einzelplan Stundenplan ausblenden wenn alle reihen leer sind.
     //console.log(reihe);
-    let bo=false;
+    let bo = false;
     reihe.forEach(obj => {
-      if(obj.fach!=null||obj.klasse.length!=0){
-        bo=true;
+      if (obj.fach != null || obj.klasse.length != 0) {
+        bo = true;
       }
     });
- return bo;
+    return bo;
   }
+
+
 
   anzeigen = false;
   // this.lehrerServ.lehrerSelected$
@@ -209,31 +224,9 @@ export class EinzelplaeneComponent implements OnInit {
   tagesPlaene$ = this.klassenS.esrPlaan$.pipe(
     map(
       z => {
-        let fahrtenUndProjekte = this.ferienServ.fahrtenUndProjekteObj;
-
-        let abschnitt1 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >=
-          this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element => element.titel === "Sommerferien").ende &&
-          ele.tag <
-          this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element => element.titel === "Herbstferien").start); //erster Abschnitt
-        let abschnitt2 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >=
-          this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element => element.titel === "Herbstferien").ende &&
-          ele.tag <
-          this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element => element.titel === "Weihnachtsferien").start
-        ); //zweiter
-        let abschnitt3 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >=
-          this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element => element.titel === "Weihnachtsferien").ende &&
-          ele.tag <
-          this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element => element.titel === "Osterferien").start
-        ); //dritter
-        let abschnitt4 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >=
-          this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element => element.titel === "Osterferien").ende &&
-          ele.tag <
-          this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element => element.titel === "Sommerferien").start
-        ); //vierer
-
+        let fahrtenUndProjekte = this.termine;
         let ar = [];
-
-        this.lehrerServ.lehrer.slice(1, this.lehrerServ.lehrer.length).forEach(lehra => {
+        this.lehrerListe.slice(1, this.lehrerListe.length).forEach(lehra => {
 
           let neu: {
             kuerz: string,
@@ -257,7 +250,7 @@ export class EinzelplaeneComponent implements OnInit {
           //  neu.kuerz = lehra.kuerzel;
 
 
-          [abschnitt1, abschnitt2, abschnitt3, abschnitt4].forEach((abSCHN, aI) => {
+          this.esrPlan.forEach((abSCHN, aI) => {
             let zaehler = 0; //Für cellen-index der Montage
             abSCHN.forEach((tag: TagesObjekt) => {
               //console.log("jo");
@@ -292,15 +285,17 @@ export class EinzelplaeneComponent implements OnInit {
                   let titel = "";
                   //ERst schauen, ob Projekt stattfindet //FAHRTEN ggf reinschreiben
 
-                  fahrten.forEach(fahrtObj => {
-                    if (fahrtObj.start <= tag.tag && fahrtObj.ende >= tag.tag) {
+
+                  
+                  this.termine.forEach((termin:Termin) => {
+                    if (termin.start <= tag.tag && termin.ende >= tag.tag) {
                       fahrt = true;
-                      ersterTag.setTime(fahrtObj.start.getTime());
-                      titel = fahrtObj.titel + klasse + "Klasse";
+                      ersterTag.setTime(termin.start.getTime());
+                      titel = termin.titel + klasse + "Klasse";
 
 
-                      let start = new Date(fahrtObj.start.getTime());
-                      let ende = new Date(fahrtObj.ende.getTime());
+                      let start = new Date(termin.start.getTime());
+                      let ende = new Date(termin.ende.getTime());
                       //Span-wochen ermitteln: 
 
                       //Wenn projekt über zeilt geht:
@@ -452,7 +447,7 @@ export class EinzelplaeneComponent implements OnInit {
                             }
                             //WEENN FAHRT in Zeile LIEGT!!!!!!
 
-                            let zeilenFahrt = fahrten.filter(element => element.start >= abSCHN[0].tag && element.ende <= abSCHN[abSCHN.length - 1].tag);
+                            let zeilenFahrt = this.termine.filter(element => element.start >= abSCHN[0].tag && element.ende <= abSCHN[abSCHN.length - 1].tag);
                             // console.log(zeilenFahrt[0]?.titel + element.klasse);
 
 
@@ -572,29 +567,11 @@ export class EinzelplaeneComponent implements OnInit {
       return this.klassenS.esrPlaan$.pipe(take(1));
     }),
     map(z => {
-      let fahrtenUndProjekte = this.ferienServ.fahrtenUndProjekteObj;
+      let fahrtenUndProjekte = this.termine;
 
       // let obj:{}|{fach:Fach,lehrer:Lehrer}|{ueberschrift:string}
 
-      let abschnitt1 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >=
-        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element => element.titel === "Sommerferien").ende &&
-        ele.tag <
-        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element => element.titel === "Herbstferien").start); //erster Abschnitt
-      let abschnitt2 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >=
-        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element => element.titel === "Herbstferien").ende &&
-        ele.tag <
-        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element => element.titel === "Weihnachtsferien").start
-      ); //zweiter
-      let abschnitt3 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >=
-        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element => element.titel === "Weihnachtsferien").ende &&
-        ele.tag <
-        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element => element.titel === "Osterferien").start
-      ); //dritter
-      let abschnitt4 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >=
-        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element => element.titel === "Osterferien").ende &&
-        ele.tag <
-        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element => element.titel === "Sommerferien").start
-      ); //vierer
+      
       let neu: Array < Array < Array < Array < {
         fach ? : Fach,
         klasse ? : Lehrjahr,
@@ -608,7 +585,7 @@ export class EinzelplaeneComponent implements OnInit {
 
       let anzeig = false;
 
-      [abschnitt1, abschnitt2, abschnitt3, abschnitt4].forEach((abSCHN, aI) => {
+     this.esrPlan.forEach((abSCHN, aI) => {
         let zaehler = 0; //Für cellen-index
         abSCHN.forEach((tag: TagesObjekt) => {
           //console.log("jo");
@@ -1076,6 +1053,21 @@ export class EinzelplaeneComponent implements OnInit {
     });
 
     this.klassenS.grundPlanfaecher$.subscribe((data) => this.grundPlanfaecher = data);
+    this.klassenS.lehrerListe$.subscribe((data) => {
+      this.lehrerListe = data
+    });
+
+    this.klassenS.terminListe$.subscribe((data) => {
+      this.termine = data;
+    });
+    this.klassenS.pruefungsListe$.subscribe((data) => {
+      this.pruefung = data;
+    });
+    this.klassenS.ferienListe$.subscribe((data) => {
+      this.ferien = data;
+    });
+
+
 
 
     //   klassenS.grundPlanfaecher$.subscribe(data => this.grundFaecher = data);

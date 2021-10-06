@@ -20,6 +20,14 @@ h1,h2{text-align:center}
 }
 
 
+$hover:rgb(98, 107, 146);
+button:hover {
+  background-image: repeating-linear-gradient(45deg,
+      $hover 0pt,
+      rgb(59, 66, 97) 3pt,
+      $hover 5pt);
+}
+
 @media print {
     @page {
     margin:0pt;

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Elementt } from '../interfaces/elementt';
-import { VertretungsElement } from '../interfaces/vertretungs-element';
+
 
 @Injectable({
   providedIn: 'root'

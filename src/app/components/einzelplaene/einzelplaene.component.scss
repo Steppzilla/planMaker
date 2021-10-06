@@ -1,8 +1,6 @@
 
 $hintergrund:rgb(255, 255, 255);
-$hover:rgb(98, 107, 146);
 $back-light:rgb(255, 255, 255);
-
 
 th{text-align: center;}
 
@@ -61,6 +59,12 @@ th{text-align: center;}
       }
     }
   }
+}
+
+.drucken{
+  margin-top:5pt;
+  border-radius:7pt;
+  background-color:mediumaquamarine;
 }
 
 .klasse {

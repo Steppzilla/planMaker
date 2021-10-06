@@ -1,10 +1,10 @@
-<button (click)="show()" *ngIf="lehrerServ.gewaehlterPlan==='einzelplaene'" class="noprint">
+<button (click)="show()" *ngIf="lehrerServ.gewaehlterPlan==='einzelplaene'" class="noprint drucken">
   Einzelpläne drucken
 </button>
 
 
 <ng-container *ngFor="let lehre of alleLehrer$|async index as zZ">
-  <ng-container *ngIf="printAktiv||gewaehlterLehrer.kuerzel==lehre.kuerzel">
+  <ng-container *ngIf="printAktiv||(gewaehlterLehrer&&gewaehlterLehrer.kuerzel==lehre.kuerzel)">
     <div class="lehrerBehaelter">
       <h2>Lehrer: {{lehre.kuerzel }}</h2>
       <div class="plaeneContainer">
@@ -45,6 +45,7 @@
         <ng-container *ngIf="lehre.kuerzel!==null">
           <div class="EpochenContainer">
             <ng-container *ngIf="tagesPlaene$|async as rhyPlan">
+              
               <ng-container *ngFor="let abschnitt of rhyPlan[zZ].plan">
                 <ng-container *ngIf="true">
                   <table class="absch rhy2 epochenPlanTable"

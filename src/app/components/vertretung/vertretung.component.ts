@@ -4,10 +4,7 @@ import {
 } from '@angular/core';
 
 import {
-  concatMap,
   map,
-  take,
-  timeout
 } from 'rxjs/operators';
 import {
   Fach
@@ -45,9 +42,7 @@ import {
 import {
   VertretungServService
 } from 'src/app/services/vertretung-serv.service';
-import {
-  convertToObject
-} from 'typescript';
+
 
 
 @Component({
@@ -60,7 +55,7 @@ export class VertretungComponent implements OnInit {
   vertretung;
 
   aktuellESRArray: Array < Elementt > ;
-
+esr;
 
   grundPlanfaecher: Array < Elementt > ; //statt stundenLehrerArray?
   lehrerAuswahl = []; //nur übstundenFilter von grundplanfaecher
@@ -78,12 +73,101 @@ export class VertretungComponent implements OnInit {
   vertretungsraster2 = {};
 
   klassen = Object.values(Lehrjahr);
+  
+
+
+
+
+duplicatesss(kuerz, zeile,  fachd) { // zeile war vorher nur zeilen-nummer
+  let duplicates = 0;
+  zeile.forEach(cell => {
+    cell.forEach(element => {
+      //Zeitversetzte oder klassenübergreifende fächer aussschließen!
+      if (kuerz === element[1]) {
+        if ((fachd === Fach.hauptunterricht //aktuelle zelle ist nicht hu/Sch oder rhy, dann direkt hochzählen
+          || fachd === Fach.schiene 
+          || fachd === Fach.rhythmisch 
+          || fachd=== Fach.orchester 
+          || fachd === Fach.wahlpflicht 
+          || fachd === Fach.chor 
+          || fachd === Fach.mittelstufenorchester
+          ) &&(element[0] === Fach.hauptunterricht ||  //Vergleichszelle ist nicht hu/sch oder rhy. 
+            //Hier geht er auch aktuelle zelle durch, daher entsteht automatisch eine dopplung
+            element[0] === Fach.schiene || 
+            element[0] === Fach.rhythmisch || 
+            element[0] === Fach.orchester ||
+            element[0] === Fach.wahlpflicht || 
+            element[0] === Fach.chor || 
+            element[0] === Fach.mittelstufenorchester)){
+              //wenn er selbst schiene ist zählt er nur einmal hoch, weil beim Verglecih mit sich selbst beidesmal schiene ist
+         
+        } else {
+          duplicates++;
+          if(fachd=== (Fach.hauptunterricht||Fach.schiene||Fach.rhythmisch ||Fach.orchester
+            ||Fach.wahlpflicht||Fach.chor ||Fach.mittelstufenorchester )){
+              duplicates++;
+          }
+        }
+      }
+    });
+  });
+  return duplicates > 1 ? "error" : "ok";
+}
+
+aktuelleEpo$=this.epoPlan.aktuelleEpo$.pipe(
+  map(z=>{    return z;
+  })
+);
+
+gesamtRaster$ = this.klassenplanServ.grundPlanfaecher$.pipe( //Bei Änderungen im Plan updaten
+
+  map(z => {
+    let ar = {
+      montag: new Array(11).fill(null).map(x => new Array(13)),
+      dienstag: new Array(11).fill(null).map(x => new Array(13)),
+      mittwoch: new Array(11).fill(null).map(x => new Array(13)),
+      donnerstag: new Array(11).fill(null).map(x => new Array(13)),
+      freitag: new Array(11).fill(null).map(x => new Array(13))
+    };
+    z.forEach(el => {
+      el.zuweisung.uebstunde.forEach(zuw => {
+        //  ["Montag", "Dienstag", "Mittwoch", "Donnerstag"].forEach(wochenTag=>{
+        let std = zuw.stunde;
+        let woT = zuw.wochentag;
+        let klasse = parseInt(el.klasse) - 1;
+
+        if (ar[woT.toLowerCase()][std][klasse] === undefined) {
+          ar[woT.toLowerCase()][std][klasse] = new Array();
+        }
+
+        if (el.lehrer.length === 0) {
+          ar[woT.toLowerCase()][std][klasse].push([el.fach, "NN"]);
+        }
+
+        //wenn lehrer vorhanden
+        el.lehrer.forEach(lehr => {
+          //   console.log(el.fach);
+          //   console.log(lehr.kuerzel
+          if (lehr) {
+            ar[woT.toLowerCase()][std][klasse].push([el.fach, lehr.kuerzel]);
+          } else {
+          }
+        });
+
+      });
+    });
+    return ar;
+  })
+);
+
 
   sonderEvent(klasse) {
-    let datum = this.epoPlan.planDatum.getValue();
+   /* let datum = this.epoPlan.planDatum.getValue();
+    let esr
     //console.log(this.feriTermServ.fahrtenUndProjekteObj);
     // console.log(klasse);
-    let klasEventArray = this.feriTermServ.fahrtenUndProjekteObj[this.klasseInWort(klasse)]; //.neun Array mit objekten
+
+    let klasEventArray = this.terminListe.filter(element=>element.klasse===klasse); //.neun Array mit objekten
     let fahrtaktuell = null;
     klasEventArray.forEach(obj => {
       if (obj.start.getTime() <= datum.getTime() && datum.getTime() <= obj.ende.getTime()) {
@@ -91,7 +175,18 @@ export class VertretungComponent implements OnInit {
       }
     });
     // console.log(fahrtaktuell);
-    return fahrtaktuell;
+    return fahrtaktuell;*/
+  }
+
+  klassenFahrt(arr,zahl){
+    let ele;
+    arr.forEach(element => {
+      if(element.klasse==zahl.toString()){
+        //console.log(element);
+        ele=element;
+      }
+    });
+    return ele? ele:null;
   }
 
   klasseInWort(kla) {
@@ -165,78 +260,23 @@ export class VertretungComponent implements OnInit {
         return 'elf';
       case 12:
         return 'zwoelf';
+      case 13:
+        return "dreizehn";
     }
 
   }
 
-  esr;
-  gesamtRaster$ = this.epoPlan.planDatum$.pipe( //Bei Änderungen im Plan updaten
-    concatMap(x => {
-      return this.klassenplanServ.grundPlanfaecher$.pipe(take(1))
-    }),
-    map(z => {
-      let ar = {
-        montag: new Array(11).fill(null).map(x => new Array(13)),
-        dienstag: new Array(11).fill(null).map(x => new Array(13)),
-        mittwoch: new Array(11).fill(null).map(x => new Array(13)),
-        donnerstag: new Array(11).fill(null).map(x => new Array(13)),
-        freitag: new Array(11).fill(null).map(x => new Array(13))
-      };
-      z.forEach(el => {
-        el.zuweisung.uebstunde.forEach(zuw => {
-          //  ["Montag", "Dienstag", "Mittwoch", "Donnerstag"].forEach(wochenTag=>{
-          let std = zuw.stunde;
-          let woT = zuw.wochentag;
-          let klasse = parseInt(el.klasse) - 1;
-          el.lehrer.forEach(lehr => {
-            if (ar[woT.toLowerCase()][std][klasse] === undefined) {
-              ar[woT.toLowerCase()][std][klasse] = new Array();
-            }
-            //   console.log(el.fach);
-            //   console.log(lehr.kuerzel);
+  fachinWort(z:string){
+    switch(z){
+      case "HU": return "epo" ; 
+      case "Schiene": return "sch";
+      case "StartUp" : return "rhy";
+      default: return "";
+    }
+  }
 
-            let hu;
-            let strr = "";
-            // console.log(this.esr);
-            //Hu schiene und epoche mit aktuellen fächern füllen
-            if ((el.fach == Fach.hauptunterricht || el.fach == Fach.schiene || el.fach == Fach.rhythmisch) && parseInt(el.klasse) > 8) {
-
-              if (el.fach === Fach.hauptunterricht) {
-                strr = "epo";
-              } else if (el.fach === Fach.schiene) {
-                strr = "sch";
-              } else if (el.fach === Fach.rhythmisch) {
-                strr = "rhy";
-              }
-              //   console.log(el.klasse);
-              //  console.log(this.zahlinKlasse(el.klasse));
-              hu = this.esr[this.zahlinKlasse(el.klasse)][strr];
-            }
-            if (hu && parseInt(el.klasse) > 8) {
-              //  console.log(hu);
-              ar[woT.toLowerCase()][std][klasse] = [{
-                fach: el.fach,
-                lehrerKuerz: "bob"
-              }].concat(hu);
-            } else {
-              //  console.log(el.fach);
-              //  console.log(lehr.kuerzel)
-              ar[woT.toLowerCase()][std][klasse].push({
-                fach: el.fach,
-                lehrerKuerz: lehr.kuerzel
-              });
-            }
-
-
-
-          });
-        });
-      });
-
-
-      return ar;
-    })
-  );
+ // esr;
+  
 
   dupli = [];
 
@@ -260,7 +300,7 @@ export class VertretungComponent implements OnInit {
     // console.log(el);
 
     if (el && el[0]) {
-      switch (el[0].fach) {
+      switch (el[0][0]) {
         case Fach.hauptunterricht:
           return "huB";
         case Fach.schiene:
@@ -314,12 +354,25 @@ export class VertretungComponent implements OnInit {
   }
 
 
-  cellKlickk(e, c, i, cell) { //c ist zeilennummer, i ist die celle waagerecht!
+  cellKlickk(e, c, i, klassenitems, fachKuerz ) { //c ist zeilennummer, i ist die celle waagerecht!  klassenitems: noch .rhy oder so dann aktuelle epocehn
+    //console.log(this.selectLehrer);
+    console.log(fachKuerz);
+    let kuerz="";
 
-    if (cell) {
-      cell.forEach(fachLehrer => {
-        if (this.markedd(fachLehrer.lehrerKuerz) == 'blueback') {
+    if(fachKuerz=="Schiene"){
+      kuerz="sch";
+    }else if(fachKuerz=="StartUp"){
+      kuerz="rhy";
+    }else if(fachKuerz=="HU"){
+      kuerz="epo";
+    }
 
+
+    if (klassenitems&&kuerz.length>0) {
+      klassenitems[kuerz].forEach(fachLehrer => {
+        if (fachLehrer.lehrerKuerz == this.selectLehrer.kuerzel) {
+         // console.log(this.selectLehrer);
+         // console.log(fachLehrer.fach);
 
           this.vertretungsElement.wochentag = this.wochenTagauswahl;
           //vertretungsElement.datum=element.zuweisung.uebstunde
@@ -333,6 +386,16 @@ export class VertretungComponent implements OnInit {
 
         }
       });
+      
+     
+    }else{
+      this.vertretungsElement.wochentag = this.wochenTagauswahl;
+      //vertretungsElement.datum=element.zuweisung.uebstunde
+      this.vertretungsElement.klasse = i;
+      this.vertretungsElement.stunde = c; //+1?
+      this.vertretungsElement.lehrer = this.selectLehrer;
+      this.vertretungsElement.fach = fachKuerz;
+
     }
   }
 
@@ -341,11 +404,25 @@ export class VertretungComponent implements OnInit {
 
 
 
-  togglezellenClickk(stdZ, clickedElementt: Elementt, zelle) { //ganze Zelle/stunden zeile als Zahl
+  togglezellenClickk(stdZ, clickedElementt: Elementt, zelle,epoderKlasse) { //ganze Zelle/stunden zeile als Zahl
     if (this.vertretungsElement.klasse !== null) {
+     // let zelll=zelle; //für normalen Unterricht immer verwendet
+      console.log(this.vertretungsraster2);
       console.log(zelle);
-      let zellenI = zelle.findIndex(ele => ele.fach == this.vertretungsElement.fach && ele.lehrerKuerz === this.vertretungsElement.lehrer.kuerzel);
+      let zellenI = zelle.findIndex(ele =>ele[1] === this.vertretungsElement.lehrer.kuerzel); //bei epochen muss anderes element genommen werden
       //zellenI bestimmen index
+      if(this.vertretungsElement.klasse>7&&this.vertretungsElement.klasse<12){
+      if(zelle[0][0]==="HU"){
+        zellenI=epoderKlasse.epo.findIndex(ele=>ele.lehrerKuerz===this.vertretungsElement.lehrer.kuerzel);
+      }else if(zelle[0][0]==="Schiene"){
+        zellenI=epoderKlasse.sch.findIndex(ele=>ele.lehrerKuerz===this.vertretungsElement.lehrer.kuerzel);
+      }else if(zelle[0][0]==="StartUp"){
+        zellenI=epoderKlasse.rhy.findIndex(ele=>ele.lehrerKuerz===this.vertretungsElement.lehrer.kuerzel);
+      }
+    }
+   
+    console.log(zelle);
+    console.log(zellenI);
 
       let aktuelleVertret = this.vertretungsSer.vertretung.getValue();
       this.vertretungsElement.vertretung = clickedElementt;
@@ -361,7 +438,7 @@ export class VertretungComponent implements OnInit {
       }
 
       this.vertretungsraster2[this.wochenTagauswahl.toLowerCase()][this.vertretungsElement.klasse - 1][this.vertretungsElement.stunde][zellenI].push(this.vertretungsElement);
-
+console.log(this.vertretungsraster2[this.wochenTagauswahl.toLowerCase()][this.vertretungsElement.klasse - 1][this.vertretungsElement.stunde]);
 
 
     } else {
@@ -542,11 +619,12 @@ export class VertretungComponent implements OnInit {
     this.wochenTagauswahl = x;
   }
 
+lehrerListe;
   freieLehrer(r) {
 
     let freieLehrer: Array < Lehrer > = [];
     let lehrerbesetzt = false;
-    this.lehrerService.lehrer.forEach((lehrer, l) => {
+    this.lehrerListe.forEach((lehrer, l) => {
       lehrerbesetzt = false;
       if (this.grundPlanfaecher) {
         this.grundPlanfaecher.forEach(element => {
@@ -664,7 +742,7 @@ export class VertretungComponent implements OnInit {
    */
 
   duplicateToggle(zeile, ele) { //umändern, dass nur aktuelle Lehrer die auch in epoche/Schiene drin sind am Datum zu error führen
-    let duplicates = 0;
+   /* let duplicates = 0;
     let tag = this.wochenTagauswahl;
     // let raster =   await this.gesamtRaster$.pipe(take(1),timeout(200)).toPromise();
     console.log(zeile);
@@ -679,7 +757,8 @@ export class VertretungComponent implements OnInit {
         });
       });
     });
-    return duplicates > 0 ? "error" : "ok";
+    return duplicates > 0 ? "error" : "ok";*/
+    return "";
   }
 
 
@@ -736,6 +815,7 @@ export class VertretungComponent implements OnInit {
     lehrerService.lehrerSelected$.subscribe(data => {
       this.selectLehrer = data;
     });
+    klassenplanServ.lehrerListe$.subscribe(data=>{this.lehrerListe=data;})
 
 
 
@@ -761,6 +841,7 @@ export class VertretungComponent implements OnInit {
 
       this.esr = data;
     });
+
 
 
 

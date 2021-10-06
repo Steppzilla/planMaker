@@ -2,449 +2,1141 @@
   <h1>ESR-Plan</h1>
 
   <div class="esrWahl noprint">
-    <button class="noprint rhyB" (click)="wahl('rhythmus')">Rhythmus</button>
-    <button class="noprint epoB" (click)="wahl('epoche')">Epoche</button>
-    <button class="noprint schB" (click)="wahl('schiene')">Schiene</button>
+    <button (click)="toggle()"> Termine </button>
   </div>
 
-  <div class="flex3 ">
+  <button class="noprint" (click)="print()">Epochenpläne drucken</button>
 
-    <div id="main" class="">
-      <ng-container *ngIf="gewaehlterPlan=='rhythmus'||printAktiv==true">
-        <h2 class=" rhyB">
-          Rhythmus 2021/2022
-        </h2>
-        <div class="container" *ngIf="rhythmusPlan$|async as rhyPlan">
-          <ng-container *ngFor="let abschnitt of rhyPlan">
-            <table class="absch rhy2 ">
-              <tr *ngFor="let reihe of abschnitt, index as r">
-                <ng-container *ngIf="r==0; else KLASSE">
-                  <td colSpan="1" *ngFor="let cell of reihe, index as c"
-                    (click)="clickN($event,r+8,  abschnitt[0][c][0].ueberschrift)">
-                    <div *ngFor="let u of cell">
-                      {{u.ueberschrift|date: 'd. M'}}
-                    </div>
-                  </td>
-                </ng-container>
-                <ng-template #KLASSE>
-                  <ng-container *ngFor="let cell of reihe, index as c">
-                    <!-- 
-                  1. Bedingung: Wenn eine neue Epoche//Klassenspiel anfängt (Startdatum übereinstimmt mit überschrift)
-                2. wenn Celle leer ist natürlich anzeigen!
-                3. erstes Element anzeigen (Da e bie Startwechsel auf Anfang das Datum falsch gesetzt wird auf Samstag oÄ)
-                4. Elemente, deren Startdatum etwas daneben liegt auch anzeigen...
-                -->
-                    <ng-container *ngIf="
-                  (!!cell[0]&&cell[0].start!==null&&abschnitt[0][c][0].ueberschrift.getTime()===cell[0].start.getTime())
-                  ||
-                  (cell.length===0)
-                  ||
-                  c==0
-                ">
-                      <td colSpan="{{abschnitt[r][c][0]?abschnitt[r][c][0].spanNr:1}}">
-                        <button triggers="click" [ngbTooltip]="FachAuswahl" placement="bottom" [autoClose]="true"
-                          (click)="clickN($event,r+8,  abschnitt[0][c][0].ueberschrift)">
-                          <!-- sonder-Event (ganztaegig?)-->
-                          <ng-container *ngIf="cell[0]&&cell[0].ganztaegig.length>0; else INHALT">
-                            <div class="projekt">
-                              {{cell[0].ganztaegig}}
-                            </div>
-                          </ng-container>
-                          <!-- nur anzeigen, wenn kein Sonder-Event ist: -->
-                          <ng-template #INHALT>
-                            <div *ngFor="let u of cell" class="{{markedd(u.lehrer)}}">
-                              {{u.fach}} <span class="kuerzel">{{u.lehrer}}</span>
-                              <!--| {{cell[0].start|date: "d. M"}}({{cell[0].spanNr}}       -->
-                            </div>
-                          </ng-template>
+  <div *ngIf="termineEinblenden==true" id="terminContainer">
 
-                        </button>
-                        <ng-template #FachAuswahl>
-                          <ng-container *ngIf="klassenplanServ.esrPlaan$|async as esrPlann">
-                            <button *ngFor="let ele of esrPlann[gewaehlterPlan][zahlInWort(r+8)]"
-                              (click)="toggleClick(ele, abschnitt[0][c][0].ueberschrift)">
-                              {{ele.lehrer[0]?.kuerzel}}({{ele?.fach}})
-                              {{ele[gewaehlterPlan]}}|{{ele.zuweisung[gewaehlterPlan].length}}
-                            </button>
-                          </ng-container>
-                        </ng-template>
-
-                      </td>
-                    </ng-container>
-                  </ng-container>
-                </ng-template>
-              </tr>
-            </table>
-          </ng-container>
-
-
-
-          <!-- ALTER PLAN: 
-          <div class="planRahmen noprint">
-            <ng-container *ngFor="let abschnitt of rhyPlan">
-              <table class="absch rhy2 noprint">
-                <tr *ngFor="let reihe of abschnitt, index as r">
-                  <ng-container *ngIf="r==0; else KLASSE">
-                    <td colSpan="1" *ngFor="let cell of reihe, index as c"
-                      (click)="clickN($event,r+8,  abschnitt[0][c][0].ueberschrift)">
-                      <div *ngFor="let u of cell">
-                        {{u.ueberschrift|date: 'd. M'}}
-                      </div>
-                    </td>
-                  </ng-container>
-                  <ng-template #KLASSE>
-                    <ng-container *ngFor="let cell of reihe, index as c">
-               
-                      <ng-container >
-
-                        <td colSpan="1">
-                          <button triggers="click" [ngbTooltip]="FachAuswahl" placement="bottom" [autoClose]="true"
-                            (click)="clickN($event,r+8,  abschnitt[0][c][0].ueberschrift)">
-
-                          
-
-                            <ng-container *ngIf="cell[0]&&cell[0].ganztaegig.length>0; else INHALT">
-                              <div class="projekt">
-
-                                {{cell[0].ganztaegig}}
-                              </div>
-                            </ng-container>
-
-                       
-                            <ng-template #INHALT>
-                              <div *ngFor="let u of cell" class="{{markedd(u.lehrer)}}">
-                                {{u.fach}} <span class="kuerzel">{{u.lehrer}}</span>
-                           
-                              </div>
-                            </ng-template>
-
-                          </button>
-                          <ng-template #FachAuswahl>
-                            <ng-container *ngIf="klassenplanServ.esrPlaan$|async as esrPlann">
-                              <button *ngFor="let ele of esrPlann[gewaehlterPlan][zahlInWort(r+8)]"
-                                (click)="toggleClick(ele, abschnitt[0][c][0].ueberschrift)">
-                                {{ele.lehrer[0]?.kuerzel}}({{ele?.fach}})
-                                {{ele[gewaehlterPlan]}}|{{ele.zuweisung[gewaehlterPlan].length}}
-                              </button>
-                            </ng-container>
-                          </ng-template>
-
-                        </td>
-                      </ng-container>
-                    </ng-container>
-                  </ng-template>
-                </tr>
-              </table>
-            </ng-container>
-          </div>
-          -->
-        </div>
-      </ng-container>
-
-
-      <ng-container *ngIf="gewaehlterPlan=='epoche'||printAktiv==true">
-        <h2 class=" epoB">
-          Epoche 2021/2022
-        </h2>
-        <div class="container" *ngIf="epochenPlan$|async as rhyPlan">
-          <ng-container *ngFor="let abschnitt of rhyPlan">
-            <table class="absch epo2">
-              <tr *ngFor="let reihe of abschnitt, index as r">
-                <ng-container *ngIf="r==0; else KLASSE">
-                  <td colSpan="1" *ngFor="let cell of reihe, index as c"
-                    (click)="clickN($event,r+8,  abschnitt[0][c][0].ueberschrift)">
-                    <div *ngFor="let u of cell">
-                      {{u.ueberschrift|date: 'd. M'}}
-                    </div>
-                  </td>
-                </ng-container>
-                <ng-template #KLASSE>
-                  <ng-container *ngFor="let cell of reihe, index as c">
-                    <ng-container *ngIf="
-                  (!!cell[0]&&cell[0].start!==null&&abschnitt[0][c][0].ueberschrift.getTime()===cell[0].start.getTime())
-                  ||
-                  (cell.length===0)
-                  ||
-                  c==0
-                ">
-                      <td colSpan="{{abschnitt[r][c][0]?abschnitt[r][c][0].spanNr:1}}">
-                        <button triggers="click" [ngbTooltip]="FachAuswahl" placement="bottom" [autoClose]="true"
-                          (click)="clickN($event,r+8,  abschnitt[0][c][0].ueberschrift)">
-                          <ng-container *ngIf="cell[0]&&cell[0].ganztaegig.length>0; else INHALT">
-                            <div class="projekt">
-                              {{cell[0].ganztaegig}}
-                            </div>
-                          </ng-container>
-                          <ng-template #INHALT>
-                            <div *ngFor="let u of cell" class="{{markedd(u.lehrer)}}">
-                              {{u.fach}} <span class="kuerzel">{{u.lehrer}}</span>
-                            </div>
-                          </ng-template>
-                        </button>
-                        <ng-template #FachAuswahl>
-                          <ng-container *ngIf="klassenplanServ.esrPlaan$|async as esrPlann">
-                            <button *ngFor="let ele of esrPlann[gewaehlterPlan][zahlInWort(r+8)]"
-                              (click)="toggleClick(ele, abschnitt[0][c][0].ueberschrift)">
-                              {{ele.lehrer[0]?.kuerzel}}({{ele?.fach}})
-                              {{ele[gewaehlterPlan]}}|{{ele.zuweisung[gewaehlterPlan].length}}
-                            </button>
-                          </ng-container>
-                        </ng-template>
-
-                      </td>
-                    </ng-container>
-                  </ng-container>
-                </ng-template>
-              </tr>
-            </table>
-          </ng-container>
-        </div>
-      </ng-container>
-
-
-
-      <ng-container *ngIf="gewaehlterPlan=='schiene'||printAktiv==true">
-        <h2 class=" schB">
-          Schiene 2021/2022
-        </h2>
-        <div class="container" *ngIf="schienenPlan$|async as rhyPlan">
-          <ng-container *ngFor="let abschnitt of rhyPlan">
-            <table class="absch sch2">
-              <tr *ngFor="let reihe of abschnitt, index as r">
-                <ng-container *ngIf="r==0; else KLASSE">
-                  <td colSpan="1" *ngFor="let cell of reihe, index as c"
-                    (click)="clickN($event,r+8,  abschnitt[0][c][0].ueberschrift)">
-                    <div *ngFor="let u of cell">
-                      {{u.ueberschrift|date: 'd. M'}}
-                    </div>
-                  </td>
-                </ng-container>
-                <ng-template #KLASSE>
-                  <ng-container *ngFor="let cell of reihe, index as c">
-                    <ng-container *ngIf="
-                  (!!cell[0]&&cell[0].start!==null&&abschnitt[0][c][0].ueberschrift.getTime()===cell[0].start.getTime())
-                  ||
-                  (cell.length===0)
-                  ||
-                  c==0
-                ">
-                      <td colSpan="{{abschnitt[r][c][0]?abschnitt[r][c][0].spanNr:1}}">
-                        <button triggers="click" [ngbTooltip]="FachAuswahl" placement="bottom" [autoClose]="true"
-                          (click)="clickN($event,r+8,  abschnitt[0][c][0].ueberschrift)">
-                          <ng-container *ngIf="cell[0]&&cell[0].ganztaegig.length>0; else INHALT">
-                            <div class="projekt">
-                              {{cell[0].ganztaegig}}
-                            </div>
-                          </ng-container>
-                          <ng-template #INHALT>
-                            <div *ngFor="let u of cell" class="{{markedd(u.lehrer)}}">
-                              {{u.fach}} <span class="kuerzel">{{u.lehrer}}</span>
-                            </div>
-                          </ng-template>
-                        </button>
-                        <ng-template #FachAuswahl>
-                          <ng-container *ngIf="klassenplanServ.esrPlaan$|async as esrPlann">
-                            <button *ngFor="let ele of esrPlann[gewaehlterPlan][zahlInWort(r+8)]"
-                              (click)="toggleClick(ele, abschnitt[0][c][0].ueberschrift)">
-                              {{ele.lehrer[0]?.kuerzel}}({{ele?.fach}})
-                              {{ele[gewaehlterPlan]}}|{{ele.zuweisung[gewaehlterPlan].length}}
-                            </button>
-                          </ng-container>
-                        </ng-template>
-
-                      </td>
-                    </ng-container>
-                  </ng-container>
-                </ng-template>
-              </tr>
-            </table>
-          </ng-container>
-        </div>
-      </ng-container>
-    </div>
-    <div id="left" class="noprint">
-      <button class="iconBut" (click)="rechts()"><img width="60pt " src="../../../assets/iconsNav/pfeilSchwR.png"
-          style="transform: rotate(180deg);"></button>
-    </div>
-    <div id="right" class="noprint">
-      <button class="iconBut" (click)="links()"><img width="60pt"
-          src="../../../assets/iconsNav/pfeilSchwR.png" /></button>
-    </div>
-
-  </div>
-</div>
-
-
-
-
-<button (click)="print()" class="noprint">print</button>
-
-
-
-
-
-
-
-
-
-
-
-
-<!--
-
-  <div class="planRahmen noprint">
-    <ng-container *ngFor="let montagtag of esrPlan; index as d">
-      <ng-container *ngIf="montagtag.tag.getDay()==1">
-        <ng-container *ngIf="d<esrPlan.length-4">
-          <ng-container
-            *ngIf="(esrPlan[d].frei==false||esrPlan[d+1].frei==false||esrPlan[d+2].frei==false||esrPlan[d+3].frei==false||esrPlan[d+4].frei==false); else LEERWOCHE">
-            <div class="wochenRahmen">
-              <ng-container *ngFor="let tag of [esrPlan[d],esrPlan[d+1], esrPlan[d+2], esrPlan[d+3], esrPlan[d+4]]">
-                <div class="tagesContainer {{ferienServ.tagZuString(tag.tag)}}">
-                  <div class="Monat">
-                    <ng-container
-                      *ngIf="tag.tag.getDay()==1&&(d>=7&&ferienServ.monatZuString(tag.tag)!=ferienServ.monatZuString(esrPlan[d-7].tag)||d<7)">
-                      {{ferienServ.monatZuString(tag.tag)}} {{tag.tag.getFullYear()}}
-                    </ng-container>
-                  </div>
-                  <div class="Datum  {{tag.frei}} {{tag.notiz}}">
-                    {{tag.tag.getDate() }}
-                  </div>
-                  <div class="Tag">
-                    {{ferienServ.tagZuString(tag.tag)}}
-                  </div>
-                  <div class="tagesButtonContainer {{ferienServ.tagZuString(tag.tag)}}">
-                    <ng-container *ngIf="(ferienServ.tagZuString(tag.tag)=='Mo'); else LEER">
-                      <button class="{{gewaehlterPlan}} 9" (click)="click($event,9,  d,tag.tag.getDay())">
-                        <div class="ganztag" *ngIf="tag.ganztaegig.neun!=null; else JOOO"> {{tag.ganztaegig.neun}}
-                        </div>
-                        <ng-template #JOOO>
-                          <ng-container *ngFor="let el of grundPlanfaecher">
-                            <ng-container *ngIf="el!=null&&el.klasse==9">
-                              <ng-container *ngFor="let startende of el.zuweisung[gewaehlterPlan]">
-                                <ng-container
-                                  *ngIf="tag.tag.getTime()>=startende.start&&tag.tag.getTime()<=startende.ende">
-                                  <ng-container *ngFor="let lehr of el.lehrer">
-                                    <div class="{{duplicates(lehr, tag.tag)}} {{marked(lehr)}}">
-                                      {{lehr.kuerzel +"("+ el.fach + ")"}}
-                                    </div>
-                                  </ng-container>
-                                </ng-container>
-                              </ng-container>
-                            </ng-container>
-                          </ng-container>
-                        </ng-template>
-                      </button>
-                    </ng-container>
-                    <ng-container *ngIf="(ferienServ.tagZuString(tag.tag)=='Mo'); else LEER">
-                      <button class="{{gewaehlterPlan}} 10" (click)="click($event,10,d,tag.tag.getDay())">
-                        <div class="ganztag" *ngIf="tag.ganztaegig.zehn!=null;else JOO"> {{tag.ganztaegig.zehn}}</div>
-                        <ng-template #JOO>
-                          <ng-container *ngFor="let el of grundPlanfaecher">
-                            <ng-container *ngIf="el!=null&&el.klasse==10">
-                              <ng-container *ngFor="let startende of el.zuweisung[gewaehlterPlan]">
-                                <ng-container
-                                  *ngIf="tag.tag.getTime()>=startende.start&&tag.tag.getTime()<=startende.ende">
-                                  <ng-container *ngFor="let lehr of el.lehrer">
-                                    <div class="{{duplicates(lehr, tag.tag)}} {{marked(lehr)}}">
-                                      {{lehr.kuerzel +"("+ el.fach + ")"}}
-                                    </div>
-                                  </ng-container>
-                                </ng-container>
-                              </ng-container>
-                            </ng-container>
-                          </ng-container>
-                        </ng-template>
-
-
-
-                      </button>
-                    </ng-container>
-                    <ng-container *ngIf="(ferienServ.tagZuString(tag.tag)=='Mo'); else LEER">
-                      <button class="{{gewaehlterPlan}} 11" (click)="click($event,11, d,tag.tag.getDay())">
-                        <div class="ganztag" *ngIf="tag.ganztaegig.elf!=null;else JO"> {{tag.ganztaegig.elf}}</div>
-                        <ng-template #JO>
-                          <ng-container *ngFor="let el of grundPlanfaecher">
-                            <ng-container *ngIf="el!=null&&el.klasse==11">
-                              <ng-container *ngFor="let startende of el.zuweisung[gewaehlterPlan]">
-                                <ng-container
-                                  *ngIf="tag.tag.getTime()>=startende.start&&tag.tag.getTime()<=startende.ende">
-                                  <ng-container *ngFor="let lehr of el.lehrer">
-                                    <div class="{{duplicates(lehr, tag.tag)}} {{marked(lehr)}}">
-                                      {{lehr.kuerzel +"("+ el.fach + ")"}}
-                                    </div>
-                                  </ng-container>
-                                </ng-container>
-                              </ng-container>
-                            </ng-container>
-                          </ng-container>
-                        </ng-template>
-
-
-                      </button>
-                    </ng-container>
-                    <ng-container *ngIf="(ferienServ.tagZuString(tag.tag)=='Mo'); else LEER">
-                      <button class="{{gewaehlterPlan}} 12" (click)="click($event,12, d,tag.tag.getDay())">
-                        <div class="ganztag" *ngIf="tag.ganztaegig.zwoelf!=null;else GRNO"> {{tag.ganztaegig.zwoelf}}
-                        </div>
-                        <ng-template #GRNO>
-                          <ng-container *ngFor="let el of grundPlanfaecher">
-                            <ng-container *ngIf="el!=null&&el.klasse==12">
-                              <ng-container *ngFor="let startende of el.zuweisung[gewaehlterPlan]">
-                                <ng-container
-                                  *ngIf="tag.tag.getTime()>=startende.start&&tag.tag.getTime()<=startende.ende">
-                                  <ng-container *ngFor="let lehr of el.lehrer">
-                                    <div class="{{duplicates(lehr, tag.tag)}} {{marked(lehr)}}">
-                                      {{lehr.kuerzel +"("+ el.fach + ")"}}
-                                    </div>
-                                  </ng-container>
-                                </ng-container>
-                              </ng-container>
-                            </ng-container>
-                          </ng-container>
-                        </ng-template>
-
-                      </button>
-                    </ng-container>
-                    <ng-template #LEER>
-                      <div class="fakeButton">
-
-                      </div>
-
-                    </ng-template>
-                    <span *ngIf="tag.notiz!='schule'" class="sonderNotiz {{tag.notiz}}">
-                      {{tag.notiz}}
-                    </span>
-                  </div>
-                </div>
-              </ng-container>
-            </div>
-          </ng-container>
-          <ng-template #LEERWOCHE>
-            <div class="wochenRahmen">
-              <div class="ferien">
-
-                <div class="Monat">
-                  <ng-container
-                    *ngIf="montagtag.tag.getDay()==1&&(d>=7&&ferienServ.monatZuString(montagtag.tag)!=ferienServ.monatZuString(esrPlan[d-7].tag))">
-                    {{ ferienServ.monatZuString(montagtag.tag)}} {{montagtag.tag.getFullYear()}}
-                  </ng-container>
-                </div>
-                <div class="Datum {{montagtag.frei}} {{montagtag.notiz}}">
-                  {{montagtag.tag.getDate() }}
-                </div>
-                <div class="Tag">
-                  {{ferienServ.tagZuString(montagtag.tag)}}
-                </div>
-                <div class="ferienNotiz {{montagtag.notiz}}">
-                  {{montagtag.notiz}}
-                </div>
-              </div>
+    <div id="ferienTermine" *ngIf="klassenplanServ.ferienListe$|async as ferien">
+      Ferientermine
+      <table class="dataTabelle">
+        <tr>
+          <td>Titel </td>
+          <td>Termin </td>
+          <td>Ende?</td>
+        </tr>
+        <tr *ngFor="let obj of ferien">
+          <td><button triggers="click" [ngbTooltip]="Ferien2" [autoClose]="false"
+              placement="bottom">{{obj.titel|unterstrichEntfernen}}</button> </td>
+          <td> {{obj.start.toDate()|date:"d. M. YY"}} </td>
+          <td *ngIf="obj.ende!==undefined">
+            {{obj.ende.toDate()|date:"d. M. YY"}} </td>
+          <ng-template #Ferien2>
+            <div class="inputT">
+              <div>Titel: <input type="text" #titel value="{{obj.titel}}"> </div>
+              <div>Termin: <input type="text" #termin value="{{obj.start.toDate()|date:'d/M/Y'}}"> </div>
+              <div>ende: <input type="text" #ende value="{{obj.ende?obj.ende.toDate():''|date:'d/M/Y'}}"> </div>
+              <button (click)="ferienAdd(titel.value,termin.value,ende.value)">Ferientermin
+                hinzufügen</button>
             </div>
           </ng-template>
+        </tr>
+        <button class="terminHinzufügen" triggers="click" [ngbTooltip]="Ferien" [autoClose]="false"
+          placement="bottom">plusTermin</button>
+        <ng-template #Ferien>
+          <div class="inputT">
+            <div>Titel: <input type="text" #titel> </div>
+            <div>Termin: <input type="text" #termin> </div>
+            <div>ende: <input type="text" #ende> </div>
+            <button (click)="ferienAdd(titel.value,termin.value,ende.value)">Ferientermin
+              hinzufügen</button>
+          </div>
+        </ng-template>
+      </table>
+    </div>
 
-        </ng-container>
+    <div id="pruefungsDaten" *ngIf="klassenplanServ.pruefungsListe$|async as pruefungen">
+      Prüfungstermine
+      <table class="dataTabelle">
+        <tr>
+          <td>Titel </td>
+          <td>Termin </td>
+          <td>Ende?</td>
+        </tr>
+        <tr *ngFor="let pruefung of pruefungen">
+          <td><button triggers="click" [ngbTooltip]="Pruefung2" [autoClose]="false"
+              placement="bottom">{{pruefung.titel|unterstrichEntfernen}}</button> </td>
+          <td> {{pruefung.start.toDate()|date:"d. M. YY"}} </td>
+          <td *ngIf="pruefung.ende!==undefined"> {{pruefung.ende.toDate()|date:"d. M. Y"}} </td>
+          <ng-template #Pruefung2>
+            <div class="inputT">
+              <div>Titel: <input type="text" #titel value="{{pruefung.titel}}"> </div>
+              <div>Start: <input type="text" #termin value="{{pruefung.start.toDate()|date:'d/M/Y'}}"> </div>
+              <div>ende: <input type="text" #ende value="{{pruefung.ende?pruefung.ende.toDate():''|date:'d/M/Y'}}">
+              </div>
+              <button (click)="pruefungAdd(titel.value,termin.value,ende.value)">Prüfung
+                hinzufügen</button>
+            </div>
+          </ng-template>
+        </tr>
+        <button class="terminHinzufügen" triggers="click" [ngbTooltip]="Pruefung" [autoClose]="false"
+          placement="bottom">plusTermin</button>
+        <ng-template #Pruefung>
+          <div class="inputT">
+            <div>Titel: <input type="text" #titel> </div>
+            <div>Termin: <input type="text" #termin> </div>
+            <div>ende: <input type="text" #ende> </div>
+            <button (click)="pruefungAdd(titel.value,termin.value,ende.value)">Prüfung
+              hinzufügen</button>
+          </div>
+        </ng-template>
+      </table>
+    </div>
+
+    <div id="termineListe" *ngIf="klassenplanServ.terminListe$|async as termine">
+      Klassen-Termine
+      <table class="dataTabelle">
+        <tr>
+          <td>Titel </td>
+          <td> Klasse </td>
+          <td>Start </td>
+          <td>Ende</td>
+        </tr>
+        <tr *ngFor="let termin of termine">
+
+          <td><button triggers="click" [ngbTooltip]="Termin2" [autoClose]="false"
+              placement="bottom">{{termin.titel|unterstrichEntfernen}}</button> </td>
+          <td> {{termin.klasse}} </td>
+          <td> {{termin.start.toDate()|date:"d. M."}} </td>
+          <td>{{termin.ende.toDate()|date:"d. M. YY"}}</td>
+          <ng-template #Termin2>
+            <div class="inputT">
+              <div>Titel: <input type="text" #titel value="{{termin.titel}}"> </div>
+              <div>start: <input type="text" #start value="{{termin.start.toDate()|date:'d/M/Y'}}"> </div>
+              <div>ende: <input type="text" #ende value="{{termin.ende.toDate()|date:'d/M/Y'}}"></div>
+              <div>Klasse: <input type="text" #klasse value="{{termin.klasse}}"></div>
+              <button (click)="terminAdd(titel.value,start.value,ende.value,klasse.value)">Termin
+                hinzufügen</button>
+            </div>
+          </ng-template>
+        </tr>
+        <button class="terminHinzufügen" triggers="click" [ngbTooltip]="Termin" [autoClose]="false"
+          placement="bottom">plusTermin</button>
+        <ng-template #Termin>
+          <div class="inputT">
+            <div>Titel: <input type="text" #titel> </div>
+            <div>start: <input type="text" #start> </div>
+            <div>ende: <input type="text" #ende> </div>
+            <div>Klasse: <input type="text" #klasse></div>
+            <button (click)="terminAdd(titel.value,start.value,ende.value,klasse.value)">Termin
+              hinzufügen</button>
+          </div>
+        </ng-template>
+
+      </table>
+    </div>
+
+  </div>
+
+  <h1 class="noprint {{gewaehlterPlan}}">
+
+    <button (click)="abschnSub(absch)" style="background-color:inherit" width="40pt"> <img
+        src="../../../assets/iconsNav/pfeilweißLinks.png" style="width:30pt"></button>
+
+    <ng-container>
+      <img *ngIf="absch==0" src="../../../assets/icons/sun.svg" width="40pt">
+      <img *ngIf="absch==1" src="../../../assets/icons/leaf.svg" width="40pt">
+      <img *ngIf="absch==2" src="../../../assets/icons/snowflake.svg" width="40pt">
+      <img *ngIf="absch==3" src="../../../assets/icons/spriessen.svg" width="40pt">
+    </ng-container>
+
+    <button triggers="click" [autoClose]="true" [ngbTooltip]="esrPlaene" placement="bottom">
+      {{gewaehlterPlan.toUpperCase()}}</button>
+
+
+
+    <ng-template #esrPlaene>
+      <button class="noprint rhyB" (click)="wahl('rhythmus')">Rhythmus</button>
+      <button class="noprint epoB" (click)="wahl('epoche')">Epoche</button>
+      <button class="noprint schB" (click)="wahl('schiene')">Schiene</button>
+    </ng-template>
+
+    <ng-container>
+      <img *ngIf="absch==0" src="../../../assets/icons/leaf.svg" width="40pt">
+      <img *ngIf="absch==1" src="../../../assets/icons/snowflake.svg" width="40pt">
+      <img *ngIf="absch==2" src="../../../assets/icons/spriessen.svg" width="40pt">
+      <img *ngIf="absch==3" src="../../../assets/icons/sun.svg" width="40pt">
+    </ng-container>
+
+    <button (click)="abschnAdd(absch)" style="background-color:inherit" width="40pt"> <img
+        src="../../../assets/iconsNav/pfeilweißLinks.png" style="width:30pt;transform: rotate(180deg);;"></button>
+
+  </h1>
+
+  <div id="main" class="noprint">
+
+    <ng-container *ngIf="esrPlan">
+      <ng-container *ngFor="let abschnitt of esrPlan, index as ab">
+        <div class="abschnittContainer">
+          <div class="abschnitt" *ngIf="absch==ab">
+            <ng-container *ngFor="let box of abschnitt, index as t">
+              <div class="tagesContainer D{{box.tag.getDay()}}">
+                <div class="Monat">
+                  <ng-container *ngIf="box.tag.getDay()==1">
+                    {{ferienServ.monatZuString( box.tag)}}
+                  </ng-container>
+                </div>
+                <div class="Wochentag">
+                  {{wochenTag(box.tag.getDay())}}
+                </div>
+                <!--an Datum toooltip ranbaun mit sondertag-INFO-->
+                <div class="Datum {{besondererTag(box)}}">
+                  {{box.tag|date: "d."}}
+                </div>
+                <div class="sonderBox">
+                  <ng-container *ngIf="box.ferien.length>0">
+                    <ng-container *ngFor="let fer of box.ferien">{{fer.titel|unterstrichEntfernen}}</ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="box.pruefungen.length>0">
+                    <ng-container *ngFor="let fer of box.pruefungen">{{fer.titel|unterstrichEntfernen}}</ng-container>
+                  </ng-container>
+                </div>
+
+                <div class="buttonBox">
+                  <div class="rhy" *ngIf="gewaehlterPlan==='rhythmus'">
+                    <ng-container *ngIf="rhythmusElemente$|async as rhy">
+                      <button triggers="click" class="B{{box.tag.getDay()}} " *ngIf="box.tag.getDay()==1"
+                        [ngbTooltip]="FachAuswahl9" placement="bottom" [autoClose]="true"
+                        (click)="clickN($event,9,  box.tag)">
+                        <div class="neun" *ngIf="klassenFahrt(box.fahrten,9)!==null">
+                          {{klassenFahrt(box.fahrten,9).titel}}
+                        </div>
+                        <ng-container *ngIf="klassenFahrt(box.fahrten,9)===null">
+                          <ng-container *ngFor="let ele of rhy.neun; index as eI">
+                            <div class="neun {{marked(tagimAbschnitt(ele,box.tag,'rhythmus').lehrer[0])}}"
+                              *ngIf="tagimAbschnitt(ele,box.tag,'rhythmus')">
+                              <span class="fach">
+                                {{tagimAbschnitt(ele,box.tag,'rhythmus').fach}}
+                              </span>
+                              <span class="kuerzel">
+                                {{tagimAbschnitt(ele,box.tag,'rhythmus').lehrer[0].kuerzel}}
+                              </span>
+                            </div>
+                          </ng-container>
+                        </ng-container>
+
+                        <!---->
+                        <ng-template #FachAuswahl9>
+                          <ng-container *ngIf="klassenplanServ.esrPlaan$|async as esrPlann">
+                            <button *ngFor="let ele of esrPlann['rhythmus'][zahlInWort(9)]"
+                              (click)="toggleClick(ele, box.tag)">
+                              {{ele.lehrer[0]?.kuerzel}}({{ele?.fach}})
+                              {{ele['rhythmus']}}|{{ele.zuweisung['rhythmus'].length}}
+                            </button>
+                          </ng-container>
+                        </ng-template>
+                        <!---->
+                      </button>
+
+                      <button triggers="click" class="B{{box.tag.getDay()}}" *ngIf="box.tag.getDay()==1"
+                        [ngbTooltip]="FachAuswahl10" placement="bottom" [autoClose]="true"
+                        (click)="clickN($event,10,  box.tag)">
+
+                        <div class="zehn " *ngIf="klassenFahrt(box.fahrten,10)!==null">
+                          {{klassenFahrt(box.fahrten,10).titel}}
+                        </div>
+                        <ng-container *ngIf="klassenFahrt(box.fahrten,10)===null">
+                          <ng-container *ngFor="let ele of rhy.zehn; index as eI">
+                            <div class="zehn {{marked(tagimAbschnitt(ele,box.tag,'rhythmus').lehrer[0])}}"
+                              *ngIf="tagimAbschnitt(ele,box.tag,'rhythmus')">
+                              <span class="fach">
+                                {{tagimAbschnitt(ele,box.tag,'rhythmus').fach}}
+                              </span>
+                              <span class="kuerzel">
+                                {{tagimAbschnitt(ele,box.tag,'rhythmus').lehrer[0].kuerzel}}
+                              </span>
+                            </div>
+                          </ng-container>
+                        </ng-container>
+                        <!---->
+                        <ng-template #FachAuswahl10>
+                          <ng-container *ngIf="klassenplanServ.esrPlaan$|async as esrPlann">
+                            <button *ngFor="let ele of esrPlann['rhythmus'][zahlInWort(10)]"
+                              (click)="toggleClick(ele, box.tag)">
+                              {{ele.lehrer[0]?.kuerzel}}({{ele?.fach}})
+                              {{ele['rhythmus']}}|{{ele.zuweisung['rhythmus'].length}}
+                            </button>
+                          </ng-container>
+                        </ng-template>
+                        <!---->
+                      </button>
+
+                      <button triggers="click" class="B{{box.tag.getDay()}}" *ngIf="box.tag.getDay()==1"
+                        [ngbTooltip]="FachAuswahl11" placement="bottom" [autoClose]="true"
+                        (click)="clickN($event,11,  box.tag)">
+                        <div class="elf " *ngIf="klassenFahrt(box.fahrten,11)!==null">
+                          {{klassenFahrt(box.fahrten,11).titel}}
+                        </div>
+                        <ng-container *ngIf="klassenFahrt(box.fahrten,11)===null">
+                          <ng-container *ngFor="let ele of rhy.elf; index as eI">
+                            <div class="elf {{marked(tagimAbschnitt(ele,box.tag,'rhythmus').lehrer[0])}}"
+                              *ngIf="tagimAbschnitt(ele,box.tag,'rhythmus')">
+                              <span class="fach">
+                                {{tagimAbschnitt(ele,box.tag,'rhythmus').fach}}
+                              </span>
+                              <span class="kuerzel">
+                                {{tagimAbschnitt(ele,box.tag,'rhythmus').lehrer[0].kuerzel}}
+                              </span>
+                            </div>
+                          </ng-container>
+                        </ng-container>
+                        <!---->
+                        <ng-template #FachAuswahl11>
+                          <ng-container *ngIf="klassenplanServ.esrPlaan$|async as esrPlann">
+                            <button *ngFor="let ele of esrPlann['rhythmus'][zahlInWort(11)]"
+                              (click)="toggleClick(ele, box.tag)">
+                              {{ele.lehrer[0]?.kuerzel}}({{ele?.fach}})
+                              {{ele['rhythmus']}}|{{ele.zuweisung['rhythmus'].length}}
+                            </button>
+                          </ng-container>
+                        </ng-template>
+                        <!---->
+
+                      </button>
+
+                      <button triggers="click" class="B{{box.tag.getDay()}}" *ngIf="box.tag.getDay()==1"
+                        [ngbTooltip]="FachAuswahl12" placement="bottom" [autoClose]="true"
+                        (click)="clickN($event,12,  box.tag)">
+                        <div class="zwoelf " *ngIf="klassenFahrt(box.fahrten,12)!==null">
+                          {{klassenFahrt(box.fahrten,12).titel}}
+                        </div>
+                        <ng-container *ngIf="klassenFahrt(box.fahrten,12)===null">
+                          <ng-container *ngFor="let ele of rhy.zwoelf; index as eI">
+                            <div class="zwoelf {{marked(tagimAbschnitt(ele,box.tag,'rhythmus').lehrer[0])}}"
+                              *ngIf="tagimAbschnitt(ele,box.tag,'rhythmus')">
+                              <span class="fach">
+                                {{tagimAbschnitt(ele,box.tag,'rhythmus').fach}}
+                              </span>
+                              <span class="kuerzel">
+                                {{tagimAbschnitt(ele,box.tag,'rhythmus').lehrer[0].kuerzel}}
+                              </span>
+                            </div>
+                          </ng-container>
+                        </ng-container>
+                        <!---->
+                        <ng-template #FachAuswahl12>
+                          <ng-container *ngIf="klassenplanServ.esrPlaan$|async as esrPlann">
+                            <button *ngFor="let ele of esrPlann['rhythmus'][zahlInWort(12)]"
+                              (click)="toggleClick(ele, box.tag)">
+                              {{ele.lehrer[0]?.kuerzel}}({{ele?.fach}})
+                              {{ele['rhythmus']}}|{{ele.zuweisung['rhythmus'].length}}
+                            </button>
+                          </ng-container>
+                        </ng-template>
+                        <!---->
+                      </button>
+                    </ng-container>
+                  </div>
+
+
+
+
+                  <div class="epo" *ngIf="gewaehlterPlan==='epoche'">
+                    <ng-container *ngIf="epochenElemente$|async as epo">
+
+                      <button triggers="click" class="B{{box.tag.getDay()}}" *ngIf="box.tag.getDay()==1"
+                        [ngbTooltip]="FachAuswahl9" placement="bottom" [autoClose]="true"
+                        (click)="clickN($event,9,  box.tag)">
+
+
+
+                        <div class="neun " *ngIf="klassenFahrt(box.fahrten,9)!==null">
+                          {{klassenFahrt(box.fahrten,9).titel}}
+                        </div>
+                        <ng-container *ngIf="klassenFahrt(box.fahrten,9)===null">
+                          <ng-container *ngFor="let ele of epo.neun; index as eI">
+                            <div class="neun {{marked(tagimAbschnitt(ele,box.tag,'epoche').lehrer[0])}}"
+                              *ngIf="tagimAbschnitt(ele,box.tag,'epoche')">
+                              <span class="fach">
+                                {{tagimAbschnitt(ele,box.tag,'epoche').fach}}
+                              </span>
+                              <span class="kuerzel">
+                                {{tagimAbschnitt(ele,box.tag,'epoche').lehrer[0].kuerzel}}
+                              </span>
+                            </div>
+                          </ng-container>
+                        </ng-container>
+
+                        <!---->
+                        <ng-template #FachAuswahl9>
+                          <ng-container *ngIf="klassenplanServ.esrPlaan$|async as esrPlann">
+                            <button *ngFor="let ele of esrPlann['epoche'][zahlInWort(9)]"
+                              (click)="toggleClick(ele, box.tag)">
+                              {{ele.lehrer[0]?.kuerzel}}({{ele?.fach}})
+                              {{ele['epoche']}}|{{ele.zuweisung['epoche'].length}}
+                            </button>
+                          </ng-container>
+                        </ng-template>
+                        <!---->
+                      </button>
+
+                      <button triggers="click" class="B{{box.tag.getDay()}}" *ngIf="box.tag.getDay()==1"
+                        [ngbTooltip]="FachAuswahl10" placement="bottom" [autoClose]="true"
+                        (click)="clickN($event,10,  box.tag)">
+
+                        <div class="zehn" *ngIf="klassenFahrt(box.fahrten,10)!==null">
+                          {{klassenFahrt(box.fahrten,10).titel}}
+                        </div>
+                        <ng-container *ngIf="klassenFahrt(box.fahrten,10)===null">
+                          <ng-container *ngFor="let ele of epo.zehn; index as eI">
+                            <div class="zehn {{marked(tagimAbschnitt(ele,box.tag,'epoche').lehrer[0])}}"
+                              *ngIf="tagimAbschnitt(ele,box.tag,'epoche')">
+                              <span class="fach">
+                                {{tagimAbschnitt(ele,box.tag,'epoche').fach}}
+                              </span>
+                              <span class="kuerzel">
+                                {{tagimAbschnitt(ele,box.tag,'epoche').lehrer[0].kuerzel}}
+                              </span>
+                            </div>
+                          </ng-container>
+                        </ng-container>
+                        <!---->
+                        <ng-template #FachAuswahl10>
+                          <ng-container *ngIf="klassenplanServ.esrPlaan$|async as esrPlann">
+                            <button *ngFor="let ele of esrPlann['epoche'][zahlInWort(10)]"
+                              (click)="toggleClick(ele, box.tag)">
+                              {{ele.lehrer[0]?.kuerzel}}({{ele?.fach}})
+                              {{ele['epoche']}}|{{ele.zuweisung['epoche'].length}}
+                            </button>
+                          </ng-container>
+                        </ng-template>
+                        <!---->
+                      </button>
+
+                      <button triggers="click" class="B{{box.tag.getDay()}}" *ngIf="box.tag.getDay()==1"
+                        [ngbTooltip]="FachAuswahl11" placement="bottom" [autoClose]="true"
+                        (click)="clickN($event,11,  box.tag)">
+                        <div class="elf" *ngIf="klassenFahrt(box.fahrten,11)!==null">
+                          {{klassenFahrt(box.fahrten,11).titel}}
+                        </div>
+                        <ng-container *ngIf="klassenFahrt(box.fahrten,11)===null">
+                          <ng-container *ngFor="let ele of epo.elf; index as eI">
+                            <div class="elf {{marked(tagimAbschnitt(ele,box.tag,'epoche').lehrer[0])}}"
+                              *ngIf="tagimAbschnitt(ele,box.tag,'epoche')">
+                              <span class="fach">
+                                {{tagimAbschnitt(ele,box.tag,'epoche').fach}}
+                              </span>
+                              <span class="kuerzel">
+                                {{tagimAbschnitt(ele,box.tag,'epoche').lehrer[0].kuerzel}}
+                              </span>
+                            </div>
+                          </ng-container>
+                        </ng-container>
+                        <!---->
+                        <ng-template #FachAuswahl11>
+                          <ng-container *ngIf="klassenplanServ.esrPlaan$|async as esrPlann">
+                            <button *ngFor="let ele of esrPlann['epoche'][zahlInWort(11)]"
+                              (click)="toggleClick(ele, box.tag)">
+                              {{ele.lehrer[0]?.kuerzel}}({{ele?.fach}})
+                              {{ele['epoche']}}|{{ele.zuweisung['epoche'].length}}
+                            </button>
+                          </ng-container>
+                        </ng-template>
+                        <!---->
+
+                      </button>
+
+                      <button triggers="click" class="B{{box.tag.getDay()}}" *ngIf="box.tag.getDay()==1"
+                        [ngbTooltip]="FachAuswahl12" placement="bottom" [autoClose]="true"
+                        (click)="clickN($event,12,  box.tag)">
+                        <div class="zwoelf" *ngIf="klassenFahrt(box.fahrten,12)!==null">
+                          {{klassenFahrt(box.fahrten,12).titel}}
+                        </div>
+                        <ng-container *ngIf="klassenFahrt(box.fahrten,12)===null">
+                          <ng-container *ngFor="let ele of epo.zwoelf; index as eI">
+                            <div class="zwoelf {{marked(tagimAbschnitt(ele,box.tag,'epoche').lehrer[0])}}"
+                              *ngIf="tagimAbschnitt(ele,box.tag,'epoche')">
+                              <span class="fach">
+                                {{tagimAbschnitt(ele,box.tag,'epoche').fach}}
+                              </span>
+                              <span class="kuerzel">
+                                {{tagimAbschnitt(ele,box.tag,'epoche').lehrer[0].kuerzel}}
+                              </span>
+                            </div>
+                          </ng-container>
+                        </ng-container>
+                        <!---->
+                        <ng-template #FachAuswahl12>
+                          <ng-container *ngIf="klassenplanServ.esrPlaan$|async as esrPlann">
+                            <button *ngFor="let ele of esrPlann['epoche'][zahlInWort(12)]"
+                              (click)="toggleClick(ele, box.tag)">
+                              {{ele.lehrer[0]?.kuerzel}}({{ele?.fach}})
+                              {{ele['epoche']}}|{{ele.zuweisung['epoche'].length}}
+                            </button>
+                          </ng-container>
+                        </ng-template>
+                        <!---->
+                      </button>
+                    </ng-container>
+
+                  </div>
+
+                  <div class="sch" *ngIf="gewaehlterPlan==='schiene'">
+                    <ng-container *ngIf="schieneElemente$|async as epo">
+
+                      <button triggers="click" class="B{{box.tag.getDay()}}" *ngIf="box.tag.getDay()==1"
+                        [ngbTooltip]="FachAuswahl9" placement="bottom" [autoClose]="true"
+                        (click)="clickN($event,9,  box.tag)">
+
+
+
+                        <div class="neun" *ngIf="klassenFahrt(box.fahrten,9)!==null">
+                          {{klassenFahrt(box.fahrten,9).titel}}
+                        </div>
+
+                        <ng-container *ngIf="klassenFahrt(box.fahrten,9)===null">
+                          <ng-container *ngFor="let ele of epo.neun; index as eI">
+
+                            <div class="neun {{marked(tagimAbschnitt(ele,box.tag,'schiene').lehrer[0])}}"
+                              *ngIf="tagimAbschnitt(ele,box.tag,'schiene')">
+                              <span class="fach">
+                                {{tagimAbschnitt(ele,box.tag,'schiene').fach}}
+                              </span>
+                              <span class="kuerzel">
+                                {{tagimAbschnitt(ele,box.tag,'schiene').lehrer[0].kuerzel}}
+                              </span>
+
+                            </div>
+                          </ng-container>
+                        </ng-container>
+
+
+                        <!---->
+                        <ng-template #FachAuswahl9>
+                          <ng-container *ngIf="klassenplanServ.esrPlaan$|async as esrPlann">
+                            <button *ngFor="let ele of esrPlann['schiene'][zahlInWort(9)]"
+                              (click)="toggleClick(ele, box.tag)">
+                              {{ele.lehrer[0]?.kuerzel}}({{ele?.fach}})
+                              {{ele['schiene']}}|{{ele.zuweisung['schiene'].length}}
+                            </button>
+                          </ng-container>
+                        </ng-template>
+                        <!---->
+                      </button>
+
+                      <button triggers="click" class="B{{box.tag.getDay()}}" *ngIf="box.tag.getDay()==1"
+                        [ngbTooltip]="FachAuswahl10" placement="bottom" [autoClose]="true"
+                        (click)="clickN($event,10,  box.tag)">
+
+                        <div class="zehn" *ngIf="klassenFahrt(box.fahrten,10)!==null">
+                          {{klassenFahrt(box.fahrten,10).titel}}
+                        </div>
+                        <ng-container *ngIf="klassenFahrt(box.fahrten,10)===null">
+                          <ng-container *ngFor="let ele of epo.zehn; index as eI">
+                            <div class="zehn {{marked(tagimAbschnitt(ele,box.tag,'schiene').lehrer[0])}}"
+                              *ngIf="tagimAbschnitt(ele,box.tag,'schiene')">
+                              <span class="fach">
+                                {{tagimAbschnitt(ele,box.tag,'schiene').fach}}
+                              </span>
+                              <span class="kuerzel">
+                                {{tagimAbschnitt(ele,box.tag,'schiene').lehrer[0].kuerzel}}
+                              </span>
+
+                            </div>
+                          </ng-container>
+                        </ng-container>
+                        <!---->
+                        <ng-template #FachAuswahl10>
+                          <ng-container *ngIf="klassenplanServ.esrPlaan$|async as esrPlann">
+                            <button *ngFor="let ele of esrPlann['schiene'][zahlInWort(10)]"
+                              (click)="toggleClick(ele, box.tag)">
+                              {{ele.lehrer[0]?.kuerzel}}({{ele?.fach}})
+                              {{ele['schiene']}}|{{ele.zuweisung['schiene'].length}}
+                            </button>
+                          </ng-container>
+                        </ng-template>
+                        <!---->
+                      </button>
+
+                      <button triggers="click" class="B{{box.tag.getDay()}}" *ngIf="box.tag.getDay()==1"
+                        [ngbTooltip]="FachAuswahl11" placement="bottom" [autoClose]="true"
+                        (click)="clickN($event,11,  box.tag)">
+                        <div class="elf" *ngIf="klassenFahrt(box.fahrten,11)!==null">
+                          {{klassenFahrt(box.fahrten,11).titel}}
+                        </div>
+                        <ng-container *ngIf="klassenFahrt(box.fahrten,11)===null">
+                          <ng-container *ngFor="let ele of epo.elf; index as eI">
+                            <div class="elf {{marked(tagimAbschnitt(ele,box.tag,'schiene').lehrer[0])}}"
+                              *ngIf="tagimAbschnitt(ele,box.tag,'schiene')">
+                              <span class="fach">
+                                {{tagimAbschnitt(ele,box.tag,'schiene').fach}}
+                              </span>
+                              <span class="kuerzel">
+                                {{tagimAbschnitt(ele,box.tag,'schiene').lehrer[0].kuerzel}}
+                              </span>
+
+                            </div>
+                          </ng-container>
+                        </ng-container>
+                        <!---->
+                        <ng-template #FachAuswahl11>
+                          <ng-container *ngIf="klassenplanServ.esrPlaan$|async as esrPlann">
+                            <button *ngFor="let ele of esrPlann['schiene'][zahlInWort(11)]"
+                              (click)="toggleClick(ele, box.tag)">
+                              {{ele.lehrer[0]?.kuerzel}}({{ele?.fach}})
+                              {{ele['schiene']}}|{{ele.zuweisung['schiene'].length}}
+                            </button>
+                          </ng-container>
+                        </ng-template>
+                        <!---->
+
+                      </button>
+
+                      <button triggers="click" class="B{{box.tag.getDay()}}" *ngIf="box.tag.getDay()==1"
+                        [ngbTooltip]="FachAuswahl12" placement="bottom" [autoClose]="true"
+                        (click)="clickN($event,12,  box.tag)">
+                        <div class="zwoelf" *ngIf="klassenFahrt(box.fahrten,12)!==null">
+                          {{klassenFahrt(box.fahrten,12).titel}}
+                        </div>
+                        <ng-container *ngIf="klassenFahrt(box.fahrten,12)===null">
+                          <ng-container *ngFor="let ele of epo.zwoelf; index as eI">
+                            <div class="zwoelf {{marked(tagimAbschnitt(ele,box.tag,'schiene').lehrer[0])}}"
+                              *ngIf="tagimAbschnitt(ele,box.tag,'schiene')">
+                              <span class="fach">
+                                {{tagimAbschnitt(ele,box.tag,'schiene').fach}}
+                              </span>
+                              <span class="kuerzel">
+                                {{tagimAbschnitt(ele,box.tag,'schiene').lehrer[0].kuerzel}}
+                              </span>
+                            </div>
+                          </ng-container>
+                        </ng-container>
+                        <!---->
+                        <ng-template #FachAuswahl12>
+                          <ng-container *ngIf="klassenplanServ.esrPlaan$|async as esrPlann">
+                            <button *ngFor="let ele of esrPlann['schiene'][zahlInWort(12)]"
+                              (click)="toggleClick(ele, box.tag)">
+                              {{ele.lehrer[0]?.kuerzel}}({{ele?.fach}})
+                              {{ele['schiene']}}|{{ele.zuweisung['schiene'].length}}
+                            </button>
+                          </ng-container>
+                        </ng-template>
+                        <!---->
+                      </button>
+                    </ng-container>
+
+                  </div>
+                </div>
+
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </ng-container>
+
+
+    </ng-container>
+
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- COPY PRINT -->
+
+  <div id="printContain" *ngIf="printAktiv">
+    <ng-container *ngIf="esrPlan">
+      <ng-container *ngFor="let abschnitt of esrPlan, index as ab">
+        <div>
+          <table>
+            <tr>
+              <ng-container *ngFor="let box of abschnitt, index as t">
+                <ng-container *ngIf="box.tag.getDay()==1">
+                  <td colSpan="1">
+                    <div>
+                      <ng-container>
+                        {{ferienServ.monatZuString( box.tag)}}
+                      </ng-container>
+                    </div>
+                    <div class="klein">
+                      {{wochenTag(box.tag.getDay())}}
+                      <span class="klein {{besondererTag(box)}}">{{box.tag|date: "d."}} </span>
+                      <ng-container *ngIf="abschnitt.length>t+1">
+                        <span *ngIf="besondererTag(abschnitt[t+1]).length>0"
+                          class="klein {{besondererTag(abschnitt[t+1])}}">{{abschnitt[t+1].tag|date: "d."}}
+                        </span>
+                      </ng-container>
+                      <ng-container *ngIf="abschnitt.length>t+2">
+                        <span *ngIf="besondererTag(abschnitt[t+2]).length>0"
+                          class="klein {{besondererTag(abschnitt[t+2])}}">{{abschnitt[t+2].tag|date: "d."}}
+                        </span>
+                      </ng-container>
+                      <ng-container *ngIf="abschnitt.length>t+3">
+                        <span *ngIf="besondererTag(abschnitt[t+3]).length>0"
+                          class="klein {{besondererTag(abschnitt[t+3])}}">{{abschnitt[t+3].tag|date: "d."}}
+                        </span>
+                      </ng-container>
+                      <ng-container *ngIf="abschnitt.length>t+4">
+                        <span *ngIf="besondererTag(abschnitt[t+4]).length>0"
+                          class="klein {{besondererTag(abschnitt[t+4])}}">{{abschnitt[t+4].tag|date: "d."}}
+                        </span>
+                      </ng-container>
+                    </div>
+                    <!-- <div class="sonderBox">
+                      <ng-container *ngIf="box.ferien.length>0">
+                        <ng-container *ngFor="let fer of box.ferien">{{fer.titel|unterstrichEntfernen}}</ng-container>
+                      </ng-container>
+                      <ng-container *ngIf="box.pruefungen.length>0">
+                        <ng-container *ngFor="let fer of box.pruefungen">{{fer.titel|unterstrichEntfernen}}
+                        </ng-container>
+                      </ng-container>
+                    </div>-->
+                  </td>
+                </ng-container>
+              </ng-container>
+            </tr>
+            <tr class="rhythmus" *ngIf="rhythmusElemente$|async as rhy">
+              <ng-container *ngFor="let box of abschnitt, index as t">
+                <ng-container *ngIf="box.tag.getDay()==1">
+                  <ng-container class="neun" *ngIf="klassenFahrt(box.fahrten,9)!==null">
+                    <ng-container
+                      *ngIf="t<7||(t>=7&&klassenFahrt(abschnitt[t-7].fahrten,9)===null)||(t>=7&&klassenFahrt(abschnitt[t].fahrten,9).titel!==klassenFahrt(abschnitt[t-7].fahrten,9).titel)">
+                      <td colSpan="{{klassenFahrtBreite(abschnitt,box,9,t)}}">
+                        {{klassenFahrt(box.fahrten,9).titel}}
+                      </td>
+                    </ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="klassenFahrt(box.fahrten,9)===null">
+                    <ng-container
+                      *ngIf="t<6||(t>6&&breite(rhy.neun,abschnitt[t].tag,t, 'rhythmus',abschnitt)>=breite(rhy.neun,abschnitt[t-7].tag,t,'rhythmus',abschnitt))">
+                      <td colSpan="{{breite(rhy.neun,abschnitt[t].tag,t, 'rhythmus', abschnitt)}}">
+                <!--        {{breite(rhy.neun,box.tag,t, 'rhythmus',abschnitt)}}-->
+                        <ng-container *ngFor="let ele of rhy.neun; index as eI">
+                          <div class="neun {{marked(tagimAbschnitt(ele,box.tag,'rhythmus').lehrer[0])}}"
+                            *ngIf="tagimAbschnitt(ele,box.tag,'rhythmus')">
+                            <span class="fach">
+                              {{tagimAbschnitt(ele,box.tag,'rhythmus').fach}}
+                            </span>
+                            <span class="kuerzel">
+                              {{tagimAbschnitt(ele,box.tag,'rhythmus').lehrer[0].kuerzel}}
+                            </span>
+                          </div>
+                        </ng-container>
+                      </td>
+                    </ng-container>
+
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </tr>
+
+
+
+            <tr class="rhythmus" *ngIf="rhythmusElemente$|async as rhy">
+              <ng-container *ngFor="let box of abschnitt, index as t">
+                <ng-container *ngIf="box.tag.getDay()==1">
+                  <ng-container class="zehn " *ngIf="klassenFahrt(box.fahrten,10)!==null">
+                    <ng-container
+                      *ngIf="t<7||(t>=7&&klassenFahrt(abschnitt[t-7].fahrten,10)===null)||(t>=7&&klassenFahrt(abschnitt[t].fahrten,10).titel!==klassenFahrt(abschnitt[t-7].fahrten,10).titel)">
+                      <td colSpan="{{klassenFahrtBreite(abschnitt,box,10,t)}}">
+                      {{klassenFahrt(box.fahrten,10).titel}}
+                    </td>
+                    </ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="klassenFahrt(box.fahrten,10)===null">
+                    <ng-container
+                      *ngIf="t<6||(t>6&&breite(rhy.zehn,abschnitt[t].tag,t, 'rhythmus',abschnitt)>=breite(rhy.zehn,abschnitt[t-7].tag,t,'rhythmus',abschnitt))">
+                      <td colSpan="{{breite(rhy.zehn,abschnitt[t].tag,t, 'rhythmus', abschnitt)}}">
+
+              <!--          {{breite(rhy.zehn,box.tag,t, 'rhythmus',abschnitt)}}-->
+                        <ng-container *ngFor="let ele of rhy.zehn; index as eI">
+                          <div class="zehn {{marked(tagimAbschnitt(ele,box.tag,'rhythmus').lehrer[0])}}"
+                            *ngIf="tagimAbschnitt(ele,box.tag,'rhythmus')">
+                            <span class="fach">
+                              {{tagimAbschnitt(ele,box.tag,'rhythmus').fach}}
+                            </span>
+                            <span class="kuerzel">
+                              {{tagimAbschnitt(ele,box.tag,'rhythmus').lehrer[0].kuerzel}}
+                            </span>
+
+                          </div>
+                        </ng-container>
+                      </td>
+                    </ng-container>
+
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </tr>
+
+            <tr class="rhythmus" *ngIf="rhythmusElemente$|async as rhy">
+              <ng-container *ngFor="let box of abschnitt, index as t">
+                <ng-container *ngIf="box.tag.getDay()==1">
+                  <ng-container class="elf " *ngIf="klassenFahrt(box.fahrten,11)!==null">
+                    <ng-container
+                      *ngIf="t<7||(t>=7&&klassenFahrt(abschnitt[t-7].fahrten,11)===null)||(t>=7&&klassenFahrt(abschnitt[t].fahrten,11).titel!==klassenFahrt(abschnitt[t-7].fahrten,11).titel)">
+                      <td colSpan="{{klassenFahrtBreite(abschnitt,box,11,t)}}">
+                      {{klassenFahrt(box.fahrten,11).titel}}
+                    </td>
+                    </ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="klassenFahrt(box.fahrten,11)===null">
+                    <ng-container
+                      *ngIf="t<6||(t>6&&breite(rhy.elf,abschnitt[t].tag,t, 'rhythmus',abschnitt)>=breite(rhy.elf,abschnitt[t-7].tag,t,'rhythmus',abschnitt))">
+                      <td colSpan="{{breite(rhy.elf,abschnitt[t].tag,t, 'rhythmus', abschnitt)}}">
+             <!--          {{breite(rhy.elf,abschnitt[t].tag,t, 'rhythmus', abschnitt)}}--> 
+                        <ng-container *ngFor="let ele of rhy.elf; index as eI">
+                          <div class="elf {{marked(tagimAbschnitt(ele,box.tag,'rhythmus').lehrer[0])}}"
+                            *ngIf="tagimAbschnitt(ele,box.tag,'rhythmus')">
+                            <span class="fach">
+                              {{tagimAbschnitt(ele,box.tag,'rhythmus').fach}}
+                            </span>
+                            <span class="kuerzel">
+                              {{tagimAbschnitt(ele,box.tag,'rhythmus').lehrer[0].kuerzel}}
+                            </span>
+                          </div>
+                        </ng-container>
+                      </td>
+                    </ng-container>
+
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </tr>
+            <tr class="rhythmus" *ngIf="rhythmusElemente$|async as rhy">
+              <ng-container *ngFor="let box of abschnitt, index as t">
+                <ng-container *ngIf="box.tag.getDay()==1">
+
+                  <ng-container class="zwoelf " *ngIf="klassenFahrt(box.fahrten,12)!==null">
+                    <ng-container
+                      *ngIf="t<7||(t>=7&&klassenFahrt(abschnitt[t-7].fahrten,12)===null)||(t>=7&&klassenFahrt(abschnitt[t].fahrten,12).titel!==klassenFahrt(abschnitt[t-7].fahrten,12).titel)">
+                      <td colSpan="{{klassenFahrtBreite(abschnitt,box,12,t)}}">
+                      {{klassenFahrt(box.fahrten,12).titel}}
+                    </td>
+                    </ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="klassenFahrt(box.fahrten,12)===null">
+                    <ng-container
+                      *ngIf="t<6||(t>6&&breite(rhy.zwoelf,abschnitt[t].tag,t, 'rhythmus',abschnitt)>=breite(rhy.zwoelf,abschnitt[t-7].tag,t,'rhythmus',abschnitt))">
+                      <td colSpan="{{breite(rhy.zwoelf,abschnitt[t].tag,t, 'rhythmus', abschnitt)}}">
+            <!--          {{breite(rhy.zwoelf,abschnitt[t].tag,t, 'rhythmus', abschnitt)}}-->  
+                        <ng-container *ngFor="let ele of rhy.zwoelf; index as eI">
+                          <div class="zwoelf {{marked(tagimAbschnitt(ele,box.tag,'rhythmus').lehrer[0])}}"
+                            *ngIf="tagimAbschnitt(ele,box.tag,'rhythmus')">
+                            <span class="fach">
+                              {{tagimAbschnitt(ele,box.tag,'rhythmus').fach}}
+                            </span>
+                            <span class="kuerzel">
+                              {{tagimAbschnitt(ele,box.tag,'rhythmus').lehrer[0].kuerzel}}
+                            </span>
+                          </div>
+                        </ng-container>
+                      </td>
+                    </ng-container>
+
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </tr>
+            <tr>
+
+            </tr>
+            <tr class="epoche" *ngIf="epochenElemente$|async as epo">
+              <ng-container *ngFor="let box of abschnitt, index as t">
+                <ng-container *ngIf="box.tag.getDay()==1">
+                  <ng-container class="neun " *ngIf="klassenFahrt(box.fahrten,9)!==null">
+                    <ng-container
+                      *ngIf="t<7||(t>=7&&klassenFahrt(abschnitt[t-7].fahrten,9)===null)||(t>=7&&klassenFahrt(abschnitt[t].fahrten,9).titel!==klassenFahrt(abschnitt[t-7].fahrten,9).titel)">
+                      <td colSpan="{{klassenFahrtBreite(abschnitt,box,9,t)}}">
+                  
+                      {{klassenFahrt(box.fahrten,9).titel}}
+                    </td>
+                    </ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="klassenFahrt(box.fahrten,9)===null">
+                    <ng-container
+                      *ngIf="t<6||(t>6&&breite(epo.neun,abschnitt[t].tag,t, 'epoche',abschnitt)>=breite(epo.neun,abschnitt[t-7].tag,t,'epoche',abschnitt))">
+                      <td colSpan="{{breite(epo.neun,abschnitt[t].tag,t, 'epoche', abschnitt)}}">
+               <!--         {{breite(epo.neun,abschnitt[t].tag,t, 'epoche', abschnitt)}}-->
+                        <ng-container *ngFor="let ele of epo.neun; index as eI">
+                          <div class="neun {{marked(tagimAbschnitt(ele,box.tag,'epoche').lehrer[0])}}"
+                            *ngIf="tagimAbschnitt(ele,box.tag,'epoche')">
+                            <span class="fach">
+                              {{tagimAbschnitt(ele,box.tag,'epoche').fach}}
+                            </span>
+                            <span class="kuerzel">
+                              {{tagimAbschnitt(ele,box.tag,'epoche').lehrer[0].kuerzel}}
+                            </span>
+                          </div>
+                        </ng-container>
+                      </td>
+                    </ng-container>
+
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </tr>
+
+
+
+            <tr class="epoche" *ngIf="epochenElemente$|async as epo">
+              <ng-container *ngFor="let box of abschnitt, index as t">
+                <ng-container *ngIf="box.tag.getDay()==1">
+
+                  <ng-container class="zehn" *ngIf="klassenFahrt(box.fahrten,10)!==null">
+                    <ng-container
+                      *ngIf="t<7||(t>=7&&klassenFahrt(abschnitt[t-7].fahrten,10)===null)||(t>=7&&klassenFahrt(abschnitt[t].fahrten,10).titel!==klassenFahrt(abschnitt[t-7].fahrten,10).titel)">
+                      <td colSpan="{{klassenFahrtBreite(abschnitt,box,10,t)}}">
+
+                      {{klassenFahrt(box.fahrten,10).titel}}
+                    </td>
+                  </ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="klassenFahrt(box.fahrten,10)===null">
+                    <ng-container
+                      *ngIf="t<6||(t>6&&breite(epo.zehn,abschnitt[t].tag,t, 'epoche',abschnitt)>=breite(epo.zehn,abschnitt[t-7].tag,t,'epoche',abschnitt))">
+                      <td colSpan="{{breite(epo.zehn,abschnitt[t].tag,t, 'epoche', abschnitt)}}">
+            <!--           {{breite(epo.zehn,abschnitt[t].tag,t, 'epoche', abschnitt)}}--> 
+                        <ng-container *ngFor="let ele of epo.zehn; index as eI">
+                          <div class="zehn {{marked(tagimAbschnitt(ele,box.tag,'epoche').lehrer[0])}}"
+                            *ngIf="tagimAbschnitt(ele,box.tag,'epoche')">
+                            <span class="fach">
+                              {{tagimAbschnitt(ele,box.tag,'epoche').fach}}
+                            </span>
+                            <span class="kuerzel">
+                              {{tagimAbschnitt(ele,box.tag,'epoche').lehrer[0].kuerzel}}
+                            </span>
+                          </div>
+                        </ng-container>
+                      </td>
+                    </ng-container>
+
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </tr>
+
+            <tr class="epoche" *ngIf="epochenElemente$|async as epo">
+              <ng-container *ngFor="let box of abschnitt, index as t">
+                <ng-container *ngIf="box.tag.getDay()==1">
+
+                  <ng-container class="elf" *ngIf="klassenFahrt(box.fahrten,11)!==null">
+                    <ng-container
+                      *ngIf="t<7||(t>=7&&klassenFahrt(abschnitt[t-7].fahrten,11)===null)||(t>=7&&klassenFahrt(abschnitt[t].fahrten,11).titel!==klassenFahrt(abschnitt[t-7].fahrten,11).titel)">
+                      <td colSpan="{{klassenFahrtBreite(abschnitt,box,11,t)}}">
+            
+                      {{klassenFahrt(box.fahrten,11).titel}}
+                    </td>
+                  </ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="klassenFahrt(box.fahrten,11)===null">
+                    <ng-container
+                      *ngIf="t<6||(t>6&&breite(epo.elf,abschnitt[t].tag,t, 'epoche',abschnitt)>=breite(epo.elf,abschnitt[t-7].tag,t,'epoche',abschnitt))">
+                      <td colSpan="{{breite(epo.elf,abschnitt[t].tag,t, 'epoche', abschnitt)}}">
+              <!--         {{breite(epo.elf,abschnitt[t].tag,t, 'epoche', abschnitt)}}--> 
+                        <ng-container *ngFor="let ele of epo.elf; index as eI">
+                          <div class="elf {{marked(tagimAbschnitt(ele,box.tag,'epoche').lehrer[0])}}"
+                            *ngIf="tagimAbschnitt(ele,box.tag,'epoche')">
+                            <span class="fach">
+                              {{tagimAbschnitt(ele,box.tag,'epoche').fach}}
+                            </span>
+                            <span class="kuerzel">
+                              {{tagimAbschnitt(ele,box.tag,'epoche').lehrer[0].kuerzel}}
+                            </span>
+                          </div>
+                        </ng-container>
+                      </td>
+                    </ng-container>
+
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </tr>
+            <tr class="epoche" *ngIf="epochenElemente$|async as epo">
+              <ng-container *ngFor="let box of abschnitt, index as t">
+                <ng-container *ngIf="box.tag.getDay()==1">
+                  <ng-container class="zwoelf" *ngIf="klassenFahrt(box.fahrten,12)!==null">
+                    <ng-container
+                      *ngIf="t<7||(t>=7&&klassenFahrt(abschnitt[t-7].fahrten,12)===null)||(t>=7&&klassenFahrt(abschnitt[t].fahrten,12).titel!==klassenFahrt(abschnitt[t-7].fahrten,12).titel)">
+                      <td colSpan="{{klassenFahrtBreite(abschnitt,box,12,t)}}">
+                      {{klassenFahrt(box.fahrten,12).titel}}
+                    </td>
+                    </ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="klassenFahrt(box.fahrten,12)===null">
+                    <ng-container
+                      *ngIf="t<6||(t>6&&breite(epo.zwoelf,abschnitt[t].tag,t, 'epoche',abschnitt)>=breite(epo.zwoelf,abschnitt[t-7].tag,t,'epoche',abschnitt))">
+                      <td colSpan="{{breite(epo.zwoelf,abschnitt[t].tag,t, 'epoche', abschnitt)}}">
+                <!--      {{breite(epo.zwoelf,abschnitt[t].tag,t, 'epoche', abschnitt)}}-->  
+                        <ng-container *ngFor="let ele of epo.zwoelf; index as eI">
+                          <div class="zwoelf {{marked(tagimAbschnitt(ele,box.tag,'epoche').lehrer[0])}}"
+                            *ngIf="tagimAbschnitt(ele,box.tag,'epoche')">
+                            <span class="fach">
+                              {{tagimAbschnitt(ele,box.tag,'epoche').fach}}
+                            </span>
+                            <span class="kuerzel">
+                              {{tagimAbschnitt(ele,box.tag,'epoche').lehrer[0].kuerzel}}
+                            </span>
+                          </div>
+                        </ng-container>
+                      </td>
+                    </ng-container>
+
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </tr>
+
+
+
+            <tr>
+
+            </tr>
+
+            <tr class="schiene" *ngIf="schieneElemente$|async as epo">
+              <ng-container *ngFor="let box of abschnitt, index as t">
+                <ng-container *ngIf="box.tag.getDay()==1">
+                  <ng-container class="neun" *ngIf="klassenFahrt(box.fahrten,9)!==null">
+                    <ng-container
+                      *ngIf="t<7||(t>=7&&klassenFahrt(abschnitt[t-7].fahrten,9)===null)||(t>=7&&klassenFahrt(abschnitt[t].fahrten,9).titel!==klassenFahrt(abschnitt[t-7].fahrten,9).titel)">
+                      <td colSpan="{{klassenFahrtBreite(abschnitt,box,9,t)}}">
+                      {{klassenFahrt(box.fahrten,9).titel}}
+                    </td>
+                  </ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="klassenFahrt(box.fahrten,9)===null">
+                    <ng-container
+                      *ngIf="t<6||(t>6&&breite(epo.neun,abschnitt[t].tag,t, 'schiene',abschnitt)>=breite(epo.neun,abschnitt[t-7].tag,t,'schiene',abschnitt))">
+                      <td colSpan="{{breite(epo.neun,abschnitt[t].tag,t, 'schiene', abschnitt)}}">
+                 <!--     {{breite(epo.neun,abschnitt[t].tag,t, 'schiene', abschnitt)}}-->  
+                        <ng-container *ngFor="let ele of epo.neun; index as eI">
+
+                          <div class="neun {{marked(tagimAbschnitt(ele,box.tag,'schiene').lehrer[0])}}"
+                            *ngIf="tagimAbschnitt(ele,box.tag,'schiene')">
+                            <span class="fach">
+                              {{tagimAbschnitt(ele,box.tag,'schiene').fach}}
+                            </span>
+                            <span class="kuerzel">
+                              {{tagimAbschnitt(ele,box.tag,'schiene').lehrer[0].kuerzel}}
+                            </span>
+                          </div>
+                        </ng-container>
+                      </td>
+                    </ng-container>
+
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </tr>
+
+
+            <tr class="schiene" *ngIf="schieneElemente$|async as epo">
+              <ng-container *ngFor="let box of abschnitt, index as t">
+                <ng-container *ngIf="box.tag.getDay()==1">
+
+                  <ng-container class="zehn" *ngIf="klassenFahrt(box.fahrten,10)!==null">
+                    <ng-container
+                    *ngIf="t<7||(t>=7&&klassenFahrt(abschnitt[t-7].fahrten,10)===null)||(t>=7&&klassenFahrt(abschnitt[t].fahrten,10).titel!==klassenFahrt(abschnitt[t-7].fahrten,10).titel)">
+                    <td colSpan="{{klassenFahrtBreite(abschnitt,box,10,t)}}">                  
+                          {{klassenFahrt(box.fahrten,10).titel}}
+                    </td>
+                  </ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="klassenFahrt(box.fahrten,10)===null">
+                    <ng-container
+                      *ngIf="t<6||(t>6&&breite(epo.zehn,abschnitt[t].tag,t, 'schiene',abschnitt)>=breite(epo.zehn,abschnitt[t-7].tag,t,'schiene',abschnitt))">
+                      <td colSpan="{{breite(epo.zehn,abschnitt[t].tag,t, 'schiene', abschnitt)}}">
+                   <!--   {{breite(epo.zehn,abschnitt[t].tag,t, 'schiene', abschnitt)}}-->  
+                        <ng-container *ngFor="let ele of epo.zehn; index as eI">
+                          <div class="zehn {{marked(tagimAbschnitt(ele,box.tag,'schiene').lehrer[0])}}"
+                            *ngIf="tagimAbschnitt(ele,box.tag,'schiene')">
+                            <span class="fach">
+                              {{tagimAbschnitt(ele,box.tag,'schiene').fach}}
+                            </span>
+                            <span class="kuerzel">
+                              {{tagimAbschnitt(ele,box.tag,'schiene').lehrer[0].kuerzel}}
+                            </span>
+                          </div>
+                        </ng-container>
+                      </td>
+                    </ng-container>
+
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </tr>
+            <tr class="schiene" *ngIf="schieneElemente$|async as epo">
+              <ng-container *ngFor="let box of abschnitt, index as t">
+                <ng-container *ngIf="box.tag.getDay()==1">
+
+                  <ng-container class="elf" *ngIf="klassenFahrt(box.fahrten,11)!==null">
+                    <ng-container
+                    *ngIf="t<7||(t>=7&&klassenFahrt(abschnitt[t-7].fahrten,11)===null)||(t>=7&&klassenFahrt(abschnitt[t].fahrten,11).titel!==klassenFahrt(abschnitt[t-7].fahrten,11).titel)">
+                    <td colSpan="{{klassenFahrtBreite(abschnitt,box,11,t)}}">
+                                            {{klassenFahrt(box.fahrten,11).titel}}
+                    </td>
+                    </ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="klassenFahrt(box.fahrten,11)===null">
+                    <ng-container
+                      *ngIf="t<6||(t>6&&breite(epo.elf,abschnitt[t].tag,t, 'schiene',abschnitt)>=breite(epo.elf,abschnitt[t-7].tag,t,'schiene',abschnitt))">
+                      <td colSpan="{{breite(epo.elf,abschnitt[t].tag,t, 'schiene', abschnitt)}}">
+                  <!--      {{breite(epo.elf,abschnitt[t].tag,t, 'schiene', abschnitt)}}-->
+                        <ng-container *ngFor="let ele of epo.elf; index as eI">
+                          <div class="elf {{marked(tagimAbschnitt(ele,box.tag,'schiene').lehrer[0])}}"
+                            *ngIf="tagimAbschnitt(ele,box.tag,'schiene')">
+                            <span class="fach">
+                              {{tagimAbschnitt(ele,box.tag,'schiene').fach}}
+                            </span>
+                            <span class="kuerzel">
+                              {{tagimAbschnitt(ele,box.tag,'schiene').lehrer[0].kuerzel}}
+                            </span>
+                          </div>
+                        </ng-container>
+                      </td>
+                    </ng-container>
+
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </tr>
+
+            <tr class="schiene" *ngIf="schieneElemente$|async as epo">
+              <ng-container *ngFor="let box of abschnitt, index as t">
+                <ng-container *ngIf="box.tag.getDay()==1">
+                  <ng-container class="zwoelf" *ngIf="klassenFahrt(box.fahrten,12)!==null">
+                    <ng-container
+                      *ngIf="t<7||(t>=7&&klassenFahrt(abschnitt[t-7].fahrten,12)===null)||(t>=7&&klassenFahrt(abschnitt[t].fahrten,12).titel!==klassenFahrt(abschnitt[t-7].fahrten,12).titel)">
+                      <td colSpan="{{klassenFahrtBreite(abschnitt,box,12,t)}}">
+                      {{klassenFahrt(box.fahrten,12).titel}}
+                    </td>
+                  </ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="klassenFahrt(box.fahrten,12)===null">
+                    <ng-container
+                      *ngIf="t<6||(t>6&&breite(epo.zwoelf,abschnitt[t].tag,t, 'schiene',abschnitt)>=breite(epo.zwoelf,abschnitt[t-7].tag,t,'schiene',abschnitt))">
+                      <td colSpan="{{breite(epo.zwoelf,abschnitt[t].tag,t, 'schiene', abschnitt)}}">
+                      <!--{{breite(epo.zwoelf,abschnitt[t].tag,t, 'schiene', abschnitt)}}-->  
+                        <ng-container *ngFor="let ele of epo.zwoelf; index as eI">
+                          <div class="zwoelf {{marked(tagimAbschnitt(ele,box.tag,'schiene').lehrer[0])}}"
+                            *ngIf="tagimAbschnitt(ele,box.tag,'schiene')">
+                            <span class="fach">
+                              {{tagimAbschnitt(ele,box.tag,'schiene').fach}}
+                            </span>
+                            <span class="kuerzel">
+                              {{tagimAbschnitt(ele,box.tag,'schiene').lehrer[0].kuerzel}}
+                            </span>
+                          </div>
+                        </ng-container>
+                      </td>
+                    </ng-container>
+
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </tr>
+          </table>
+        </div>
       </ng-container>
     </ng-container>
   </div>
--->

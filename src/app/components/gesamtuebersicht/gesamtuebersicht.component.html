@@ -1,10 +1,7 @@
-<div id="gesamtuebersicht" class="noprint">
+
 
   <!--<button (click)="leherkuerzelToggle()">Lehrerkuerzel {{buttontext}}</button>-->
   
-
-
-
   <div id="right" class="noprint">
     <button class="iconBut" (click)="links()"><img width="60pt"
         src="../../../assets/iconsNav/pfeilSchwR.png" /></button>
@@ -13,8 +10,8 @@
     <button class="iconBut" (click)="rechts()"><img width="60pt " style=" transform: rotate(180deg);"
         src="../../../assets/iconsNav/pfeilSchwR.png" /></button>
   </div>
-</div>
-<button *ngIf="lehrerService.gewaehlterPlan==='gesamtplan'" (click)="print()" class="noprint"> Gesamtpläne drucken </button>
+
+<button *ngIf="lehrerService.gewaehlterPlan==='gesamtplan'" (click)="print()" class="noprint drucken"> Gesamtpläne drucken </button>
 
 <h1 >Gesamtplan</h1>
 <div id="main">
@@ -119,5 +116,6 @@
       </div>
     </div>
   </ng-container>
-  <app-einzelplaene class="noprint"></app-einzelplaene>
+  <!--<app-einzelplaene class="noprint"></app-einzelplaene>
+  -->
 </div>

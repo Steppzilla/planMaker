@@ -17,6 +17,8 @@ import { VertretungComponent } from './components/vertretung/vertretung.componen
 import { VertretungsplanComponent } from './components/vertretung/vertretungsplan/vertretungsplan.component';
 import { HinweiseComponent } from './components/hinweise/hinweise.component';
 import { EinzelplaeneComponent } from './components/einzelplaene/einzelplaene.component';
+import { FormsModule } from '@angular/forms';
+import { UnterstrichEntfernenPipe } from './unterstrich-entfernen.pipe';
 
 const config = {
   //apiKey: '<your-key>',
@@ -41,10 +43,12 @@ const config = {
     VertretungComponent,
     VertretungsplanComponent,
     HinweiseComponent,
-    EinzelplaeneComponent
+    EinzelplaeneComponent,
+    UnterstrichEntfernenPipe
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     AppRoutingModule,
     NgbModule,
     AngularFireModule.initializeApp(config),

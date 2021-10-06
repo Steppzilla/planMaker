@@ -2,15 +2,14 @@ import {
   Component,
   OnInit
 } from '@angular/core';
-
+import {
+  addDays
+} from 'date-fns';
 import {
   concatMap,
   map,
-  take
+  take,
 } from 'rxjs/operators';
-import {
-  Fach
-} from 'src/app/enums/fach.enum';
 import {
   Lehrjahr
 } from 'src/app/enums/lehrjahr.enum';
@@ -20,6 +19,7 @@ import {
 import {
   TagesObjekt
 } from 'src/app/interfaces/tages-objekt';
+
 import {
   EpochenPlaeneService
 } from 'src/app/services/epochen-plaene.service';
@@ -32,6 +32,9 @@ import {
 import {
   LehrerService
 } from 'src/app/services/lehrer.service';
+import {
+  LoginService
+} from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-esr-plan',
@@ -46,14 +49,250 @@ export class EsrPlanComponent implements OnInit {
   xi = Lehrjahr.elf;
   xii = Lehrjahr.zwoelf;
 
-  esrPlan;
+  termineEinblenden = false;
+  absch = 0;
+
+
+  esrPlan: Array < Array < TagesObjekt >> ;
   grundPlanfaecher: Array < Elementt > ;
 
   gewaehlterPlan = "rhythmus";
   gewaehltesElement: Elementt;
   clickCount = 0;
-
   selectLehrer;
+
+
+  printAktiv = false;
+
+  breite(klassenItems, tag, zeilenIndex, esrLang, abschnitt) {
+    //console.log(abschnitt);
+
+    let enddate = abschnitt[abschnitt.length - 1].tag;
+    let breite = 1;
+    let items = klassenItems.filter(element => (element.zuweisung[esrLang].length > 0));
+    let item = klassenItems.filter(element => element.zuweisung[esrLang].findIndex(ele => ele.start <= tag && ele.ende >= tag) != -1);
+    let item2 = klassenItems.filter(element => element.zuweisung[esrLang].findIndex(ele => ele.start <= addDays(tag, 7) && ele.ende >= addDays(tag, 7)) != -1);
+    let item3 = klassenItems.filter(element => element.zuweisung[esrLang].findIndex(ele => ele.start <= addDays(tag, 14) && ele.ende >= addDays(tag, 14)) != -1);
+    let item4 = klassenItems.filter(element => element.zuweisung[esrLang].findIndex(ele => ele.start <= addDays(tag, 21) && ele.ende >= addDays(tag, 21)) != -1);
+    let item5 = klassenItems.filter(element => element.zuweisung[esrLang].findIndex(ele => ele.start <= addDays(tag, 28) && ele.ende >= addDays(tag, 28)) != -1);
+    let item6 = klassenItems.filter(element => element.zuweisung[esrLang].findIndex(ele => ele.start <= addDays(tag, 35) && ele.ende >= addDays(tag, 35)) != -1);
+    let item7 = klassenItems.filter(element => element.zuweisung[esrLang].findIndex(ele => ele.start <= addDays(tag, 42) && ele.ende >= addDays(tag, 42)) != -1);
+    let item8 = klassenItems.filter(element => element.zuweisung[esrLang].findIndex(ele => ele.start <= addDays(tag, 49) && ele.ende >= addDays(tag, 49)) != -1);
+    let item9 = klassenItems.filter(element => element.zuweisung[esrLang].findIndex(ele => ele.start <= addDays(tag, 56) && ele.ende >= addDays(tag, 56)) != -1);
+    let item10 = klassenItems.filter(element => element.zuweisung[esrLang].findIndex(ele => ele.start <= addDays(tag, 63) && ele.ende >= addDays(tag, 63)) != -1);
+
+
+    if (this.equals(item, item2) && addDays(tag, 7) <= enddate) {
+      // console.log("isgleich");
+      breite = 2;
+
+      if (addDays(tag, 14) <= enddate && this.equals(item2, item3)) { //und keine fahrt in der zeit
+        breite = 3;
+        if (addDays(tag, 21) <= enddate && this.equals(item3, item4)) {
+          breite = 4;
+          if (addDays(tag, 28) <= enddate && this.equals(item4, item5)) {
+            breite = 5;
+            if (addDays(tag, 35) <= enddate && this.equals(item5, item6)) {
+              breite = 6;
+              if (addDays(tag, 42) <= enddate && this.equals(item6, item7)) {
+                breite = 7;
+                if (addDays(tag, 49) <= enddate && this.equals(item7, item8)) {
+                  breite = 8;
+                  if (addDays(tag, 56) <= enddate && this.equals(item8, item9)) {
+                    breite = 9;
+                    if (addDays(tag, 63) <= enddate && this.equals(item9, item10)) {
+                      breite = 10;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    } else {}
+    // console.log(breite);
+    return breite;
+  }
+
+  equals(cell1, cell2) {
+    //  console.log(cell1); 
+    //console.log
+    let counter = 0;
+    if (cell1.length != 0 && cell1.length == cell2.length) {
+      cell1.forEach(unterricht => {
+        cell2.forEach(u => {
+          if (unterricht.lehrer[0].kuerzel == u.lehrer[0].kuerzel && unterricht.fach == u.fach) {
+            counter++;
+          }
+        });
+      });
+    }
+
+    return counter >= cell2.length && counter != 0 ? true : false;
+  }
+
+  klassenFahrtBreite(abschnitt, box, klasseZahl, i) {
+    let tag = box.tag;
+    let start = abschnitt[i];
+    let breite = 1;
+    //console.log(abschnitt);
+    if (abschnitt[i+7]&&abschnitt[i + 7].tag<abschnitt[abschnitt.length-1].tag
+      &&this.klassenFahrt(abschnitt[i+7].fahrten, klasseZahl)!==null
+      &&this.klassenFahrt(abschnitt[i].fahrten, klasseZahl).titel == this.klassenFahrt(abschnitt[i + 7].fahrten, klasseZahl).titel) {
+  //    console.log("Gleich");
+      breite++;
+      if(abschnitt[i+14]&&abschnitt[i + 14].tag<abschnitt[abschnitt.length-1].tag&&this.klassenFahrt(abschnitt[i+14].fahrten, klasseZahl)!==null&&this.klassenFahrt(abschnitt[i].fahrten, klasseZahl).titel == this.klassenFahrt(abschnitt[i + 14].fahrten, klasseZahl).titel) {
+        breite++;
+        if(abschnitt[i+21]&&abschnitt[i + 21].tag<abschnitt[abschnitt.length-1].tag&&this.klassenFahrt(abschnitt[i+21].fahrten, klasseZahl)!==null&&this.klassenFahrt(abschnitt[i].fahrten, klasseZahl).titel == this.klassenFahrt(abschnitt[i + 21].fahrten, klasseZahl).titel) {
+          breite++;
+          if(abschnitt[i+28]&&abschnitt[i + 28].tag<abschnitt[abschnitt.length-1].tag&&this.klassenFahrt(abschnitt[i+28].fahrten, klasseZahl)!==null&&this.klassenFahrt(abschnitt[i].fahrten, klasseZahl).titel == this.klassenFahrt(abschnitt[i + 28].fahrten, klasseZahl).titel) {
+            breite++;
+          }
+        }
+      }
+    }
+    return breite;
+  }
+
+  abschn(zahl) {
+    this.absch = zahl;
+  }
+  abschnAdd(zahl) {
+    if (zahl === 3) {
+      this.absch = 0
+    } else {
+      this.absch = zahl + 1;
+    }
+  }
+  abschnSub(zahl) {
+    if (zahl === 0) {
+      this.absch = 3
+    } else {
+      this.absch = zahl - 1;
+    }
+  }
+
+  besondererTag(tag) {
+    switch (true) {
+      case tag.ferien.length != 0:
+        return "ferien";
+      case tag.pruefungen.length != 0:
+        return "pruefung";
+      default:
+        return "";
+    }
+  }
+
+
+  stringTeiler(str) {
+    let neu = "";
+    let arr = str.split("_");
+    arr.forEach(element => {
+      neu = neu + " " + element;
+    });
+    return neu;
+  }
+  klassenFahrt(arr, zahl) {
+    let ele;
+    arr.forEach(element => {
+      if (element.klasse == zahl.toString()) {
+        //console.log(element);
+        ele = element;
+      }
+    });
+    return ele ? ele : null;
+  }
+  wochenTag(day) {
+    switch (day) {
+      case 0:
+        return "So";
+      case 1:
+        return "Mo";
+      case 2:
+        return "Di";
+      case 3:
+        return "Mi";
+      case 4:
+        return "Do";
+      case 5:
+        return "Fr";
+      case 6:
+        return "Sa";
+    }
+  }
+
+  toggle() {
+    if (this.termineEinblenden === false) {
+      this.termineEinblenden = true
+    } else {
+      this.termineEinblenden = false
+    }
+  }
+  terminAdd(titel, start, ende, klasse) {
+    let startArray = start.split("/");
+    //startArray[1]--;
+    let startt = new Date('' + startArray[2] + "-" + startArray[1] + "-" + startArray[0]);
+    startt.setHours(0, 0, 0, 0);
+    let endArray = ende.split("/");
+    // endArray[1]--;
+    let endd = new Date('' + endArray[2] + "-" + endArray[1] + "-" + endArray[0]);
+    endd.setHours(0, 0, 0, 0);
+    this.loginServ.terminHinzufügen({
+      titel: titel,
+      //Date.parse("2021-09-03 19:34:57")/1000;
+      start: startt,
+      ende: endd,
+      klasse: klasse
+    });
+  }
+
+  pruefungAdd(titel, start, ende) {
+    let startArray = start.split("/");
+    //startArray[1]--;
+    console.log(startArray);
+    let startt = new Date('' + startArray[2] + "-" + startArray[1] + "-" + startArray[0]);
+    startt.setHours(0, 0, 0, 0);
+    let endd = undefined;
+    if (ende.trim() === "") {
+      endd = undefined;
+    } else {
+      let endArray = ende.split("/");
+      // endArray[1]--;
+      endd = new Date('' + endArray[2] + "-" + endArray[1] + "-" + endArray[0]);
+      endd.setHours(0, 0, 0, 0);
+    }
+
+    this.loginServ.pruefungHinzufügen({
+      titel: titel,
+      start: startt,
+      ende: endd,
+    });
+  }
+  ferienAdd(titel, start, ende) {
+    let startArray = start.split("/");
+    //startArray[1]--;
+    let startt = new Date('' + startArray[2] + "-" + startArray[1] + "-" + startArray[0]);
+    startt.setHours(0, 0, 0, 0);
+    let endd = undefined;
+    if (ende.trim() !== "") {
+      let endArray = ende.split("/");
+      endd = new Date('' + endArray[2] + "-" + endArray[1] + "-" + endArray[0]);
+      endd.setHours(0, 0, 0, 0);
+      this.loginServ.ferienHinzufügen({
+        titel: titel,
+        start: startt,
+        ende: endd,
+      });
+    } else {
+      this.loginServ.ferienHinzufügen({
+        titel: titel,
+        start: startt
+      });
+
+    }
+
+  }
 
   rechts() {
     if (this.gewaehlterPlan === "rhythmus") {
@@ -90,6 +329,19 @@ export class EsrPlanComponent implements OnInit {
     })
   );
 
+  tagimAbschnitt(ele, date, plan) {
+    let zaehler = 0;
+    ele.zuweisung[plan].forEach(epoche => {
+      if (epoche.start <= date && epoche.ende >= date) {
+        zaehler++;
+      }
+    });
+    return zaehler >= 1 ? ele : null;
+    // console.log(ele.zuweisung.rhythmus);
+    // console.log(date); //definiert, datum!
+  }
+
+
   epochenElemente$ = this.klassenplanServ.esrPlaan$.pipe(
     concatMap(b => {
       return this.klassenplanServ.esrPlaan$.pipe(take(1));
@@ -120,708 +372,10 @@ export class EsrPlanComponent implements OnInit {
     })
   );
 
-  rhythmusPlan$ = this.klassenplanServ.esrPlaan$.pipe(
-    map(z => {
-      let fahrtenUndProjekte = this.ferienServ.fahrtenUndProjekteObj;
-
-      // let obj:{}|{fach:Fach,lehrer:Lehrer}|{ueberschrift:string}
-      let neu: Array < Array < Array < Array < {
-        fach ? : Fach,
-        lehrer ? : string,
-        spanNr ? : number,
-        ueberschrift ? : Date,
-        ganztaegig ? : string,
-        start ? : Date,
-        ende ? : Date,
-      } >>> >= [new Array(5), new Array(5), new Array(5), new Array(5)];
-      //let ar=this.epochenPlanS.esr_plan;
-      let abschnitt1 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >= 
-        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Sommerferien").ende
-        && ele.tag < 
-        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Herbstferien").start); //erster Abschnitt
-      let abschnitt2 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >= 
-        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Herbstferien").ende
-        && ele.tag < 
-        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Weihnachtsferien").start
-        ); //zweiter
-      let abschnitt3 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >= 
-        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Weihnachtsferien").ende 
-        && ele.tag < 
-        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Osterferien").start
-        ); //dritter
-      let abschnitt4 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >= 
-        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Osterferien").ende
-        && ele.tag < 
-        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Sommerferien").start
-        ); //vierer
-      [abschnitt1, abschnitt2, abschnitt3, abschnitt4].forEach((abSCHN, aI) => {
-        let zaehler = 0; //Für cellen-index
-        abSCHN.forEach((tag: TagesObjekt) => {
-          if (tag.tag.getDay() == 1) { //auf Montage reduzieren
-
-            //Datumfächer erstellen und befüllen:
-            if (neu[aI][0] == undefined) {
-              neu[aI][0] = [];
-            }
-            if (neu[aI][0][zaehler] == undefined) {
-              neu[aI][0][zaehler] = [];
-            }
-
-            neu[aI][0][zaehler].push({
-              ueberschrift: tag.tag
-            }); //tag unter 0 reinpushen//UBERSCHRIFT
-
-            ['neun', 'zehn', 'elf', 'zwoelf'].forEach((kla, k) => {
-              //IN TAbelle z.b Abschnitt 1, jede Klasse nun durchgehen (im Prinzip pro Zeile also neu)
-              let span = 0;
-              let fahrten = fahrtenUndProjekte[kla]; //aus dem Lehrerservice die Fahrten der Klasse
-              let ersterTag = new Date(); //das ist heute
-              let bool = false;
-              let zahl = k + 1;
-              let fahrt = false;
-              let end = new Date();
-
-              //leere felder erstellen
-              if (neu[aI][zahl] == undefined) {
-                neu[aI][zahl] = [];
-              }
-              if (neu[aI][zahl][zaehler] == undefined) {
-                neu[aI][zahl][zaehler] = [];
-              }
-
-              //
-              let titel = "";
-              //ERst schauen, ob Projekt stattfindet //FAHRTEN ggf reinschreiben
-
-
-
-
-              fahrten.forEach(fahrtObj => {
-                if (fahrtObj.start <= tag.tag && fahrtObj.ende >= tag.tag) {
-                  fahrt = true;
-                  ersterTag.setTime(fahrtObj.start.getTime());
-                  titel = fahrtObj.titel;
-
-
-                  let start = new Date(fahrtObj.start.getTime());
-                  let ende = new Date(fahrtObj.ende.getTime());
-                  //Span-wochen ermitteln: 
-
-                  //Wenn projekt über zeilt geht:
-                  if (start < abSCHN[0].tag) { //Wenn epoche vor Zeilenstart beginnt , dnan start auf zeilenstart ändern
-                    //    console.log(start);
-                    start.setTime(abSCHN[0].tag.getTime());
-
-                    //auf Montag ändern:
-                    while (start.getDay() !== 1) { //solange nicht mo ist
-                      start.setDate(start.getDate() + 1);
-                    }
-                  }
-                  if (ende >= abSCHN[abSCHN.length - 1].tag) { //Wenn epoche nach Zeilenende aufhört , dnan ende auf zeilenende ändern
-                    ende.setTime(abSCHN[abSCHN.length - 1].tag.getTime());
-                    //auf Montag ändern:
-                    while (ende.getDay() !== 5) { //solange nicht fr ist
-                      ende.setDate(ende.getDate() - 1);
-                    }
-                  }
-                  end.setTime(ende.getTime());
-                  span = this.daysBetween(start, ende);
-                }
-              });
-
-              if (titel.length > 0) {
-                neu[aI][zahl][zaehler].push({
-                  fach: null, // später: element.fach,
-                  lehrer: null, // später element.lehrer[0].kuerzel,
-                  spanNr: span, //später span
-                  ganztaegig: titel,
-                  start: ersterTag, //später ersterTag, //bei neuem Abschnitt ist es erster Tag des abschnitts
-                  ende: end,
-                });
-              }
-
-              //Einzelne epochen-ELemente der KLasse durchgucken, nur wenn bool noch nicht true, also fahrt noch nicht drin:
-              if (fahrt === false) {
-                z.rhythmus[kla].forEach((element) => {
-                  bool = false;
-                  span = 0;
-                  ersterTag = new Date();
-
-                  element.zuweisung.rhythmus.forEach(epoche => {
-
-                    if (epoche.start <= tag.tag && epoche.ende >= tag.tag) {
-
-                      bool = true; //dann reinschreiben das obj später
-
-                      //span berechnung mit Beachtung wenn Datenüber Zeile hinweg geht:
-
-                      let start = new Date(epoche.start.getTime());
-                      let ende = new Date(epoche.ende.getTime());
-                      if (start.getTime() < abSCHN[0].tag.getTime()) { //Wenn epoche vor Zeilenstart beginnt , dnan start auf zeilenstart ändern
-                        start.setTime(abSCHN[0].tag.getTime());
-                        //auf montag setzen:
-                        while (start.getDay() !== 1) { //solange nicht mo ist
-                          start.setDate(start.getDate() + 1);
-                        }
-                      }
-
-                      if (ende.getTime() >= abSCHN[abSCHN.length - 1].tag.getTime()) { //Wenn epoche nach Zeilenende aufhört , dnan ende auf zeilenende ändern
-                        ende.setTime(abSCHN[abSCHN.length - 1].tag.getTime());
-                        //auf Montag ändern:
-                        while (ende.getDay() !== 5) { //solange nicht fr ist
-                          ende.setDate(ende.getDate() + 1);
-                        }
-                      }
-                      //WEENN FAHRT in Zeile LIEGT!!!!!!
-
-                      let zeilenFahrt = fahrten.filter(element => element.start >= abSCHN[0].tag && element.ende <= abSCHN[abSCHN.length - 1].tag);
-                      // console.log(zeilenFahrt[0]?.titel + element.klasse);
-
-
-                      zeilenFahrt.forEach((fahrtOBj, f) => {
-                        //nur fahrt in der zeile beachten:
-                        if (abSCHN[0].tag && fahrtOBj.start &&
-                          abSCHN[0].tag.getTime() <= fahrtOBj.start.getTime() && abSCHN[abSCHN.length - 1].tag.getTime() >= fahrtOBj.ende) {
-                          if (fahrtOBj.start && fahrtOBj.ende && epoche.start && epoche.ende && //Nur wenn EIN projekt mitten in einer epoche liegt
-                            //triggert aber auch wenn zwei drin liegen..
-                            fahrtOBj.start.getTime() > epoche.start.getTime() &&
-                            fahrtOBj.ende.getTime() < epoche.ende.getTime()) {
-                            //wenn aktueller tag vorm Start der fahrt liegt: Ende anpassen
-                            if (tag.tag.getTime() >= epoche.start.getTime() && tag.tag.getTime() <= fahrtOBj.start.getTime()) {
-                              //Start bleibt wie definiert
-                              ende.setTime(fahrtOBj.start.getTime()); //Achtung hier nimmt er auch Datum vom anderen Praktikum der Klasse...
-
-                              while (ende.getDay() !== 5) { //solange nicht Freitag ist
-                                ende.setDate(ende.getDate() - 1);
-                              }
-                              //Wenn andere Fahrt-Start dazwischen liegt, das datum als Ende nehmen:
-                              if (zeilenFahrt.length == 2) {
-                                //e1 soll voriges Element sein:
-                                let el1 = zeilenFahrt[0];
-                                let el2 = zeilenFahrt[1];
-
-                                if (el1.start > el2.start) {
-                                  el1 = zeilenFahrt[1];
-                                  el2 = zeilenFahrt[0];
-                                }
-
-                                if (tag.tag.getTime() <= el1.start.getTime() && tag.tag.getTime() <= el2.start.getTime()) {
-                                  ende.setTime(el1.start.getTime());
-                                }
-                              }
-                              //wenn aktueller Tag im zweiten Abschnitt liegt nach Ende der Fahrt
-                            } else if (tag.tag.getTime() <= epoche.ende.getTime() && tag.tag.getTime() >= fahrtOBj.ende.getTime()) {
-                              start.setTime(fahrtOBj.ende.getTime());
-                              while (start.getDay() !== 1) { //solange nicht montag ist
-                                start.setDate(start.getDate() + 1);
-                              }
-                              // start=datu; //ggf. einen tag später?
-                            }
-                          } else { //WEnn projekt nicht mittig liegt von einer epoche
-                          }
-                        }
-                      });
-                      end.setTime(ende.getTime());
-                      span = this.daysBetween(start, ende);
-                      ersterTag.setTime(start.getTime());
-                    }
-                  });
-
-                  //@ts-ignore
-                  if (bool === true && (element.klasse === Lehrjahr[kla] || element.klasse === this.wortInZahl(kla))) {
-
-                    neu[aI][zahl][zaehler].push({
-                      fach: element.fach,
-                      lehrer: element.lehrer[0].kuerzel,
-                      spanNr: span,
-                      ganztaegig: titel,
-                      start: ersterTag,
-                      ende: end
-                    });
-                  }
-                });
-              }
-            });
-            zaehler++;
-          }
-        });
-      });
-      // console.log(neu);
-      return neu;
-    })
-  );
-
   daysBetween(startDate, endDate) { //in weeeks geändert mit *7
     var millisecondsPerDay = 24 * 60 * 60 * 1000 * 7;
     return Math.round(((endDate) - (startDate)) / millisecondsPerDay);
   }
-
-
-
-
-
-  epochenPlan$ = this.klassenplanServ.esrPlaan$.pipe(
-    map(z => {
-      let fahrtenUndProjekte = this.ferienServ.fahrtenUndProjekteObj;
-
-      // let obj:{}|{fach:Fach,lehrer:Lehrer}|{ueberschrift:string}
-      let neu: Array < Array < Array < Array < {
-        fach ? : Fach,
-        lehrer ? : string,
-        spanNr ? : number,
-        ueberschrift ? : Date,
-        ganztaegig ? : string,
-        start ? : Date,
-        ende ? : Date,
-      } >>> >= [new Array(5), new Array(5), new Array(5), new Array(5)];
-      //let ar=this.epochenPlanS.esr_plan;
-      let abschnitt1 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >= 
-        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Sommerferien").ende
-        && ele.tag < 
-        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Herbstferien").start); //erster Abschnitt
-      let abschnitt2 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >= 
-        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Herbstferien").ende
-        && ele.tag < 
-        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Weihnachtsferien").start
-        ); //zweiter
-      let abschnitt3 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >= 
-        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Weihnachtsferien").ende 
-        && ele.tag < 
-        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Osterferien").start
-        ); //dritter
-      let abschnitt4 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >= 
-        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Osterferien").ende
-        && ele.tag < 
-        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Sommerferien").start
-        ); //vierer
-      [abschnitt1, abschnitt2, abschnitt3, abschnitt4].forEach((abSCHN, aI) => {
-        let zaehler = 0; //Für cellen-index
-        abSCHN.forEach((tag: TagesObjekt) => {
-          if (tag.tag.getDay() == 1) { //auf Montage reduzieren
-
-            //Datumfächer erstellen und befüllen:
-            if (neu[aI][0] == undefined) {
-              neu[aI][0] = [];
-            }
-            if (neu[aI][0][zaehler] == undefined) {
-              neu[aI][0][zaehler] = [];
-            }
-            neu[aI][0][zaehler].push({
-              ueberschrift: tag.tag
-            }); //tag unter 0 reinpushen//UBERSCHRIFT
-            ['neun', 'zehn', 'elf', 'zwoelf'].forEach((kla, k) => {
-              //IN TAbelle z.b Abschnitt 1, jede Klasse nun durchgehen (im Prinzip pro Zeile also neu)
-              let span = 0;
-              let fahrten = fahrtenUndProjekte[kla]; //aus dem Lehrerservice die Fahrten der Klasse
-              let ersterTag = new Date(); //das ist heute
-              let bool = false;
-              let zahl = k + 1;
-              let fahrt = false;
-              let end = new Date();
-              //leere felder erstellen
-              if (neu[aI][zahl] == undefined) {
-                neu[aI][zahl] = [];
-              }
-              if (neu[aI][zahl][zaehler] == undefined) {
-                neu[aI][zahl][zaehler] = [];
-              }
-              let titel = "";
-              fahrten.forEach(fahrtObj => {
-                if (fahrtObj.start <= tag.tag && fahrtObj.ende >= tag.tag) {
-                  fahrt = true;
-                  ersterTag.setTime(fahrtObj.start.getTime());
-                  titel = fahrtObj.titel;
-                  let start = new Date(fahrtObj.start.getTime());
-                  let ende = new Date(fahrtObj.ende.getTime());
-                  //Span-wochen ermitteln: 
-                  //Wenn projekt über zeilt geht:
-                  if (start < abSCHN[0].tag) { //Wenn epoche vor Zeilenstart beginnt , dnan start auf zeilenstart ändern
-                    //    console.log(start);
-                    start.setTime(abSCHN[0].tag.getTime());
-
-                    //auf Montag ändern:
-                    while (start.getDay() !== 1) { //solange nicht mo ist
-                      start.setDate(start.getDate() + 1);
-                    }
-                  }
-                  if (ende >= abSCHN[abSCHN.length - 1].tag) { //Wenn epoche nach Zeilenende aufhört , dnan ende auf zeilenende ändern
-                    ende.setTime(abSCHN[abSCHN.length - 1].tag.getTime());
-                    //auf Montag ändern:
-                    while (ende.getDay() !== 5) { //solange nicht fr ist
-                      ende.setDate(ende.getDate() - 1);
-                    }
-                  }
-                  end.setTime(ende.getTime());
-                  span = this.daysBetween(start, ende);
-                }
-              });
-
-              if (titel.length > 0) {
-                neu[aI][zahl][zaehler].push({
-                  fach: null, // später: element.fach,
-                  lehrer: null, // später element.lehrer[0].kuerzel,
-                  spanNr: span, //später span
-                  ganztaegig: titel,
-                  start: ersterTag, //später ersterTag, //bei neuem Abschnitt ist es erster Tag des abschnitts
-                  ende: end,
-                });
-              }
-
-              //Einzelne epochen-ELemente der KLasse durchgucken, nur wenn bool noch nicht true, also fahrt noch nicht drin:
-              if (fahrt === false) {
-                z.epoche[kla].forEach((element) => {
-                  bool = false;
-                  span = 0;
-                  ersterTag = new Date();
-
-                  element.zuweisung.epoche.forEach(epoche => {
-
-                    if (epoche.start <= tag.tag && epoche.ende >= tag.tag) {
-
-                      bool = true; //dann reinschreiben das obj später
-
-                      //span berechnung mit Beachtung wenn Datenüber Zeile hinweg geht:
-
-                      let start = new Date(epoche.start.getTime());
-                      let ende = new Date(epoche.ende.getTime());
-                      let test = new Date(2021, 9, 18);
-
-                      if (start.getTime() < abSCHN[0].tag.getTime()) { //Wenn epoche vor Zeilenstart beginnt , dnan start auf zeilenstart ändern
-                        start.setTime(abSCHN[0].tag.getTime());
-                        //auf montag setzen:
-
-                        while (start.getDay() !== 1) { //solange nicht mo ist
-                          start.setDate(start.getDate() + 1);
-                        }
-                      }
-
-                      if (ende.getTime() >= abSCHN[abSCHN.length - 1].tag.getTime()) { //Wenn epoche nach Zeilenende aufhört , dnan ende auf zeilenende ändern
-                        ende.setTime(abSCHN[abSCHN.length - 1].tag.getTime());
-                        //auf Montag ändern:
-                        while (ende.getDay() !== 5) { //solange nicht fr ist
-                          ende.setDate(ende.getDate() + 1);
-                        }
-                      }
-                      //WEENN FAHRT in Zeile LIEGT!!!!!!
-
-                      let zeilenFahrt = fahrten.filter(element => element.start >= abSCHN[0].tag && element.ende <= abSCHN[abSCHN.length - 1].tag);
-                      // console.log(zeilenFahrt[0]?.titel + element.klasse);
-
-
-                      zeilenFahrt.forEach((fahrtOBj, f) => {
-                        //nur fahrt in der zeile beachten:
-                        if (abSCHN[0].tag && fahrtOBj.start &&
-                          abSCHN[0].tag.getTime() <= fahrtOBj.start.getTime() && abSCHN[abSCHN.length - 1].tag.getTime() >= fahrtOBj.ende) {
-                          if (fahrtOBj.start && fahrtOBj.ende && epoche.start && epoche.ende && //Nur wenn EIN projekt mitten in einer epoche liegt
-                            //triggert aber auch wenn zwei drin liegen..
-                            fahrtOBj.start.getTime() > epoche.start.getTime() &&
-                            fahrtOBj.ende.getTime() < epoche.ende.getTime()) {
-                            //wenn aktueller tag vorm Start der fahrt liegt: Ende anpassen
-                            if (tag.tag.getTime() >= epoche.start.getTime() && tag.tag.getTime() <= fahrtOBj.start.getTime()) {
-                              //Start bleibt wie definiert
-                              ende.setTime(fahrtOBj.start.getTime()); //Achtung hier nimmt er auch Datum vom anderen Praktikum der Klasse...
-
-                              while (ende.getDay() !== 5) { //solange nicht Freitag ist
-                                ende.setDate(ende.getDate() - 1);
-                              }
-                              //Wenn andere Fahrt-Start dazwischen liegt, das datum als Ende nehmen:
-                              if (zeilenFahrt.length == 2) {
-                                //e1 soll voriges Element sein:
-                                let el1 = zeilenFahrt[0];
-                                let el2 = zeilenFahrt[1];
-
-                                if (el1.start > el2.start) {
-                                  el1 = zeilenFahrt[1];
-                                  el2 = zeilenFahrt[0];
-                                }
-
-                                if (tag.tag.getTime() <= el1.start.getTime() && tag.tag.getTime() <= el2.start.getTime()) {
-                                  ende.setTime(el1.start.getTime());
-                                }
-                              }
-                              //wenn aktueller Tag im zweiten Abschnitt liegt nach Ende der Fahrt
-                            } else if (tag.tag.getTime() <= epoche.ende.getTime() && tag.tag.getTime() >= fahrtOBj.ende.getTime()) {
-                              start.setTime(fahrtOBj.ende.getTime());
-                              while (start.getDay() !== 1) { //solange nicht montag ist
-                                start.setDate(start.getDate() + 1);
-                              }
-                              // start=datu; //ggf. einen tag später?
-                            }
-                          } else { //WEnn projekt nicht mittig liegt von einer epoche
-                          }
-                        }
-                      });
-                      end.setTime(ende.getTime());
-                      span = this.daysBetween(start, ende);
-                      ersterTag.setTime(start.getTime());
-                    }
-                  });
-
-                  //@ts-ignore
-                  if (bool === true && (element.klasse === Lehrjahr[kla] || element.klasse === this.wortInZahl(kla))) {
-                    neu[aI][zahl][zaehler].push({
-                      fach: element.fach,
-                      lehrer: element.lehrer[0].kuerzel,
-                      spanNr: span,
-                      ganztaegig: titel,
-                      start: ersterTag,
-                      ende: end
-                    });
-                  }
-                });
-              }
-            });
-            zaehler++;
-          }
-        });
-      });
-      // console.log(neu);
-      return neu;
-    })
-  );
-
-
-
-  schienenPlan$ = this.klassenplanServ.esrPlaan$.pipe(
-    map(z => {
-      let fahrtenUndProjekte = this.ferienServ.fahrtenUndProjekteObj;
-
-      // let obj:{}|{fach:Fach,lehrer:Lehrer}|{ueberschrift:string}
-      let neu: Array < Array < Array < Array < {
-        fach ? : Fach,
-        lehrer ? : string,
-        spanNr ? : number,
-        ueberschrift ? : Date,
-        ganztaegig ? : string,
-        start ? : Date,
-        ende ? : Date,
-      } >>> >= [new Array(5), new Array(5), new Array(5), new Array(5)];
-      //let ar=this.epochenPlanS.esr_plan;
-
-    
-        //let ar=this.epochenPlanS.esr_plan;
-        let abschnitt1 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >= 
-          this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Sommerferien").ende
-          && ele.tag < 
-          this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Herbstferien").start
-          ); //erster Abschnitt
-        let abschnitt2 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >= 
-          this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Herbstferien").ende
-          && ele.tag < 
-          this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Weihnachtsferien").start
-          ); //zweiter
-        let abschnitt3 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >= 
-          this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Weihnachtsferien").ende 
-          && ele.tag < 
-          this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Osterferien").start
-          ); //dritter
-        let abschnitt4 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >= 
-          this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Osterferien").ende
-          && ele.tag < 
-          this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Sommerferien").start
-          ); //vierer
-
-     
-      [abschnitt1, abschnitt2, abschnitt3, abschnitt4].forEach((abSCHN, aI) => {
-        let zaehler = 0; //Für cellen-index
-        abSCHN.forEach((tag: TagesObjekt) => {
-          if (tag.tag.getDay() == 1) { //auf Montage reduzieren
-
-            //Datumfächer erstellen und befüllen:
-            if (neu[aI][0] == undefined) {
-              neu[aI][0] = [];
-            }
-            if (neu[aI][0][zaehler] == undefined) {
-              neu[aI][0][zaehler] = [];
-            }
-            neu[aI][0][zaehler].push({
-              ueberschrift: tag.tag
-            }); //tag unter 0 reinpushen//UBERSCHRIFT
-            ['neun', 'zehn', 'elf', 'zwoelf'].forEach((kla, k) => {
-              //IN TAbelle z.b Abschnitt 1, jede Klasse nun durchgehen (im Prinzip pro Zeile also neu)
-              let span = 0;
-              let fahrten = fahrtenUndProjekte[kla]; //aus dem Lehrerservice die Fahrten der Klasse
-              let ersterTag = new Date(); //das ist heute
-              let bool = false;
-              let zahl = k + 1;
-              let fahrt = false;
-              let end = new Date();
-              //leere felder erstellen
-              if (neu[aI][zahl] == undefined) {
-                neu[aI][zahl] = [];
-              }
-              if (neu[aI][zahl][zaehler] == undefined) {
-                neu[aI][zahl][zaehler] = [];
-              }
-              let titel = "";
-
-
-              fahrten.forEach(fahrtObj => {
-                if (fahrtObj.start <= tag.tag && fahrtObj.ende >= tag.tag) {
-                  fahrt = true;
-                  ersterTag.setTime(fahrtObj.start.getTime());
-                  titel = fahrtObj.titel;
-                  let start = new Date(fahrtObj.start.getTime());
-                  let ende = new Date(fahrtObj.ende.getTime());
-                  //Span-wochen ermitteln: 
-                  //Wenn projekt über zeilt geht:
-                  if (fahrtObj.titel == "Landbau") {
-                    console.log(fahrtObj.titel);
-                    console.log(fahrtObj.start.getDate() + ". " + fahrtObj.start.getMonth());
-                  }
-
-                  if (start < abSCHN[0].tag) { //Wenn epoche vor Zeilenstart beginnt , dnan start auf zeilenstart ändern
-                    //    console.log(start);
-                    start.setTime(abSCHN[0].tag.getTime());
-
-                    //auf Montag ändern:
-                    while (start.getDay() !== 1) { //solange nicht mo ist
-                      start.setDate(start.getDate() + 1);
-                    }
-                  }
-                  if (ende >= abSCHN[abSCHN.length - 1].tag) { //Wenn epoche nach Zeilenende aufhört , dnan ende auf zeilenende ändern
-                    ende.setTime(abSCHN[abSCHN.length - 1].tag.getTime());
-                    //auf Montag ändern:
-                    while (ende.getDay() !== 5) { //solange nicht fr ist
-                      ende.setDate(ende.getDate() - 1);
-                    }
-                  }
-                  end.setTime(ende.getTime());
-                  span = this.daysBetween(start, ende);
-                }
-              });
-
-              if (titel.length > 0) {
-                neu[aI][zahl][zaehler].push({
-                  fach: null, // später: element.fach,
-                  lehrer: null, // später element.lehrer[0].kuerzel,
-                  spanNr: span, //später span
-                  ganztaegig: titel,
-                  start: ersterTag, //später ersterTag, //bei neuem Abschnitt ist es erster Tag des abschnitts
-                  ende: end,
-                });
-              }
-
-              //Einzelne epochen-ELemente der KLasse durchgucken, nur wenn bool noch nicht true, also fahrt noch nicht drin:
-              if (fahrt === false) {
-                z.schiene[kla].forEach((element) => { //NUR HIER ANDERS NUR DIESE BEIDEN STELLEN steht schiene od rhythmus
-                  bool = false;
-                  span = 0;
-                  ersterTag = new Date();
-
-                  element.zuweisung.schiene.forEach(epoche => { //NUR HIER ANDERS UND
-
-
-
-                    if (epoche.start <= tag.tag && epoche.ende >= tag.tag) {
-
-                      bool = true; //dann reinschreiben das obj später
-
-                      let start = new Date(epoche.start.getTime());
-                      let ende = new Date(epoche.ende.getTime());
-
-                      if (start.getTime() < abSCHN[0].tag.getTime()) { //Wenn epoche vor Zeilenstart beginnt , dnan start auf zeilenstart ändern
-                        start.setTime(abSCHN[0].tag.getTime());
-                        //auf montag setzen:
-
-                        while (start.getDay() !== 1) { //solange nicht mo ist
-                          start.setDate(start.getDate() + 1);
-                        }
-                      }
-
-                      if (ende.getTime() >= abSCHN[abSCHN.length - 1].tag.getTime()) { //Wenn epoche nach Zeilenende aufhört , dnan ende auf zeilenende ändern
-                        ende.setTime(abSCHN[abSCHN.length - 1].tag.getTime());
-                        //auf Montag ändern:
-                        while (ende.getDay() !== 5) { //solange nicht fr ist
-                          ende.setDate(ende.getDate() + 1);
-                        }
-                      }
-                      //WEENN FAHRT in Zeile LIEGT!!!!!!
-
-                      let zeilenFahrt = fahrten.filter(element => element.start >= abSCHN[0].tag && element.ende <= abSCHN[abSCHN.length - 1].tag);
-                      // console.log(zeilenFahrt[0]?.titel + element.klasse);
-
-
-
-                      zeilenFahrt.forEach((fahrtOBj) => {
-
-                        //nur fahrt in der zeile beachten:
-                        if (abSCHN[0].tag && fahrtOBj.start &&
-                          abSCHN[0].tag.getTime() <= fahrtOBj.start.getTime() && abSCHN[abSCHN.length - 1].tag.getTime() >= fahrtOBj.ende) {
-                          if (fahrtOBj.start && fahrtOBj.ende && epoche.start && epoche.ende && //Nur wenn EIN projekt mitten in einer epoche liegt
-                            //triggert aber auch wenn zwei drin liegen..
-                            fahrtOBj.start.getTime() > epoche.start.getTime() &&
-                            fahrtOBj.ende.getTime() < epoche.ende.getTime()) {
-                            //wenn aktueller tag vorm Start der fahrt liegt: Ende anpassen
-                            if (tag.tag.getTime() >= epoche.start.getTime() && tag.tag.getTime() <= fahrtOBj.start.getTime()) {
-                              //Start bleibt wie definiert
-                              ende.setTime(fahrtOBj.start.getTime()); //Achtung hier nimmt er auch Datum vom anderen Praktikum der Klasse...
-
-                              while (ende.getDay() !== 5) { //solange nicht Freitag ist
-                                ende.setDate(ende.getDate() - 1);
-                              }
-                              //Wenn andere Fahrt-Start dazwischen liegt, das datum als Ende nehmen:
-                              if (zeilenFahrt.length == 2) {
-                                //e1 soll voriges Element sein:
-                                let el1 = zeilenFahrt[0];
-                                let el2 = zeilenFahrt[1];
-
-                                if (el1.start > el2.start) {
-                                  el1 = zeilenFahrt[1];
-                                  el2 = zeilenFahrt[0];
-                                }
-
-                                if (tag.tag.getTime() <= el1.start.getTime() && tag.tag.getTime() <= el2.start.getTime()) {
-                                  ende.setTime(el1.start.getTime());
-                                }
-                              }
-                              //wenn aktueller Tag im zweiten Abschnitt liegt nach Ende der Fahrt
-                            } else if (tag.tag.getTime() <= epoche.ende.getTime() && tag.tag.getTime() >= fahrtOBj.ende.getTime()) {
-                              start.setTime(fahrtOBj.ende.getTime());
-                              while (start.getDay() !== 1) { //solange nicht montag ist
-                                start.setDate(start.getDate() + 1);
-                              }
-                              // start=datu; //ggf. einen tag später?
-                            }
-                          } else { //WEnn projekt nicht mittig liegt von einer epoche
-                          }
-                        }
-                      });
-                      end.setTime(ende.getTime());
-                      span = this.daysBetween(start, ende);
-                      ersterTag.setTime(start.getTime());
-
-                    }
-                  });
-
-                  //@ts-ignore
-
-                  //@ts-ignore
-                  if (bool === true && (element.klasse === Lehrjahr[kla] || element.klasse === this.wortInZahl(kla))) {
-
-
-
-
-                    neu[aI][zahl][zaehler].push({
-                      fach: element.fach,
-                      lehrer: element.lehrer[0].kuerzel,
-                      spanNr: span,
-                      ganztaegig: titel,
-                      start: ersterTag,
-                      ende: end
-                    });
-                  }
-                });
-              }
-            });
-            zaehler++;
-          }
-        });
-      });
-      console.log(neu);
-      return neu;
-    })
-  );
 
   wortInZahl(neun) {
     switch (neun) {
@@ -836,93 +390,19 @@ export class EsrPlanComponent implements OnInit {
     }
   }
 
-
-  //dooppelt
-
-
-  schienePlan$ = this.klassenplanServ.esrPlaan$.pipe(
-
-    map(z => {
-      let neu = [new Array(5), new Array(5), new Array(5), new Array(5)];
-      //let ar=this.epochenPlanS.esr_plan;
-      let abschnitt1 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >= 
-        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Sommerferien").ende
-        && ele.tag < 
-        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Herbstferien").start); //erster Abschnitt
-      let abschnitt2 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >= 
-        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Herbstferien").ende
-        && ele.tag < 
-        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Weihnachtsferien").start
-        ); //zweiter
-      let abschnitt3 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >= 
-        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Weihnachtsferien").ende 
-        && ele.tag < 
-        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Osterferien").start
-        ); //dritter
-      let abschnitt4 = this.epochenPlanS.esr_plan.getValue().filter(ele => ele.tag >= 
-        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Osterferien").ende
-        && ele.tag < 
-        this.ferienServ.feierTage_Pruefungen_Ferien_Array.find(element=>element.titel==="Sommerferien").start
-        ); //vierer
-      [abschnitt1, abschnitt2, abschnitt3, abschnitt4].forEach((abSCHN, aI) => {
-        let zaehler = 0;
-        abSCHN.forEach((tag) => {
-
-          if (tag.tag.getDay() == 1) { //auf Montage reduzieren
-            if (neu[aI][0] == undefined) {
-              neu[aI][0] = [];
-            }
-            if (neu[aI][0][zaehler] == undefined) {
-              neu[aI][0][zaehler] = [];
-            }
-            neu[aI][0][zaehler].push(tag.tag); //tag unter 0 reinpushen
-            ['neun', 'zehn', 'elf', 'zwoelf'].forEach((kla, k) => {
-              let ganztag = tag.ganztaegig[kla];
-              z.schiene[kla].forEach((element) => {
-                let bool = false;
-                //neunte klasse unter 1 reinpushen
-                element.zuweisung.schiene.forEach(startEnde => {
-                  if (startEnde.start.getTime() <= tag.tag.getTime() && startEnde.ende.getTime() >= tag.tag.getTime()) {
-                    bool = true;
-                  }
-                });
-                //leere felder erstellen
-                let zahl = k + 1;
-                if (neu[aI][zahl] == undefined) {
-                  neu[aI][zahl] = [];
-                }
-                if (neu[aI][zahl][zaehler] == undefined) {
-                  neu[aI][zahl][zaehler] = [];
-                }
-                //@ts-ignore
-                if (bool === true && (element.klasse === Lehrjahr[kla] || element.klasse === this.wortInZahl(kla))) {
-                  neu[aI][zahl][zaehler].push([element.fach, element.lehrer[0].kuerzel]);
-                } //zehnte bei 2
-              });
-            });
-            zaehler++;
-          }
-        });
-      });
-
-      //  console.log(neu);
-      return neu;
-    })
-  );
+  //doppelt
 
 
 
   clickN(e, klasse, datum) { //tagIndex, wochentagZahl) { //wochenTagZahl So=0, Mo=1, Di=2, Mi=3, Do=4, Fr=5, Sa=6
 
     let wochentagZahl = datum.getDay();
-    let tagIndex = this.ferienServ.daysBetween().findIndex(tag => tag.tag.getTime() == datum.getTime());
-    let monta = this.esrPlan[tagIndex - wochentagZahl + 1].tag; //Montag der Woche auswhäln für Start
-    let freit = this.esrPlan[tagIndex - wochentagZahl + 5].tag; //Ende der Schulwoche/epoche
+    //let tagIndex = this.ferienServ.daysBetween().findIndex(tag => tag.tag.getTime() == datum.getTime());
+    let monta = datum //Montag der Woche auswhäln für Start (Akutell klickt man nur montag an)
+    let freit = addDays(datum, 4); //Ende der Schulwoche/epoche
     //Gerade oder Ungerade Clickanzahl
 
-
-    let ar = this.grundPlanfaecher;
-    ar.forEach(ele => {
+    this.grundPlanfaecher.forEach(ele => {
       if (ele) {
         ele.lehrer.forEach((le, eh) => {
           if (e.shiftKey) {
@@ -932,7 +412,7 @@ export class EsrPlanComponent implements OnInit {
                 // console.log(ele.zuweisung[this.gewaehlterPlan]);
               }
             });
-            this.klassenplanServ.grundPlanfaecher.next(ar);
+            //this.klassenplanServ.grundPlanfaecher.next(ar);
           } else if (this.clickCount > 0) {
             //Ende:
             ele.zuweisung[this.gewaehlterPlan].forEach(obj => {
@@ -957,12 +437,7 @@ export class EsrPlanComponent implements OnInit {
     this.clickCount = 0;
     //markieren schon angelegte epochen:
     this.lehrerServ.lehrerSelected.next(ele.lehrer[0]); //bis hier alles, was vorher Auswahl gemacht hat
-    //jetzt den ersten click triggern:
-
-    //variablen:
-    let wochentagZahl = datum.getDay();
-    let tagIndex = this.ferienServ.daysBetween().findIndex(tag => tag.tag.getTime() == datum.getTime());
-    let monta = this.esrPlan[tagIndex - wochentagZahl + 1].tag; //Montag der Woche auswhäln für Start
+    let monta = datum;
 
     let ar = this.grundPlanfaecher;
     ar.forEach(ele => {
@@ -970,17 +445,18 @@ export class EsrPlanComponent implements OnInit {
         ele.lehrer.forEach((le, eh) => {
           //
           if (ele.klasse == this.gewaehltesElement.klasse && le == this.gewaehltesElement.lehrer[eh] && ele.fach == this.gewaehltesElement.fach) {
-
             ele.zuweisung[this.gewaehlterPlan].push({
               start: monta,
               ende: null
             });
 
           }
-          this.clickCount++;
         });
       }
     });
+    this.clickCount++;
+    console.log(this.clickCount);
+    //console.log(this.grundPlanfaecher);
   }
 
 
@@ -1040,22 +516,7 @@ export class EsrPlanComponent implements OnInit {
       return aufteilung;
     }*/
 
-  equals(cell1, cell2) {
-    //console.log(cell1);
-    //console.log
-    let counter = 0;
-    if (cell1.length != 0 && cell1.length == cell2.length) {
-      cell1.forEach(unterricht => {
-        cell2.forEach(u => {
-          if (unterricht.lehrer == u.lehrer && unterricht.fach == u.fach) {
-            counter++;
-          }
-        });
-      });
-    }
 
-    return counter >= cell2.length ? true : false;
-  }
 
   markedd(kuerz) {
     if (kuerz && this.selectLehrer && kuerz == this.selectLehrer.kuerzel) {
@@ -1083,9 +544,8 @@ export class EsrPlanComponent implements OnInit {
     if (lehr && this.selectLehrer && lehr.kuerzel == this.selectLehrer.kuerzel) {
       return "blueback";
     }
+
   }
-
-
 
 
   wahl(z) {
@@ -1105,66 +565,6 @@ export class EsrPlanComponent implements OnInit {
   }
 
 
-  click(e, klasse, tagIndex, wochentagZahl) { //wochenTagZahl So=0, Mo=1, Di=2, Mi=3, Do=4, Fr=5, Sa=6
-
-    let monta = this.esrPlan[tagIndex - wochentagZahl + 1].tag; //Montag der Woche auswhäln für Start
-    let freit = this.esrPlan[tagIndex - wochentagZahl + 5].tag; //Ende der Schulwoche/epoche
-    let clickStart = true;
-    //Gerade oder Ungerade Clickanzahl
-    if (this.clickCount % 2 == 0) {
-      clickStart = true;
-    } else {
-      clickStart = false;
-    }
-
-    this.grundPlanfaecher.forEach(ele => {
-      if (ele) {
-        ele.lehrer.forEach((le, eh) => {
-          if (e.shiftKey) {
-            ele.zuweisung[this.gewaehlterPlan].forEach((startEnde, s) => {
-              if (startEnde.start.getTime() == monta.getTime() && klasse == ele.klasse) {
-                ele.zuweisung[this.gewaehlterPlan].splice(s, 1);
-                //    console.log(ele.zuweisung[this.gewaehlterPlan]);
-              }
-            });
-          } else {
-            if (ele.klasse == this.gewaehltesElement.klasse && le == this.gewaehltesElement.lehrer[eh] && ele.fach == this.gewaehltesElement.fach) {
-              if (clickStart == true) {
-                ele.zuweisung[this.gewaehlterPlan].push({
-                  start: monta,
-                  ende: null
-                });
-              } else { //Ende:
-                ele.zuweisung[this.gewaehlterPlan].forEach(obj => {
-
-                  if (obj.ende == null) {
-                    obj.ende = freit; //Freitag für das ende der epoche
-                    //    console.log(ele.fach + ele.klasse);
-                    //    console.log(ele.zuweisung[this.gewaehlterPlan]);
-                  }
-                });
-              }
-              //    console.log(ele.zuweisung[this.gewaehlterPlan]);
-              //   console.log(ele);
-            }
-            this.clickCount++;
-          }
-        });
-      }
-    });
-
-
-
-  }
-
-
-
-
-  //console.log(this.esrPlan);
-
-
-
-
 
   epochenWahl(ele: Elementt) {
     this.gewaehltesElement = ele;
@@ -1172,6 +572,7 @@ export class EsrPlanComponent implements OnInit {
     //markieren schon angelegte epochen:
     this.lehrerServ.lehrerSelected.next(ele.lehrer[0]);
   }
+
 
 
   duplicates(lehrer, tag) {
@@ -1209,21 +610,27 @@ export class EsrPlanComponent implements OnInit {
     }
   }
 
-  printAktiv = false;
+
   print() {
     this.printAktiv = true;
   }
 
-  constructor(public epochenPlanS: EpochenPlaeneService, public ferienServ: FerientermineService, public klassenplanServ: KlassenplaeneService, public lehrerServ: LehrerService) {
-    this.epochenPlanS.esr_plan$.subscribe((data) => {
+  constructor(public epochenPlanS: EpochenPlaeneService,
+    public ferienServ: FerientermineService, public klassenplanServ: KlassenplaeneService,
+    public lehrerServ: LehrerService, public loginServ: LoginService) {
+    this.epochenPlanS.esr_plan$.subscribe((data: Array < Array < TagesObjekt >> ) => {
+
       this.esrPlan = data;
-      //  console.log(data);
+      // console.log(data);
+
     });
     this.klassenplanServ.grundPlanfaecher$.subscribe((data) => this.grundPlanfaecher = data);
 
     lehrerServ.lehrerSelected$.subscribe(data => {
       this.selectLehrer = data;
     });
+
+    this.loginServ.termineladen();
   }
 
   ngOnInit(): void {}

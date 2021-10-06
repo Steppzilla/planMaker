@@ -1,7 +1,10 @@
 
 
 
-
+.lehrerHinzufügen{
+  text-align:center;
+  margin-left:20%;
+}
 td,th{padding:4pt;
 padding-left:10pt;
 padding-right:10pt;}
@@ -18,11 +21,11 @@ tr:nth-child(2n){
 
 table{
   color:black;
- // background-color:rgb(47, 54, 77);
-
-  
- 
+ // background-color:rgb(47, 54, 77); 
 }
+
+
+
 
 @media print{
   table{color:black;

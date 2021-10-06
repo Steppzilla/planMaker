@@ -26,6 +26,7 @@
 
 
 <span id="menu" class="noprint">
+  <button (click)="redirect('lehrerListe')"> Lehrer-Übersicht</button>
   <button (click)="redirect('klasseFach')"> Zuweisung </button>
   <button (click)="redirect('gesamtplan')"> Gesamtplan </button>
   <!--<button class="noprint" (click)="redirect('epoche')"> Epoche</button>
@@ -36,7 +37,7 @@
   </span>
 
   <span id="ansichtMenu" class="noprint">
-    <button (click)="redirect('lehrerListe')"> Lehrer-Übersicht</button> <button (click)="redirect('einzelplaene')">
+     <button (click)="redirect('einzelplaene')">
       Einzelplaene </button>
     </span>
 

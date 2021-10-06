@@ -15,7 +15,7 @@ rhythmisch = "StartUp",
 
   rhethorik="Rhethorik",
 
-  kartographie="Karto",
+  kartonage="Karto",
   klassenbetreuer = "Betreuer",
   religion = "Rel",
   ethik = "Ethik",

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { addDays } from 'date-fns';
 import { EpochenPlaeneService } from 'src/app/services/epochen-plaene.service';
 import { FerientermineService } from 'src/app/services/ferientermine.service';
 import { VertretungServService } from 'src/app/services/vertretung-serv.service';
@@ -51,6 +52,11 @@ export class VertretungsplanComponent implements OnInit {
 
   constructor(public vertretungsServ: VertretungServService, public ferienTerminServ:FerientermineService,public epoPlan:EpochenPlaeneService) { 
     vertretungsServ.vertretung$.subscribe(data=>this.vertretung=data);
+    if(this.epoPlan.planDatum.getValue().getDay()==0){
+      this.epoPlan.planDatum.next(addDays(this.epoPlan.planDatum.getValue(),1));
+    }else if(this.epoPlan.planDatum.getValue().getDay()==6){
+      this.epoPlan.planDatum.next(addDays(this.epoPlan.planDatum.getValue(),2));
+    }
  
   }
   ngOnInit(): void {

@@ -1,8 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { FerientermineService } from 'src/app/services/ferientermine.service';
-import { LehrerService } from 'src/app/services/lehrer.service';
-import { LoginService } from 'src/app/services/login.service';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
+import {
+  Router
+} from '@angular/router';
+import {
+  FerientermineService
+} from 'src/app/services/ferientermine.service';
+import { KlassenplaeneService } from 'src/app/services/klassenplaene.service';
+import {
+  LehrerService
+} from 'src/app/services/lehrer.service';
+import {
+  LoginService
+} from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-start',
@@ -11,23 +23,24 @@ import { LoginService } from 'src/app/services/login.service';
 })
 export class StartComponent implements OnInit {
 
-speicherPlatzNr;
-lehrerListe;
-
-wahl(zahl){
-  this.speicherPlatzNr=zahl;
-}
+  speicherPlatzNr;
+  lehrerListe;
 
 
-toggleColor(){
-  
-}
+  wahl(zahl) {
+    this.speicherPlatzNr = zahl;
+  }
 
-  redirect(x:string){
+
+  toggleColor() {
+
+  }
+
+  redirect(x: string) {
     this.router.navigate([x]);
-    this.lehrer.gewaehlterPlan=x;
-    console.log(x);
-    console.log(this.lehrer.gewaehlterPlan);
+    this.lehrer.gewaehlterPlan = x;
+  //  console.log(x);
+   // console.log(this.lehrer.gewaehlterPlan);
   }
 
   save() {
@@ -37,23 +50,26 @@ toggleColor(){
 
   load() {
     this.login.gesamtPlanLaden(this.speicherPlatzNr); //login.stundenplandaten wird neu belegt mit Daten, also observed durch this.stundenRaster ändert sich das dann auch
-     }
+  }
 
-     lehrerwahl(lehrerNR) { //Blaumarkierung der gewählten lehrer
-      //  this.selectLehrer = this.lehrerService.lehrer[lehrerNR]; //locale Variable
-        this.lehrer.lehrerSelected.next(this.lehrer.lehrer[lehrerNR]);
-      }
+  lehrerwahl(lehrerNR) { //Blaumarkierung der gewählten lehrer
+    //  this.selectLehrer = this.lehrerService.lehrer[lehrerNR]; //locale Variable
+    this.lehrer.lehrerSelected.next(this.lehrerListe[lehrerNR]);
+  }
 
-      
-  constructor(public lehrer: LehrerService, public login: LoginService, public router:Router,public termine:FerientermineService) {
+
+  constructor(public lehrer: LehrerService, public login: LoginService, public router: Router, public termine: FerientermineService,public klassenPlanServ:KlassenplaeneService) {
     this.login.login();
     this.login.gesamtPlanLaden(5);
-    this.speicherPlatzNr=5;
-    this.lehrerListe=lehrer.lehrer.sort((a,b)=> a.kuerzel.localeCompare(b.kuerzel));
-    console.log(this.lehrerListe);
-   }
-
-  ngOnInit(): void {
+    this.speicherPlatzNr = 5;
+    this.klassenPlanServ.lehrerListe$.subscribe(data => {
+      this.lehrerListe=data;
+    });
+    
+    login.lehrerladen();
+    //console.log(this.lehrerListe);
   }
+
+  ngOnInit(): void {}
 
 }

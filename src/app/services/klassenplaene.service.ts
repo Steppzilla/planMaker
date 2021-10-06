@@ -24,9 +24,12 @@ import {
 import {
   Elementt
 } from '../interfaces/elementt';
+import { Ferientermin } from '../interfaces/ferientermin';
 import {
   Lehrer
 } from '../interfaces/lehrer';
+import { Pruefungstermin } from '../interfaces/pruefungstermin';
+import { Termin } from '../interfaces/termin';
 import {
   KlassenFaecherService
 } from './klassen-faecher.service';
@@ -41,6 +44,20 @@ export class KlassenplaeneService {
   grundPlanfaecher = new BehaviorSubject < Array < Elementt >> (null);
   grundPlanfaecher$ = this.grundPlanfaecher.asObservable();
 
+  lehrerListe= new BehaviorSubject<Array<Lehrer>>(null);
+  lehrerListe$=this.lehrerListe.asObservable();
+
+  
+  terminListe= new BehaviorSubject<Array<Termin>>(null);
+  terminListe$=this.terminListe.asObservable();
+
+  pruefungsListe= new BehaviorSubject<Array<Pruefungstermin>>(null);
+  pruefungsListe$=this.pruefungsListe.asObservable();
+
+  ferienListe= new BehaviorSubject<Array<Ferientermin>>(null);
+  ferienListe$=this.ferienListe.asObservable();
+
+  
   klassenArray$: Observable < {
       [key: string]: Elementt[]
     } >=
@@ -60,25 +77,7 @@ export class KlassenplaeneService {
       })
     );
 
-  lehrerArray$: Observable < {
-      [key: string]: Elementt[]
-    } > =
-    this.grundPlanfaecher$.pipe(
-      filter(r => r !== null),
-      map(x => {
-        let obj: {
-          [key: string]: Elementt[]
-        } = {};
-        x.forEach((ele: Elementt) => {
-          ele.lehrer.forEach(le => {
-            if (obj[le.kuerzel] === undefined) {
-              obj[le.kuerzel] = [];
-            }
-            obj[le.kuerzel].push(ele);
-          });
-        });
-        return obj;
-      }));
+  
 
   esrPlaan$=
     this.grundPlanfaecher$.pipe(
@@ -226,7 +225,7 @@ export class KlassenplaeneService {
           klasse: lehrjahr,
           wochenstunden: nummer,
           raum: Raum.null,
-          lehrer: [this.lehrerServ.lehrer[0]],
+          lehrer: [],
           uebstunde: nummer,
           rhythmus: 0,
           schiene: 0,
@@ -246,7 +245,7 @@ export class KlassenplaeneService {
 
   elementHinzufuegen(fach: Fach, klasse: Lehrjahr) {
     let ele: Elementt = this.neuesElement(fach, klasse);
-    console.log(this.grundPlanfaecher.value);
+   // console.log(this.grundPlanfaecher.value);
     this.grundPlanfaecher.next(this.grundPlanfaecher.getValue().concat(ele)); //concat ist zum hinzufügen
   }
 
@@ -256,7 +255,7 @@ export class KlassenplaeneService {
       klasse: klasse,
       wochenstunden: 0,
       raum: Raum.null,
-      lehrer: [this.lehrerServ.lehrer[0]],
+      lehrer: [],
       uebstunde: 0,
       rhythmus: 0,
       schiene: 0,
@@ -273,7 +272,7 @@ export class KlassenplaeneService {
 
   elementHinzufuegenmitLehrer(fach: Fach, klasse: Lehrjahr, lehrer: Lehrer) {
     let ele: Elementt = this.neuesElementmitLehrer(fach, klasse, lehrer);
-    console.log(this.grundPlanfaecher.value);
+   // console.log(this.grundPlanfaecher.value);
     this.grundPlanfaecher.next(this.grundPlanfaecher.getValue().concat(ele));
   }
 
@@ -330,8 +329,6 @@ export class KlassenplaeneService {
     });
     this.grundPlanfaecher.next(neuesArray);
   }
-
-
 
   zahlinWorte(num: number) {
     switch (num) {

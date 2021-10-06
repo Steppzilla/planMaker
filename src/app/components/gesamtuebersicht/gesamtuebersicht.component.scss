@@ -4,7 +4,7 @@
 }
 
 $schriftfarbe:rgb(0, 0, 0);
-$hover:rgb(98, 107, 146);
+
 //aus zuweisung kopiert, noch nicht benutzt:
 $background:rgb(126, 126, 126);
 $background2:rgb(194, 199, 194);
@@ -25,15 +25,15 @@ button {
   color: $schriftfarbe;
 }
 
-button:hover {
-  background-image: repeating-linear-gradient(45deg,
-      $hover 0%,
-      rgb(59, 66, 97) 1%,
-      $hover 2%);
-}
 
 th {
   font-weight: normal;
+}
+
+.drucken{
+  margin-top:5pt;
+  border-radius:7pt;
+  background-color:mediumaquamarine;
 }
 
 .wochenTagContainer {
@@ -51,6 +51,8 @@ th {
     }
   }
 
+  
+
   table {
     line-height: 1;
     page-break-inside: auto;
@@ -65,7 +67,7 @@ th {
       }
 
       td {
-        border: 1px black solid;
+        border:none;
         height: 30pt;
 
         button {
@@ -225,7 +227,7 @@ th {
 
     tr {
       td {
-        border: 1pt solid black;
+      //  border : 1pt solid black;
 
         button {
           padding: 0pt;
@@ -267,7 +269,7 @@ th {
     background-image: none;
     background-color: white;
     color: $schriftfarbe;
-    border: none;
+   
   }
 
   .buttonreihe.wochentagButton {
@@ -327,7 +329,7 @@ th {
   .normalB,
   .empty {
     background-image: none;
-    border: 1pt black solid;
+   // border : 1pt black solid;
     color: black;
     height: 10pt;
 

@@ -1,52 +1,86 @@
+
+
+
 * {
   padding: 0pt;
   margin: 0pt;
 }
 
-$schriftfarbe:black; //rgb(221, 200, 200);
-$hintergrund:rgb(77, 74, 78);
-//$linienDark:rgb(63, 63, 63);
-$hover:rgb(98, 107, 146);
-$hintergrund2:rgb(81, 78, 83);
+$schriftfarbe:rgb(0, 0, 0);
 
 //aus zuweisung kopiert, noch nicht benutzt:
-$background:rgb(57, 61, 58);
-$background2:rgb(52, 57, 52);
-$color:black; //rgb(153, 153, 134);
-$back-light:rgb(68, 68, 68);
+$background:rgb(126, 126, 126);
+$background2:rgb(194, 199, 194);
+$back-light:rgb(231, 224, 224);
 
-button:hover {
-  background-image: repeating-linear-gradient(45deg,
-      $hover 0%,
-      rgb(59, 66, 97) 1%,
-      $hover 2%);
+h1,
+h2 {
+  text-align: center;
+
 }
+
+button {
+  border: solid 1pt black;
+}
+
+#gesamtuebersicht {
+  background-color: rgb(255, 255, 255);
+  color: $schriftfarbe;
+}
+
 
 th {
   font-weight: normal;
 }
 
-table {
-  line-height:1;
-  page-break-inside: auto;
-  margin-right: auto;
-  margin-left: auto;
-  //border-collapse: collapse;
-  border-collapse: collapse;
+.drucken{
+  margin-top:5pt;
+  border-radius:7pt;
+  background-color:mediumaquamarine;
+}
 
-  tr {
-    th {
-      text-align: center;
+.wochenTagContainer {
+  h2 button{
+    border-radius:5pt;
+    line-height:1;
+  }
+  .wochentagButton{
+    width:80pt;
+    display:block;
+    button{
+      width:100%;
+      border:none;
+      background-color: inherit;
     }
-    td {
-      border:1px black solid;
-      height: 30pt;
-      button {
-        height: 100%;
-        width: 100%;
-        padding-left:4pt;
-        padding-right:4pt;
-        div {}
+  }
+
+  
+
+  table {
+    line-height: 1;
+    page-break-inside: auto;
+    margin-right: auto;
+    margin-left: auto;
+    //border-collapse: collapse;
+    border-collapse: collapse;
+
+    tr {
+      th {
+        text-align: center;
+      }
+
+      td {
+        border:none;
+        height: 30pt;
+
+        button {
+          height: 100%;
+          width: 100%;
+          padding-left: 4pt;
+          padding-right: 4pt;
+
+          div {}
+        }
       }
     }
   }
@@ -54,43 +88,34 @@ table {
 
 .fachItem {
   display: flex;
+
+  div {
+    width: 100%;
+  }
 }
 
-.fachItem div {
-  width: 100%;
-}
 
-h1,
-h2 {
-  text-align: center;
-  margin-top: 0pt;
-  padding-top: 10pt;
-}
-
-p {
-  margin: 0pt;
-}
-
-button {
-  border: solid 0pt black;
-  color: black;
-  background-image: inherit;
-}
+//obere buttons ende
+// $colors : #fedc00, #fcb712, #f7921e, #e87f24, #dd6227, #dc4c27, #ca3435, #b82841, #953751, #364c88, #16599d, #02609e, #0073a9, #008aa4, #239a87, #7cba6d, #becc2f, #e0d81d;
 
 .error {
   color: red;
 }
 
 .ok {
-
+  // border-radius: 4pt;
 }
 
 .blueback {
   color: rgb(82, 82, 241);
 }
 
-.gruen {
-  color: green;
+.huB,
+.schB,
+.rhyB,
+.normalB,
+.empty {
+  height: 100%;
 }
 
 .huB {
@@ -114,126 +139,160 @@ button {
   opacity: 0.1;
 }
 
+#toggle-item-Container {
+  opacity: 1;
+  background-color: rgb(187, 236, 228);
+  padding: 0pt;
+  display: grid;
+  width: auto;
+  grid-template-columns: 35% 10% 10% 20% 25%;
+  border: none;
+  white-space: nowrap;
+}
+
 .toggle-items {
+  opacity: 1;
   background-color: rgb(187, 236, 228);
   font-size: 12pt;
   line-height: 12t;
-  width: auto;
+  width: 100%;
 }
 
-.sonderEvent {
-  position: relative;
-  height: 0pt;
-  top: 90pt;
+.iconBut {
+  background: none;
+  border: none;
 }
 
-.kippbox {
-  padding-left: 5pt;
-  background-color: green;
-  font-size: 28pt;
-  writing-mode: vertical-lr;
-  // text-orientation: upright; 
-  width: 28pt;
+#left button,
+#right button {
+  position: fixed;
+  top: 50%;
 }
 
-.wochentagButton {
-  border-top: 1pt $schriftfarbe solid;
-  button {
-    width: 100%;
-  }
+#left button {
+  left: 0pt;
 }
 
-.buttonreihe {
-  display: flex;
-  background-image: inherit;
+#right button {
+  right: 0pt;
 }
-
-
-
-// $colors : #fedc00, #fcb712, #f7921e, #e87f24, #dd6227, #dc4c27, #ca3435, #b82841, #953751, #364c88, #16599d, #02609e, #0073a9, #008aa4, #239a87, #7cba6d, #becc2f, #e0d81d;
-
-
 
 @media only screen and (max-width: 760px),
 (min-device-width: 768px) and (max-device-width: 1024px) {
   .fachItem {
     display: block;
-    div{
+
+    div {
       overflow: hidden;
-      
+
     }
   }
+
   .kuerzl {
     display: block;
   }
+
   .fach {
-    display:none;
-    
+    display: none;
+
   }
-  th>span{display:none;} //Anzahl der stunden einer klasse
- .wochenTagContainer table{
- 
 
-   tr{
-     td{
-       button{
-         width:20pt;
-         overflow: hidden;
-         padding:0pt;
-       
-       }
-     }
-   }
+  th>span {
+    display: none;
+  }
 
- }
+  //Anzahl der stunden einer klasse
+  .wochenTagContainer {
+    button {}
+
+    table {
+
+
+      tr {
+        td {
+          button {
+            width: 20pt;
+            overflow: hidden;
+            padding: 0pt;
+
+          }
+        }
+      }
+    }
+  }
 }
 
 @media only screen and (max-width: 460px),
 (min-device-width: 468px) and (max-device-width: 624px) {
-  table{
+  .wochenTagContainer table {
     border-collapse: collapse;
-    width:90%;
+    width: 90%;
 
-  tr{
-    td{
-      border:1pt solid black;
-      button{
-        padding:0pt;
-        width:100%;
-        overflow: hidden;
-      font-size:9pt;
+    tr {
+      td {
+      //  border : 1pt solid black;
+
+        button {
+          padding: 0pt;
+          width: 100%;
+          overflow: hidden;
+          font-size: 9pt;
+        }
       }
     }
-  }
   }
 }
 
 
 
-
-
 @media print {
+  * {
+    font-size: 14pt;
+    padding: 0pt;
+    margin: 0pt;
+    background-image: none;
+  }
 
-  #gesamtuebersicht {
-
-    background-color: rgb(255, 255, 255);
+  h1,
+  h2 {
+    //font-weight:bold;
+    margin-top: 4pt;
+    padding-top: 0pt;
+    margin: 0pt;
+    font-size: 20pt;
     color: $schriftfarbe;
   }
 
-  .wochentagButton {
-    border-top: none;
+  h2 {
+    color: $schriftfarbe;
+    font-size: 16pt;
   }
 
-  .ok {
+  #gesamtuebersicht {
+    background-image: none;
+    background-color: white;
+    color: $schriftfarbe;
+   
+  }
 
-    border-radius: 4pt;
-    color: blue;
+  .buttonreihe.wochentagButton {
+    display: block;
+  }
+
+  //sonst noprint kenie wirkung
+
+  .kuerzl {
+    color: mediumblue;
+  }
+
+  .kuerzl.error {
+    color: red;
   }
 
   .blueback {
     color: black;
+    font-weight: normal;
   }
-
 
   .huB {
     background-color: rgb(224, 200, 137);
@@ -255,25 +314,85 @@ button {
     color: black;
   }
 
+  .empty {
+    min-height: 10pt;
+    opacity: 0;
+    background-color: white;
+    // height:10pt;
+  }
+
+  button {
+    //min-height:10pt;
+    height: 10pt;
+  }
+
   .huB,
   .schB,
   .rhyB,
-  .normalB {
-    border: none;
-    //border:1px black solid;
+  .normalB,
+  .empty {
+    background-image: none;
+   // border : 1pt black solid;
+    color: black;
+    height: 10pt;
 
   }
 
-  .klassenspalte {
-    margin: 1px;
+  .wochenTagContainer {
+    page-break-inside: avoid;
+
+    div h2 button {
+      background-color: white;
+      border: none;
+      font-size: 20pt;
+      font-weight: bold;
+    }
   }
 
+  table {
+    width: 90%;
+    page-break-inside: avoid;
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+    line-height: 14pt;
 
+    th:first-child {
+      //  border-right:1px grey solid;
+    }
 
+    tr {
 
-  //button:nth-of-type(odd){border-top:1pt black solid;}
+      //  border-bottom: 1px grey dotted;
+      th {
+        height: 10pt;
+        text-align: center;
+        color: black;
+        font-weight: bold;
+      }
 
+      td {
+        height: 10pt;
 
+        button {
+          height: 100%;
+          width: 100%;
 
+          div {}
+        }
+      }
+    }
+  }
 
+}
+
+.sonderBox{//Schrift bei ferientagen oder prüfungen
+  font-size:12pt;
+  line-height:6pt;
+  height:0pt;
+position:relative;
+top:70pt;
+left:-5pt;
+transform: rotate(90deg);
+width:50pt;
 }

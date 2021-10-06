@@ -52,11 +52,18 @@
 
                   </span>
                   <ng-template id="" #Lehrer2>
-                    <ng-container *ngFor="let lehrer of lehrerZuw(faecher[fachIndex])[0].lehrer">
-                      <span id="kuerzelPop" (click)="toggleClickk(lehrer,faecher[fachIndex],klas+1)">
-                        {{lehrer?.kuerzel }}
+                    <ng-container *ngIf="lehrerNachFach$|async as faecherArr">
+                    <ng-container *ngFor="let lehrerArray of faecherArr|keyvalue">
+                      <ng-container *ngIf="lehrerArray.key===item.fach"> 
+                        <ng-container *ngFor="let lehrer of lehrerArray.value">
+                      <span id="kuerzelPop" (click)="toggleClickk(lehrer,item.fach,klas+1)">
+               
+                        {{lehrer.kuerzel}}
                       </span>
                     </ng-container>
+                    </ng-container>
+                  </ng-container>
+                  </ng-container>
                   </ng-template>
 
 

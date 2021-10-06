@@ -26,7 +26,8 @@ import {
 import {
   filter,
   map,
-  reduce
+  reduce,
+  take
 } from 'rxjs/operators';
 import {
   stringify
@@ -41,8 +42,8 @@ import {
 export class KlassenZuweisungComponent implements OnInit {
   //keys=Object.keys;
   faecher = Object.values(Fach);
-  lehrerauswahl;
-  klassen = Object.values(Lehrjahr);
+  faecherKeys=Object.keys(Fach);
+   klassen = Object.values(Lehrjahr);
   grundPlanfaecher;
   selectLehrer;
 
@@ -72,7 +73,7 @@ export class KlassenZuweisungComponent implements OnInit {
     if (e.shiftKey) {
       this.klassenplanServ.elementeZuruecksetzen(ele.fach, ele.klasse);
     }
-    ele.lehrer.push(this.lehrerServ.lehrer[0]);
+    ele.lehrer.push([]);
 
   }
   wochenstundenVerteilen(e, art, elementDerZeile, kIndex) {
@@ -118,21 +119,18 @@ export class KlassenZuweisungComponent implements OnInit {
     }
   }
 
-
   lehrerHinzufuegen(lehrerI: Lehrer, klasseI: Lehrjahr, fachI: Fach) {
     let neuesEle: boolean;
     let neuArray: Array < Elementt >= this.klassenplanServ.grundPlanfaecher.getValue();
-
+   
     neuArray.forEach(obj => {
       if (obj != null) {
-
         if (obj.fach == fachI) {
         //  console.log(obj.fach + " / " + obj.klasse + "/" + obj.lehrer[0] + "kuerzel: " + obj.lehrer[0].kuerzel);
         //  console.log(fachI + "/ " + klasseI + "/ ");
           //  console.table( obj.lehrer);
         }
-
-        if ((obj.fach == fachI) && (obj.klasse == klasseI) && (obj.lehrer[0].kuerzel === null)) {
+        if ((obj.fach == fachI) && (obj.klasse == klasseI) && (obj.lehrer[0]===undefined)) {
         //  console.log("L. hinzugefügt, kein neues Element");
           //Lehrer null rauschemeißen
           obj.lehrer = [];
@@ -147,14 +145,12 @@ export class KlassenZuweisungComponent implements OnInit {
       }
     });
 
-
     //wenn ein Lehrer schon drin is, neues Element erstellen mit Lehrer drin.
     if (neuesEle == true) {
       this.klassenplanServ.elementHinzufuegenmitLehrer(fachI, klasseI, lehrerI);
     } else {
       this.klassenplanServ.grundPlanfaecher.next(neuArray);
     }
-    // console.log(this.klassenplanServ.grundPlanfaecher);
   }
 
   wortInZahl(wort) {
@@ -221,22 +217,9 @@ export class KlassenZuweisungComponent implements OnInit {
     this.esrFuellen("epoche", Fach.hauptunterricht, Lehrjahr.zwoelf);
     this.esrFuellen("rhythmus", Fach.rhythmisch, Lehrjahr.zwoelf);
     this.esrFuellen("schiene", Fach.schiene, Lehrjahr.zwoelf);
-
-
   }
 
-
-  lehrerZuweisung(zeileI) {
-    let liste: Array < Lehrer >= [];
-    this.lehrerauswahl.forEach((fachLehrer) => {
-      if (this.faecher[zeileI] == fachLehrer.fach) { //grundplanfächer als Bezug der Reihen [0] ist das Fach
-        fachLehrer.lehrer.forEach((lehrer) => {
-          liste.push(lehrer);
-        });
-      }
-    });
-    return liste;
-  }
+ 
 
   fachElemente(rowI: number, klasse: number) { //i ist die reihe (des fachs, alle lehrer mit dem fach werden in allen klassen angezeigt)
     let alleFilter: Array < Elementt > = [];
@@ -249,14 +232,45 @@ export class KlassenZuweisungComponent implements OnInit {
     return alleFilter; //zb alle Elemente für französisch
   }
 
-  lehrerZuw(fach){
-   // console.log(fach);
-    
-    let fachElemente=this.lehrerServ.lehrernachFach();
-  //  console.log(fachElemente.filter(elem=>elem.fach===fach));
-    return fachElemente.filter(elem=>elem.fach===fach);
+ 
 
-  }
+
+  lehrerNachFach$= this.klassenplanServ.lehrerListe$.pipe(
+    map(z=>{
+      let ar=new Object;
+      z.forEach(obj=>{
+        obj.faecher.forEach(fach=>{
+          Object.keys(Fach).forEach((fachh,f)=>{
+            if(!ar[this.faecher[f]]){
+              ar[this.faecher[f]]=[];
+            }
+            if(fach==fachh){
+              ar[this.faecher[f]].push(obj);
+            }
+          });
+        });
+      });
+
+      console.log(ar);
+
+      return ar;
+    })
+  );
+
+  /*  rhythmusElemente$ = this.klassenplanServ.esrPlaan$.pipe(
+    concatMap(b => {
+      return this.klassenplanServ.esrPlaan$.pipe(take(1));
+    }),
+    map(z => {
+      let obj = {
+        neun: z.rhythmus.neun,
+        zehn: z.rhythmus.zehn,
+        elf: z.rhythmus.elf,
+        zwoelf: z.rhythmus.zwoelf
+      }
+      return obj;
+    })
+  );*/ 
 
   mainClickk(e, ele) {
     if (e.shiftKey) {
@@ -498,7 +512,6 @@ export class KlassenZuweisungComponent implements OnInit {
     });
 
 
-    this.lehrerauswahl = lehrerServ.lehrernachFach();
     // console.log(this.grundPlanfaecher);
     //  this.klassenplanServ.elementHinzufuegen(Fach.wirtschaftspolitik,Lehrjahr.dreizehn);
     //console.log(this.klassenplanServ.grundPlanfaecher.getValue());

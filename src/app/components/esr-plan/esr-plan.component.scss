@@ -12,6 +12,70 @@ $rhybackground: rgb(255, 144, 133);
 $epoBackground: rgb(207, 198, 98);
 $schieneBackground: rgb(176, 219, 130);
 
+
+.rhythmus{
+background-color:$rhybackground;
+}
+.epoche{
+  background-color:$epoBackground;
+}
+.schiene{
+  background-color:$schieneBackground;
+
+}
+
+#terminContainer {
+
+  display: flex;
+  flex-wrap: wrap;
+
+
+  #ferienTermine,
+  #pruefungsDaten,
+  #termineListe{
+    table{
+      tr{
+        td{text-align:center;
+          button{
+            width:100%;
+            margin:0pt;
+            padding:0pt;
+            background-color:pink;
+          }
+        }
+      }
+
+    }
+  }
+
+
+
+}
+
+#printContain{
+  table{margin-left:auto;
+    margin-right:auto;
+    tr{
+      td{
+        text-align: center;
+        border:1px black solid;
+      }
+    }
+
+  }
+
+}
+
+.dataTabelle {
+  td {
+    border: 1px black solid;
+  }
+}
+
+.terminHinzufügen {
+  margin-left: 20%;
+}
+
 .iconBut {
   background: none;
   border: none;
@@ -22,77 +86,11 @@ $schieneBackground: rgb(176, 219, 130);
   //color: $color;
 }
 
-.epoB {
-  background-color: $epoBackground;
-}
 
-.schB {
-  background-color: $schieneBackground;
 
-}
-
-.rhyB {
-  background-color: $rhybackground;
-
-}
-
-.epo2 {
-  tr:nth-child(1) {
-    td {
-      background-color: $epoBackground;
-    }
-  }
-}
-
-.sch2 {
-  tr:nth-child(1) {
-    td {
-      background-color: $schieneBackground;
-    }
-  }
-}
-
-.rhy2 {
-  tr:nth-child(1) {
-    td {
-      background-color: $rhybackground;
-    }
-  }
-}
 
 .kuerzel {
   //color: $kuerzel;
-}
-
-.projekt {
-  color: $color;
-  font-style: italic;
-}
-
-
-td {
-  text-align: center;
-}
-
-tr,
-td {
-  height: 20pt;
-  white-space: nowrap;
-}
-
-table {
-  margin-top: 10pt;
-  margin-left: auto;
-  margin-right: auto;
-
-  button {
-    padding: 2pt;
-    border: none;
-    width: 100%;
-    height: 100%;
-    background-color: $back-light;
-    color: inherit;
-  }
 }
 
 .esrWahl,
@@ -107,12 +105,103 @@ table {
 
 }
 
-.blueback {
- // color: rgb(147, 147, 184);
- color:black;
-  font-weight: bold;
-  background-color: rgb(160, 160, 241);
+.Monat {
+  height: 10pt;
 }
+
+.Wochentag {
+  font-size: 8pt;
+}
+
+.Datum {
+  font-size: 6pt;
+  width:8pt;
+}
+
+//Tabelle: 
+.abschnitt {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top:70pt;
+
+ justify-content: center; //das centered echt!
+}
+
+.tagesContainer {
+  width: 11pt;
+}
+
+.sonderBox{//Schrift bei ferientagen oder prüfungen
+  font-size:6pt;
+  line-height:6pt;
+  height:0pt;
+position:relative;
+top:-80pt;
+left:-45pt;
+transform: rotate(270deg);
+width:90pt;
+}
+//So und Sa schmal und unsichtbar
+.D0,
+.D6 {
+  width: 2pt;
+  opacity: 0;
+}
+
+
+.D2 ,
+.D3 ,
+.D4 ,
+.D5 {
+  height:40pt;
+ // background-color:green;
+}
+
+.D1 .buttonBox{
+  z-index: 1;
+}
+
+.abschnitt>.tagesContainer>div {
+  text-align: center;
+}
+
+.abschnitt>.tagesContainer>div>div>button {
+  padding: 0pt;
+  width: 55pt;
+  height: 50pt;
+
+  div {
+    font-size: 8pt;
+    overflow: hidden;
+  }
+}
+
+//Button haben Tagesnotiz:
+button.B0,
+button.B2,
+button.B3,
+button.B4,
+button.B5,
+button.B6 {
+  display: none;
+  pointer-events: none;
+}
+
+
+// färbung prüfung datum hinterlegen
+.pruefung {
+  background-color: mediumorchid;
+}
+
+.ferien {
+  background-color: steelblue;
+}
+
+//
+
+.klein{font-size:8pt;}
+
+
 
 @media print {
   * {
@@ -120,9 +209,12 @@ table {
     padding: 0pt;
   }
 
- table{margin:0pt;
-margin-left:auto;
-margin-right:auto;}
+  table {
+    margin: 0pt;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
   .kuerzel {
     color: blue;
   }
@@ -134,3 +226,15 @@ margin-right:auto;}
 
   }
 }
+
+
+
+.blueback {
+  // color: rgb(147, 147, 184);
+  color: black;
+  font-weight: bold;
+  background-color: rgb(160, 160, 241);
+}
+
+
+

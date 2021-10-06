@@ -14,6 +14,8 @@ import {
 import {
   LehrerService
 } from 'src/app/services/lehrer.service';
+import { LoginService } from 'src/app/services/login.service';
+import { getSyntheticLeadingComments } from 'typescript';
 
 
 @Component({
@@ -23,29 +25,22 @@ import {
 })
 export class LehrerListeComponent implements OnInit {
 
- /* klassenReturn(lehrer: Lehrer) {
-    let neuArray = this.klassenplan.grundPlanfaecher.getValue();
-    let elemente = [];
-    neuArray.forEach(element => {
-      if (element == null) {} else {
-        element.lehrer.forEach(lehr => {
-          if(lehrer.kuerzel==null){}
-          else
-          if (lehr != null) {
-            if (lehr.kuerzel == lehrer.kuerzel && ((element.fach != Fach.hauptunterricht && element.fach != Fach.schiene && element.fach != Fach.rhythmisch) || (parseInt(element.klasse) < 9))) {
-              elemente.push(element);
-            }
-          }
+  faecher=Object.keys(Fach);
+  aufgaben=["Schulführung","Vorstand","Pädagogische Leitung", "Geschäftsführer"];
 
-        });
-      }
-    });
-    //console.log(elemente);
-    return elemente;
+ // Fach dem Lehrer hinzufügen:
+  fachLehrerAdd(fach,lehrer){
+    let faecher=lehrer.faecher;
+    faecher.push(fach);
+    this.loginServ.lehrerHinzufuegen({anrede:lehrer.anrede,name:lehrer.name,kuerzel:lehrer.kuerzel,faecher:faecher,aufgaben:[]})
 
-
-
-  }*/
+  }
+  lehrerAdd(anrede,name,kuerzel,faecher,aufgaben,deputat){
+    this.loginServ.lehrerHinzufuegen({anrede:anrede,name:name,kuerzel:kuerzel,faecher:[],aufgaben:[]})
+  }
+  lehrerLoeschen(kuerz){
+    this.loginServ.lehrerLoeschen(kuerz);
+  }
 
   deputat(lehrer){
     let neuArray = this.klassenplan.grundPlanfaecher.getValue();
@@ -114,9 +109,8 @@ export class LehrerListeComponent implements OnInit {
   }
 
   
-  constructor(public lehrerServ: LehrerService, public klassenplan: KlassenplaeneService) {
-
-
+  constructor(public lehrerServ: LehrerService, public klassenplan: KlassenplaeneService, public loginServ : LoginService) {
+    
   }
 
   ngOnInit(): void {}
