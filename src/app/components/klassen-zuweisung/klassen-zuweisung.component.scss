@@ -49,12 +49,34 @@ tr:nth-child(even) {
     border-right: 1pt solid $background2;
   }
 }
+.tdBox{
+  display:flex;
+  flex-wrap:wrap;
 
-.dropButton {
+  .esrButtonContainer{
+    width:50%;
+    display:flex;
+    flex-wrap:wrap;
+    button{width:20%;}
+  }
+  
+  
+  .lehrerkuerzelBox{
+    width:45%;
+    display:flex;
+    flex-wrap:wrap;
+    div{
+      width:30%;
+    }
+  
+  }
+  
+}
+
+
+.dropButt {
   width: 100%;
   text-align: center;
-  border-radius: 5pt;
-  background-color: $back-light;
   min-height: 10pt;
 }
 
@@ -93,7 +115,7 @@ th {
 }
 
 
-.ueb,.rhy,.epo,.sch,.nix{
+button{
  border:1pt black solid;
  border-radius:3pt;
 }
@@ -118,6 +140,15 @@ th {
 }
 
 @media print {
+  * {
+    color: black;
+    background-color: white;
+    
+  }
+  button{
+    border:none;
+  }
+
   .oben {
     display: block;
   }
@@ -139,27 +170,35 @@ th {
     display: none;
   }
 
-  #alles {
-    color: black;
-    background-color: white;
-    
-  }
+  
 
   .ueb {
     // background-color:rgb(19, 64, 100);
     color: rgb(0, 113, 241);
+    background-color:inherit;
+    border:none;
+ 
   }
 
   .rhy {
     color: rgb(250, 17, 17);
+    background-color:inherit;
+    border:none;
+
   }
 
   .epo {
     color: rgb(255, 183, 0);
+    background-color:inherit;
+    border:none;
+
   }
 
   .sch {
     color: rgb(122, 240, 167);
+    background-color:inherit;
+    border:none;
+
 
   }
 
@@ -173,14 +212,14 @@ th {
     background-color: white;
 
     td {
-      border-right: none;
+      border-right: 1pt black solid;
     }
   }
 
   tr:nth-child(even) {
     td {
-      border-right: none;
-      ;
+      border-right: 1pt black solid;
+      
 
     }
   }

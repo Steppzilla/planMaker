@@ -247,8 +247,6 @@ export class EinzelplaeneComponent implements OnInit {
 
 
 
-          //  neu.kuerz = lehra.kuerzel;
-
 
           this.esrPlan.forEach((abSCHN, aI) => {
             let zaehler = 0; //Für cellen-index der Montage
@@ -320,76 +318,12 @@ export class EinzelplaeneComponent implements OnInit {
                     }
                   });
 
-                  /*  if (titel.length > 8) {
-                      neu.plan[aI][4][zaehler].push({
-                        fach: null, // später: element.fach,
-                        klasse: null, // später element.lehrer[0].kuerzel,
-                        spanNr: span, //später span
-                        ganztaegig: titel,
-                        start: ersterTag, //später ersterTag, //bei neuem Abschnitt ist es erster Tag des abschnitts
-                        ende: end,
-                      });*/
 
 
                   if (fahrt === false) {
 
 
-                    //             let lehrerItems = this.klassenS.lehrerArray$.pipe(map(z => {
-                    //              return z
-                    //            }), take(1)).toPromise();
-
-                    //           console.log(lehrerItems);
-
-                    /*
-                    let lehrerRhyKlas =  this.klassenS.lehrerArray$.pipe(  map(z => {
-                      let ar = [];
-                      if (lehra.kuerzel !== null) {
-                        z[lehra.kuerzel].forEach(ele => {
-                          if (ele.rhythmus > 0) {
-                            ar.push(ele);
-                          }
-                        });
-                      }
-
-                      return ar;
-                    }), take(10), toArray());
-
-                   
-
-
-                    let lehrerEpoKlas = this.klassenS.lehrerArray$.pipe(map(z => {
-                      let ar = [];
-                      if (lehra.kuerzel !== null) {
-                        z[lehra.kuerzel].forEach(ele => {
-                          if (ele.epoche > 0) {
-                            ar.push(ele);
-                          }
-                        });
-                      }
-                      return ar;
-                    }), take(10), toArray());
-
-                    let lehrerSchKlas = this.klassenS.lehrerArray$.pipe(map(z => {
-                      let ar = [];
-                      if (lehra.kuerzel !== null) {
-                        z[lehra.kuerzel].forEach(ele => {
-                          if (ele.schiene > 0) {
-                            ar.push(ele);
-                          }
-                        });
-                      }
-                      return ar;
-                    }), take(10), toArray());
-                    */
-
-                    /*  let lehrerSchKlas = lehrerItems[lehra.kuerzel].filter(
-                        el => el.schiene > 0);*/
-
-                    // console.log(lehrerRhyKlas);
-
-                    //      if (lehrerRhyKlas.length === 0 && lehrerEpoKlas.length === 0 && lehrerSchKlas.length === 0) {
-                    //     anzeig = true;
-                    //} else {}
+                  
 
                     let lehrerRhyKlas = z.rhythmus[kla].filter(
                       el => el.lehrer.findIndex(lehr => (lehr.kuerzel !== null && lehr.kuerzel === lehra.kuerzel)) !== -1);
