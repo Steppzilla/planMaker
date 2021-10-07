@@ -8,8 +8,8 @@ import addDays from 'date-fns/addDays';
   providedIn: 'root'
 })
 export class FerientermineService {
-  datumHeute2: Date = new Date(); //achtung hat aktuelle Zeit
-  datumHeute=addDays(this.datumHeute2,30);
+  datumHeute: Date = new Date(); //achtung hat aktuelle Zeit
+//  datumHeute=addDays(this.datumHeute2,28);
     
   tagZuString(tag: Date) {
     switch (tag.getDay()) {

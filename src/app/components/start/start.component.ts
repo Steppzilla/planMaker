@@ -68,6 +68,7 @@ export class StartComponent implements OnInit {
     
     login.lehrerladen();
     //console.log(this.lehrerListe);
+    this.login.termineladen();
   }
 
   ngOnInit(): void {}

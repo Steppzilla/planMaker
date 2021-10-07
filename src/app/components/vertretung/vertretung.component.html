@@ -1,45 +1,44 @@
 <div id="gesamtuebersicht">
 
-  <!--<button (click)="leherkuerzelToggle()">lehrerKuerz {{buttontext}}</button>-->
-  <!--
-  <ng-container *ngIf="epoPlan.aktuelleEpo$|async as RES">
-    {{epoPlan.planDatum}}
-    <ng-container *ngFor="let r of RES.zehn.rhy">
-      {{r.fach}}{{r.lehrerKuerz}}
-    </ng-container>
-  </ng-container>-->
 
-  <!---
-  <h1 class="noprint">Vertretung
-    <button class="noprint" (click)="wocheVorher()"> <img width="40pt"  style=" transform: rotate(180deg);" src="../../../assets/iconsNav/pfeilSchwR.png">
-    </button>{{epoPlan.planDatum.getValue().getDate()}}.{{epoPlan.planDatum.getValue().getMonth()+1}}.{{epoPlan.planDatum.getValue().getFullYear()}}
-    <button class="noprint" (click)="wocheNext()">  <img width="40pt" src="../../../assets/iconsNav/pfeilSchwR.png"> </button></h1>
+  <ng-container *ngIf="this.epoPlan.planDatum$|async as planDat">
+  <h1>Vertretung
+  {{planDat|date: 'd.M.Y'}}
 
-  <div class="buttonreihe noprint wochentagButton">
-    <button class="noprint" (click)="wochentagWahl('Montag')">Montag</button>
-    <button class="noprint" (click)="wochentagWahl('Dienstag')">Dienstag</button>
-    <button class="noprint" (click)="wochentagWahl('Mittwoch')">Mittwoch</button>
-    <button class="noprint" (click)="wochentagWahl('Donnerstag')">Donnerstag</button>
-    <button class="noprint" (click)="wochentagWahl('Freitag')"> Freitag</button>
-  </div>
+            <!-- SONDEREVENT? FERIEN?-->
+            <ng-container *ngIf="this.klassenplanServ.ferienListe$|async as ferien ">
+              <ng-container *ngFor="let termin of ferien">
+                <ng-container *ngIf="termin.ende&&termin.start.toDate().getTime()<planDat.getTime()&&termin.ende.toDate().getTime()>planDat.getTime()">
+                  {{termin.titel}}
+                </ng-container>
+                <ng-container *ngIf="!termin.ende&&termin.start.toDate().getTime()==planDat.getTime()">
+                  {{termin.titel}}
+                </ng-container>
+              </ng-container>
+          
+              </ng-container>
+              <ng-container *ngIf="this.klassenplanServ.pruefungsListe$|async as pruef ">
+                <ng-container *ngFor="let termin of pruef">
+                  <ng-container *ngIf="termin.ende&&termin.start.toDate().getTime()<planDat.getTime()&&termin.ende.toDate().getTime()>planDat.getTime()">
+                    {{termin.titel}}
+                  </ng-container>
+                  <ng-container *ngIf="!termin.ende&&termin.start.toDate().getTime()==planDat.getTime()">
+                    {{termin.titel}}
+                  </ng-container>
+                </ng-container>
+                </ng-container>
+                <!---->
+              </h1>
 
-
-  <div class="flex3">
-    <div id="left" class="noprint">
-      <button class="iconBut" (click)="rechts()"><img width="60pt "  style=" transform: rotate(180deg);"
-          src="../../../assets/iconsNav/pfeilSchwR.png" /></button>
-    </div>
-    <div id="main" class="noprint">
-      <h2>{{wochenTagauswahl}}</h2>
-    -->
-
-  <h1>Vertretung</h1>
   <div id="main">
+   
     <ng-container *ngIf="gesamtRaster$|async as gesRaster">
       <div class="wochenTagContainer" *ngFor="let wochenTag of ['montag','dienstag','mittwoch','donnerstag','freitag']">
         <div *ngIf="wochenTagauswahl.toLowerCase()===wochenTag||printAktiv">
-          <h2><button triggers="click" [autoClose]="true" [ngbTooltip]="WochenTage"
-              placement="right">{{wochenTag.substring(1,0).toUpperCase()+wochenTag.slice(1,wochenTag.length)}}</button>
+          <h2>
+            <button triggers="click" [autoClose]="true" [ngbTooltip]="WochenTage" placement="right">
+              {{wochenTag.substring(1,0).toUpperCase()+wochenTag.slice(1,wochenTag.length)}}
+            </button> 
           </h2>
           <ng-template #WochenTage>
             <div class="buttonreihe noprint wochentagButton">
@@ -64,10 +63,12 @@
                 {{std+1}}
               </th>
               <td *ngFor="let cell of zeile,index as r">
+
                 <ng-container *ngIf="this.klassenplanServ.terminListe$|async as termine ">
                   <ng-container *ngFor="let termin of termine">
                     <ng-container *ngIf="termin.klasse==r+1">
-                      <ng-container *ngIf="this.epoPlan.planDatum$|async as planDat">
+                      <!--hier sind noch alle klassen betroffen mit Fahrten-->
+                      
                         <ng-container
                           *ngIf="termin.ende&&(planDat.getTime()>=termin.start.toDate().getTime())&&(planDat.getTime()<=termin.ende.toDate().getTime())&&std===0">
                           <div style="width:30pt">
@@ -76,7 +77,7 @@
                             </div>
                           </div>
                         </ng-container>
-                      </ng-container>
+         
                     </ng-container>
                   </ng-container>
                 </ng-container>
@@ -91,7 +92,8 @@
                       <ng-container
                         *ngIf="cell&&cell[0]&&cell[0][0]&&cell[0][0]!=='StartUp'&&cell[0][0]!=='HU'&&cell[0][0]!='Schiene'||r<8; else ESR">
                         <ng-container *ngFor="let item of cell;index as i" class="fachItem">
-                          <div *ngIf="vertretungsraster2[wochenTagauswahl.toLowerCase()][r][std]>0||!vertretungsraster2[wochenTagauswahl.toLowerCase()][r][std][i]">
+                          <div
+                            *ngIf="vertretungsraster2[wochenTagauswahl.toLowerCase()][r][std]>0||!vertretungsraster2[wochenTagauswahl.toLowerCase()][r][std][i]">
                             <div class="fach">
                               {{ item[0]}}
                             </div>
@@ -128,7 +130,7 @@
                           <ng-container
                             *ngFor="let vertretung of vertretungsraster2[wochenTagauswahl.toLowerCase()][r][std]">
                             <div *ngFor="let v of vertretung;index as vertrI">
-                            
+
                               <div style="background-color:rgb(148, 97, 2);text-decoration: line-through;"
                                 class="lehrerFehlt">
                                 <span style='font-style:italic;'>
@@ -203,162 +205,21 @@
     </ng-container>
     <!--<app-einzelplaene class="noprint"></app-einzelplaene>
   -->
+
   </div>
 
-  <!--
-      <ng-container *ngIf="gesamtRaster$|async as gesRaster">
-        <table>
-          <tr>
-            <th></th>
-
-            <th *ngFor="let celll of gesRaster[wochenTagauswahl.toLowerCase()][0]; index as k">
-    
-              <div class="sonderEvent" *ngIf="k>7&&k<12&&sonderEvent(k+1)!==null">
-                <div class="kippbox">
-                  {{sonderEvent(k+1)}}
-                </div>
-              </div>
-
-              {{k+1}}
-
-            </th>
-          </tr>
-          <tr *ngFor="let zeile of gesRaster[wochenTagauswahl.toLowerCase()], index as std">
-            <th>
-              {{std+1}}
-            </th>
-            <ng-container *ngFor="let cell of zeile,index as r">
-
-              <td  *ngIf="r<=7||r===12||(r>7&&r<12&&sonderEvent(r+1)===null) else NULL">
-                <ng-container >
-                  <ng-container *ngIf="r>7&&r<12&&sonderEvent(r+1)!==null">
-                    {{ sonderEvent(r+1)    }} hohohohohohoho </ng-container>
-
-                  <button triggers="click" [autoClose]="true" class="{{hintergrundd(cell)}}" [ngbTooltip]="Lehrer2"
-                    placement="bottom" (click)="cellKlickk($event,std,r+1,cell)">
-                    <div *ngFor="let item of cell;index as i" class="fachItem">
-
-
-
-
-                      <ng-container
-                        *ngIf="!vertretungsraster2[wochenTagauswahl.toLowerCase()][r][std][i] else VERTRETUNG">
-
-                        <div class="fach" *ngIf="
-                         (item.fach!=='HU'&& item.fach!=='Schiene'&&item.fach!=='StartUp')
-                          ||
-                          (item.fach==='HU'&&r<8)
-                      ">
-                          {{ item.fach}}
-                        </div>
-                        <ng-container
-                          *ngIf="item.fach!='StartUp'&&item.fach!='HU'&&item.fach!='Schiene'||r<8; else ESR">
-                          <div
-                            class="{{markedd(item.lehrerKuerz)}} {{duplicatess(item.lehrerKuerz ,std,item.fach, zeile)}}">
-                            {{item.lehrerKuerz }}
-                          </div>
-
-                        </ng-container>
-
-
-                        <ng-template #ESR>
-                          <ng-container *ngIf="item.lehrerKuerz!==null">
-                            <ng-container
-                              *ngIf="markedd(item.lehrerKuerz)=='blueback'||duplicatess(item.lehrerKuerz,std, item.fach, zeile)=='error'">
-                              <div
-                                class=" {{markedd(item.lehrerKuerz)}} {{duplicatess(item.lehrerKuerz ,std, item.fach, zeile)}}">
-                                {{item.lehrerKuerz }}
-                              </div>
-                            </ng-container>
-                          </ng-container>
-                        </ng-template>
-                      </ng-container>
-                     
-
-
-
-                 
-                      <ng-template #VERTRETUNG>
-                        <div *ngFor="let v of vertretungsraster2[wochenTagauswahl.toLowerCase()][r][std][i]">
-
-                          <div style="background-color:rgb(148, 97, 2);text-decoration: line-through;"
-                            class="lehrerFehlt">
-                            <span style='font-style:italic;'>
-                              {{v.lehrer?v.lehrer.kuerzel:" "}}</span>
-                            {{v.fach}} </div>
-                          <div style="background-color:rgb(139, 52, 1);" class="vertretungsLehrer">
-                            <ng-container *ngIf="v.vertretung!==null">
-                              <span
-                                style="font-weight:bold">{{v.vertretung.lehrer[0]?v.vertretung.lehrer[0].kuerzel:"?"}}</span>
-                              {{v.vertretung.fach}}
-                            </ng-container>
-                            <ng-container *ngIf="v.vertretungsLehrer!==null">
-                              <span style="font-weight:bold">{{v.vertretungsLehrer.kuerzel}}</span>
-                            </ng-container>
-                            <ng-container *ngIf="v.notiz!=null">
-                              <span>{{v.notiz}}</span>
-                            </ng-container>
-                          </div>
-
-                        </div>
-
-                      </ng-template>
-
-                    </div>
-
-
-                  </button>
-                </ng-container>
-
-                <ng-template #Lehrer2>
-                  <ng-container *ngIf="klassenplanServ.klassenArray$|async as klassArray">
-                    <ng-container *ngFor="let elementt of klassArray[r+1]">
-                      <ng-container
-                        *ngIf="elementt.zuweisung.uebstunde.length>0&&duplicateToggle(zeile,elementt)!=='error'">
-                        <div class="toggle-items" *ngIf="elementt!=undefined"
-                          (click)="togglezellenClickk(std,elementt,cell)">
-                           <ng-container
-                              *ngIf="elementt.fach!='HU'&&elementt.fach!='StartUp'&&elementt.fach!='Schiene'||elementt.klasse<9">
-                              <ng-container *ngFor="let le of elementt.lehrer">
-                                {{le?le.kuerzel:"Lehrer"}}
-                              </ng-container>
-                            </ng-container>
-                            (<span class="{{duplicateToggle(zeile,elementt)}}">
-                              {{elementt?elementt.fach:"kein Fach"}}
-                            </span>)
-                     
-                        </div>
-                      </ng-container>
-                    </ng-container>
-                  </ng-container>
-
-                  <ng-container *ngFor="let lehri of freieLehrer(std)">
-                    <div class="toggle-items" (click)="freieLehrerClickk(lehri,cell)">
-                      {{lehri.kuerzel}}
-                    </div>
-                  </ng-container>
-                  <div class="toggle-items" (click)="freii(cell)">
-                    frei
-                  </div>
-                  <div class="toggle-items" (click)="selbstaendigg(cell)">
-                    Arbeitsauftrag
-                  </div>
-
-                </ng-template>
-              </td>
-              <ng-template #NULL>
-                <td style="width:2pt;"></td>
-              </ng-template>
-            </ng-container>
-          </tr>
-        </table>
-      </ng-container>
-    -->
+</ng-container>
 
 </div>
 <div id="right" class="noprint">
 
-  <button class="iconBut" (click)="links()"><img width="60pt" src="../../../assets/iconsNav/pfeilSchwR.png" /></button>
+  <button class="iconBut" (click)=" wocheNext() "><img width="60pt"
+      src="../../../assets/iconsNav/pfeilSchwR.png" /></button>
+</div>
+<div id="left" class="noprint">
+
+  <button class="iconBut" (click)=" wocheVorher() "><img style="transform: rotate(180deg);" width="60pt"
+      src="../../../assets/iconsNav/pfeilSchwR.png" /></button>
 </div>
 
 

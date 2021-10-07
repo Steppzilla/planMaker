@@ -184,7 +184,7 @@ constructor(public ferienTermServ: FerientermineService, public klassenplan: Kla
 
   this.esr_plan.next(blankoPlan);
   let datum = new Date();
-  this.planDatum.next(addDays(datum,30));
+ this.planDatum.next(addDays(datum,0));
 
 
 
