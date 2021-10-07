@@ -1,6 +1,3 @@
-
-
-
 * {
   padding: 0pt;
   margin: 0pt;
@@ -175,6 +172,17 @@ th {
 
 #right button {
   right: 0pt;
+}
+//aus ESR:first-child
+.sonderBox{//Schrift bei ferientagen oder prüfungen
+  font-size:12pt;
+  line-height:6pt;
+  height:0pt;
+position:relative;
+top:40pt;
+left:-25pt;
+transform: rotate(90deg);
+width:90pt;
 }
 
 @media only screen and (max-width: 760px),
@@ -384,15 +392,4 @@ th {
     }
   }
 
-}
-
-.sonderBox{//Schrift bei ferientagen oder prüfungen
-  font-size:12pt;
-  line-height:6pt;
-  height:0pt;
-position:relative;
-top:70pt;
-left:-5pt;
-transform: rotate(90deg);
-width:50pt;
 }

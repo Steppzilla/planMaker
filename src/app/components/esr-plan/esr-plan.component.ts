@@ -636,7 +636,7 @@ export class EsrPlanComponent implements OnInit {
       this.selectLehrer = data;
     });
 
-    this.loginServ.termineladen();
+   
   }
 
   ngOnInit(): void {}

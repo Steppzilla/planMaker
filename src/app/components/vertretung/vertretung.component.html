@@ -92,7 +92,7 @@
                       <ng-container
                         *ngIf="cell&&cell[0]&&cell[0][0]&&cell[0][0]!=='StartUp'&&cell[0][0]!=='HU'&&cell[0][0]!='Schiene'||r<8; else ESR">
                         <ng-container *ngFor="let item of cell;index as i" class="fachItem">
-                          <div
+                          <div class="fachItem"
                             *ngIf="vertretungsraster2[wochenTagauswahl.toLowerCase()][r][std]>0||!vertretungsraster2[wochenTagauswahl.toLowerCase()][r][std][i]">
                             <div class="fach">
                               {{ item[0]}}
@@ -107,7 +107,7 @@
                       <ng-template #ESR>
                         <ng-container *ngIf="cell&&cell[0]&&cell[0][0]">
                           <!--        {{fachinWort(cell[0][0])}}-->
-                          <div *ngFor="let ei of Epoo[zahlinKlasse(r+1)][fachinWort(cell[0][0])];index as Ind">
+                          <div class="fachItem" *ngFor="let ei of Epoo[zahlinKlasse(r+1)][fachinWort(cell[0][0])];index as Ind">
                             <ng-container
                               *ngIf="vertretungsraster2[wochenTagauswahl.toLowerCase()][r][std]>0||!vertretungsraster2[wochenTagauswahl.toLowerCase()][r][std][Ind]">
                               <div class="fach">
