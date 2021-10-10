@@ -3,6 +3,11 @@ $background2:white;
 $color:black;
 $back-light:rgb(228, 227, 227);
 
+$rhybackground: rgb(255, 144, 133);
+$epoBackground: rgb(207, 198, 98);
+$schieneBackground: rgb(176, 219, 130);
+$uebBackground:rgb(168, 168, 236);
+
 $lila: rgb(149, 16, 121);
 
 
@@ -19,239 +24,375 @@ th {
 }
 
 #alles {
- 
   color: $schriftfarbe;
-
   width: 100%;
 }
 
-table {
-  width: 100%;
-}
 
-td {
-  min-width: 48pt;
-  width:80pt;
-}
+
+
+
 
 tr:nth-child(odd) {
-  
-
   td {
     border-right: 1pt solid $background
   }
 }
 
 tr:nth-child(even) {
-  background-color:$back-light;
+  background-color: $back-light;
 
   td {
     border-right: 1pt solid $background2;
   }
 }
-.tdBox{
-  display:flex;
-  flex-wrap:wrap;
 
-  .esrButtonContainer{
-    width:50%;
-    display:flex;
-    flex-wrap:wrap;
-    button{width:20%;}
-  }
-  
-  
-  .lehrerkuerzelBox{
-    width:45%;
-    display:flex;
-    flex-wrap:wrap;
-    div{
-      width:30%;
-    }
-  
-  }
-  
+
+
+
+button {
+  border: 1pt black solid;
+  border-radius: 3pt;
 }
 
-
-.dropButt {
-  width: 100%;
-  text-align: center;
-  min-height: 10pt;
-}
-
-.oben {
-  display: grid;
-  grid-template-columns: 8pt auto;
-  
-}
-
-th {
-  text-align: center;
-}
-
-.aufteilungUeRES {
-  display: flex;
-}
-
-.aufteilungUeRES .butti {
-  padding: 2pt;
-  width: 100%;
-  text-align: center;
-}
-
-
-
-.add {
-  text-align: center;
-  margin: auto;
-}
-
-.add img, .minus img{
-  width:10pt;
-  filter:invert(50%);
-  //filter:grayscale(0.5);
-  //-webkit-filter:saturate(100%); 
-}
-
-
-button{
- border:1pt black solid;
- border-radius:3pt;
-}
 .ueb {
-  background-color: rgb(181, 162, 250);
+  background-color: $uebBackground;
 }
 
 .rhy {
-  background-color: rgb(192, 69, 69);
+  background-color: $rhybackground;
 }
 
 .epo {
- background-color: rgb(197, 152, 38);
+  background-color: $epoBackground;
 }
 
 .sch {
-  background-color: rgb(61, 160, 99);
+  background-color: $schieneBackground;
 }
 
 .nix {
-  background-color: rgb(189, 183, 183);
+  background-color: rgb(227, 228, 227);
 }
 
+
+.tdBox {
+  display: flex;
+
+  .esrButtonContainer {
+    width: 40%;
+    display: flex;
+
+    button {
+      width: 20%;
+    }
+  }
+
+  .lehrerkuerzelBox {
+    width: 60%;
+    display: flex;
+
+    div {
+      button {
+        div {
+          width: 100%;
+          display: flex;
+
+          div {
+            width:auto;
+          }
+
+          //alternativ: rhy, epo einzeln
+
+        }
+      }
+    }
+  }
+
+  .esrPrintAktiv {
+    width: auto;
+    display: flex;
+
+    button {
+      width: auto;
+    }
+  }
+
+  .lehrerkuerzelPrintAktiv {
+    display: flex;
+    width: auto;
+
+    div {
+      button {
+        div {
+          display: flex;
+
+        }
+      }
+    }
+  }
+}
+
+
 @media print {
+
   * {
+    padding: 0pt;
     color: black;
     background-color: white;
-    
-  }
-  button{
-    border:none;
   }
 
-  .oben {
-    display: block;
+  button {
+    border: none;
   }
 
-  .aufteilungUeRES .butti {
-    padding: 0pt;
-  }
-
-  .itemBehaelter {
-    display: grid;
-    grid-template-columns: 50% 50%;
-  }
-
-  .dropButton {
-    background-color: white;
-  }
-
-  .add {
-    display: none;
-  }
-
-  
 
   .ueb {
     // background-color:rgb(19, 64, 100);
     color: rgb(0, 113, 241);
-    background-color:inherit;
-    border:none;
- 
   }
 
   .rhy {
     color: rgb(250, 17, 17);
-    background-color:inherit;
-    border:none;
-
   }
 
   .epo {
     color: rgb(255, 183, 0);
-    background-color:inherit;
-    border:none;
-
   }
 
   .sch {
     color: rgb(122, 240, 167);
-    background-color:inherit;
-    border:none;
-
-
   }
 
   .nix {
     display: none;
   }
 
+  .ueb,
+  .rhy,
+  .epo,
+  .sch {
+    background-color: inherit;
+  }
 
 
-  tr:nth-child(odd) {
+  tr {
+    th {
+   //   background-color: yellow;
+      border:1pt black solid;
+      overflow:visible;
+     div{position: relative;
+      left: -0pt;
+      top: 10pt;
+      width:0pt;
+      height:10pt;
+    }
+      .tdBox { 
+      //  background-color:orange;
+        overflow: visible;
+        -webkit-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        -o-transform: rotate(90deg);
+        -ms-transform: rotate(90deg);
+        transform-origin: 0 0;
+
+      .esrPrintAktiv {
+       //   background-color: red;
+          display: flex;
+          flex-direction: column-reverse;
+          white-space: nowrap;
+          overflow: visible;
+          position: relative;
+          left: 14pt;
+          top:-15pt;
+          height:12pt; //Breite der senkrechten esa-gesamt-zahl
+        button {
+          overflow: visible;
+          width:25pt;
+          padding-left:5pt;
+         //height:20pt; //esa gesamt breite
+        }
+      }
+      }
+    }
+
+    td {
+      border: 1pt black solid;
+      overflow: hidden;
+
+      .tdBox {
+       
+        display: flex;
+        flex-direction: column;
+        white-space: nowrap;
+        overflow: visible;
+        -webkit-transform: rotate(90deg);
+        -moz-transform: rotate(90deg);
+        -o-transform: rotate(90deg);
+        -ms-transform: rotate(90deg);
+        transform-origin: 0 0;
+
+        .esrPrintAktiv {
+  
+          display: flex;
+          flex-direction: column;
+          position: relative;
+          left: 0pt;
+          top:-52pt;
+          width:8pt;
+          button {
+            width: 8pt;
+            line-height: 1em;
+          }
+
+        }
+
+        .lehrerkuerzelPrintAktiv {
+          text-align: left;
+          line-height:1em;
+          width:8pt;
+          position: relative;
+          left: 70pt;
+          top:-12pt;
+          display: flex;
+          flex-direction: column;
+
+          div {
+            button {
+              div {
+                div {
+                  line-height: 1em;
+                  height: 90pt;
+                }
+              }
+            }
+          }
+        }
+
+      }
+    }
+  }
+
+  /*
+  tr {
+    th {
+      .tdBox {
+
+        button {
+          width: auto;
+          -webkit-transform: rotate(90deg);
+          -moz-transform: rotate(90deg);
+
+          -o-transform: rotate(90deg);
+          -ms-transform: rotate(90deg);
+          transform: rotate(90deg);
+        //  background-color: green;
+
+          border: none;
+          padding: none;
+          margin: none;
+          overflow: hidden;
+          overflow: hidden;
+          font-size: 12pt;
+
+
+        }
+
+      }
+    }
+  }*/
+  /*
+  tr {
     background-color: white;
 
     td {
-      border-right: 1pt black solid;
+      border: 1px solid black;
+      width: auto;
+      height:100%;
+     // overflow: hidden;
+
+      .tdBox {
+        width: auto;
+        display: flex;
+
+
+        color: green;
+
+        .esrPrintAktiv {
+          width: auto;
+ 
+          display: flex;
+         // overflow: hidden;
+
+          button {
+            font-size: 12pt;
+
+            -webkit-transform: rotate(90deg);
+            -moz-transform: rotate(90deg);
+            -o-transform: rotate(90deg);
+            -ms-transform: rotate(90deg);
+            transform: rotate(90deg);
+            //background-color: green;
+            line-height:1em;
+            border: none;
+            padding: 0pt;
+            margin: 0pt;
+
+
+
+          }
+
+        }
+
+        .lehrerkuerzelPrintAktiv {
+          margin-top:5pt;
+          height: 100%;
+          display: flex;
+        //  background-color: green;
+
+          div {
+            width: auto;
+            -webkit-transform: rotate(270deg);
+            -moz-transform: rotate(270deg);
+            -o-transform: rotate(270deg);
+            -ms-transform: rotate(270deg);
+            transform: rotate(270deg);
+
+            button {
+ 
+              div { 
+                display: flex;
+                width: auto;
+                height:27pt; //höhe ist breite des senkrechten Textes
+                div{
+                  font-size: 12pt;
+                  width:12pt;
+                }
+              }
+            }
+          }
+        }
+      }
     }
+    
+  }*/
+
+
+
+  body {
+    background: none;
   }
 
-  tr:nth-child(even) {
-    td {
-      border-right: 1pt black solid;
-      
-
-    }
-  }
-
-  tr {
-    border-top: 1px solid black;
-  }
 
 
 }
 
 
 
-th {
- 
- 
- // text-shadow: 1px 1px $schatten;
 
-}
+th.links {
 
-th.links{
-
-  color:   $lila;
+  color: $lila;
   font-weight: bold;
-
-}
-
-td{
- // text-shadow: 1px 1px $schatten;
-}
-
-#tabell>tr>td{
-  width:auto;
 
 }

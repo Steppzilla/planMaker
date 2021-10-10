@@ -1,14 +1,16 @@
 <div id="alles">
   <h1>Lehrer-Zuordnung
-    <button (click)="klasseWaehlen(gewaehlteKlasse-1)">
-      -
-    </button>
-    <button class="noprint" triggers="click" placement="bottom" class="" [autoClose]="true" [ngbTooltip]="Klassen">
-      {{gewaehlteKlasse}}
-    </button>
-    <button (click)="klasseWaehlen(gewaehlteKlasse+1)">
-      +
-    </button>
+    <ng-container *ngIf="!printAktiv">
+      <button (click)="klasseWaehlen(gewaehlteKlasse-1)">
+        -
+      </button>
+      <button class="noprint" triggers="click" placement="bottom" class="" [autoClose]="true" [ngbTooltip]="Klassen">
+        {{gewaehlteKlasse}}
+      </button>
+      <button (click)="klasseWaehlen(gewaehlteKlasse+1)">
+        +
+      </button>
+    </ng-container>
     <ng-template #Klassen>
       <button (click)="klasseWaehlen(1)">1</button>
       <button (click)="klasseWaehlen(2)">2</button>
@@ -23,29 +25,22 @@
       <button (click)="klasseWaehlen(11)">11</button>
       <button (click)="klasseWaehlen(12)">12</button>
       <button (click)="klasseWaehlen(13)">13</button>
-
-
     </ng-template>
   </h1>
 
-
-
   <button class="noprint" (click)="print()">Zuweisung drucken</button>
-
-  <ng-container *ngIf="fachElemente$| async as Rhythmus">
+  <ng-container *ngIf="fachElemente$| async as Fachh">
     <table id="tabell">
       <tr>
         <th></th>
-
-        <ng-container *ngFor="let cell of Rhythmus[0], index as kla">
+        <ng-container *ngFor="let cell of Fachh[0], index as kla">
           <th *ngIf="printAktiv||gewaehlteKlasse-1===kla">
             <div *ngIf="printAktiv">
               {{kla+1}}
             </div>
             <br>
             <div class="tdBox">
-              <div class="lehrerkuerzelBox"></div>
-              <div class="esrButtonContainer">
+              <div class="{{classPrintAktiv('esrButtonContainer')}}">
                 <button class="ueb">{{ rechner(kla+1)[0]}}</button>
                 <ng-container *ngIf="kla>=8&&kla!==12">
                   <button class="rhy">{{ rechner(kla+1)[1]}}</button>
@@ -55,61 +50,86 @@
 
                 </ng-container>
               </div>
+              <div class="{{classPrintAktiv('lehrerkuerzelBox')}}"></div>
             </div>
 
           </th>
         </ng-container>
       </tr>
 
-      <ng-container *ngFor="let reihe of Rhythmus index as fachIndex">
+      <ng-container *ngFor="let reihe of Fachh index as fachIndex">
         <ng-container *ngIf="printAktiv||reihe[gewaehlteKlasse-1]">
           <tr>
-            <th class="links">{{faecher[fachIndex]}}</th>
-
+            <th class="links">
+              <span class="add noprint">
+                <img class="noprint" width="12pt" (click)="loeschen(faecher[fachIndex],gewaehlteKlasse)"
+                  src="../../../assets/icons/minus.png" />
+              </span>
+              {{faecher[fachIndex]}}
+            </th>
             <ng-container *ngIf="fachIndex>0">
-
               <ng-container *ngFor="let cell of reihe, index as klas">
                 <td *ngIf="printAktiv||klas==gewaehlteKlasse-1">
                   <!-- Nur in leeren Zellen nen plus anzeigen-->
-
                   <div class="tdBox">
-                    <div class="lehrerkuerzelBox">
+
+                    <div *ngIf="cell&&cell[0]" class="{{classPrintAktiv('esrButtonContainer')}}">
+                      <button class=" {{farbeUESR('uebstunde',cell[0].uebstunde)}}"
+                        (click)="wochenstundenVerteilenn($event,'ueb',cell,klas+1)" >
+                        {{cell[0].uebstunde!=0?cell[0].uebstunde:"Ü"}}
+                      </button>
+                      <ng-container *ngIf="klas>=8">
+                        <button class=" {{farbeUESR('rhythmus',cell[0].rhythmus)}}"
+                          (click)="wochenstundenVerteilenn($event,'rhythmus',cell,klas+1)" >
+                          {{cell[0].rhythmus!=0?cell[0].rhythmus:"R"}}
+                        </button>
+                        <button class=" {{farbeUESR('epoche',cell[0].epoche)}}"
+                          (click)="wochenstundenVerteilenn($event,'epoche',cell,klas+1)" >
+                          {{cell[0].epoche!=0?cell[0].epoche:"E"}}
+                        </button>
+                        <button class=" {{farbeUESR('schiene',cell[0].schiene)}}"
+                          (click)="wochenstundenVerteilenn($event,'schiene',cell,klas+1)">
+                          {{cell[0].schiene!=0?cell[0].schiene:"S"}}
+                        </button>
+                      </ng-container>
+
+                    </div>
+                    <div class="{{classPrintAktiv('lehrerkuerzelBox')}}">
                       <div *ngFor="let item of cell">
                         <ng-container
                           *ngIf="item.fach!='StartUp'&&item.fach!='HU'&&item.fach!='Schiene'||item.klasse<=8">
                           <button class="dropButt" [ngbTooltip]="Lehrer2" placement="right" triggers="click"
                             (click)="mainClickk($event,item)">
 
-                            <span class="kuerzel {{marked(item.lehrer[0])}}" *ngFor="let lehre of item.lehrer">
-                              {{lehre.kuerzel?lehre.kuerzel:"Lehrer?"}}
-    
-                              <ng-container *ngIf="lehrerArray$|async as resAnzahl">
-                                <span class=" ueb">
-                                  <ng-container
-                                  *ngIf="resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].ueb>0">
-                                 {{resAnzahl[lehre.kuerzel].ueb}}
-                                 </ng-container>
-                                </span>
-                                  <span class=" rhy"  style="font-style:italic">
-                                    <ng-container
-                                    *ngIf="resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].rhy>0">
-                                   {{resAnzahl[lehre.kuerzel].rhy}}
-                                   </ng-container>
-                                  </span>
-                                  <span class=" epo"    style="font-style:italic">
-                                    <ng-container
-                                    *ngIf="resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].epo>0">
-                                   {{resAnzahl[lehre.kuerzel].epo}}
-                                   </ng-container>
-                                  </span>
-                                  <span class=" sch"   style="font-style:italic">
-                                    <ng-container
-                                    *ngIf="resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].sch>0">
-                                   {{resAnzahl[lehre.kuerzel].sch}}
-                                   </ng-container>
-                                  </span>
+                            <div class="kuerzel {{marked(item.lehrer[0])}}" *ngFor="let lehre of item.lehrer">
+                              <div>{{lehre.kuerzel?lehre.kuerzel:"Lehrer?"}}
+                              </div>
+
+                              <ng-container *ngIf="!printAktiv&&lehrerArray$|async as resAnzahl">
+                                (
+                                <div class=" ueb">
+                                  <ng-container *ngIf="resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].ueb>0">
+                                    {{resAnzahl[lehre.kuerzel].ueb}}
+                                  </ng-container>
+                                </div>
+                                <div class=" rhy" >
+                                  <ng-container *ngIf="resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].rhy>0">
+                                    {{resAnzahl[lehre.kuerzel].rhy}}
+                                  </ng-container>
+                                </div>
+                                <div class=" epo">
+                                  <ng-container *ngIf="resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].epo>0">
+                                    {{resAnzahl[lehre.kuerzel].epo}}
+                                  </ng-container>
+                                </div>
+                                <div class=" sch" >
+                                  <ng-container *ngIf="resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].sch>0">
+                                    {{resAnzahl[lehre.kuerzel].sch}}
+                                  </ng-container>
+                                </div>
+                                )
                               </ng-container>
-                            </span>
+                            </div>
                             <ng-container *ngIf="!item.lehrer[0]">
                               Lehrer?
                             </ng-container>
@@ -133,33 +153,8 @@
                         </ng-container>
                       </div>
                     </div>
-                    <div *ngIf="cell&&cell[0]" class="esrButtonContainer">
-                      <button class=" {{farbeUESR('uebstunde',cell[0].uebstunde)}}"
-                        (click)="wochenstundenVerteilenn($event,'ueb',cell,klas+1)" style="font-style:italic">
-                        {{cell[0].uebstunde!=0?cell[0].uebstunde:"Ü"}}
-                      </button>
-                      <ng-container *ngIf="klas>=8">
-                        <button class=" {{farbeUESR('rhythmus',cell[0].rhythmus)}}"
-                          (click)="wochenstundenVerteilenn($event,'rhythmus',cell,klas+1)" style="font-style:italic">
-                          {{cell[0].rhythmus!=0?cell[0].rhythmus:"R"}}
-                        </button>
-                        <button class=" {{farbeUESR('epoche',cell[0].epoche)}}"
-                          (click)="wochenstundenVerteilenn($event,'epoche',cell,klas+1)" style="font-style:italic">
-                          {{cell[0].epoche!=0?cell[0].epoche:"E"}}
-                        </button>
-                        <button class=" {{farbeUESR('schiene',cell[0].schiene)}}"
-                          (click)="wochenstundenVerteilenn($event,'schiene',cell,klas+1)" style="font-style:italic">
-                          {{cell[0].schiene!=0?cell[0].schiene:"S"}}
 
-                        </button>
 
-                      </ng-container>
-
-                    </div>
-
-                    <div class="add noprint">
-                      <img (click)="loeschen(faecher[fachIndex],klas+1)" src="../../../assets/icons/minus.png" />
-                    </div>
                   </div>
 
                 </td>
@@ -193,7 +188,7 @@
 
       <ng-template #Faecher>
 
-        <ng-container *ngFor="let reihe of Rhythmus; index as fachIndex">
+        <ng-container *ngFor="let reihe of Fachh; index as fachIndex">
           <ng-container *ngIf="!reihe[gewaehlteKlasse-1]">
 
             <button (click)=" this.klassenplanServ.elementHinzufuegen(faecher[fachIndex], gewaehlteKlasse)">

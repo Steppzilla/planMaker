@@ -13,6 +13,9 @@ $epoBackground: rgb(207, 198, 98);
 $schieneBackground: rgb(176, 219, 130);
 
 
+
+
+
 .rhythmus{
 background-color:$rhybackground;
 }
@@ -83,17 +86,6 @@ background-color:$rhybackground;
   border: none;
 }
 
-.planRahmen,
-#gesamt {
-  //color: $color;
-}
-
-
-
-
-.kuerzel {
-  //color: $kuerzel;
-}
 
 .esrWahl,
 .zeile {
@@ -119,8 +111,57 @@ background-color:$rhybackground;
   font-size: 6pt;
   width:8pt;
 }
+//Computeransicht ohne druck:
+
+#main{
+  .abschnittContainer{
+
+    .abschnitt{
+      .tagesContainer{
+        line-height:1.3;
+        .Monat{
+          margin-bottom: 4pt;
+          font-size:11pt;
+
+        }
+        .Wochentag{
+          font-size:8pt;
+          
+        }
+        .Datum{
+          font-size:8pt;
+         
+        }
+        .buttonBox{
+          div{ //.rhy, epo etc
+            button{
+              background-color:lightsteelblue;
+              border-radius: 5pt;
+              div{
+                font-size:10pt;
+                span{
+                  font-size:10pt;
+                }
+
+              }
+            }
+          }
+          .rhy button{background-color:$rhybackground;}
+          .epo button{background-color:$epoBackground;}
+          .sch button{background-color:$schieneBackground;}
+
+        }
+      }
+    }
+  }
+}
+//Ende ansicht ohne druck
 
 //Tabelle: 
+
+
+
+
 .abschnitt {
   display: flex;
   flex-wrap: wrap;

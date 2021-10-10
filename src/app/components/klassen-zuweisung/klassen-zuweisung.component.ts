@@ -72,71 +72,52 @@ export class KlassenZuweisungComponent implements OnInit {
         let neuObj: {
           [key: string]: {}
         } = {};
-        let lehrer = this.lehrerListe.slice(1, this.lehrerListe.length);
-        lehrer.forEach(le => {
-          if (obj[le.kuerzel]) {
-            let neu = {
-              ueb: 0,
-              sch: 0,
-              epo: 0,
-              rhy: 0
-            };
-            obj[le.kuerzel].forEach(ele => {
-              //HU und alle sammelbehälter nicht doppelt zählen:
-              if(ele.fach!==Fach.hauptunterricht&&ele.fach!==Fach.rhythmisch&&ele.fach!==Fach.schiene){
-              neu.ueb = neu.ueb + ele.uebstunde;
-              neu.sch = neu.sch + ele.schiene;
-              neu.rhy = neu.rhy + ele.rhythmus;
+        if (this.lehrerListe) {
+          let lehrer = this.lehrerListe.slice(1, this.lehrerListe.length);
+          lehrer.forEach(le => {
+            if (obj[le.kuerzel]) {
+              let neu = {
+                ueb: 0,
+                sch: 0,
+                epo: 0,
+                rhy: 0
+              };
+              obj[le.kuerzel].forEach(ele => {
+                //HU und alle sammelbehälter nicht doppelt zählen:
+                if (ele.fach !== Fach.hauptunterricht && ele.fach !== Fach.rhythmisch && ele.fach !== Fach.schiene) {
+                  neu.ueb = neu.ueb + ele.uebstunde;
+                  neu.sch = neu.sch + ele.schiene;
+                  neu.rhy = neu.rhy + ele.rhythmus;
+                }
+              });
+              if (neuObj[le.kuerzel] === undefined) {
+                neuObj[le.kuerzel] = neu;
               }
-            });
-            if (neuObj[le.kuerzel] === undefined) {
-              neuObj[le.kuerzel] = neu;
             }
-          }
 
-        });
+          });
+        }
 
         return neuObj;
       }));
 
 
-
-  /*  alleLehrer$ =   this.lehrerArray$.pipe(
-      //tap(lkj => console.log(lkj)),
-      map(z => {
-        //   let ar = new Array();
-         return  this.lehrerListe.slice(1, this.lehrerListe.length).map(gg => {
-          let lehrerElemente = z[gg.kuerzel];
-          let wochenPlan = new Array(11).fill(null).map(g =>
-            new Array(5).fill(null).map(() => ({
-              fach: null,
-              klasse: []
-            }))
-          );
-          if (lehrerElemente !== undefined) {
-            lehrerElemente.forEach(element => {
-              element.zuweisung.uebstunde.forEach(zuweisung => {
-                if (wochenPlan[zuweisung.stunde][this.tagInZahl(zuweisung.wochentag)].fach === null) {
-                  wochenPlan[zuweisung.stunde][this.tagInZahl(zuweisung.wochentag)].fach = element.fach;
-                }
-                wochenPlan[zuweisung.stunde][this.tagInZahl(zuweisung.wochentag)].klasse.push(element.klasse);
-              });
-            });
-          }
-          return {
-            kuerzel: gg.kuerzel,
-            planB: wochenPlan,
-            //  planB:
-          }
-        });
-      }),
-      tap(z => {
-        // console.log(z);
-      })
-    );*/
+      classPrintAktiv(klasse){
+        switch(klasse){
+          case "esrButtonContainer": if(this.printAktiv){return 'esrPrintAktiv'}else{return klasse};
+          case "lehrerkuerzelBox": if(this.printAktiv){return 'lehrerkuerzelPrintAktiv'}else{return klasse};
+        }
+      }
 
   klasseWaehlen(zahl) {
-    this.gewaehlteKlasse = zahl;
+    if (zahl === 14) {
+      this.gewaehlteKlasse = 1;
+    } else if (zahl === 0) {
+      this.gewaehlteKlasse = 13;
+    } else {
+      this.gewaehlteKlasse = zahl;
+    }
+
   }
 
   marked(lehr) {

@@ -967,7 +967,24 @@ export class EinzelplaeneComponent implements OnInit {
 
 
 
+  formatGesamtplan(klasse){
+    if(this.lehrerServ.gewaehlterPlan==="gesamtplan"){
+      switch(klasse){
+        case 'plaeneContainer': return "gesamtPlanContainer";
+        case 'stundenPlanTable': return "gesamtPlanStundenPlan";
+        default: "error";
+      }
+    }else if(this.lehrerServ.gewaehlterPlan==="ESR"){
+      switch(klasse){
+      case 'plaeneContainer': return "gesamtPlanContainer";
+      case 'EpochenContainer': return "gesamtPlanEpoche";
+      default: "error";
+      }
+    }else{
+      return klasse;
+    }
 
+  }
 
 
 
