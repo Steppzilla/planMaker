@@ -25,7 +25,8 @@ th {
 
 #alles {
   color: $schriftfarbe;
-  width: 100%;
+margin-left: auto;
+margin-right:auto;
 }
 
 
@@ -80,36 +81,44 @@ button {
   display: flex;
 
   .esrButtonContainer {
-    width: 40%;
+    width: 170pt;
     display: flex;
 
     button {
-      width: 20%;
+      width: 40pt;
     }
   }
 
   .lehrerkuerzelBox {
-    width: 60%;
+    width: 120pt;
     display: flex;
+   // background-color: green;
 
     div {
       button {
         div {
-          width: 100%;
+          width: 60pt;
           display: flex;
 
-          div {
-            width:auto;
+          div { //Esr behälter bei lehrerkuerzlen
+            width:8pt;
+          }
+          :first-child{ //Kuerzel
+            width:20pt;
+          }
+          :nth-child(2){
+            width:14pt;
           }
 
           //alternativ: rhy, epo einzeln
 
         }
+      
       }
     }
   }
 
-  .esrPrintAktiv {
+  .esrPrintAktiv {//wenn in voller Breite
     width: auto;
     display: flex;
 
@@ -118,7 +127,7 @@ button {
     }
   }
 
-  .lehrerkuerzelPrintAktiv {
+  .lehrerkuerzelPrintAktiv { //Wenn in voller breite, alle klassen
     display: flex;
     width: auto;
 

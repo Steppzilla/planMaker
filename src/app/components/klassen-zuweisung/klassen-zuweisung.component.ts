@@ -73,7 +73,7 @@ export class KlassenZuweisungComponent implements OnInit {
           [key: string]: {}
         } = {};
         if (this.lehrerListe) {
-          let lehrer = this.lehrerListe.slice(1, this.lehrerListe.length);
+          let lehrer = this.lehrerListe.slice(0, this.lehrerListe.length);
           lehrer.forEach(le => {
             if (obj[le.kuerzel]) {
               let neu = {
@@ -83,11 +83,20 @@ export class KlassenZuweisungComponent implements OnInit {
                 rhy: 0
               };
               obj[le.kuerzel].forEach(ele => {
+           //     if(ele.lehrer[0].kuerzel==="Wo"){
+            //      console.log(ele);
+             //   }
                 //HU und alle sammelbehälter nicht doppelt zählen:
-                if (ele.fach !== Fach.hauptunterricht && ele.fach !== Fach.rhythmisch && ele.fach !== Fach.schiene) {
+                if ((ele.fach !== Fach.hauptunterricht && ele.fach !== Fach.rhythmisch && ele.fach !== Fach.schiene)||(ele.fach!=="HU"&&ele.fach!=="StartUp"&&ele.fach!=="Schiene")) {
                   neu.ueb = neu.ueb + ele.uebstunde;
                   neu.sch = neu.sch + ele.schiene;
                   neu.rhy = neu.rhy + ele.rhythmus;
+                  neu.epo =  neu.epo+ele.epoche;
+               }else{ //Wenn HU dann nix
+             //   neu.sch = neu.sch + ele.schiene;
+             //   neu.rhy = neu.rhy + ele.rhythmus;
+              //  neu.epo=neu.epo+ele.epoche;
+
                 }
               });
               if (neuObj[le.kuerzel] === undefined) {
