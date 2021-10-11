@@ -141,6 +141,7 @@ button {
     color: black;
     background-color: white;
   }
+  
 
   button {
     border: none;
@@ -174,8 +175,15 @@ button {
   .sch {
     background-color: inherit;
   }
+/* FÜR BREITBILD, dann aber im css und Gesamtplandruck kaputt
 
-
+//Dies muss global sein:first-child
+  body {
+    background: none;
+      writing-mode: tb-rl;
+      height:100%; width:100%; 
+  }
+  //dies bleibt hier:
   tr {
     th {
    //   background-color: yellow;
@@ -273,115 +281,8 @@ button {
     }
   }
 
-  /*
-  tr {
-    th {
-      .tdBox {
-
-        button {
-          width: auto;
-          -webkit-transform: rotate(90deg);
-          -moz-transform: rotate(90deg);
-
-          -o-transform: rotate(90deg);
-          -ms-transform: rotate(90deg);
-          transform: rotate(90deg);
-        //  background-color: green;
-
-          border: none;
-          padding: none;
-          margin: none;
-          overflow: hidden;
-          overflow: hidden;
-          font-size: 12pt;
-
-
-        }
-
-      }
-    }
-  }*/
-  /*
-  tr {
-    background-color: white;
-
-    td {
-      border: 1px solid black;
-      width: auto;
-      height:100%;
-     // overflow: hidden;
-
-      .tdBox {
-        width: auto;
-        display: flex;
-
-
-        color: green;
-
-        .esrPrintAktiv {
-          width: auto;
  
-          display: flex;
-         // overflow: hidden;
-
-          button {
-            font-size: 12pt;
-
-            -webkit-transform: rotate(90deg);
-            -moz-transform: rotate(90deg);
-            -o-transform: rotate(90deg);
-            -ms-transform: rotate(90deg);
-            transform: rotate(90deg);
-            //background-color: green;
-            line-height:1em;
-            border: none;
-            padding: 0pt;
-            margin: 0pt;
-
-
-
-          }
-
-        }
-
-        .lehrerkuerzelPrintAktiv {
-          margin-top:5pt;
-          height: 100%;
-          display: flex;
-        //  background-color: green;
-
-          div {
-            width: auto;
-            -webkit-transform: rotate(270deg);
-            -moz-transform: rotate(270deg);
-            -o-transform: rotate(270deg);
-            -ms-transform: rotate(270deg);
-            transform: rotate(270deg);
-
-            button {
- 
-              div { 
-                display: flex;
-                width: auto;
-                height:27pt; //höhe ist breite des senkrechten Textes
-                div{
-                  font-size: 12pt;
-                  width:12pt;
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    
-  }*/
-
-
-
-  body {
-    background: none;
-  }
+*/
 
 
 

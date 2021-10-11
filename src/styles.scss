@@ -30,14 +30,10 @@ button:hover {
 
 @media print {
 
-
   @page { 
     size: landscape;
 }
-body { 
-    writing-mode: tb-rl;
-    height:100%; width:100%; 
-}
+
 
 h1{
   page-break-before: always;
