@@ -87,7 +87,7 @@ export class EinzelplaeneComponent implements OnInit {
     //tap(lkj => console.log(lkj)),
     map(z => {
       //   let ar = new Array();
-       return  this.lehrerListe.slice(1, this.lehrerListe.length).map(gg => {
+       return  this.lehrerListe.slice(0, this.lehrerListe.length).map(gg => {
         let lehrerElemente = z[gg.kuerzel];
         let wochenPlan = new Array(11).fill(null).map(g =>
           new Array(5).fill(null).map(() => ({
@@ -226,7 +226,7 @@ export class EinzelplaeneComponent implements OnInit {
       z => {
         let fahrtenUndProjekte = this.termine;
         let ar = [];
-        this.lehrerListe.slice(1, this.lehrerListe.length).forEach(lehra => {
+        this.lehrerListe.slice(0, this.lehrerListe.length).forEach(lehra => {
 
           let neu: {
             kuerz: string,
