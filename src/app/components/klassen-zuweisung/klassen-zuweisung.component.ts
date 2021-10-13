@@ -206,7 +206,7 @@ export class KlassenZuweisungComponent implements OnInit {
   lehrerHinzufuegen(lehrerI: Lehrer, klasseI: Lehrjahr, fachI: Fach) {
     let neuesEle: boolean;
     let neuArray: Array < Elementt >= this.klassenplanServ.grundPlanfaecher.getValue();
-
+let uebstunden=0;
     neuArray.forEach(obj => {
       if (obj != null) {
         if (obj.fach == fachI) {
@@ -223,6 +223,7 @@ export class KlassenZuweisungComponent implements OnInit {
         } else if ((obj.fach == fachI) && (obj.klasse == klasseI)) {
           //  console.log("neues Element hinzufügen");
           neuesEle = true;
+          uebstunden=obj.uebstunde;
         } else {
           //   console.log("das Element entspricht nicht dem angeklickten");
         }
@@ -287,7 +288,7 @@ export class KlassenZuweisungComponent implements OnInit {
       }
     });
   }
-/*
+
   epocheSchieneRhythmusBefuellen() {
     this.esrFuellen("epoche", Fach.hauptunterricht, Lehrjahr.neun);
     this.esrFuellen("rhythmus", Fach.rhythmisch, Lehrjahr.neun);
@@ -301,7 +302,7 @@ export class KlassenZuweisungComponent implements OnInit {
     this.esrFuellen("epoche", Fach.hauptunterricht, Lehrjahr.zwoelf);
     this.esrFuellen("rhythmus", Fach.rhythmisch, Lehrjahr.zwoelf);
     this.esrFuellen("schiene", Fach.schiene, Lehrjahr.zwoelf);
-  }*/
+  }
 
 
 
