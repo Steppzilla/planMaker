@@ -1,3 +1,4 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import {
   Component,
   OnInit
@@ -44,6 +45,9 @@ import {
 })
 export class GesamtuebersichtComponent implements OnInit {
   wochenTagauswahl: string;
+  selectLehrer: Lehrer;
+  gewaehlteKlassenIndex:null;
+
   grundPlanfaecher: Array < Elementt > ; //statt stundenLehrerArray?
   lehrerAuswahl = []; //nur übstundenFilter von grundplanfaecher
   tagesPlan = [];
@@ -52,12 +56,31 @@ export class GesamtuebersichtComponent implements OnInit {
   wochentage = Wochentag;
   kuerzeleinblenden: boolean;
   buttontext = "einblenden";
-  selectLehrer: Lehrer;
+
 
   printAktiv = false;
 
+counter=0;
+  reduce(klassenIndex){
+    if(this.counter%2==0){
+    this.gewaehlteKlassenIndex=klassenIndex;
+    this.wochenTagauswahl=null;
+    }else{
+      this.gewaehlteKlassenIndex=null;
+      this.wochenTagauswahl="Montag";
+    }
+    this.counter++;
+    console.log(klassenIndex)
+  }
+
+  counter2=0;
   print() {
+    if(this.counter2%2==0){
     this.printAktiv = true;
+    }else{
+      this.printAktiv=false;
+    }
+    this.counter2++;
   }
 
 
@@ -337,6 +360,7 @@ export class GesamtuebersichtComponent implements OnInit {
 
   wochentagWahl(x: string) {
     this.wochenTagauswahl = x;
+    this.printAktiv=false;
   }
 
 

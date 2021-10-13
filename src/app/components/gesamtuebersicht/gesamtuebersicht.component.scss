@@ -10,6 +10,10 @@ $background:rgb(126, 126, 126);
 $background2:rgb(194, 199, 194);
 $back-light:rgb(231, 224, 224);
 
+
+
+
+
 h1,
 h2 {
   text-align: center;
@@ -30,28 +34,30 @@ th {
   font-weight: normal;
 }
 
-.drucken{
-  margin-top:5pt;
-  border-radius:7pt;
-  background-color:mediumaquamarine;
+.drucken {
+  margin-top: 5pt;
+  border-radius: 7pt;
+  background-color: mediumaquamarine;
 }
 
 .wochenTagContainer {
-  h2 button{
-    border-radius:5pt;
-    line-height:1;
+  h2 button {
+    border-radius: 5pt;
+    line-height: 1;
   }
-  .wochentagButton{
-    width:80pt;
-    display:block;
-    button{
-      width:100%;
-      border:none;
+
+  .wochentagButton {
+    width: 80pt;
+    display: block;
+
+    button {
+      width: 100%;
+      border: none;
       background-color: inherit;
     }
   }
 
-  
+
 
   table {
     line-height: 1;
@@ -67,7 +73,7 @@ th {
       }
 
       td {
-        border:none;
+        border: none;
         height: 30pt;
 
         button {
@@ -174,8 +180,36 @@ th {
   right: 0pt;
 }
 
+
+
+.formatMain1,.formatMain2,.formatMain3,.formatMain4,.formatMain5,.formatMain6,.formatMain7,.formatMain8,.formatMain9,.formatMain10,.formatMain11,.formatMain12,.formatMain13 {
+  display: flex;
+  justify-content: center;;
+}
+.formatMainnull {
+  display: block;
+}
+/*
+.formatTable {
+  //tr-format allgemein, (auch) wenn klasse gewählt
+}.formatRow {}*/
+
+.formatTd {
+  button {
+    width: 100%;
+
+  }
+}
+
+.format.null {
+  //tr format wenn keine klasse gewählt
+  display: auto;
+
+}
+
 @media only screen and (max-width: 760px),
 (min-device-width: 768px) and (max-device-width: 1024px) {
+
   .fachItem {
     display: block;
 
@@ -201,43 +235,64 @@ th {
   //Anzahl der stunden einer klasse
   .wochenTagContainer {
     button {}
+  }
+/*
+  .formatTd {
+    //wenn nur eine klasse eingebldent sit
+    width: 80pt;
 
-    table {
+    button {
+      width: 100%;
 
-
-      tr {
-        td {
-          button {
-            width: 20pt;
-            overflow: hidden;
-            padding: 0pt;
-
-          }
-        }
-      }
     }
   }
+
+  .formatTd.null {
+    button {
+      width: 20pt;
+      overflow: hidden;
+    }
+  }*/
+
 }
 
 @media only screen and (max-width: 460px),
 (min-device-width: 468px) and (max-device-width: 624px) {
+
   .wochenTagContainer table {
     border-collapse: collapse;
     width: 90%;
 
     tr {
       td {
-      //  border : 1pt solid black;
+        //  border : 1pt solid black;
 
         button {
-          padding: 0pt;
-          width: 100%;
-          overflow: hidden;
-          font-size: 9pt;
+          
         }
       }
     }
   }
+/*
+  .formatTd {
+    //wenn nur eine klasse eingebldent sit
+    width: 120pt;
+
+    button {
+      width: 100%;
+
+    }
+  }
+
+  .formatTd.null {
+    button {
+      padding: 0pt;
+          width: 100%;
+          overflow: hidden;
+          font-size: 9pt;
+    }
+  }*/
+
 }
 
 
@@ -269,7 +324,7 @@ th {
     background-image: none;
     background-color: white;
     color: $schriftfarbe;
-   
+
   }
 
   .buttonreihe.wochentagButton {
@@ -329,7 +384,7 @@ th {
   .normalB,
   .empty {
     background-image: none;
-   // border : 1pt black solid;
+    // border : 1pt black solid;
     color: black;
     height: 10pt;
 
@@ -382,3 +437,5 @@ th {
   }
 
 }
+
+

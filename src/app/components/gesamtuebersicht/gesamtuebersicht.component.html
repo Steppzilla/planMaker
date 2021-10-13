@@ -1,121 +1,128 @@
+<!--<button (click)="leherkuerzelToggle()">Lehrerkuerzel {{buttontext}}</button>-->
 
+<div id="right" class="noprint">
+  <button class="iconBut" (click)="links()"><img width="60pt" src="../../../assets/iconsNav/pfeilSchwR.png" /></button>
+</div>
+<div id="left" class="noprint">
+  <button class="iconBut" (click)="rechts()"><img width="60pt " style=" transform: rotate(180deg);"
+      src="../../../assets/iconsNav/pfeilSchwR.png" /></button>
+</div>
 
-  <!--<button (click)="leherkuerzelToggle()">Lehrerkuerzel {{buttontext}}</button>-->
-  
-  <div id="right" class="noprint">
-    <button class="iconBut" (click)="links()"><img width="60pt"
-        src="../../../assets/iconsNav/pfeilSchwR.png" /></button>
-  </div>
-  <div id="left" class="noprint">
-    <button class="iconBut" (click)="rechts()"><img width="60pt " style=" transform: rotate(180deg);"
-        src="../../../assets/iconsNav/pfeilSchwR.png" /></button>
-  </div>
+<button *ngIf="lehrerService.gewaehlterPlan==='gesamtplan'" (click)="print()" class="noprint drucken"> 
+  <ng-container *ngIf="counter2%2==0">
+ Alle Gesamtpläne anzeigen </ng-container>
+  <ng-container *ngIf="counter2%2==1">
+    Gesamtpläne reduzieren </ng-container>
+</button>
 
-<button *ngIf="lehrerService.gewaehlterPlan==='gesamtplan'" (click)="print()" class="noprint drucken"> Gesamtpläne drucken </button>
-
-<h1 >Gesamtplan</h1>
-<div id="main">
+<h1>Gesamtplan</h1>
+<div id="main " class="formatMain{{gewaehlteKlassenIndex}}">
   <ng-container *ngIf="gesamtRaster$|async as gesRaster">
     <div class="wochenTagContainer" *ngFor="let wochenTag of ['montag','dienstag','mittwoch','donnerstag','freitag']">
-      <div *ngIf="wochenTagauswahl.toLowerCase()===wochenTag||printAktiv">
-        <h2><button
-          triggers="click" [autoClose]="true"  [ngbTooltip]="WochenTage"
-                placement="right" 
-          >{{wochenTag.substring(1,0).toUpperCase()+wochenTag.slice(1,wochenTag.length)}}</button></h2>
-          <ng-template #WochenTage>
-            <div class="buttonreihe noprint wochentagButton">
-              <button class="noprint" (click)="wochentagWahl('Montag')">Montag</button>
-              <button class="noprint" (click)="wochentagWahl('Dienstag')">Dienstag</button>
-              <button class="noprint" (click)="wochentagWahl('Mittwoch')">Mittwoch</button>
-              <button class="noprint" (click)="wochentagWahl('Donnerstag')">Donnerstag</button>
-              <button class="noprint" (click)="wochentagWahl('Freitag')"> Freitag</button>
-            </div>
-          </ng-template>
+      <div *ngIf="wochenTagauswahl===null||wochenTagauswahl.toLowerCase()===wochenTag||printAktiv">
+        <h2><button triggers="click" [autoClose]="true" [ngbTooltip]="WochenTage"
+            placement="right">{{wochenTag.substring(1,0).toUpperCase()+wochenTag.slice(1,wochenTag.length)}}</button>
+        </h2>
+        <ng-template #WochenTage>
+          <div class="buttonreihe noprint wochentagButton">
+            <button class="noprint" (click)="wochentagWahl('Montag')">Montag</button>
+            <button class="noprint" (click)="wochentagWahl('Dienstag')">Dienstag</button>
+            <button class="noprint" (click)="wochentagWahl('Mittwoch')">Mittwoch</button>
+            <button class="noprint" (click)="wochentagWahl('Donnerstag')">Donnerstag</button>
+            <button class="noprint" (click)="wochentagWahl('Freitag')"> Freitag</button>
+          </div>
+        </ng-template>
 
-        <table>
-          <tr>
-            <th></th>
-            <th *ngFor="let cell of gesRaster[wochenTag][0]; index as k">
-              {{k+1}}
-              <span>({{klassengesamtstunden(k+1)}}) </span></th>
+        <table  class="formatTable {{gewaehlteKlassenIndex}}">
+          <tr class="formatRow {{gewaehlteKlassenIndex}}">
+            <th *ngIf="gewaehlteKlassenIndex===null"></th>
+            <ng-container *ngFor="let cell of gesRaster[wochenTag][0]; index as k">
+              <th class="formatTd {{gewaehlteKlassenIndex}}" (click)="reduce(k)"   *ngIf="gewaehlteKlassenIndex==null||k===gewaehlteKlassenIndex">
+                {{k+1}}
+                <span>({{klassengesamtstunden(k+1)}}) </span></th>
+            </ng-container>
           </tr>
-          <tr *ngFor="let zeile of gesRaster[wochenTag], index as std">
-            <th>
+          <tr class="formatRow {{gewaehlteKlassenIndex}}" *ngFor="let zeile of gesRaster[wochenTag], index as std">
+            <th *ngIf="gewaehlteKlassenIndex===null">
               {{std+1}}
             </th>
-            <td *ngFor="let cell of zeile,index as r">
-              <button triggers="click" [autoClose]="true" class="{{hintergrundd(cell)}}" [ngbTooltip]="Lehrer2"
-                placement="bottom" (click)="cellKlick($event,std,r+1)">
-                <div *ngFor="let item of cell;index as i" class="fachItem">
-                  <div class="fach"
-                    *ngIf="(i==0||(i>0&&item[0]!=cell[i-1][0]))||(item[0]!=='HU'&&item[0]!=='StartUp'&&item[0]!=='Schiene')">
-                    {{ item[0]}}
-                  </div>
-                  <ng-container *ngIf="item[0]!='StartUp'&&item[0]!='HU'&&item[0]!='Schiene'||r<8; else ESR">
-                    <div class="{{markedd(item[1])}} {{duplicatesss(item[1] ,zeile,item[0])}} kuerzl">
-                      {{item[1] }}
+
+            <ng-container *ngFor="let cell of zeile,index as r">
+              <td class="formatTd {{gewaehlteKlassenIndex}}" *ngIf="r===gewaehlteKlassenIndex||gewaehlteKlassenIndex==null">
+                <button triggers="click" [autoClose]="true" class="{{hintergrundd(cell)}}" [ngbTooltip]="Lehrer2"
+                  placement="bottom" (click)="cellKlick($event,std,r+1)">
+                  <div *ngFor="let item of cell;index as i" class="fachItem">
+                    <div class="fach"
+                      *ngIf="(i==0||(i>0&&item[0]!=cell[i-1][0]))||(item[0]!=='HU'&&item[0]!=='StartUp'&&item[0]!=='Schiene')">
+                      {{ item[0]}}
                     </div>
-                  </ng-container>
-                  <ng-template #ESR>
-                    <ng-container *ngIf="item[1]!=null">
-                      <ng-container *ngIf="markedd(item[1])=='blueback'||duplicatesss(item[1],zeile,item[0])==='error'">
-                        <div class=" {{markedd(item[1])}} {{duplicatesss(item[1] ,zeile,item[0])}} kuerzl">
-                          {{item[1] }}
+                    <ng-container *ngIf="item[0]!='StartUp'&&item[0]!='HU'&&item[0]!='Schiene'||r<8; else ESR">
+                      <div class="{{markedd(item[1])}} {{duplicatesss(item[1] ,zeile,item[0])}} kuerzl">
+                        {{item[1] }}
+                      </div>
+                    </ng-container>
+                    <ng-template #ESR>
+                      <ng-container *ngIf="item[1]!=null">
+                        <ng-container
+                          *ngIf="markedd(item[1])=='blueback'||duplicatesss(item[1],zeile,item[0])==='error'">
+                          <div class=" {{markedd(item[1])}} {{duplicatesss(item[1] ,zeile,item[0])}} kuerzl">
+                            {{item[1] }}
+                          </div>
+                        </ng-container>
+                      </ng-container>
+                    </ng-template>
+                  </div>
+                </button>
+                <ng-template #Lehrer2>
+                  <ng-container *ngIf="klassenplanServ.klassenArray$|async as klassArray">
+                    <ng-container *ngFor="let elementt of klassArray[r+1]">
+                      <ng-container *ngIf="elementt.uebstunde>0">
+                        <div id="toggle-item-Container" *ngIf="elementt!=undefined"
+                          (click)="togglezellenClick(std,elementt)">
+                          <div class="toggle-items {{duplicateToggle(std,elementt)}}">
+                            {{elementt?elementt.fach:"kein Fach"}}
+                          </div>
+                          <div class="toggle-items error">
+                            {{elementt?elementt.uebstunde:"no"}}
+                          </div>
+                          <div class="toggle-items ok">
+                            <ng-container
+                              *ngIf="elementt.uebstunde-berechnungAktuelleStunden(elementt)==0; else NICHGLEICH">
+                              <div class="gruen">
+                                {{elementt?berechnungAktuelleStunden(elementt): "höö"}}
+                              </div>
+                            </ng-container>
+                            <ng-template #NICHGLEICH>
+                              {{elementt?berechnungAktuelleStunden(elementt): "no"}}
+                            </ng-template>
+                          </div>
+                          <div class="toggle-items">
+                            <ng-container
+                              *ngIf="elementt.fach!='HU'&&elementt.fach!='StartUp'&&elementt.fach!='Schiene'||elementt.klasse<9">
+                              <ng-container *ngFor="let le of elementt.lehrer">
+                                {{le?le.kuerzel:"Lehrer"}}
+                              </ng-container>
+                            </ng-container>
+                          </div>
+                          <div class="toggle-items">
+                            <ng-container *ngIf="elementt.zuweisung.uebstunde">
+                              <span *ngFor="let stund of elementt.zuweisung.uebstunde">
+                                {{stund.stunde+1}}
+                              </span>
+                            </ng-container>
+                          </div>
                         </div>
                       </ng-container>
                     </ng-container>
-                  </ng-template>
-                </div>
-              </button>
-              <ng-template #Lehrer2>
-                <ng-container *ngIf="klassenplanServ.klassenArray$|async as klassArray">
-                  <ng-container *ngFor="let elementt of klassArray[r+1]">
-                    <ng-container *ngIf="elementt.uebstunde>0">
-                      <div id="toggle-item-Container" *ngIf="elementt!=undefined"
-                        (click)="togglezellenClick(std,elementt)">
-                        <div class="toggle-items {{duplicateToggle(std,elementt)}}">
-                          {{elementt?elementt.fach:"kein Fach"}}
-                        </div>
-                        <div class="toggle-items error">
-                          {{elementt?elementt.uebstunde:"no"}}
-                        </div>
-                        <div class="toggle-items ok">
-                          <ng-container
-                            *ngIf="elementt.uebstunde-berechnungAktuelleStunden(elementt)==0; else NICHGLEICH">
-                            <div class="gruen">
-                              {{elementt?berechnungAktuelleStunden(elementt): "höö"}}
-                            </div>
-                          </ng-container>
-                          <ng-template #NICHGLEICH>
-                            {{elementt?berechnungAktuelleStunden(elementt): "no"}}
-                          </ng-template>
-                        </div>
-                        <div class="toggle-items">
-                          <ng-container
-                            *ngIf="elementt.fach!='HU'&&elementt.fach!='StartUp'&&elementt.fach!='Schiene'||elementt.klasse<9">
-                            <ng-container *ngFor="let le of elementt.lehrer">
-                              {{le?le.kuerzel:"Lehrer"}}
-                            </ng-container>
-                          </ng-container>
-                        </div>
-                        <div class="toggle-items">
-                          <ng-container *ngIf="elementt.zuweisung.uebstunde">
-                            <span *ngFor="let stund of elementt.zuweisung.uebstunde">
-                              {{stund.stunde+1}}
-                            </span>
-                          </ng-container>
-                        </div>
-                      </div>
-                    </ng-container>
                   </ng-container>
-                </ng-container>
-              </ng-template>
-            </td>
+                </ng-template>
+              </td>
+            </ng-container>
           </tr>
         </table>
       </div>
     </div>
   </ng-container>
   <app-einzelplaene class="noprint"></app-einzelplaene>
-  
+
 </div>
