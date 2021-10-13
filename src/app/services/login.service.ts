@@ -105,6 +105,10 @@ export class LoginService {
 
         }
       });
+      //Beim laden schon null-elemente löschen (entstehen durch Löschen mit shift-click tw)
+      stundenAufteilungJSO = stundenAufteilungJSO.filter(function (el) {
+        return el != null;
+      });
 
       this.klassenPlanServ.grundPlanfaecher.next(stundenAufteilungJSO); //opt: .concat(ele) um Element hinzuzufügen beim Load der Daten
       //  this.klassenPlanServ.elementHinzufuegen(Fach.kunstgeschichte,Lehrjahr.neun);

@@ -327,6 +327,9 @@ export class KlassenplaeneService {
         delete neuesArray[index];
       }
     });
+    neuesArray = neuesArray.filter(function (el) {
+      return el != null;
+    });
     this.grundPlanfaecher.next(neuesArray);
   }
 

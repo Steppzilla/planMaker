@@ -71,13 +71,16 @@ export class StartComponent implements OnInit {
         [key: string]: Elementt[]
       } = {};
       x.forEach((ele: Elementt) => {
+        if(ele!==null){
         ele.lehrer.forEach(le => {
           if (obj[le.kuerzel] === undefined) {
             obj[le.kuerzel] = [];
           }
           obj[le.kuerzel].push(ele);
         });
+      }
       });
+    
       ///obj enthält alle lehrerElemente-> soll: [ueb, rhy, epo, sch] - anzahl der stunden nun rein:
       let neuObj: {
         [key: string]: {}
