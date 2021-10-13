@@ -5,7 +5,15 @@
     <button (click)="toggle()"> Termine </button>
   </div>
 
-  <button class="noprint" (click)="print()">Epochenpläne drucken</button>
+  <button class="noprint" (click)="print()">
+    Gesamt-Epochenpläne 
+    <ng-container *ngIf="counter2%2==0">
+      einblenden
+    </ng-container>
+    <ng-container *ngIf="counter2%2==1">
+      ausblenden
+    </ng-container>
+  </button>
 
   <div *ngIf="termineEinblenden==true" id="terminContainer">
 

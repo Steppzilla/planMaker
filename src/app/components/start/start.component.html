@@ -2,8 +2,8 @@
   <div class="date ">
     {{termine.datumHeute.getDate()}}.{{termine.datumHeute.getMonth()+1}}.{{termine.datumHeute.getFullYear()}}
   </div>
- <div class="loadSaveContain">
-    <button class=" load" (click)="load()">load  </button>
+  <div class="loadSaveContain">
+    <button class=" load" (click)="load()">load </button>
     <button class="speicherWahl" triggers="click" [ngbTooltip]="Speicherplaetze"> {{speicherPlatzNr}}
       <ng-template #Speicherplaetze>
         <button class="noprint" (click)="wahl(0)">0</button>
@@ -20,7 +20,7 @@
       </ng-template>
     </button>
     <button class="save" (click)="save()">save </button>
- </div>
+  </div>
 </div>
 
 
@@ -34,12 +34,12 @@
   <button class="noprint" (click)="redirect('rhythmus')"> Rhythmus</button>-->
   <button (click)="redirect('ESR')"> ESR </button>
   <button (click)="redirect('vertretung')">Vertretung</button>
-  </span>
+</span>
 
-  <span id="ansichtMenu" class="noprint">
-     <button (click)="redirect('einzelplaene')">
-      Einzelplaene </button>
-    </span>
+<span id="ansichtMenu" class="noprint">
+  <button (click)="redirect('einzelplaene')">
+    Einzelplaene </button>
+</span>
 
 <div id="container">
   <router-outlet></router-outlet>
@@ -51,16 +51,30 @@
 <div id="Lehrerselect" class="buttonreihe noprint">
   <div>
     <!-- -->
-    <ng-container *ngFor="let lehrer of this.lehrerListe; index as i">
+    <ng-container *ngFor="let lehre of this.lehrerListe; index as i">
+
       <button (click)="lehrerwahl(i)" triggers="hover" [ngbTooltip]="Kuerzel" placement="top">
         <!--   <button triggers="click" [autoClose]="true" class="{{hintergrundd(cell)}}" [ngbTooltip]="Lehrer2"
               placement="bottom" (click)="cellKlick($event,std,r+1)">-->
-        {{lehrer.kuerzel}}
+        <ng-container *ngIf="lehrerArray$|async as resAnzahl">
+          <ng-container
+            *ngIf="lehrer.gewaehlterPlan=='ESR'&&(resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].rhy>0
+          ||resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].epo>0||resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].sch>0) ;else Normal">
+
+    
+          <div style="background-color:orange;">
+            {{lehre.kuerzel}}
+          </div>
+        </ng-container>
+        <ng-template #Normal>
+          {{lehre.kuerzel}}
+        </ng-template>
         <ng-template #Kuerzel>
           <div class="kuerzelGroß">
-            {{lehrer.anrede}} {{lehrer.name}}
+            {{lehre.anrede}} {{lehre.name}}
           </div>
         </ng-template>
+      </ng-container>
       </button>
     </ng-container>
   </div>

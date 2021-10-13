@@ -616,9 +616,15 @@ export class EsrPlanComponent implements OnInit {
     }
   }
 
-
+counter2=0;
   print() {
+    if(this.counter2%2==0){
     this.printAktiv = true;
+    }else{
+      this.printAktiv=false;
+    }
+    this.counter2++;
+
   }
 
   constructor(public epochenPlanS: EpochenPlaeneService,
