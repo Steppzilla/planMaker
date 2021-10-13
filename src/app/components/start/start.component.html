@@ -50,32 +50,68 @@
 
 <div id="Lehrerselect" class="buttonreihe noprint">
   <div>
-    <!-- -->
-    <ng-container *ngFor="let lehre of this.lehrerListe; index as i">
 
-      <button (click)="lehrerwahl(i)" triggers="hover" [ngbTooltip]="Kuerzel" placement="top">
-        <!--   <button triggers="click" [autoClose]="true" class="{{hintergrundd(cell)}}" [ngbTooltip]="Lehrer2"
-              placement="bottom" (click)="cellKlick($event,std,r+1)">-->
-        <ng-container *ngIf="lehrerArray$|async as resAnzahl">
-          <ng-container
-            *ngIf="lehrer.gewaehlterPlan=='ESR'&&(resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].rhy>0
-          ||resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].epo>0||resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].sch>0) ;else Normal">
+    <ng-container *ngIf="lehrerArray$|async as resAnzahl">
 
-    
-          <div style="background-color:orange;">
-            {{lehre.kuerzel}}
-          </div>
+
+      <ng-container *ngFor="let lehre of this.lehrerListe; index as i">
+        <!-- ESR ANZEIGE-->
+        <ng-container
+          *ngIf="lehrer.gewaehlterPlan=='ESR'&&(resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].rhy>0
+          ||resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].epo>0||resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].sch>0)">
+          <button (click)="lehrerwahl(i)">
+
+            <div>
+              {{lehre.kuerzel}}
+            </div>
+          </button>
         </ng-container>
-        <ng-template #Normal>
-          {{lehre.kuerzel}}
-        </ng-template>
-        <ng-template #Kuerzel>
-          <div class="kuerzelGroß">
-            {{lehre.anrede}} {{lehre.name}}
-          </div>
-        </ng-template>
+        <!-- ESR kuerzel ende-->
+        <!-- ÜBstunden kuerzel start-->
+        <ng-container
+          *ngIf="lehrer.gewaehlterPlan=='gesamtplan'&&(resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].ueb>0)">
+          <button (click)="lehrerwahl(i)">
+            <div>
+              {{lehre.kuerzel}}
+            </div>
+          </button>
+        </ng-container>
+        <!-- ÜBstunden kuerzel ende-->
+
       </ng-container>
+
+      <button triggers="click" [autoClose]="true" [ngbTooltip]="Lehrer2" placement="top">
+        weitere
       </button>
+
+      <ng-template #Lehrer2>
+        <ng-container *ngFor="let lehre of this.lehrerListe; index as i">
+          <!-- ESR ANZEIGE WEITERE lehrer-->
+          <ng-container
+            *ngIf="lehrer.gewaehlterPlan=='ESR'&&(resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].rhy==0)&&
+            (resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].epo==0)&&(resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].sch==0)">
+            <button (click)="lehrerwahl(i)">
+              <div>
+                {{lehre.kuerzel}}
+              </div>
+            </button>
+          </ng-container>
+          <!-- Übstunden ANZEIGE WEITERE lehrer-->
+          <ng-container 
+          *ngIf="lehrer.gewaehlterPlan=='gesamtplan'">
+            <ng-container *ngIf="(resAnzahl[lehre.kuerzel]&&!resAnzahl[lehre.kuerzel].ueb>0)">
+              <button (click)="lehrerwahl(i)">
+                <div>
+                  {{lehre.kuerzel}}
+                </div>
+              </button>
+            </ng-container>
+
+          </ng-container>
+        </ng-container>
+      </ng-template>
+
     </ng-container>
+
   </div>
 </div>

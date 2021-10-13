@@ -157,45 +157,50 @@ export class KlassenZuweisungComponent implements OnInit {
   }
   wochenstundenVerteilen(e, art, elementDerZeile, kIndex) {
     //  console.log(elementDerZeile);
-    if (elementDerZeile.klasse == kIndex) {
+    elementDerZeile.forEach(element => {
+      
+    
+    if (element.klasse == kIndex) {
       switch (art) {
         case "ueb":
-          if ((e.shiftKey) && (elementDerZeile.uebstunde > 0)) {
-            elementDerZeile.uebstunde--;
+          if ((e.shiftKey) && (element.uebstunde > 0)) {
+            element.uebstunde--;
           } else {
-            elementDerZeile.uebstunde++;
+            element.uebstunde++;
           }
-          this.epocheSchieneRhythmusBefuellen();
+       //   this.epocheSchieneRhythmusBefuellen();
           break;
         case "rhythmus":
-          if ((e.shiftKey) && (elementDerZeile.rhythmus > 0)) {
-            elementDerZeile.rhythmus--;
+          if ((e.shiftKey) && (element.rhythmus > 0)) {
+            element.rhythmus--;
           } else {
-            elementDerZeile.rhythmus++;
+            element.rhythmus++;
             //Lehrer in rhythmus hinzufügen?
           }
-          this.epocheSchieneRhythmusBefuellen();
+         // this.epocheSchieneRhythmusBefuellen();
           break;
         case "epoche":
-          if ((e.shiftKey) && (elementDerZeile.epoche > 0)) {
-            elementDerZeile.epoche--;
+          if ((e.shiftKey) && (element.epoche > 0)) {
+            element.epoche--;
           } else {
-            elementDerZeile.epoche++;
+            element.epoche++;
             //Lehrer in epoche hinzufügen?
           }
-          this.epocheSchieneRhythmusBefuellen();
+         // this.epocheSchieneRhythmusBefuellen();
           break;
         case "schiene":
-          if ((e.shiftKey) && (elementDerZeile.schiene > 0)) {
-            elementDerZeile.schiene--;
+          if ((e.shiftKey) && (element.schiene > 0)) {
+            element.schiene--;
           } else {
-            elementDerZeile.schiene++;
+            element.schiene++;
             //Lehrer in schiene hinzufügen?
           }
-          this.epocheSchieneRhythmusBefuellen(); //für gesamtplan, damit der im HU gezählt wird
+         // this.epocheSchieneRhythmusBefuellen(); //für gesamtplan, damit der im HU gezählt wird
           break;
       }
     }
+  });
+  console.log()
   }
 
   lehrerHinzufuegen(lehrerI: Lehrer, klasseI: Lehrjahr, fachI: Fach) {
@@ -282,7 +287,7 @@ export class KlassenZuweisungComponent implements OnInit {
       }
     });
   }
-
+/*
   epocheSchieneRhythmusBefuellen() {
     this.esrFuellen("epoche", Fach.hauptunterricht, Lehrjahr.neun);
     this.esrFuellen("rhythmus", Fach.rhythmisch, Lehrjahr.neun);
@@ -296,7 +301,7 @@ export class KlassenZuweisungComponent implements OnInit {
     this.esrFuellen("epoche", Fach.hauptunterricht, Lehrjahr.zwoelf);
     this.esrFuellen("rhythmus", Fach.rhythmisch, Lehrjahr.zwoelf);
     this.esrFuellen("schiene", Fach.schiene, Lehrjahr.zwoelf);
-  }
+  }*/
 
 
 
@@ -370,19 +375,21 @@ export class KlassenZuweisungComponent implements OnInit {
         case "ueb":
           if ((e.shiftKey) && (zelle[0].uebstunde > 0)) {
             zelle.forEach(element => {
-              element.uebstunde--;
+              
+              element.uebstunde=0;
+              
             });
           } else {
             zelle.forEach(element => {
               element.uebstunde++;
             });
           }
-          this.epocheSchieneRhythmusBefuellen();
+        //  this.epocheSchieneRhythmusBefuellen();
           break;
         case "rhythmus":
           if ((e.shiftKey) && (zelle[0].rhythmus > 0)) {
             zelle.forEach(element => {
-              element.rhythmus--;
+              element.rhythmus=0;
             });
           } else {
             zelle.forEach(element => {
@@ -390,12 +397,12 @@ export class KlassenZuweisungComponent implements OnInit {
             });
             //Lehrer in rhythmus hinzufügen?
           }
-          this.epocheSchieneRhythmusBefuellen();
+        //  this.epocheSchieneRhythmusBefuellen();
           break;
         case "epoche":
           if ((e.shiftKey) && (zelle[0].epoche > 0)) {
             zelle.forEach(element => {
-              element.epoche--;
+              element.epoche=0;
             });
           } else {
             zelle.forEach(element => {
@@ -403,12 +410,12 @@ export class KlassenZuweisungComponent implements OnInit {
             });
             //Lehrer in epoche hinzufügen?
           }
-          this.epocheSchieneRhythmusBefuellen();
+       //   this.epocheSchieneRhythmusBefuellen();
           break;
         case "schiene":
           if ((e.shiftKey) && (zelle[0].schiene > 0)) {
             zelle.forEach(element => {
-              element.schiene--;
+              element.schiene=0;
             });
           } else {
             zelle.forEach(element => {
@@ -416,7 +423,7 @@ export class KlassenZuweisungComponent implements OnInit {
             });
             //Lehrer in schiene hinzufügen?
           }
-          this.epocheSchieneRhythmusBefuellen(); //für gesamtplan, damit der im HU gezählt wird
+       //   this.epocheSchieneRhythmusBefuellen(); //für gesamtplan, damit der im HU gezählt wird
           break;
       }
     }

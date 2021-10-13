@@ -130,14 +130,15 @@ export class KlassenplaeneService {
 
   berechnung(element) {
     let grundplanf = this.grundPlanfaecher.getValue();
+    grundplanf = grundplanf.filter(function (el) {
+      return el != null;
+    });
     let schieneElem = grundplanf.find(ele => ele.fach == Fach.schiene && ele.klasse == element.klasse);
     let huElem = grundplanf.find(ele => ele.fach == Fach.hauptunterricht && ele.klasse == element.klasse);
     let rhythmElem = grundplanf.find(ele => ele.fach == Fach.rhythmisch && ele.klasse == element.klasse);
     let jahresStundenWert = 30;
 
-    grundplanf = grundplanf.filter(function (el) {
-      return el != null;
-    });
+ 
 
     let epochenSoll = element.epoche; //soll Epoche
     let schieneSoll = element.schiene; //soll Schiene

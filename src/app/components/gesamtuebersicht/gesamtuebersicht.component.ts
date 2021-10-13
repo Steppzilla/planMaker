@@ -487,7 +487,7 @@ counter=0;
     this.kuerzeleinblenden = false;
     this.klassenplanServ.grundPlanfaecher$.subscribe((data) => {
       this.grundPlanfaecher = data;
-      // console.log(data);
+       console.log(data);
     });
     this.wochentagWahl(this.wochenTagauswahl);
     this.tagesPlan = login.leerestagesRaster();
