@@ -77,10 +77,18 @@
           </button>
         </ng-container>
         <!-- ÜBstunden kuerzel ende-->
+        <ng-container *ngIf="lehrer.gewaehlterPlan!='gesamtplan'&&lehrer.gewaehlterPlan!='ESR'">
+          <button (click)="lehrerwahl(i)">
+            <div>
+              {{lehre.kuerzel}}
+            </div>
+          </button>
+        </ng-container>
+
 
       </ng-container>
 
-      <button triggers="click" [autoClose]="true" [ngbTooltip]="Lehrer2" placement="top">
+      <button triggers="click" [autoClose]="true" [ngbTooltip]="Lehrer2" placement="top" *ngIf="lehrer.gewaehlterPlan=='ESR'||lehrer.gewaehlterPlan=='gesamtplan'">
         weitere
       </button>
 
@@ -97,8 +105,7 @@
             </button>
           </ng-container>
           <!-- Übstunden ANZEIGE WEITERE lehrer-->
-          <ng-container 
-          *ngIf="lehrer.gewaehlterPlan=='gesamtplan'">
+          <ng-container *ngIf="lehrer.gewaehlterPlan=='gesamtplan'">
             <ng-container *ngIf="(resAnzahl[lehre.kuerzel]&&!resAnzahl[lehre.kuerzel].ueb>0)">
               <button (click)="lehrerwahl(i)">
                 <div>
@@ -109,6 +116,9 @@
 
           </ng-container>
         </ng-container>
+        <!-- Sonst: Nix im weiter-button-->
+          
+
       </ng-template>
 
     </ng-container>

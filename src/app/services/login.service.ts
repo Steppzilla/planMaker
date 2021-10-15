@@ -10,6 +10,7 @@ import {
 import {
   eachDayOfInterval,addDays,subDays
 } from 'date-fns';
+import { Fach } from '../enums/fach.enum';
 
 import {
   Elementt
@@ -153,9 +154,18 @@ export class LoginService {
 
   }
 
+  lehrerAufgabenHinzufuegen(kuerzel:string,fach:Fach){
+    let item=this.store.collection('lehrer').doc(kuerzel);
+  item.update({"faecher":[]});
+ 
+
+  }
+
 
   lehrerLoeschen(kuerz: string) { //String ist Kuerzel, also speicherort als Dokumentname
     let lehrer = this.store.collection('lehrer').doc(kuerz);
+    lehrer.set({});
+    lehrer.delete();
   }
 
   termineladen() { //auch prüfungen und ferientermine //ESR plan-aufbauen anhandtermine

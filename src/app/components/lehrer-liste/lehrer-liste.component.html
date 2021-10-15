@@ -35,7 +35,7 @@
     <td>
       {{lehrer.kuerzel}}
     </td>
-    <td><button triggers="click" [ngbTooltip]="FaecherListe" [autoClose]="true" placement="bottom">
+    <td><button triggers="click" [ngbTooltip]="FaecherListe" [autoClose]="true" placement="bottom" (click)="loeschen($event,lehrer)">
         <ng-container *ngIf="lehrer.faecher!=null">
           <span *ngFor="let fach of lehrer.faecher">
             {{fach.slice(0,1).toUpperCase()+fach.slice(1,fach.length)}}
@@ -76,7 +76,7 @@
     <ng-template #FaecherListe>
 
       <div *ngFor="let fach of faecher">
-        <button (click)="fachLehrerAdd(fach,lehrer)">{{fach}}</button>
+        <button (click)="fachLehrerAdd(fach,lehrer)"> {{fach.slice(0,1).toUpperCase()+fach.slice(1,fach.length)}}</button>
       </div>
 
     </ng-template>

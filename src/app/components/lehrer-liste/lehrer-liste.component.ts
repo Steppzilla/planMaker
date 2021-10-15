@@ -77,7 +77,7 @@ export class LehrerListeComponent implements OnInit {
         element.lehrer.forEach(lehr => {
           if (lehr != null && lehr.kuerzel == lehrer.kuerzel && ((element.fach != Fach.hauptunterricht && element.fach != Fach.schiene && element.fach != Fach.rhythmisch && parseInt(element.klasse) > 8) || parseInt(element.klasse) <= 8)) {
 
-           
+
             //Problem sind hier noch Klassenübergreifende Fächer wie Wahlpflicht, Chor und MSO
             ueb = ueb + element.zuweisung.uebstunde.length;
 
@@ -85,19 +85,19 @@ export class LehrerListeComponent implements OnInit {
             // rhy=  rhy+ element.zuweisung.rhythmus.length;
             if (element.rhythmus > 0) {
               element.zuweisung.rhythmus.forEach(epochElement => {
-                rhy = rhy - differenceInBusinessDays(epochElement.start, epochElement.ende)+1; //Durch 6, da im Rhythmus 6 Wochen eine Epoche sind, später, da sonst zu viele kommazahlen gerunden werden
+                rhy = rhy - differenceInBusinessDays(epochElement.start, epochElement.ende) + 1; //Durch 6, da im Rhythmus 6 Wochen eine Epoche sind, später, da sonst zu viele kommazahlen gerunden werden
               });
             }
             if (element.epoche > 0) {
 
               //  epo=epo+element.zuweisung.epoche.length;
               element.zuweisung.epoche.forEach(epochElement => {
-                epo = epo - differenceInBusinessDays(epochElement.start, epochElement.ende)+1; //Durch 3, da in Epoche 3 Wochen eine Epoche sind
+                epo = epo - differenceInBusinessDays(epochElement.start, epochElement.ende) + 1; //Durch 3, da in Epoche 3 Wochen eine Epoche sind
               });
             }
             if (element.schiene > 0) {
               element.zuweisung.schiene.forEach(epochElement => {
-                sch = sch - differenceInBusinessDays(epochElement.start, epochElement.ende)+1; //Durch 5, da im Rhythmus 5 Wochen eine Epoche sind (6 Stundne pro Woche)
+                sch = sch - differenceInBusinessDays(epochElement.start, epochElement.ende) + 1; //Durch 5, da im Rhythmus 5 Wochen eine Epoche sind (6 Stundne pro Woche)
               });
             }
           }
@@ -126,10 +126,10 @@ export class LehrerListeComponent implements OnInit {
     ueb = ueb;
     rhy = Math.round(rhy / 5 / 6);
     epo = Math.round(epo / 5 / 3);
-    if(lehrer.kuerzel=="Wo"){
-      console.log(Math.round(sch/5/5));
-    }
-    sch = Math.round(sch/5/5);
+    //if (lehrer.kuerzel == "Wo") {
+    //  console.log(Math.round(sch / 5 / 5));
+    //}
+    sch = Math.round(sch / 5 / 5);
 
     return [ueb, rhy, epo, sch];
   }
@@ -155,7 +155,22 @@ export class LehrerListeComponent implements OnInit {
     return elemente;
   }
 
+  loeschen(e, lehrer) {//aufgaben löschen
+    let kuerzel=lehrer.kuerzel;
+    let faecher=lehrer.faecher;
 
+    if (faecher.length > 0&&faecher!=null&&faecher!=undefined) {
+      console.log(kuerzel +"FACH:" + faecher);
+      faecher.forEach(fach => {
+        if (e.shiftKey) {
+          this.loginServ.lehrerAufgabenHinzufuegen(kuerzel, fach)
+
+        }
+      });
+    }
+
+
+  }
   constructor(public lehrerServ: LehrerService, public klassenplan: KlassenplaeneService, public loginServ: LoginService) {
 
   }
