@@ -82,7 +82,7 @@
                           <div class="toggle-items {{duplicateToggle(std,elementt)}}">
                             {{elementt?elementt.fach:"kein Fach"}}
                           </div>
-                          <div class="toggle-items error">
+                          <div class="toggle-items">
                             {{elementt?elementt.uebstunde:"no"}}
                           </div>
                           <div class="toggle-items ok">
@@ -93,7 +93,10 @@
                               </div>
                             </ng-container>
                             <ng-template #NICHGLEICH>
-                              {{elementt?berechnungAktuelleStunden(elementt): "no"}}
+                              <div class="error">
+                                {{elementt?berechnungAktuelleStunden(elementt): "no"}}
+                              </div>
+                             
                             </ng-template>
                           </div>
                           <div class="toggle-items">
