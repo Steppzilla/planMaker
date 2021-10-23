@@ -322,7 +322,18 @@ gesamtRaster$ = this.klassenplanServ.grundPlanfaecher$.pipe( //Bei Änderungen i
     }
   }
 
+fahrtInKlasse(termine,klassenZahl,planDatumZeit){
+  let titel="";
+  termine.forEach(termin => {
+    
+  
+  if(termin.klasse==klassenZahl&&termin.start.toDate().getTime()<=planDatumZeit&&termin.ende.toDate().getTime()>=planDatumZeit){
+    titel=termin.titel;
+  }
+});
 
+return titel;
+}
 
 
   wocheVorher() {

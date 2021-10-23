@@ -2,11 +2,14 @@ import {
   Component,
   OnInit
 } from '@angular/core';
-import { Observable } from 'rxjs';
+import {
+  Observable
+} from 'rxjs';
 import {
   concatMap,
   filter,
   map,
+  mergeMap,
   take,
   tap
 } from 'rxjs/operators';
@@ -19,14 +22,18 @@ import {
 import {
   Wochentag
 } from 'src/app/enums/wochentag.enum';
-import { Elementt } from 'src/app/interfaces/elementt';
+import {
+  Elementt
+} from 'src/app/interfaces/elementt';
 import {
   Lehrer
 } from 'src/app/interfaces/lehrer';
 import {
   TagesObjekt
 } from 'src/app/interfaces/tages-objekt';
-import { Termin } from 'src/app/interfaces/termin';
+import {
+  Termin
+} from 'src/app/interfaces/termin';
 import {
   EpochenPlaeneService
 } from 'src/app/services/epochen-plaene.service';
@@ -39,6 +46,9 @@ import {
 import {
   LehrerService
 } from 'src/app/services/lehrer.service';
+import {
+  LoginService
+} from 'src/app/services/login.service';
 
 @Component({
   selector: 'app-einzelplaene',
@@ -57,37 +67,41 @@ export class EinzelplaeneComponent implements OnInit {
 
 
 
-  esrPlan;//aus epochenplan
+  esrPlan; //aus epochenplan
   grundPlanfaecher;
   termine;
   ferien;
   pruefung;
 
   lehrerArray$: Observable < {
-    [key: string]: Elementt[]
-  } > =
-  this.klassenS.grundPlanfaecher$.pipe(
-    filter(r => r !== null),
-    map(x => {
-      let obj: {
-        [key: string]: Elementt[]
-      } = {};
-      x.forEach((ele: Elementt) => {
-        ele.lehrer.forEach(le => {
-          if (obj[le.kuerzel] === undefined) {
-            obj[le.kuerzel] = [];
-          }
-          obj[le.kuerzel].push(ele);
+      [key: string]: Elementt[]
+    } > =
+    this.klassenServ.grundPlanfaecher$.pipe(
+      filter(r => r !== null),
+      map(x => {
+        let obj: {
+          [key: string]: Elementt[]
+        } = {};
+        x.forEach((ele: Elementt) => {
+          ele.lehrer.forEach(le => {
+            if (obj[le.kuerzel] === undefined) {
+              obj[le.kuerzel] = [];
+            }
+            obj[le.kuerzel].push(ele);
+          });
         });
-      });
-      return obj;
-    })); 
- 
-   alleLehrer$ =   this.lehrerArray$.pipe(
-    //tap(lkj => console.log(lkj)),
-    map(z => {
+        return obj;
+      }));
+
+  alleLehrer$ = this.lehrerArray$.pipe(
+
+    //ASYNC HACK!!!
+    mergeMap(async z => {
       //   let ar = new Array();
-       return  this.lehrerListe.slice(0, this.lehrerListe.length).map(gg => {
+      return (await this.klassenServ.lehrerListe$.pipe(
+        filter(e=>e!==null),
+        take(1)).toPromise())
+        .slice(0, this.lehrerListe.length).map(gg => {
         let lehrerElemente = z[gg.kuerzel];
         let wochenPlan = new Array(11).fill(null).map(g =>
           new Array(5).fill(null).map(() => ({
@@ -157,7 +171,7 @@ export class EinzelplaeneComponent implements OnInit {
       case Wochentag.freitag:
         return 4;
     }
-  }  
+  }
 
   hintergrund(r) {
     if (r == 1) {
@@ -221,7 +235,7 @@ export class EinzelplaeneComponent implements OnInit {
   anzeigen = false;
   // this.lehrerServ.lehrerSelected$
 
-  tagesPlaene$ = this.klassenS.esrPlaan$.pipe(
+  tagesPlaene$ = this.klassenServ.esrPlaan$.pipe(
     map(
       z => {
         let fahrtenUndProjekte = this.termine;
@@ -284,8 +298,8 @@ export class EinzelplaeneComponent implements OnInit {
                   //ERst schauen, ob Projekt stattfindet //FAHRTEN ggf reinschreiben
 
 
-                  
-                  this.termine.forEach((termin:Termin) => {
+
+                  this.termine.forEach((termin: Termin) => {
                     if (termin.start <= tag.tag && termin.ende >= tag.tag) {
                       fahrt = true;
                       ersterTag.setTime(termin.start.getTime());
@@ -323,7 +337,7 @@ export class EinzelplaeneComponent implements OnInit {
                   if (fahrt === false) {
 
 
-                  
+
 
                     let lehrerRhyKlas = z.rhythmus[kla].filter(
                       el => el.lehrer.findIndex(lehr => (lehr.kuerzel !== null && lehr.kuerzel === lehra.kuerzel)) !== -1);
@@ -498,14 +512,14 @@ export class EinzelplaeneComponent implements OnInit {
 
   rhythmusPlan$ = this.lehrerServ.lehrerSelected$.pipe(
     concatMap(plan => {
-      return this.klassenS.esrPlaan$.pipe(take(1));
+      return this.klassenServ.esrPlaan$.pipe(take(1));
     }),
     map(z => {
       let fahrtenUndProjekte = this.termine;
 
       // let obj:{}|{fach:Fach,lehrer:Lehrer}|{ueberschrift:string}
 
-      
+
       let neu: Array < Array < Array < Array < {
         fach ? : Fach,
         klasse ? : Lehrjahr,
@@ -514,12 +528,12 @@ export class EinzelplaeneComponent implements OnInit {
         ganztaegig ? : string,
         start ? : Date,
         ende ? : Date
-      } >>> >= [new Array(5), new Array(5), new Array(5), new Array(5)];
+      } >>> > = [new Array(5), new Array(5), new Array(5), new Array(5)];
       //let ar=this.epochenPlanS.esr_plan;
 
       let anzeig = false;
 
-     this.esrPlan.forEach((abSCHN, aI) => {
+      this.esrPlan.forEach((abSCHN, aI) => {
         let zaehler = 0; //Für cellen-index
         abSCHN.forEach((tag: TagesObjekt) => {
           //console.log("jo");
@@ -967,20 +981,26 @@ export class EinzelplaeneComponent implements OnInit {
 
 
 
-  formatGesamtplan(klasse){
-    if(this.lehrerServ.gewaehlterPlan==="gesamtplan"){
-      switch(klasse){
-        case 'plaeneContainer': return "gesamtPlanContainer";
-        case 'stundenPlanTable': return "gesamtPlanStundenPlan";
-        default: "error";
+  formatGesamtplan(klasse) {
+    if (this.lehrerServ.gewaehlterPlan === "gesamtplan") {
+      switch (klasse) {
+        case 'plaeneContainer':
+          return "gesamtPlanContainer";
+        case 'stundenPlanTable':
+          return "gesamtPlanStundenPlan";
+        default:
+          "error";
       }
-    }else if(this.lehrerServ.gewaehlterPlan==="ESR"){
-      switch(klasse){
-      case 'plaeneContainer': return "gesamtPlanContainer";
-      case 'EpochenContainer': return "gesamtPlanEpoche";
-      default: "error";
+    } else if (this.lehrerServ.gewaehlterPlan === "ESR") {
+      switch (klasse) {
+        case 'plaeneContainer':
+          return "gesamtPlanContainer";
+        case 'EpochenContainer':
+          return "gesamtPlanEpoche";
+        default:
+          "error";
       }
-    }else{
+    } else {
       return klasse;
     }
 
@@ -994,31 +1014,46 @@ export class EinzelplaeneComponent implements OnInit {
 
 
 
-  constructor(private klassenS: KlassenplaeneService, public ferienServ: FerientermineService, public lehrerServ: LehrerService, public epochenPlanS: EpochenPlaeneService) {
+  constructor(
+    public lehrerServ: LehrerService,
+    public loginServ: LoginService,
+    private klassenServ: KlassenplaeneService,
+
+    public ferienServ: FerientermineService,
+    public epochenPlanS: EpochenPlaeneService,
+
+  ) {
+
+    //loginServ.lehrerladen();
+
     lehrerServ.lehrerSelected$.subscribe(data => {
       this.gewaehlterLehrer = data;
     });
+
+
+
+    this.klassenServ.grundPlanfaecher$.subscribe((data) =>
+      this.grundPlanfaecher = data);
+    this.klassenServ.lehrerListe$.subscribe((data) => {
+      this.lehrerListe = data
+    });
+
 
     epochenPlanS.esr_plan$.subscribe((data) => {
       this.esrPlan = data;
     });
 
-    this.klassenS.grundPlanfaecher$.subscribe((data) => this.grundPlanfaecher = data);
-    this.klassenS.lehrerListe$.subscribe((data) => {
-      this.lehrerListe = data
-    });
-
-    this.klassenS.terminListe$.subscribe((data) => {
+    this.klassenServ.terminListe$.subscribe((data) => {
       this.termine = data;
     });
-    this.klassenS.pruefungsListe$.subscribe((data) => {
+    this.klassenServ.pruefungsListe$.subscribe((data) => {
       this.pruefung = data;
     });
-    this.klassenS.ferienListe$.subscribe((data) => {
+    this.klassenServ.ferienListe$.subscribe((data) => {
       this.ferien = data;
     });
 
-
+    // this.gewaehlterLehrer = this.lehrerListe[0];
 
 
     //   klassenS.grundPlanfaecher$.subscribe(data => this.grundFaecher = data);

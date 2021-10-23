@@ -133,11 +133,12 @@ export class StartComponent implements OnInit {
     this.login.login();
     this.login.gesamtPlanLaden(5);
     this.speicherPlatzNr = 5;
+    login.lehrerladen();
     this.klassenPlanServ.lehrerListe$.subscribe(data => {
       this.lehrerListe=data;
     });
     
-    login.lehrerladen();
+
     //console.log(this.lehrerListe);
     this.login.termineladen();
   }

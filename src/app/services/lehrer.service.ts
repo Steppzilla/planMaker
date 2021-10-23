@@ -8,9 +8,9 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class LehrerService {
 
-  gewaehlterPlan="gesamtplan";
+  gewaehlterPlan:string;
   //wochenTagSelect=new BehaviorSubject(null);
-  wochenTagSelect="Montag";
+  wochenTagSelect:string;
   lehrerSelected = new BehaviorSubject(null);
   lehrerSelected$ = this.lehrerSelected.asObservable();
 
@@ -18,7 +18,7 @@ export class LehrerService {
 
 
   constructor() {
-   
+   this.wochenTagSelect="Montag";
     // this.stundenRaster.next(this.createEmptyStundenraster());
   }
 }

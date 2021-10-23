@@ -65,30 +65,31 @@
               <td *ngFor="let cell of zeile,index as r">
 
                 <ng-container *ngIf="this.klassenplanServ.terminListe$|async as termine ">
-                  <ng-container *ngFor="let termin of termine">
-                    <ng-container *ngIf="termin.klasse==r+1">
+                 
+                    <ng-container *ngIf="fahrtInKlasse(termine,r+1,planDat.getTime())">
                       <!--hier sind noch alle klassen betroffen mit Fahrten-->
                       
                         <ng-container
-                          *ngIf="termin.ende&&(planDat.getTime()>=termin.start.toDate().getTime())&&(planDat.getTime()<=termin.ende.toDate().getTime())&&std===0">
+                          *ngIf="std===0">
                           <div style="width:30pt">
                             <div class="sonderBox">
-                              {{termin.titel}}
+                              {{fahrtInKlasse(termine,r+1,planDat.getTime())}}
                             </div>
                           </div>
                         </ng-container>
          
-                    </ng-container>
                   </ng-container>
-                </ng-container>
+              
 
                 <ng-container *ngIf="aktuelleEpo$ |async as Epoo">
-
+           
                   <ng-container
-                    *ngIf="(cell&&cell[0]&&cell[0][0]&&r>7&&r<12&&Epoo[zahlinKlasse(r+1)].rhy.length>0)||r<=7||r==12">
+                    *ngIf="((r>7&&r<12)&&fahrtInKlasse(termine,r+1,planDat.getTime()).length==0)||r<=7||r==12">
+                      {{fahrtInKlasse(termine,r+1,planDat.getTime())}}
                     <!-- nur wenn aktuelle epoche definiert ist-->
                     <button triggers="click" [autoClose]="true" class="{{hintergrundd(cell)}}" [ngbTooltip]="Lehrer2"
                       placement="bottom" (click)="cellKlickk($event,std,r+1,Epoo[zahlinKlasse(r+1)],cell[0][0])">
+                    
                       <ng-container
                         *ngIf="cell&&cell[0]&&cell[0][0]&&cell[0][0]!=='StartUp'&&cell[0][0]!=='HU'&&cell[0][0]!='Schiene'||r<8; else ESR">
                         <ng-container *ngFor="let item of cell;index as i" class="fachItem">
@@ -195,7 +196,7 @@
                     </ng-template>
                   </ng-container>
                 </ng-container>
-
+              </ng-container>
 
               </td>
             </tr>
