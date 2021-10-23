@@ -7,17 +7,25 @@ import { LehrerListeComponent } from './components/lehrer-liste/lehrer-liste.com
 import { EsrPlanComponent } from './components/esr-plan/esr-plan.component';
 import { VertretungComponent } from './components/vertretung/vertretung.component';
 import { EinzelplaeneComponent } from './components/einzelplaene/einzelplaene.component';
+import { StartAuswahlComponent } from './components/start-auswahl/start-auswahl.component';
+import { StartComponent } from './components/start/start.component';
+import { PageGesamtplanComponent } from './pages/page-gesamtplan/page-gesamtplan.component';
+import { PageKlasseFachComponent } from './pages/page-klasse-fach/page-klasse-fach.component';
+import { PagelehrerListeComponent } from './pages/pagelehrer-liste/pagelehrer-liste.component';
+import { PageESRComponent } from './pages/page-esr/page-esr.component';
+import { PageVertretungComponent } from './pages/page-vertretung/page-vertretung.component';
+import { PageEinzelplaeneComponent } from './pages/page-einzelplaene/page-einzelplaene.component';
 
 const routes: Routes =[
-
-{path: 'gesamtplan', component: GesamtuebersichtComponent},
-{path: 'klasseFach', component: KlassenZuweisungComponent},
-{path: 'lehrerListe', component: LehrerListeComponent},
-{path: 'ESR', component: EsrPlanComponent},
-{path: "vertretung", component:VertretungComponent},
-{path: "einzelplaene", component: EinzelplaeneComponent},
-{path: '', redirectTo: "gesamtplan", pathMatch:'full'},
-{path: '**', redirectTo: "start", pathMatch:'full'},
+  {path: 'startAuswahl', component: StartAuswahlComponent},
+{path: 'gesamtplan', component: PageGesamtplanComponent},
+{path: 'klasseFach', component: PageKlasseFachComponent},
+{path: 'lehrerListe', component: PagelehrerListeComponent},
+{path: 'ESR', component: PageESRComponent},
+{path: "vertretung", component:PageVertretungComponent},
+{path: "einzelPlaene", component: PageEinzelplaeneComponent},
+{path: '', redirectTo: "startAuswahl", pathMatch:'full'},
+{path: '**', redirectTo: "startAuswahl", pathMatch:'full'},
 
 ];
 

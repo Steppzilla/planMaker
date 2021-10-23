@@ -140,7 +140,12 @@ export class KlassenZuweisungComponent implements OnInit {
   }
 
   print() {
-    this.printAktiv = true;
+
+    if(this.printAktiv===false){
+      this.printAktiv = true;
+    }else{
+      this.printAktiv=false;
+    }
   }
 
   loeschen(fa, kl) {

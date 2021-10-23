@@ -2,6 +2,7 @@
   <div class="date ">
     {{termine.datumHeute.getDate()}}.{{termine.datumHeute.getMonth()+1}}.{{termine.datumHeute.getFullYear()}}
   </div>
+  <ng-container *ngIf="lehrer.gewaehlterPlan=='ESR'||lehrer.gewaehlterPlan==='gesamtplan'||lehrer.gewaehlterPlan==='klasseFach'">
   <div class="loadSaveContain">
     <button class=" load" (click)="load()">load </button>
     <button class="speicherWahl" triggers="click" [ngbTooltip]="Speicherplaetze"> {{speicherPlatzNr}}
@@ -21,34 +22,17 @@
     </button>
     <button class="save" (click)="save()">save </button>
   </div>
+</ng-container>
 </div>
 
 
 
-<span id="menu" class="noprint">
-  <button (click)="redirect('lehrerListe')"> Lehrer-Übersicht</button>
-  <button (click)="redirect('klasseFach')"> Zuweisung </button>
-  <button (click)="redirect('gesamtplan')"> Gesamtplan </button>
-  <!--<button class="noprint" (click)="redirect('epoche')"> Epoche</button>
-  <button class="noprint" (click)="redirect('schiene')"> Schiene</button>
-  <button class="noprint" (click)="redirect('rhythmus')"> Rhythmus</button>-->
-  <button (click)="redirect('ESR')"> ESR </button>
-  <button (click)="redirect('vertretung')">Vertretung</button>
+<span  class="home noprint">
+  <button > <img (click)="redirect('startAuswahl')" src="../../../assets/icons/home.png"> </button>
 </span>
 
-<span id="ansichtMenu" class="noprint">
-  <button (click)="redirect('einzelplaene')">
-    Einzelplaene </button>
-</span>
 
-<div id="container">
-  <router-outlet></router-outlet>
-</div>
-
-<div id="leerraum" class="noprint">
-</div>
-
-<div id="Lehrerselect" class="buttonreihe noprint">
+<div id="Lehrerselect" class="buttonreihe noprint" *ngIf="lehrer.gewaehlterPlan=='ESR'||lehrer.gewaehlterPlan==='gesamtplan'||lehrer.gewaehlterPlan==='vertretung'||lehrer.gewaehlterPlan==='einzelPlaene'">
   <div>
 
     <ng-container *ngIf="lehrerArray$|async as resAnzahl">
@@ -88,7 +72,7 @@
 
       </ng-container>
 
-      <button triggers="click" [autoClose]="true" [ngbTooltip]="Lehrer2" placement="top" *ngIf="lehrer.gewaehlterPlan=='ESR'||lehrer.gewaehlterPlan=='gesamtplan'">
+      <button triggers="click" [autoClose]="true" [ngbTooltip]="Lehrer2" placement="bottom" *ngIf="lehrer.gewaehlterPlan=='ESR'||lehrer.gewaehlterPlan=='gesamtplan'">
         weitere
       </button>
 

@@ -28,7 +28,14 @@
     </ng-template>
   </h1>
 
-  <button class="noprint" (click)="print()">Zuweisung drucken</button>
+  <button class="noprint" (click)="print()">
+    <ng-container *ngIf="!printAktiv">
+      Alle Klassen anzeigen
+    </ng-container>
+    <ng-container *ngIf="printAktiv">
+      Plan reduzieren
+    </ng-container>
+  </button>
   <ng-container *ngIf="fachElemente$| async as Fachh">
     <table id="tabell">
       <tr>

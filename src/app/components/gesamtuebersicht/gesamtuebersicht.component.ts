@@ -482,7 +482,10 @@ counter=0;
     return duplicates > 0 ? "error" : "ok";
   }
 
-  constructor(public lehrerService: LehrerService, public login: LoginService, public klassenplanServ: KlassenplaeneService) {
+  constructor(
+    public lehrerService: LehrerService, 
+    public login: LoginService, 
+    public klassenplanServ: KlassenplaeneService) {
     this.wochenTagauswahl = 'Montag';
     this.kuerzeleinblenden = false;
     this.klassenplanServ.grundPlanfaecher$.subscribe((data) => {

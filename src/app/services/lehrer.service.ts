@@ -19,6 +19,7 @@ export class LehrerService {
 
   constructor() {
    this.wochenTagSelect="Montag";
+   
     // this.stundenRaster.next(this.createEmptyStundenraster());
   }
 }

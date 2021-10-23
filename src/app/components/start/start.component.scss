@@ -16,19 +16,22 @@
   position: fixed;
   top: 0pt;
   right: 0pt;
-  line-height:8pt;
+  line-height: 8pt;
 
   .date {
     font-size: 8pt;
     text-align: center;
   }
+
   .loadSaveContain {
     display: grid;
     grid-template-columns: 70% 30%;
+
     .load {
       background-color: rgb(43, 95, 43);
       color: rgb(170, 214, 180);
     }
+
     .speicherWahl {
       grid-row-start: 1;
       grid-row-end: 3;
@@ -36,86 +39,47 @@
       grid-column-end: 3;
       // background-color: yellow;
     }
+
     .save {
       background-color: rgb(122, 36, 36);
       color: rgb(214, 181, 176);
     }
-    button {
 
+    button {
       border-radius: 15pt;
     }
   }
 }
 
-#menu {
-  background-color: rgb(5, 157, 134);
-
-  button {
-    border-radius: 8pt;
-    margin-left: 5pt;
-    margin-right: 5pt;
-    background-color:rgb(112, 140, 216);
-    padding:0pt;
-    padding-left:5pt;
-    padding-right:5pt;
+.home {
+  img {
+    width: 30pt;
   }
 }
 
-#ansichtMenu {
-  //Einzelpläne, lehrerübersicht
-  background-color: rgb(5, 157, 134);
-  button {
-    background-color:rgb(153, 153, 153);
-    border-radius: 8pt;
-    margin-left: 5pt;
-    margin-right: 5pt;
-    padding:0pt;
-    padding-left:5pt;
-    padding-right:5pt;
-  }
-}
-
-
-#container { //Router-outlet-fenster
-  margin: 0pt;
-  padding: 0pt;
-  display: block;
-}
-
-#leerraum {
-  min-height: 10pt;
-  height: 90pt;
-}
-
-#Lehrerselect {//Menu unten mit LehrerKuerzel-buttons
+#Lehrerselect {
+  //Menu unten mit LehrerKuerzel-buttons
   height: 30pt;
   text-align: center;
   width: 99%;
+
   div {
+    display: flex;
+    justify-content: center;
+
     button {
       margin: 0pt;
-     // margin-right:1pt;
+      // margin-right:1pt;
       padding: 0.5pt;
-      width: auto;
-      border-radius:5pt;
+      width: 100%;
+      border-radius: 5pt;
       background-color: rgb(129, 176, 214);
     }
   }
-  position: fixed;
-  bottom:20pt;
-  left: 2pt;
-  margin-right:2pt;
-  opacity:0.9;
-  z-index: 4;
-  background-color: rgb(103, 111, 136);
-  border:3pt black solid;
-  border-radius:5pt;
-  padding:5pt;
+
 }
 
-.kuerzelGroß {
-  font-size: 18pt;
-}
+
 
 @media only screen and (max-width: 760px),
 (min-device-width: 768px) and (max-device-width: 1024px) {
