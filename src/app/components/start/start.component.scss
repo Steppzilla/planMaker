@@ -58,20 +58,19 @@
 }
 
 #Lehrerselect {
-  //Menu unten mit LehrerKuerzel-buttons
-  height: 30pt;
+  //Menu mit LehrerKuerzel-buttons
   text-align: center;
   width: 99%;
 
   div {
     display: flex;
     justify-content: center;
-
+ flex-wrap: wrap;
     button {
       margin: 0pt;
       // margin-right:1pt;
       padding: 0.5pt;
-      width: 100%;
+      width: 40pt;
       border-radius: 5pt;
       background-color: rgb(129, 176, 214);
     }

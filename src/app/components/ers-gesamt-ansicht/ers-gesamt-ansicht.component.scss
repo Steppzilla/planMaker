@@ -1,0 +1,177 @@
+* {
+  font-size: 10pt;
+}
+
+//aus zuweisung kopiert, noch nicht benutzt:
+$background:white;
+$color:black;
+$kuerzel: grey;
+$back-light:rgb(228, 228, 228);
+
+$rhybackground: rgb(255, 144, 133);
+$epoBackground: rgb(207, 198, 98);
+$schieneBackground: rgb(176, 219, 130);
+
+
+
+
+#gesamt {
+  table {
+    
+    margin: 5pt;
+    margin-bottom:60pt;
+
+    tr {
+      td {
+        text-align: center;
+        border: 1px black solid;
+      }
+    }
+
+  }
+}
+
+
+.conti{ display: flex;
+    flex-wrap: wrap;
+    justify-content: center;}
+
+
+.rhythmus {
+  background-color: $rhybackground;
+}
+
+.epoche {
+  background-color: $epoBackground;
+}
+
+.schiene {
+  background-color: $schieneBackground;
+}
+
+.tagesContainer {
+  width: 11pt;
+}
+
+.dateBox {
+  display: flex;
+  div {
+    width: 16pt;
+  }
+}
+
+.sonderBox {
+  //  background-color:green;
+  font-size: 9pt;
+  position: relative;
+  top: -0pt;
+  left: 0pt;
+  transform: rotate(290deg);
+  white-space: nowrap;
+  line-height: 10pt;
+  //width:40pt;
+
+  div {
+      font-weight:normal;
+      font-style:italic;
+    border: 1pt black solid;
+    width: 100pt;
+    background-color: white;
+    text-align: left;
+  }
+  .pruefung {
+    // background-color: mediumorchid;
+  //  font-style: italic;
+  }
+  
+  .ferien {
+    //background-color: steelblue;
+    font-weight: bold;
+  }
+  
+
+}
+
+.monatBox {
+    width:0pt;
+    overflow:visible;
+  height: 16pt;
+}
+
+// färbung prüfung datum hinterlegen
+
+//
+
+.klein {
+  width: 10pt; //die Breite beeinflusst breite des Hintergrunds der Sonderbox darinne
+  // background-color:red;
+  font-size: 8pt;
+}
+
+//So und Sa schmal und unsichtbar
+.D0,
+.D6 {
+  width: 2pt;
+  opacity: 0;
+}
+
+
+.D2,
+.D3,
+.D4,
+.D5 {
+  height: 40pt;
+  // background-color:green;
+}
+
+.D1 .buttonBox {
+  z-index: 1;
+}
+
+.abschnitt>.tagesContainer>div {
+  text-align: center;
+}
+
+
+.false{display:none;}
+.true{display:auto;}
+
+.kuerzel {
+   
+}
+.fahrt {
+  font-style: italic;
+}
+
+@media print {
+  * {
+    font-size: 10pt;
+    padding: 0pt;
+  }
+
+  table {
+    margin: 0pt;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .kuerzel {
+     
+  }
+
+  .container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+
+  }
+}
+
+
+
+.blueback {
+  // color: rgb(147, 147, 184);
+  color: black;
+  font-weight: bold;
+  background-color: rgb(160, 160, 241);
+}

@@ -50,16 +50,18 @@ export class EsrPlanComponent implements OnInit {
   xii = Lehrjahr.zwoelf;
 
   termineEinblenden = false;
-  absch = 0;
 
 
-  esrPlan: Array < Array < TagesObjekt >> ;
+
   grundPlanfaecher: Array < Elementt > ;
-
+  esrPlan: Array < Array < TagesObjekt >> ;
+  selectLehrer;
+  
+  absch = 0;
   gewaehlterPlan = "rhythmus";
   gewaehltesElement: Elementt;
   clickCount = 0;
-  selectLehrer;
+
 
 
   printAktiv = false;

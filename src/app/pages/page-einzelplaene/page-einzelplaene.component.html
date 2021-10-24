@@ -5,4 +5,30 @@
 
 </app-start>
 
-<app-einzelplaene></app-einzelplaene>
+<button class="noprint" (click)="redirect('vertretung')">
+    aktueller Plan (beta)
+    </button> 
+    <button class="noprint" (click)="redirect('gesamtplaene-ansicht')">
+       Gesamtpläne
+        </button>
+
+<button class="noprint" (click)="redirect('einzelPlaene')">
+    Lehrerpläne
+</button> 
+
+<button class="noprint" (click)="redirect('ESR-gesamtAnsicht-Component')">
+Epochen
+</button>
+
+
+<button class="noprint" >
+(Raumplan), Klassenplan ...
+</button> 
+
+
+<router-outlet>
+
+</router-outlet>
+
+
+

@@ -1,0 +1,445 @@
+* {
+    padding: 0pt;
+    margin: 0pt;
+  }
+  
+  $schriftfarbe:rgb(0, 0, 0);
+  
+  //aus zuweisung kopiert, noch nicht benutzt:
+  $background:rgb(126, 126, 126);
+  $background2:rgb(194, 199, 194);
+  $back-light:rgb(231, 224, 224);
+  
+  
+  
+  
+  
+  h1,
+  h2 {
+    text-align: center;
+  
+  }
+  
+  button {
+    border: solid 1pt black;
+  }
+  
+  #gesamtuebersicht {
+    background-color: rgb(255, 255, 255);
+    color: $schriftfarbe;
+  }
+  
+  
+  th {
+    font-weight: normal;
+  }
+  
+  .drucken {
+    margin-top: 5pt;
+    border-radius: 7pt;
+    background-color: mediumaquamarine;
+  }
+  
+  .wochenTagContainer {
+    h2 button {
+      border-radius: 5pt;
+      line-height: 1;
+    }
+  
+    .wochentagButton {
+      width: 80pt;
+      display: block;
+  
+      button {
+        width: 100%;
+        border: none;
+        background-color: inherit;
+      }
+    }
+  
+  
+  
+    table {
+      line-height: 1;
+      page-break-inside: auto;
+      margin-right: auto;
+      margin-left: auto;
+      //border-collapse: collapse;
+      border-collapse: collapse;
+  
+      tr {
+        th {
+          text-align: center;
+        }
+  
+        td {
+          border: none;
+          height: 30pt;
+  
+          button {
+            height: 100%;
+            width: 100%;
+            padding-left: 4pt;
+            padding-right: 4pt;
+  
+            div {}
+          }
+        }
+      }
+    }
+  }
+  
+  .fachItem {
+    display: flex;
+  
+    div {
+      width: 100%;
+    }
+  }
+  
+  
+  //obere buttons ende
+  // $colors : #fedc00, #fcb712, #f7921e, #e87f24, #dd6227, #dc4c27, #ca3435, #b82841, #953751, #364c88, #16599d, #02609e, #0073a9, #008aa4, #239a87, #7cba6d, #becc2f, #e0d81d;
+  
+  .error {
+    color: red;
+  }
+  
+  .ok {
+    //color:green;
+  }
+  .gruen{
+    color:green;
+  }
+  
+  .blueback {
+    color: rgb(82, 82, 241);
+  }
+  
+  .huB,
+  .schB,
+  .rhyB,
+  .normalB,
+  .empty {
+    height: 100%;
+  }
+  
+  .huB {
+    background-color: rgb(207, 198, 98);
+  }
+  
+  .schB {
+    background-color: rgb(176, 219, 130);
+  }
+  
+  .rhyB {
+    background-color: rgb(255, 144, 133);
+  }
+  
+  .normalB {
+    background-color: rgb(227, 228, 227);
+  }
+  
+  .empty {
+    min-height: 20pt;
+    opacity: 0.1;
+  }
+  
+  #toggle-item-Container {
+    opacity: 1;
+    background-color: rgb(187, 236, 228);
+    padding: 0pt;
+    display: grid;
+    width: auto;
+    grid-template-columns: 35% 10% 10% 20% 25%;
+    border: none;
+    white-space: nowrap;
+  }
+  
+  .toggle-items {
+    opacity: 1;
+    background-color: rgb(187, 236, 228);
+    font-size: 12pt;
+    line-height: 12t;
+    width: 100%;
+  }
+  
+  .iconBut {
+    background: none;
+    border: none;
+  }
+  
+  #left button,
+  #right button {
+    position: fixed;
+    top: 50%;
+  }
+  
+  #left button {
+    left: 0pt;
+  }
+  
+  #right button {
+    right: 0pt;
+  }
+  
+  
+  
+  .formatMain1,.formatMain2,.formatMain3,.formatMain4,.formatMain5,.formatMain6,.formatMain7,.formatMain8,.formatMain9,.formatMain10,.formatMain11,.formatMain12,.formatMain13 {
+    display: flex;
+    justify-content: center;;
+  }
+  .formatMainnull {
+    display: block;
+  }
+  /*
+  .formatTable {
+    //tr-format allgemein, (auch) wenn klasse gewählt
+  }.formatRow {}*/
+  
+  .formatTd {
+    button {
+      width: 100%;
+  
+    }
+  }
+  
+  .format.null {
+    //tr format wenn keine klasse gewählt
+    display: auto;
+  
+  }
+  
+  @media only screen and (max-width: 760px),
+  (min-device-width: 768px) and (max-device-width: 1024px) {
+  
+    .fachItem {
+      display: block;
+  
+      div {
+        overflow: hidden;
+  
+      }
+    }
+  
+    .kuerzl {
+      display: block;
+    }
+  
+    .fach {
+      display: none;
+  
+    }
+  
+    th>span {
+      display: none;
+    }
+  
+    //Anzahl der stunden einer klasse
+    .wochenTagContainer {
+      button {}
+    }
+  /*
+    .formatTd {
+      //wenn nur eine klasse eingebldent sit
+      width: 80pt;
+  
+      button {
+        width: 100%;
+  
+      }
+    }
+  
+    .formatTd.null {
+      button {
+        width: 20pt;
+        overflow: hidden;
+      }
+    }*/
+  
+  }
+  
+  @media only screen and (max-width: 460px),
+  (min-device-width: 468px) and (max-device-width: 624px) {
+  
+    .wochenTagContainer table {
+      border-collapse: collapse;
+      width: 90%;
+  
+      tr {
+        td {
+          //  border : 1pt solid black;
+  
+          button {
+            
+          }
+        }
+      }
+    }
+  /*
+    .formatTd {
+      //wenn nur eine klasse eingebldent sit
+      width: 120pt;
+  
+      button {
+        width: 100%;
+  
+      }
+    }
+  
+    .formatTd.null {
+      button {
+        padding: 0pt;
+            width: 100%;
+            overflow: hidden;
+            font-size: 9pt;
+      }
+    }*/
+  
+  }
+  
+  
+  
+  @media print {
+    * {
+      font-size: 14pt;
+      padding: 0pt;
+      margin: 0pt;
+      background-image: none;
+    }
+  
+    h1,
+    h2 {
+      //font-weight:bold;
+      margin-top: 4pt;
+      padding-top: 0pt;
+      margin: 0pt;
+      font-size: 20pt;
+      color: $schriftfarbe;
+    }
+  
+    h2 {
+      color: $schriftfarbe;
+      font-size: 16pt;
+    }
+  
+    #gesamtuebersicht {
+      background-image: none;
+      background-color: white;
+      color: $schriftfarbe;
+  
+    }
+  
+    .buttonreihe.wochentagButton {
+      display: block;
+    }
+  
+    //sonst noprint kenie wirkung
+  
+    .kuerzl {
+      color: mediumblue;
+    }
+  
+    .kuerzl.error {
+      color: red;
+    }
+  
+    .blueback {
+      color: black;
+      font-weight: normal;
+    }
+  
+    .huB {
+      background-color: rgb(224, 200, 137);
+      color: black;
+    }
+  
+    .schB {
+      background-color: rgb(185, 214, 154);
+      color: black;
+    }
+  
+    .rhyB {
+      background-color: rgb(231, 143, 135);
+      color: black;
+    }
+  
+    .normalB {
+      background-color: white;
+      color: black;
+    }
+  
+    .empty {
+      min-height: 10pt;
+      opacity: 0;
+      background-color: white;
+      // height:10pt;
+    }
+  
+    button {
+      //min-height:10pt;
+      height: 10pt;
+    }
+  
+    .huB,
+    .schB,
+    .rhyB,
+    .normalB,
+    .empty {
+      background-image: none;
+      // border : 1pt black solid;
+      color: black;
+      height: 10pt;
+  
+    }
+  
+    .wochenTagContainer {
+      page-break-inside: avoid;
+  
+      div h2 button {
+        background-color: white;
+        border: none;
+        font-size: 20pt;
+        font-weight: bold;
+      }
+    }
+  
+    table {
+      width: 90%;
+      page-break-inside: avoid;
+      margin-left: auto;
+      margin-right: auto;
+      border-collapse: collapse;
+      line-height: 14pt;
+  
+      th:first-child {
+        //  border-right:1px grey solid;
+      }
+  
+      tr {
+  
+        //  border-bottom: 1px grey dotted;
+        th {
+          height: 10pt;
+          text-align: center;
+          color: black;
+          font-weight: bold;
+        }
+  
+        td {
+          height: 10pt;
+  
+          button {
+            height: 100%;
+            width: 100%;
+  
+            div {}
+          }
+        }
+      }
+    }
+  
+  }
+  
+  
+  

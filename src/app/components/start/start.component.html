@@ -2,7 +2,7 @@
   <div class="date ">
     {{termine.datumHeute.getDate()}}.{{termine.datumHeute.getMonth()+1}}.{{termine.datumHeute.getFullYear()}}
   </div>
-  <ng-container *ngIf="lehrer.gewaehlterPlan=='ESR'||lehrer.gewaehlterPlan==='gesamtplan'||lehrer.gewaehlterPlan==='klasseFach'">
+  <ng-container *ngIf="lehrer.gewaehlterPlan=='ESR'||lehrer.gewaehlterPlan==='gesamtplan'||lehrer.gewaehlterPlan==='klasseFach'&&lehrer.ausgewaehlterModus!=0">
   <div class="loadSaveContain">
     <button class=" load" (click)="load()">load </button>
     <button class="speicherWahl" triggers="click" [ngbTooltip]="Speicherplaetze"> {{speicherPlatzNr}}
@@ -68,9 +68,7 @@
             </div>
           </button>
         </ng-container>
-
-
-      </ng-container>
+   </ng-container>
 
       <button triggers="click" [autoClose]="true" [ngbTooltip]="Lehrer2" placement="bottom" *ngIf="lehrer.gewaehlterPlan=='ESR'||lehrer.gewaehlterPlan=='gesamtplan'">
         weitere

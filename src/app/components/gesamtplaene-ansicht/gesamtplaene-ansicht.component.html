@@ -1,0 +1,62 @@
+
+
+  
+  <h1>Gesamtpläne</h1>
+  <div id="main ">
+    <ng-container *ngIf="gesamtRaster$|async as gesRaster">
+      <div class="wochenTagContainer" *ngFor="let wochenTag of ['montag','dienstag','mittwoch','donnerstag','freitag']">
+        <div >
+          <h2>{{wochenTag.substring(1,0).toUpperCase()+wochenTag.slice(1,wochenTag.length)}}
+          </h2>
+          <ng-template #WochenTage>
+            <div class="buttonreihe noprint wochentagButton">
+              <button class="noprint" (click)="wochentagWahl('Montag')">Montag</button>
+              <button class="noprint" (click)="wochentagWahl('Dienstag')">Dienstag</button>
+              <button class="noprint" (click)="wochentagWahl('Mittwoch')">Mittwoch</button>
+              <button class="noprint" (click)="wochentagWahl('Donnerstag')">Donnerstag</button>
+              <button class="noprint" (click)="wochentagWahl('Freitag')"> Freitag</button>
+            </div>
+          </ng-template>
+  
+          <table class="formatTable {{gewaehlteKlassenIndex}}">
+            <tr class="formatRow {{gewaehlteKlassenIndex}}">
+              <th *ngIf="gewaehlteKlassenIndex===null"></th>
+              <ng-container *ngFor="let cell of gesRaster[wochenTag][0]; index as k">
+                <th class="formatTd {{gewaehlteKlassenIndex}}" (click)="reduce(k)"
+                  *ngIf="gewaehlteKlassenIndex==null||k===gewaehlteKlassenIndex">
+                  {{k+1}}
+                  <span>({{klassengesamtstunden(k+1)}}) </span></th>
+              </ng-container>
+            </tr>
+            <tr class="formatRow {{gewaehlteKlassenIndex}}" *ngFor="let zeile of gesRaster[wochenTag], index as std">
+              <th *ngIf="gewaehlteKlassenIndex===null">
+                {{std+1}}
+              </th>
+  
+              <ng-container *ngFor="let cell of zeile,index as r">
+                <td class="formatTd {{gewaehlteKlassenIndex}}"
+                  *ngIf="r===gewaehlteKlassenIndex||gewaehlteKlassenIndex==null">
+                  <button  class="{{hintergrundd(cell)}}"                    >
+                    <div *ngFor="let item of cell;index as i" class="fachItem">
+                      <div class="fach"
+                        *ngIf="(i==0||(i>0&&item[0]!=cell[i-1][0]))||(item[0]!=='HU'&&item[0]!=='StartUp'&&item[0]!=='Schiene')">
+                        {{ item[0]}}
+                      </div>
+                      <ng-container *ngIf="item[0]!='StartUp'&&item[0]!='HU'&&item[0]!='Schiene'||r<8">
+                        <div class="{{markedd(item[1])}} kuerzl">
+                          {{item[1] }}
+                        </div>
+                      </ng-container>
+                      
+                    </div>
+                  </button>
+                  
+                </td>
+              </ng-container>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  

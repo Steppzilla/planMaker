@@ -1,0 +1,639 @@
+<div id="gesamt" class="">
+  <h1>ESR-Plan</h1>
+
+  <button class="noprint" (click)="kuerzeleinblenden()">
+    <ng-container *ngIf="einblenden==false">
+      Kürzel einblenden
+    </ng-container>
+    <ng-container *ngIf="einblenden==true">
+      Kürzel ausblenden
+    </ng-container>
+  </button>
+  <!--
+  <div id="pruefungsDaten" *ngIf="klassenplanServ.pruefungsListe$|async as pruefungen">
+    <h2> Prüfungstermine: </h2>
+    <div class="boxpruefung" *ngFor="let pruefung of pruefungen">
+      <div style="font-weight:bold">
+        {{" "+pruefung.titel|unterstrichEntfernen}} </div>
+      <div> {{pruefung.start.toDate()|date:"d. M. YY"}} </div>
+      <div *ngIf="pruefung.ende!==undefined"> - {{pruefung.ende.toDate()|date:"d. M. Y"}} </div>
+    </div>
+
+  </div>-->
+  <div class="conti">
+    <ng-container *ngIf="esrPlan">
+      <ng-container *ngFor="let abschnitt of esrPlan, index as ab">
+        <div>
+          <table>
+            <tr>
+              <ng-container *ngFor="let box of abschnitt, index as t">
+                <ng-container *ngIf="box.tag.getDay()==1">
+                  <th colSpan="1">
+                    <div class="monatBox">
+                      <ng-container *ngIf="t<7|| box.tag.getMonth()!==abschnitt[t-7].tag.getMonth()">
+                        {{ferienServ.monatZuString( box.tag)}}
+                      </ng-container>
+                    </div>
+                    <div class="dateBox">
+                      <div>
+                        {{wochenTag(box.tag.getDay())}}
+                      </div>
+                      <div class="klein ">
+                        <ng-container *ngIf="box.ferien.length==0&&box.pruefungen.length==0">
+                          {{box.tag|date: "d."}}
+                        </ng-container>
+                        <div class="sonderBox ">
+                          <div *ngIf="box.ferien.length>0" class="{{besondererTag(abschnitt[t])}}">
+                            <ng-container *ngFor="let fer of box.ferien">
+                              {{box.tag|date: "d."}} {{fer.titel|unterstrichEntfernen}}
+                            </ng-container>
+                          </div>
+                          <div *ngIf="box.pruefungen.length>0" class="{{besondererTag(abschnitt[t])}}">
+                            <ng-container *ngFor="let fer of box.pruefungen">
+                              {{box.tag|date: "d."}} {{fer.titel|unterstrichEntfernen}}
+                            </ng-container>
+                          </div>
+                        </div>
+                      </div>
+                      <ng-container *ngIf="abschnitt.length>t+1">
+                        <div *ngIf="besondererTag(abschnitt[t+1]).length>0" class="klein ">
+                          <div class="sonderBox ">
+                            <div *ngIf="abschnitt[t+1].ferien.length>0" class="{{besondererTag(abschnitt[t+1])}}">
+                              <ng-container *ngFor="let fer of abschnitt[t+1].ferien">
+                                {{abschnitt[t+1].tag|date: "d."}}{{fer.titel|unterstrichEntfernen}}
+                              </ng-container>
+                            </div>
+                            <div *ngIf="abschnitt[t+1].pruefungen.length>0" class=" {{besondererTag(abschnitt[t+1])}}">
+                              <ng-container *ngFor="let fer of abschnitt[t+1].pruefungen">
+                                {{abschnitt[t+1].tag|date: "d."}}{{fer.titel|unterstrichEntfernen}}
+                              </ng-container>
+                            </div>
+                          </div>
+                        </div>
+
+                      </ng-container>
+                      <ng-container *ngIf="abschnitt.length>t+2">
+                        <div *ngIf="besondererTag(abschnitt[t+2]).length>0" class="klein ">
+                          <div class="sonderBox ">
+                            <div *ngIf="abschnitt[t+2].ferien.length>0" class="{{besondererTag(abschnitt[t+2])}}">
+                              <ng-container *ngFor="let fer of abschnitt[t+2].ferien">
+                                {{abschnitt[t+2].tag|date: "d."}}{{fer.titel|unterstrichEntfernen}}
+                              </ng-container>
+                            </div>
+                            <div *ngIf="abschnitt[t+2].pruefungen.length>0" class="{{besondererTag(abschnitt[t+2])}}">
+                              <ng-container *ngFor="let fer of abschnitt[t+2].pruefungen">
+                                {{abschnitt[t+2].tag|date: "d."}}{{fer.titel|unterstrichEntfernen}}
+                              </ng-container>
+                            </div>
+                          </div>
+                        </div>
+                      </ng-container>
+                      <ng-container *ngIf="abschnitt.length>t+3">
+                        <div *ngIf="besondererTag(abschnitt[t+3]).length>0" class="klein ">
+                          <div class="sonderBox ">
+                            <div *ngIf="abschnitt[t+3].ferien.length>0" class="{{besondererTag(abschnitt[t+3])}}">
+                              <ng-container *ngFor="let fer of abschnitt[t+3].ferien">
+                                {{abschnitt[t+3].tag|date: "d."}}{{fer.titel|unterstrichEntfernen}}
+                              </ng-container>
+                            </div>
+                            <div *ngIf="abschnitt[t+3].pruefungen.length>0" class="{{besondererTag(abschnitt[t+3])}}">
+                              <ng-container *ngFor="let fer of abschnitt[t+3].pruefungen">
+                                {{abschnitt[t+3].tag|date: "d."}} {{fer.titel|unterstrichEntfernen}}
+                              </ng-container>
+                            </div>
+                          </div>
+                        </div>
+                      </ng-container>
+                      <ng-container *ngIf="abschnitt.length>t+4">
+                        <div *ngIf="besondererTag(abschnitt[t+4]).length>0" class="klein">
+                          <div class="sonderBox ">
+                            <div *ngIf="abschnitt[t+4].ferien.length>0" class="{{besondererTag(abschnitt[t+4])}}">
+                              <ng-container *ngFor="let fer of abschnitt[t+4].ferien">
+                                {{abschnitt[t+4].tag|date: "d."}}{{fer.titel|unterstrichEntfernen}}
+                              </ng-container>
+                            </div>
+                            <div *ngIf="abschnitt[t+4].pruefungen.length>0" class="{{besondererTag(abschnitt[t+4])}}">
+                              <ng-container *ngFor="let fer of abschnitt[t+4].pruefungen">
+                                {{abschnitt[t+4].tag|date: "d."}}{{fer.titel|unterstrichEntfernen}}
+                              </ng-container>
+                            </div>
+                          </div>
+                        </div>
+                      </ng-container>
+                      <!--
+                        <div class="sonderBox">
+                            <ng-container *ngIf="box.ferien.length>0">
+                              <ng-container *ngFor="let fer of box.ferien">{{fer.titel|unterstrichEntfernen}}</ng-container>
+                            </ng-container>
+                            <ng-container *ngIf="box.pruefungen.length>0">
+                              <ng-container *ngFor="let fer of box.pruefungen">{{fer.titel|unterstrichEntfernen}}
+                              </ng-container>
+                            </ng-container>
+                          </div>-->
+                    </div>
+
+                  </th>
+                </ng-container>
+              </ng-container>
+            </tr>
+            <tr class="rhythmus" *ngIf="rhythmusElemente$|async as rhy">
+              <ng-container *ngFor="let box of abschnitt, index as t">
+                <ng-container *ngIf="box.tag.getDay()==1">
+                  <ng-container class="neun" *ngIf="klassenFahrt(box.fahrten,9)!==null">
+                    <ng-container
+                      *ngIf="t<7||(t>=7&&klassenFahrt(abschnitt[t-7].fahrten,9)===null)||(t>=7&&klassenFahrt(abschnitt[t].fahrten,9).titel!==klassenFahrt(abschnitt[t-7].fahrten,9).titel)">
+                      <td class="fahrt" colSpan="{{klassenFahrtBreite(abschnitt,box,9,t)}}">
+                        {{kuerzen(klassenFahrt(box.fahrten,9).titel)}}
+                      </td>
+                    </ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="klassenFahrt(box.fahrten,9)===null">
+                    <ng-container
+                      *ngIf="t<6||(t>6&&breite(rhy.neun,abschnitt[t].tag,t, 'rhythmus',abschnitt)>=breite(rhy.neun,abschnitt[t-7].tag,t,'rhythmus',abschnitt))">
+                      <td colSpan="{{breite(rhy.neun,abschnitt[t].tag,t, 'rhythmus', abschnitt)}}">
+                        <!--        {{breite(rhy.neun,box.tag,t, 'rhythmus',abschnitt)}}-->
+                        <div>
+                          <ng-container *ngFor="let ele of rhy.neun; index as eI">
+                            <span class="fach neun" *ngIf="tagimAbschnitt(ele,box.tag,'rhythmus')">
+                              {{tagimAbschnitt(ele,box.tag,'rhythmus').fach}}
+                            </span>
+                          </ng-container>
+                          <ng-container *ngIf="einblenden">
+                            (<ng-container *ngFor="let ele of rhy.neun; index as eI">
+                              <span class="kuerzel {{einblenden}} neun" *ngIf="tagimAbschnitt(ele,box.tag,'rhythmus')">
+                                {{tagimAbschnitt(ele,box.tag,'rhythmus').lehrer[0].kuerzel}}
+                              </span>
+                            </ng-container>)
+                          </ng-container>
+                        </div>
+                      </td>
+                    </ng-container>
+
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </tr>
+
+
+
+            <tr class="rhythmus" *ngIf="rhythmusElemente$|async as rhy">
+              <ng-container *ngFor="let box of abschnitt, index as t">
+                <ng-container *ngIf="box.tag.getDay()==1">
+                  <ng-container class="zehn " *ngIf="klassenFahrt(box.fahrten,10)!==null">
+                    <ng-container
+                      *ngIf="t<7||(t>=7&&klassenFahrt(abschnitt[t-7].fahrten,10)===null)||(t>=7&&klassenFahrt(abschnitt[t].fahrten,10).titel!==klassenFahrt(abschnitt[t-7].fahrten,10).titel)">
+                      <td class="fahrt" colSpan="{{klassenFahrtBreite(abschnitt,box,10,t)}}">
+                        {{kuerzen(klassenFahrt(box.fahrten,10).titel)}}
+                      </td>
+                    </ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="klassenFahrt(box.fahrten,10)===null">
+                    <ng-container
+                      *ngIf="t<6||(t>6&&breite(rhy.zehn,abschnitt[t].tag,t, 'rhythmus',abschnitt)>=breite(rhy.zehn,abschnitt[t-7].tag,t,'rhythmus',abschnitt))">
+                      <td colSpan="{{breite(rhy.zehn,abschnitt[t].tag,t, 'rhythmus', abschnitt)}}">
+
+                        <!--          {{breite(rhy.zehn,box.tag,t, 'rhythmus',abschnitt)}}-->
+
+                        <div>
+
+                          <ng-container *ngFor="let ele of rhy.zehn; index as eI">
+                            <span class="fach zehn" *ngIf="tagimAbschnitt(ele,box.tag,'rhythmus')">
+                              {{tagimAbschnitt(ele,box.tag,'rhythmus').fach}}
+                            </span>
+                          </ng-container>
+                          <ng-container *ngIf="einblenden">
+                            (<ng-container *ngFor="let ele of rhy.zehn; index as eI">
+                              <span class="kuerzel {{einblenden}} zehn" *ngIf="tagimAbschnitt(ele,box.tag,'rhythmus')">
+                                {{tagimAbschnitt(ele,box.tag,'rhythmus').lehrer[0].kuerzel}}
+                              </span>
+                            </ng-container>)
+                          </ng-container>
+                        </div>
+                      </td>
+                    </ng-container>
+
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </tr>
+
+            <tr class="rhythmus" *ngIf="rhythmusElemente$|async as rhy">
+              <ng-container *ngFor="let box of abschnitt, index as t">
+                <ng-container *ngIf="box.tag.getDay()==1">
+                  <ng-container class="elf " *ngIf="klassenFahrt(box.fahrten,11)!==null">
+                    <ng-container
+                      *ngIf="t<7||(t>=7&&klassenFahrt(abschnitt[t-7].fahrten,11)===null)||(t>=7&&klassenFahrt(abschnitt[t].fahrten,11).titel!==klassenFahrt(abschnitt[t-7].fahrten,11).titel)">
+                      <td class="fahrt" colSpan="{{klassenFahrtBreite(abschnitt,box,11,t)}}">
+                        {{kuerzen(klassenFahrt(box.fahrten,11).titel)}}
+                      </td>
+                    </ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="klassenFahrt(box.fahrten,11)===null">
+                    <ng-container
+                      *ngIf="t<6||(t>6&&breite(rhy.elf,abschnitt[t].tag,t, 'rhythmus',abschnitt)>=breite(rhy.elf,abschnitt[t-7].tag,t,'rhythmus',abschnitt))">
+                      <td colSpan="{{breite(rhy.elf,abschnitt[t].tag,t, 'rhythmus', abschnitt)}}">
+                        <!--          {{breite(rhy.elf,abschnitt[t].tag,t, 'rhythmus', abschnitt)}}-->
+
+                        <div>
+                          <ng-container *ngFor="let ele of rhy.elf; index as eI">
+                            <span class="fach elf" *ngIf="tagimAbschnitt(ele,box.tag,'rhythmus')">
+                              {{tagimAbschnitt(ele,box.tag,'rhythmus').fach}}
+                            </span>
+                          </ng-container>
+                          <ng-container *ngIf="einblenden">
+                            (<ng-container *ngFor="let ele of rhy.elf; index as eI">
+                              <span class="kuerzel {{einblenden}} elf" *ngIf="tagimAbschnitt(ele,box.tag,'rhythmus')">
+                                {{tagimAbschnitt(ele,box.tag,'rhythmus').lehrer[0].kuerzel}}
+                              </span>
+                            </ng-container>)
+                          </ng-container>
+                        </div>
+                      </td>
+                    </ng-container>
+
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </tr>
+            <tr class="rhythmus" *ngIf="rhythmusElemente$|async as rhy">
+              <ng-container *ngFor="let box of abschnitt, index as t">
+                <ng-container *ngIf="box.tag.getDay()==1">
+
+                  <ng-container class="zwoelf " *ngIf="klassenFahrt(box.fahrten,12)!==null">
+                    <ng-container
+                      *ngIf="t<7||(t>=7&&klassenFahrt(abschnitt[t-7].fahrten,12)===null)||(t>=7&&klassenFahrt(abschnitt[t].fahrten,12).titel!==klassenFahrt(abschnitt[t-7].fahrten,12).titel)">
+                      <td class="fahrt" colSpan="{{klassenFahrtBreite(abschnitt,box,12,t)}}">
+                        {{kuerzen(klassenFahrt(box.fahrten,12).titel)}}
+                      </td>
+                    </ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="klassenFahrt(box.fahrten,12)===null">
+                    <ng-container
+                      *ngIf="t<6||(t>6&&breite(rhy.zwoelf,abschnitt[t].tag,t, 'rhythmus',abschnitt)>=breite(rhy.zwoelf,abschnitt[t-7].tag,t,'rhythmus',abschnitt))">
+                      <td colSpan="{{breite(rhy.zwoelf,abschnitt[t].tag,t, 'rhythmus', abschnitt)}}">
+                        <!--          {{breite(rhy.zwoelf,abschnitt[t].tag,t, 'rhythmus', abschnitt)}}-->
+
+                        <div>
+
+                          <ng-container *ngFor="let ele of rhy.zwoelf; index as eI">
+                            <span class="fach zwoelf" *ngIf="tagimAbschnitt(ele,box.tag,'rhythmus')">
+                              {{tagimAbschnitt(ele,box.tag,'rhythmus').fach}}
+                            </span>
+                          </ng-container>
+                          <ng-container *ngIf="einblenden">
+                            (<ng-container *ngFor="let ele of rhy.zwoelf; index as eI">
+                              <span class="kuerzel {{einblenden}} zwoelf"
+                                *ngIf="tagimAbschnitt(ele,box.tag,'rhythmus')">
+                                {{tagimAbschnitt(ele,box.tag,'rhythmus').lehrer[0].kuerzel}}
+                              </span>
+                            </ng-container>)
+                          </ng-container>
+                        </div>
+                      </td>
+                    </ng-container>
+
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </tr>
+            <tr>
+
+            </tr>
+            <tr class="epoche" *ngIf="epochenElemente$|async as epo">
+              <ng-container *ngFor="let box of abschnitt, index as t">
+                <ng-container *ngIf="box.tag.getDay()==1">
+                  <ng-container class="neun " *ngIf="klassenFahrt(box.fahrten,9)!==null">
+                    <ng-container
+                      *ngIf="t<7||(t>=7&&klassenFahrt(abschnitt[t-7].fahrten,9)===null)||(t>=7&&klassenFahrt(abschnitt[t].fahrten,9).titel!==klassenFahrt(abschnitt[t-7].fahrten,9).titel)">
+                      <td class="fahrt" colSpan="{{klassenFahrtBreite(abschnitt,box,9,t)}}">
+
+                        {{kuerzen(klassenFahrt(box.fahrten,9).titel)}}
+                      </td>
+                    </ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="klassenFahrt(box.fahrten,9)===null">
+                    <ng-container
+                      *ngIf="t<6||(t>6&&breite(epo.neun,abschnitt[t].tag,t, 'epoche',abschnitt)>=breite(epo.neun,abschnitt[t-7].tag,t,'epoche',abschnitt))">
+                      <td colSpan="{{breite(epo.neun,abschnitt[t].tag,t, 'epoche', abschnitt)}}">
+                        <!--         {{breite(epo.neun,abschnitt[t].tag,t, 'epoche', abschnitt)}}-->
+
+                        <div>
+
+                          <ng-container *ngFor="let ele of epo.neun; index as eI">
+                            <span class="fach neun" *ngIf="tagimAbschnitt(ele,box.tag,'epoche')">
+                              {{tagimAbschnitt(ele,box.tag,'epoche').fach}}
+                            </span>
+                          </ng-container>
+                          <ng-container *ngIf="einblenden">
+                            (<ng-container *ngFor="let ele of epo.neun; index as eI">
+                              <span class="kuerzel {{einblenden}} neun" *ngIf="tagimAbschnitt(ele,box.tag,'epoche')">
+                                {{tagimAbschnitt(ele,box.tag,'epoche').lehrer[0].kuerzel}}
+                              </span>
+                            </ng-container>)
+                          </ng-container>
+                        </div>
+                      </td>
+                    </ng-container>
+
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </tr>
+
+
+
+            <tr class="epoche" *ngIf="epochenElemente$|async as epo">
+              <ng-container *ngFor="let box of abschnitt, index as t">
+                <ng-container *ngIf="box.tag.getDay()==1">
+
+                  <ng-container class="zehn" *ngIf="klassenFahrt(box.fahrten,10)!==null">
+                    <ng-container
+                      *ngIf="t<7||(t>=7&&klassenFahrt(abschnitt[t-7].fahrten,10)===null)||(t>=7&&klassenFahrt(abschnitt[t].fahrten,10).titel!==klassenFahrt(abschnitt[t-7].fahrten,10).titel)">
+                      <td class="fahrt" colSpan="{{klassenFahrtBreite(abschnitt,box,10,t)}}">
+
+                        {{kuerzen(klassenFahrt(box.fahrten,10).titel)}}
+                      </td>
+                    </ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="klassenFahrt(box.fahrten,10)===null">
+                    <ng-container
+                      *ngIf="t<6||(t>6&&breite(epo.zehn,abschnitt[t].tag,t, 'epoche',abschnitt)>=breite(epo.zehn,abschnitt[t-7].tag,t,'epoche',abschnitt))">
+                      <td colSpan="{{breite(epo.zehn,abschnitt[t].tag,t, 'epoche', abschnitt)}}">
+                        <!--           {{breite(epo.zehn,abschnitt[t].tag,t, 'epoche', abschnitt)}}-->
+
+                        <div>
+
+                          <ng-container *ngFor="let ele of epo.zehn; index as eI">
+                            <span class="fach zehn" *ngIf="tagimAbschnitt(ele,box.tag,'epoche')">
+                              {{tagimAbschnitt(ele,box.tag,'epoche').fach}}
+                            </span>
+                          </ng-container>
+                          <ng-container *ngIf="einblenden">
+                            (<ng-container *ngFor="let ele of epo.zehn; index as eI">
+                              <span class="kuerzel {{einblenden}} zehn" *ngIf="tagimAbschnitt(ele,box.tag,'epoche')">
+                                {{tagimAbschnitt(ele,box.tag,'epoche').lehrer[0].kuerzel}}
+                              </span>
+                            </ng-container>)
+                          </ng-container>
+                        </div>
+                      </td>
+                    </ng-container>
+
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </tr>
+
+            <tr class="epoche" *ngIf="epochenElemente$|async as epo">
+              <ng-container *ngFor="let box of abschnitt, index as t">
+                <ng-container *ngIf="box.tag.getDay()==1">
+
+                  <ng-container class="elf" *ngIf="klassenFahrt(box.fahrten,11)!==null">
+                    <ng-container
+                      *ngIf="t<7||(t>=7&&klassenFahrt(abschnitt[t-7].fahrten,11)===null)||(t>=7&&klassenFahrt(abschnitt[t].fahrten,11).titel!==klassenFahrt(abschnitt[t-7].fahrten,11).titel)">
+                      <td class="fahrt" colSpan="{{klassenFahrtBreite(abschnitt,box,11,t)}}">
+
+                        {{kuerzen(klassenFahrt(box.fahrten,11).titel)}}
+                      </td>
+                    </ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="klassenFahrt(box.fahrten,11)===null">
+                    <ng-container
+                      *ngIf="t<6||(t>6&&breite(epo.elf,abschnitt[t].tag,t, 'epoche',abschnitt)>=breite(epo.elf,abschnitt[t-7].tag,t,'epoche',abschnitt))">
+                      <td colSpan="{{breite(epo.elf,abschnitt[t].tag,t, 'epoche', abschnitt)}}">
+                        <!--         {{breite(epo.elf,abschnitt[t].tag,t, 'epoche', abschnitt)}}-->
+
+                        <div>
+                          <ng-container *ngFor="let ele of epo.elf; index as eI">
+                            <span class="fach elf" *ngIf="tagimAbschnitt(ele,box.tag,'epoche')">
+                              {{tagimAbschnitt(ele,box.tag,'epoche').fach}}
+                            </span>
+                          </ng-container>
+                          <ng-container *ngIf="einblenden">
+                            (<ng-container *ngFor="let ele of epo.elf; index as eI">
+                              <span class="kuerzel {{einblenden}} elf" *ngIf="tagimAbschnitt(ele,box.tag,'epoche')">
+                                {{tagimAbschnitt(ele,box.tag,'epoche').lehrer[0].kuerzel}}
+                              </span>
+                            </ng-container>)
+                          </ng-container>
+                        </div>
+                      </td>
+                    </ng-container>
+
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </tr>
+            <tr class="epoche" *ngIf="epochenElemente$|async as epo">
+              <ng-container *ngFor="let box of abschnitt, index as t">
+                <ng-container *ngIf="box.tag.getDay()==1">
+                  <ng-container class="zwoelf" *ngIf="klassenFahrt(box.fahrten,12)!==null">
+                    <ng-container
+                      *ngIf="t<7||(t>=7&&klassenFahrt(abschnitt[t-7].fahrten,12)===null)||(t>=7&&klassenFahrt(abschnitt[t].fahrten,12).titel!==klassenFahrt(abschnitt[t-7].fahrten,12).titel)">
+                      <td class="fahrt" colSpan="{{klassenFahrtBreite(abschnitt,box,12,t)}}">
+                        {{kuerzen(klassenFahrt(box.fahrten,12).titel)}}
+                      </td>
+                    </ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="klassenFahrt(box.fahrten,12)===null">
+                    <ng-container
+                      *ngIf="t<6||(t>6&&breite(epo.zwoelf,abschnitt[t].tag,t, 'epoche',abschnitt)>=breite(epo.zwoelf,abschnitt[t-7].tag,t,'epoche',abschnitt))">
+                      <td colSpan="{{breite(epo.zwoelf,abschnitt[t].tag,t, 'epoche', abschnitt)}}">
+                        <!--      {{breite(epo.zwoelf,abschnitt[t].tag,t, 'epoche', abschnitt)}}-->
+
+                        <div>
+                          <ng-container *ngFor="let ele of epo.zwoelf; index as eI">
+                            <span class="fach zwoelf" *ngIf="tagimAbschnitt(ele,box.tag,'epoche')">
+                              {{tagimAbschnitt(ele,box.tag,'epoche').fach}}
+                            </span>
+                          </ng-container>
+                          <ng-container *ngIf="einblenden">
+                            (<ng-container *ngFor="let ele of epo.zwoelf; index as eI">
+                              <span class="kuerzel {{einblenden}} zwoelf" *ngIf="tagimAbschnitt(ele,box.tag,'epoche')">
+                                {{tagimAbschnitt(ele,box.tag,'epoche').lehrer[0].kuerzel}}
+                              </span>
+                            </ng-container>)
+                          </ng-container>
+                        </div>
+                      </td>
+                    </ng-container>
+
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </tr>
+
+
+
+            <tr>
+
+            </tr>
+
+            <tr class="schiene" *ngIf="schieneElemente$|async as epo">
+              <ng-container *ngFor="let box of abschnitt, index as t">
+                <ng-container *ngIf="box.tag.getDay()==1">
+                  <ng-container class="neun" *ngIf="klassenFahrt(box.fahrten,9)!==null">
+                    <ng-container
+                      *ngIf="t<7||(t>=7&&klassenFahrt(abschnitt[t-7].fahrten,9)===null)||(t>=7&&klassenFahrt(abschnitt[t].fahrten,9).titel!==klassenFahrt(abschnitt[t-7].fahrten,9).titel)">
+                      <td class="fahrt" colSpan="{{klassenFahrtBreite(abschnitt,box,9,t)}}">
+                        {{kuerzen(klassenFahrt(box.fahrten,9).titel)}}
+                      </td>
+                    </ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="klassenFahrt(box.fahrten,9)===null">
+                    <ng-container
+                      *ngIf="t<6||(t>6&&breite(epo.neun,abschnitt[t].tag,t, 'schiene',abschnitt)>=breite(epo.neun,abschnitt[t-7].tag,t,'schiene',abschnitt))">
+                      <td colSpan="{{breite(epo.neun,abschnitt[t].tag,t, 'schiene', abschnitt)}}">
+                        <!--     {{breite(epo.neun,abschnitt[t].tag,t, 'schiene', abschnitt)}}-->
+
+                        <div>
+
+                          <ng-container *ngFor="let ele of epo.neun; index as eI">
+                            <span class="fach neun" *ngIf="tagimAbschnitt(ele,box.tag,'schiene')">
+                              {{tagimAbschnitt(ele,box.tag,'schiene').fach}}
+                            </span>
+                          </ng-container>
+                          <ng-container *ngIf="einblenden">
+                            (<ng-container *ngFor="let ele of epo.neun; index as eI">
+                              <span class="kuerzel {{einblenden}} neun" *ngIf="tagimAbschnitt(ele,box.tag,'schiene')">
+                                {{tagimAbschnitt(ele,box.tag,'schiene').lehrer[0].kuerzel}}
+                              </span>
+                            </ng-container>)
+                          </ng-container>
+                        </div>
+
+                      </td>
+                    </ng-container>
+
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </tr>
+
+
+            <tr class="schiene" *ngIf="schieneElemente$|async as epo">
+              <ng-container *ngFor="let box of abschnitt, index as t">
+                <ng-container *ngIf="box.tag.getDay()==1">
+
+                  <ng-container class="zehn" *ngIf="klassenFahrt(box.fahrten,10)!==null">
+                    <ng-container
+                      *ngIf="t<7||(t>=7&&klassenFahrt(abschnitt[t-7].fahrten,10)===null)||(t>=7&&klassenFahrt(abschnitt[t].fahrten,10).titel!==klassenFahrt(abschnitt[t-7].fahrten,10).titel)">
+                      <td class="fahrt" colSpan="{{klassenFahrtBreite(abschnitt,box,10,t)}}">
+                        {{kuerzen(klassenFahrt(box.fahrten,10).titel)}}
+                      </td>
+                    </ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="klassenFahrt(box.fahrten,10)===null">
+                    <ng-container
+                      *ngIf="t<6||(t>6&&breite(epo.zehn,abschnitt[t].tag,t, 'schiene',abschnitt)>=breite(epo.zehn,abschnitt[t-7].tag,t,'schiene',abschnitt))">
+                      <td colSpan="{{breite(epo.zehn,abschnitt[t].tag,t, 'schiene', abschnitt)}}">
+                        <!--   {{breite(epo.zehn,abschnitt[t].tag,t, 'schiene', abschnitt)}}-->
+
+                        <div>
+
+                          <ng-container *ngFor="let ele of epo.zehn; index as eI">
+                            <span class="fach zehn" *ngIf="tagimAbschnitt(ele,box.tag,'schiene')">
+                              {{tagimAbschnitt(ele,box.tag,'schiene').fach}}
+                            </span>
+                          </ng-container>
+                          <ng-container *ngIf="einblenden">
+                            ( <ng-container *ngFor="let ele of epo.zehn; index as eI">
+                              <span class="kuerzel zehn" *ngIf="tagimAbschnitt(ele,box.tag,'schiene')">
+                                {{tagimAbschnitt(ele,box.tag,'schiene').lehrer[0].kuerzel}}
+                              </span>
+                            </ng-container>)
+                          </ng-container>
+                        </div>
+                      </td>
+                    </ng-container>
+
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </tr>
+            <tr class="schiene" *ngIf="schieneElemente$|async as epo">
+              <ng-container *ngFor="let box of abschnitt, index as t">
+                <ng-container *ngIf="box.tag.getDay()==1">
+
+                  <ng-container class="elf" *ngIf="klassenFahrt(box.fahrten,11)!==null">
+                    <ng-container
+                      *ngIf="t<7||(t>=7&&klassenFahrt(abschnitt[t-7].fahrten,11)===null)||(t>=7&&klassenFahrt(abschnitt[t].fahrten,11).titel!==klassenFahrt(abschnitt[t-7].fahrten,11).titel)">
+                      <td class="fahrt" colSpan="{{klassenFahrtBreite(abschnitt,box,11,t)}}">
+                        {{kuerzen(klassenFahrt(box.fahrten,11).titel)}}
+                      </td>
+                    </ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="klassenFahrt(box.fahrten,11)===null">
+                    <ng-container
+                      *ngIf="t<6||(t>6&&breite(epo.elf,abschnitt[t].tag,t, 'schiene',abschnitt)>=breite(epo.elf,abschnitt[t-7].tag,t,'schiene',abschnitt))">
+                      <td colSpan="{{breite(epo.elf,abschnitt[t].tag,t, 'schiene', abschnitt)}}">
+                        <!--      {{breite(epo.elf,abschnitt[t].tag,t, 'schiene', abschnitt)}}-->
+
+                        <div>
+
+                          <ng-container *ngFor="let ele of epo.elf; index as eI">
+                            <span class="fach elf" *ngIf="tagimAbschnitt(ele,box.tag,'schiene')">
+                              {{tagimAbschnitt(ele,box.tag,'schiene').fach}}
+                            </span>
+                          </ng-container>
+                          <ng-container *ngIf="einblenden">
+                            (<ng-container *ngFor="let ele of epo.elf; index as eI">
+                              <span class="kuerzel  elf" *ngIf="tagimAbschnitt(ele,box.tag,'schiene')">
+                                {{tagimAbschnitt(ele,box.tag,'schiene').lehrer[0].kuerzel}}
+                              </span>
+                            </ng-container>)
+                          </ng-container>
+                        </div>
+                      </td>
+                    </ng-container>
+
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </tr>
+
+            <tr class="schiene" *ngIf="schieneElemente$|async as epo">
+              <ng-container *ngFor="let box of abschnitt, index as t">
+                <ng-container *ngIf="box.tag.getDay()==1">
+                  <ng-container class="zwoelf" *ngIf="klassenFahrt(box.fahrten,12)!==null">
+                    <ng-container
+                      *ngIf="t<7||(t>=7&&klassenFahrt(abschnitt[t-7].fahrten,12)===null)||(t>=7&&klassenFahrt(abschnitt[t].fahrten,12).titel!==klassenFahrt(abschnitt[t-7].fahrten,12).titel)">
+                      <td class="fahrt" colSpan="{{klassenFahrtBreite(abschnitt,box,12,t)}}">
+                        {{kuerzen(klassenFahrt(box.fahrten,12).titel)}}
+                      </td>
+                    </ng-container>
+                  </ng-container>
+                  <ng-container *ngIf="klassenFahrt(box.fahrten,12)===null">
+                    <ng-container
+                      *ngIf="t<6||(t>6&&breite(epo.zwoelf,abschnitt[t].tag,t, 'schiene',abschnitt)>=breite(epo.zwoelf,abschnitt[t-7].tag,t,'schiene',abschnitt))">
+                      <td colSpan="{{breite(epo.zwoelf,abschnitt[t].tag,t, 'schiene', abschnitt)}}">
+                        <!--{{breite(epo.zwoelf,abschnitt[t].tag,t, 'schiene', abschnitt)}}-->
+
+                        <div>
+
+                          <ng-container *ngFor="let ele of epo.zwoelf; index as eI">
+                            <span class="fach zwoelf" *ngIf="tagimAbschnitt(ele,box.tag,'schiene')">
+                              {{tagimAbschnitt(ele,box.tag,'schiene').fach}}
+                            </span>
+                          </ng-container>
+                          <ng-container *ngIf="einblenden">
+                            (<ng-container *ngFor="let ele of epo.zwoelf; index as eI">
+                              <span class="kuerzel zwoelf" *ngIf="tagimAbschnitt(ele,box.tag,'schiene')">
+                                {{tagimAbschnitt(ele,box.tag,'schiene').lehrer[0].kuerzel}}
+                              </span>
+                            </ng-container>)
+                          </ng-container>
+                        </div>
+                      </td>
+                    </ng-container>
+
+                  </ng-container>
+                </ng-container>
+              </ng-container>
+            </tr>
+          </table>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>

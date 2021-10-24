@@ -485,7 +485,8 @@ counter=0;
   constructor(
     public lehrerService: LehrerService, 
     public login: LoginService, 
-    public klassenplanServ: KlassenplaeneService) {
+    public klassenplanServ: KlassenplaeneService) 
+    {
     this.wochenTagauswahl = 'Montag';
     this.kuerzeleinblenden = false;
     this.klassenplanServ.grundPlanfaecher$.subscribe((data) => {

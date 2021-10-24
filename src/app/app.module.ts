@@ -27,6 +27,8 @@ import { PageGesamtplanComponent } from './pages/page-gesamtplan/page-gesamtplan
 import { PageESRComponent } from './pages/page-esr/page-esr.component';
 import { PageVertretungComponent } from './pages/page-vertretung/page-vertretung.component';
 import { PageRaumplanerComponent } from './pages/page-raumplaner/page-raumplaner.component';
+import { GesamtplaeneAnsichtComponent } from './components/gesamtplaene-ansicht/gesamtplaene-ansicht.component';
+import { ERSGesamtAnsichtComponent } from './components/ers-gesamt-ansicht/ers-gesamt-ansicht.component';
 
 const config = {
   //apiKey: '<your-key>',
@@ -60,7 +62,9 @@ const config = {
     PageGesamtplanComponent,
     PageESRComponent,
     PageVertretungComponent,
-    PageRaumplanerComponent
+    PageRaumplanerComponent,
+    GesamtplaeneAnsichtComponent,
+    ERSGesamtAnsichtComponent
   ],
   imports: [
     BrowserModule,
