@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PageEinzelplaeneComponent } from './page-einzelplaene.component';
+import { HomeComponent } from './home.component';
 
-describe('PageEinzelplaeneComponent', () => {
-  let component: PageEinzelplaeneComponent;
-  let fixture: ComponentFixture<PageEinzelplaeneComponent>;
+describe('HomeComponent', () => {
+  let component: HomeComponent;
+  let fixture: ComponentFixture<HomeComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PageEinzelplaeneComponent ]
+      declarations: [ HomeComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PageEinzelplaeneComponent);
+    fixture = TestBed.createComponent(HomeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

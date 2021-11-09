@@ -1,17 +1,9 @@
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import {
   Component,
   OnInit
 } from '@angular/core';
 import {
-  element
-} from 'protractor';
-import {
-  concatMap,
-  filter,
-  map,
-  reduce,
-  take,
+  map
 } from 'rxjs/operators';
 import {
   Fach
@@ -46,7 +38,7 @@ import {
 export class GesamtuebersichtComponent implements OnInit {
   wochenTagauswahl: string;
   selectLehrer: Lehrer;
-  gewaehlteKlassenIndex:null;
+  gewaehlteKlassenIndex: null;
 
   grundPlanfaecher: Array < Elementt > ; //statt stundenLehrerArray?
   lehrerAuswahl = []; //nur übstundenFilter von grundplanfaecher
@@ -60,25 +52,25 @@ export class GesamtuebersichtComponent implements OnInit {
 
   printAktiv = false;
 
-counter=0;
-  reduce(klassenIndex){
-    if(this.counter%2==0){
-    this.gewaehlteKlassenIndex=klassenIndex;
-    this.wochenTagauswahl=null;
-    }else{
-      this.gewaehlteKlassenIndex=null;
-      this.wochenTagauswahl="Montag";
+  counter = 0;
+  reduce(klassenIndex) {
+    if (this.counter % 2 == 0) {
+      this.gewaehlteKlassenIndex = klassenIndex;
+      this.wochenTagauswahl = null;
+    } else {
+      this.gewaehlteKlassenIndex = null;
+      this.wochenTagauswahl = "Montag";
     }
     this.counter++;
     console.log(klassenIndex)
   }
 
-  counter2=0;
+  counter2 = 0;
   print() {
-    if(this.counter2%2==0){
-    this.printAktiv = true;
-    }else{
-      this.printAktiv=false;
+    if (this.counter2 % 2 == 0) {
+      this.printAktiv = true;
+    } else {
+      this.printAktiv = false;
     }
     this.counter2++;
   }
@@ -189,76 +181,55 @@ counter=0;
     }
   }
 
-  duplicatess(kuerz, z, fachd) { //
-    let duplicates = 0;
-    this.grundPlanfaecher.forEach((element, e) => {
-      if (element == null) {
-        this.grundPlanfaecher.splice(e, 1);
-      } else {
-        element.zuweisung.uebstunde.forEach(({
-          wochentag,
-          stunde
-        }, ue) => {
-          //  console.log(wochentag + "."+this.wochenTagauswahl);
-          if (wochentag == this.wochenTagauswahl && stunde == z) {
-            element.lehrer.forEach(le => {
-              if (kuerz == null || le == null) {
 
-              } else if (kuerz && element && kuerz == le.kuerzel) {
-                // console.log(element.lehrer[0].kuerzel + "." +r + ". " + element.klasse);
+  duplicatesss(kuerz, zeile, fachd) { // zeile war vorher nur zeilen-nummer
 
-                if (fachd != Fach.hauptunterricht && fachd != Fach.schiene && fachd != Fach.rhythmisch && fachd != Fach.orchester && fachd != Fach.wahlpflicht && fachd != Fach.chor && fachd != Fach.mittelstufenorchester) {
-                  duplicates++;
-                } else if (element.fach != Fach.hauptunterricht && element.fach != Fach.schiene && element.fach != Fach.rhythmisch && element.fach != Fach.orchester && element.fach != Fach.wahlpflicht && element.fach != Fach.chor && element.fach != Fach.mittelstufenorchester) {
-                  duplicates++;
-                }
-              }
-            });
-          }
-        });
-      }
-    });
 
-    if (fachd == Fach.hauptunterricht || fachd == Fach.schiene || fachd == Fach.rhythmisch) {
-      duplicates++;
-    }
-    return duplicates > 1 ? "error" : "ok";
-  }
-
-  duplicatesss(kuerz, zeile,  fachd) { // zeile war vorher nur zeilen-nummer
     let duplicates = 0;
     zeile.forEach(cell => {
       cell.forEach(element => {
         //Zeitversetzte oder klassenübergreifende fächer aussschließen!
         if (kuerz === element[1]) {
           if ((fachd === Fach.hauptunterricht //aktuelle zelle ist nicht hu/Sch oder rhy, dann direkt hochzählen
-            || fachd === Fach.schiene 
-            || fachd === Fach.rhythmisch 
-            || fachd=== Fach.orchester 
-            || fachd === Fach.wahlpflicht 
-            || fachd === Fach.chor 
-            || fachd === Fach.mittelstufenorchester
-            ) &&(element[0] === Fach.hauptunterricht ||  //Vergleichszelle ist nicht hu/sch oder rhy. 
+              ||
+              fachd === Fach.schiene ||
+              fachd === Fach.rhythmisch ||
+              fachd === Fach.orchester ||
+              fachd === Fach.wahlpflicht ||
+              fachd === Fach.chor ||
+              fachd === Fach.mittelstufenorchester
+            ) && (element[0] === Fach.hauptunterricht || //Vergleichszelle ist nicht hu/sch oder rhy. 
               //Hier geht er auch aktuelle zelle durch, daher entsteht automatisch eine dopplung
-              element[0] === Fach.schiene || 
-              element[0] === Fach.rhythmisch || 
+              element[0] === Fach.schiene ||
+              element[0] === Fach.rhythmisch ||
               element[0] === Fach.orchester ||
-              element[0] === Fach.wahlpflicht || 
-              element[0] === Fach.chor || 
-              element[0] === Fach.mittelstufenorchester)){
-                //wenn er selbst schiene ist zählt er nur einmal hoch, weil beim Verglecih mit sich selbst beidesmal schiene ist
-           
+              element[0] === Fach.wahlpflicht ||
+              element[0] === Fach.chor ||
+              element[0] === Fach.mittelstufenorchester)) {
+            //wenn er selbst schiene ist zählt er nur einmal hoch, weil beim Verglecih mit sich selbst beidesmal schiene ist
           } else {
             duplicates++;
-            if(fachd=== (Fach.hauptunterricht||Fach.schiene||Fach.rhythmisch ||Fach.orchester
-              ||Fach.wahlpflicht||Fach.chor ||Fach.mittelstufenorchester )){
-                duplicates++;
+            if (fachd === (Fach.hauptunterricht || Fach.schiene || Fach.rhythmisch || Fach.orchester ||
+                Fach.wahlpflicht || Fach.chor || Fach.mittelstufenorchester)) {
             }
           }
         }
       });
     });
-    return duplicates > 1 ? "error" : "ok";
+    if (duplicates >= 1 && (fachd === Fach.hauptunterricht //aktuelle zelle ist nicht hu/Sch oder rhy, dann direkt hochzählen
+        ||
+        fachd === Fach.schiene ||
+        fachd === Fach.rhythmisch ||
+        fachd === Fach.orchester ||
+        fachd === Fach.wahlpflicht ||
+        fachd === Fach.chor ||
+        fachd === Fach.mittelstufenorchester
+      )) {
+      return "error";
+    } else {
+
+      return duplicates > 1 ? "error" : "ok";
+    }
   }
 
 
@@ -360,7 +331,7 @@ counter=0;
 
   wochentagWahl(x: string) {
     this.wochenTagauswahl = x;
-    this.printAktiv=false;
+    this.printAktiv = false;
   }
 
 
@@ -483,15 +454,14 @@ counter=0;
   }
 
   constructor(
-    public lehrerService: LehrerService, 
-    public login: LoginService, 
-    public klassenplanServ: KlassenplaeneService) 
-    {
+    public lehrerService: LehrerService,
+    public login: LoginService,
+    public klassenplanServ: KlassenplaeneService) {
     this.wochenTagauswahl = 'Montag';
     this.kuerzeleinblenden = false;
     this.klassenplanServ.grundPlanfaecher$.subscribe((data) => {
       this.grundPlanfaecher = data;
-       console.log(data);
+      console.log(data);
     });
     this.wochentagWahl(this.wochenTagauswahl);
     this.tagesPlan = login.leerestagesRaster();

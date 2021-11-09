@@ -2,6 +2,7 @@ import {
   Injectable
 } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { Lehrer } from '../interfaces/lehrer';
 
 @Injectable({
   providedIn: 'root'
@@ -17,17 +18,14 @@ export class LehrerService {
  
   ausgewaehlterModus=0; 
   //0 für nur anscahuen, 
-  //1 für vertretungsplan, 
-   //2 für Nur Lehrer und Zuweisungen ändern
-  //3 für Stundenplan änderungen Gesamtplan
-  //4 für ESR Plan ändern
-
-
-  // 5 totaler Admin, lehrer, Zuweisungen und Pläne ändern
+  //1 für edit, 
+   
 
 
   constructor() {
    this.wochenTagSelect="Montag";
+   let lehr:Lehrer={anrede:"Herr",kuerzel: "NN", name: "NN", faecher:[]};
+   this.lehrerSelected.next(lehr);
    
     // this.stundenRaster.next(this.createEmptyStundenraster());
   }

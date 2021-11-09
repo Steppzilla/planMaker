@@ -9,13 +9,13 @@ import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { Fach } from 'src/app/enums/fach.enum';
 import { Elementt } from 'src/app/interfaces/elementt';
+import { Lehrer } from 'src/app/interfaces/lehrer';
 import {
   FerientermineService
 } from 'src/app/services/ferientermine.service';
 import { KlassenplaeneService } from 'src/app/services/klassenplaene.service';
-import {
-  LehrerService
-} from 'src/app/services/lehrer.service';
+import { LehrerService } from 'src/app/services/lehrer.service';
+
 import {
   LoginService
 } from 'src/app/services/login.service';
@@ -30,6 +30,7 @@ export class StartComponent implements OnInit {
   speicherPlatzNr;
   lehrerListe;
 
+  
 
   wahl(zahl) {
     this.speicherPlatzNr = zahl;
@@ -41,10 +42,10 @@ export class StartComponent implements OnInit {
   }
 
   redirect(x: string) {
-    this.router.navigate([x]);
-    this.lehrer.gewaehlterPlan = x;
-  //  console.log(x);
-   // console.log(this.lehrer.gewaehlterPlan);
+    this.router.navigate(["start/"+x]);
+    this.lehrerS.gewaehlterPlan = x;
+    console.log(x);
+   // console.log(this.lehrerS.gewaehlterPlan);
   }
 
   save() {
@@ -56,9 +57,16 @@ export class StartComponent implements OnInit {
     this.login.gesamtPlanLaden(this.speicherPlatzNr); //login.stundenplandaten wird neu belegt mit Daten, also observed durch this.stundenRaster ändert sich das dann auch
   }
 
-  lehrerwahl(lehrerNR) { //Blaumarkierung der gewählten lehrer
-    //  this.selectLehrer = this.lehrerService.lehrer[lehrerNR]; //locale Variable
-    this.lehrer.lehrerSelected.next(this.lehrerListe[lehrerNR]);
+  lehrerloeschen(){
+    let lehr:Lehrer={anrede:"Herr",kuerzel: "NN", name: "NN", faecher:[]};
+
+    this.lehrerS.lehrerSelected.next(lehr);
+  }
+
+  lehrerwahl(lehrerNR) { //Blaumarkierung der gewählten lehrerS
+    //  this.selectLehrer = this.lehrerService.lehrerS[lehrerNR]; //locale Variable
+    this.lehrerS.lehrerSelected.next(this.lehrerListe[lehrerNR]);
+    console.log(this.lehrerListe[lehrerNR]);
   }
 
   lehrerArray$: Observable < {
@@ -86,8 +94,8 @@ export class StartComponent implements OnInit {
         [key: string]: {}
       } = {};
       if (this.lehrerListe) {
-        let lehrer = this.lehrerListe.slice(0, this.lehrerListe.length);
-        lehrer.forEach(le => {
+        let lehrerS = this.lehrerListe.slice(0, this.lehrerListe.length);
+        lehrerS.forEach(le => {
           if (obj[le.kuerzel]) {
             let neu = {
               ueb: 0,
@@ -96,11 +104,11 @@ export class StartComponent implements OnInit {
               rhy: 0
             };
             obj[le.kuerzel].forEach(ele => {
-         //     if(ele.lehrer[0].kuerzel==="Wo"){
+         //     if(ele.lehrerS[0].kuerzel==="Wo"){
           //      console.log(ele);
            //   }
               //HU und alle sammelbehälter nicht doppelt zählen:
-              if ((ele.fach !== Fach.hauptunterricht && ele.fach !== Fach.rhythmisch && ele.fach !== Fach.schiene)||(ele.fach!=="HU"&&ele.fach!=="StartUp"&&ele.fach!=="Schiene")) {
+              if ((ele.fach !== Fach.hauptunterricht && ele.fach !== Fach.rhythmisch && ele.fach !== Fach.schiene)||(ele.fach!=="HU"&&ele.fach!=="Rhythmus"&&ele.fach!=="Schiene")) {
                 neu.ueb = neu.ueb + ele.uebstunde;
                 neu.sch = neu.sch + ele.schiene;
                 neu.rhy = neu.rhy + ele.rhythmus;
@@ -129,7 +137,7 @@ export class StartComponent implements OnInit {
 
 
 
-  constructor(public lehrer: LehrerService, public login: LoginService, public router: Router, public termine: FerientermineService,public klassenPlanServ:KlassenplaeneService) {
+  constructor(public lehrerS: LehrerService, public login: LoginService, public router: Router, public termine: FerientermineService,public klassenPlanServ:KlassenplaeneService) {
     this.login.login();
     this.login.gesamtPlanLaden(5);
     this.speicherPlatzNr = 5;
@@ -141,8 +149,9 @@ export class StartComponent implements OnInit {
 
     //console.log(this.lehrerListe);
     this.login.termineladen();
+
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
 }

@@ -19,16 +19,9 @@ import { HinweiseComponent } from './components/hinweise/hinweise.component';
 import { EinzelplaeneComponent } from './components/einzelplaene/einzelplaene.component';
 import { FormsModule } from '@angular/forms';
 import { UnterstrichEntfernenPipe } from './unterstrich-entfernen.pipe';
-import { StartAuswahlComponent } from './components/start-auswahl/start-auswahl.component';
-import { PageEinzelplaeneComponent } from './pages/page-einzelplaene/page-einzelplaene.component';
-import { PagelehrerListeComponent } from './pages/pagelehrer-liste/pagelehrer-liste.component';
-import { PageKlasseFachComponent } from './pages/page-klasse-fach/page-klasse-fach.component';
-import { PageGesamtplanComponent } from './pages/page-gesamtplan/page-gesamtplan.component';
-import { PageESRComponent } from './pages/page-esr/page-esr.component';
-import { PageVertretungComponent } from './pages/page-vertretung/page-vertretung.component';
-import { PageRaumplanerComponent } from './pages/page-raumplaner/page-raumplaner.component';
 import { GesamtplaeneAnsichtComponent } from './components/gesamtplaene-ansicht/gesamtplaene-ansicht.component';
 import { ERSGesamtAnsichtComponent } from './components/ers-gesamt-ansicht/ers-gesamt-ansicht.component';
+import { HomeComponent } from './components/home/home.component';
 
 const config = {
   //apiKey: '<your-key>',
@@ -55,16 +48,9 @@ const config = {
     HinweiseComponent,
     EinzelplaeneComponent,
     UnterstrichEntfernenPipe,
-    StartAuswahlComponent,
-    PageEinzelplaeneComponent,
-    PagelehrerListeComponent,
-    PageKlasseFachComponent,
-    PageGesamtplanComponent,
-    PageESRComponent,
-    PageVertretungComponent,
-    PageRaumplanerComponent,
     GesamtplaeneAnsichtComponent,
-    ERSGesamtAnsichtComponent
+    ERSGesamtAnsichtComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

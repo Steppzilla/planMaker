@@ -21,7 +21,7 @@
           <div class="klasStunde">{{v.klasse}}|
             {{v.stunde+1}}
           </div>
-          <div class="lehrerFehlt"> <span style='font-style:italic;'> {{v.lehrer?v.lehrer.kuerzel:" "}}</span>
+          <div class="lehrerFehlt"> <span style='font-style:italic;'> {{v.lehrerKuerz?v.lehrerKuerz :" "}}</span>
             |{{v.fach}} </div>
           <div class="vertretungsLehrer">
             <ng-container *ngIf="v.vertretung!=null">

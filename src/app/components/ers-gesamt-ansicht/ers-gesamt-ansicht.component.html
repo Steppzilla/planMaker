@@ -608,9 +608,7 @@
                       *ngIf="t<6||(t>6&&breite(epo.zwoelf,abschnitt[t].tag,t, 'schiene',abschnitt)>=breite(epo.zwoelf,abschnitt[t-7].tag,t,'schiene',abschnitt))">
                       <td colSpan="{{breite(epo.zwoelf,abschnitt[t].tag,t, 'schiene', abschnitt)}}">
                         <!--{{breite(epo.zwoelf,abschnitt[t].tag,t, 'schiene', abschnitt)}}-->
-
                         <div>
-
                           <ng-container *ngFor="let ele of epo.zwoelf; index as eI">
                             <span class="fach zwoelf" *ngIf="tagimAbschnitt(ele,box.tag,'schiene')">
                               {{tagimAbschnitt(ele,box.tag,'schiene').fach}}

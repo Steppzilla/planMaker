@@ -8,7 +8,7 @@ export interface VertretungsElement {
     datum?: Date,
     klasse: number,
     stunde: number,
-    lehrer: Lehrer,
+    lehrerKuerz: string,
     fach: Fach,
     vertretung?: Elementt,
     sonderfach?:Fach,

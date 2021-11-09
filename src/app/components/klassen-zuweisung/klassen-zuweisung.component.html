@@ -104,7 +104,7 @@
                     <div class="{{classPrintAktiv('lehrerkuerzelBox')}}">
                       <div *ngFor="let item of cell">
                         <ng-container
-                          *ngIf="item.fach!='StartUp'&&item.fach!='HU'&&item.fach!='Schiene'||item.klasse<=8">
+                          *ngIf="item.fach!='Rhythmus'&&item.fach!='HU'&&item.fach!='Schiene'||item.klasse<=8">
                           <button class="dropButt" [ngbTooltip]="Lehrer2" placement="right" triggers="click"
                             (click)="mainClickk($event,item)">
 

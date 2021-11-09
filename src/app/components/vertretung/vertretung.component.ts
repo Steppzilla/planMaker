@@ -2,9 +2,14 @@ import {
   Component,
   OnInit
 } from '@angular/core';
+import {
+  async
+} from 'rxjs';
 
 import {
   map,
+  take,
+  timeout,
 } from 'rxjs/operators';
 import {
   Fach
@@ -55,7 +60,7 @@ export class VertretungComponent implements OnInit {
   vertretung;
 
   aktuellESRArray: Array < Elementt > ;
-esr;
+  esr;
 
   grundPlanfaecher: Array < Elementt > ; //statt stundenLehrerArray?
   lehrerAuswahl = []; //nur übstundenFilter von grundplanfaecher
@@ -73,120 +78,112 @@ esr;
   vertretungsraster2 = {};
 
   klassen = Object.values(Lehrjahr);
-  
 
 
 
+  //fensterschliessen=false;
 
-duplicatesss(kuerz, zeile,  fachd) { // zeile war vorher nur zeilen-nummer
-  let duplicates = 0;
-  zeile.forEach(cell => {
-    cell.forEach(element => {
-      //Zeitversetzte oder klassenübergreifende fächer aussschließen!
-      if (kuerz === element[1]) {
-        if ((fachd === Fach.hauptunterricht //aktuelle zelle ist nicht hu/Sch oder rhy, dann direkt hochzählen
-          || fachd === Fach.schiene 
-          || fachd === Fach.rhythmisch 
-          || fachd=== Fach.orchester 
-          || fachd === Fach.wahlpflicht 
-          || fachd === Fach.chor 
-          || fachd === Fach.mittelstufenorchester
-          ) &&(element[0] === Fach.hauptunterricht ||  //Vergleichszelle ist nicht hu/sch oder rhy. 
-            //Hier geht er auch aktuelle zelle durch, daher entsteht automatisch eine dopplung
-            element[0] === Fach.schiene || 
-            element[0] === Fach.rhythmisch || 
-            element[0] === Fach.orchester ||
-            element[0] === Fach.wahlpflicht || 
-            element[0] === Fach.chor || 
-            element[0] === Fach.mittelstufenorchester)){
-              //wenn er selbst schiene ist zählt er nur einmal hoch, weil beim Verglecih mit sich selbst beidesmal schiene ist
-         
-        } else {
-          duplicates++;
-          if(fachd=== (Fach.hauptunterricht||Fach.schiene||Fach.rhythmisch ||Fach.orchester
-            ||Fach.wahlpflicht||Fach.chor ||Fach.mittelstufenorchester )){
-              duplicates++;
+  aktuelleEpo$ = this.epoPlan.aktuelleEpo$.pipe(
+    map(z => {
+      return z;
+    })
+  );
+
+  gesamtRaster$ = this.klassenplanServ.grundPlanfaecher$.pipe( //Bei Änderungen im Plan updaten
+    map(z => {
+      let ar = {
+        montag: new Array(11).fill(null).map(x => new Array(13)),
+        dienstag: new Array(11).fill(null).map(x => new Array(13)),
+        mittwoch: new Array(11).fill(null).map(x => new Array(13)),
+        donnerstag: new Array(11).fill(null).map(x => new Array(13)),
+        freitag: new Array(11).fill(null).map(x => new Array(13))
+      };
+      z.forEach(el => {
+        el.zuweisung.uebstunde.forEach(zuw => {
+          //  ["Montag", "Dienstag", "Mittwoch", "Donnerstag"].forEach(wochenTag=>{
+          let std = zuw.stunde;
+          let woT = zuw.wochentag;
+          let klasse = parseInt(el.klasse) - 1;
+
+          if (ar[woT.toLowerCase()][std][klasse] === undefined) {
+            ar[woT.toLowerCase()][std][klasse] = new Array();
           }
-        }
-      }
-    });
-  });
-  return duplicates > 1 ? "error" : "ok";
-}
 
-aktuelleEpo$=this.epoPlan.aktuelleEpo$.pipe(
-  map(z=>{    return z;
-  })
-);
-
-gesamtRaster$ = this.klassenplanServ.grundPlanfaecher$.pipe( //Bei Änderungen im Plan updaten
-
-  map(z => {
-    let ar = {
-      montag: new Array(11).fill(null).map(x => new Array(13)),
-      dienstag: new Array(11).fill(null).map(x => new Array(13)),
-      mittwoch: new Array(11).fill(null).map(x => new Array(13)),
-      donnerstag: new Array(11).fill(null).map(x => new Array(13)),
-      freitag: new Array(11).fill(null).map(x => new Array(13))
-    };
-    z.forEach(el => {
-      el.zuweisung.uebstunde.forEach(zuw => {
-        //  ["Montag", "Dienstag", "Mittwoch", "Donnerstag"].forEach(wochenTag=>{
-        let std = zuw.stunde;
-        let woT = zuw.wochentag;
-        let klasse = parseInt(el.klasse) - 1;
-
-        if (ar[woT.toLowerCase()][std][klasse] === undefined) {
-          ar[woT.toLowerCase()][std][klasse] = new Array();
-        }
-
-        if (el.lehrer.length === 0) {
-          ar[woT.toLowerCase()][std][klasse].push([el.fach, "NN"]);
-        }
-
-        //wenn lehrer vorhanden
-        el.lehrer.forEach(lehr => {
-          //   console.log(el.fach);
-          //   console.log(lehr.kuerzel
-          if (lehr) {
-            ar[woT.toLowerCase()][std][klasse].push([el.fach, lehr.kuerzel]);
-          } else {
+          if (el.lehrer.length === 0) {
+            ar[woT.toLowerCase()][std][klasse].push([el.fach, "NN", ""]);
           }
+
+          //wenn lehrer vorhanden
+          el.lehrer.forEach(async lehr => {
+            //   console.log(el.fach);
+            //   console.log(lehr.kuerzel
+            //nur einfügen wnen nicht HU in klasse 9-12. Dann nu raktuelle Epoche einfügen....
+            if (lehr) {
+              if ((el.fach !== "HU" && el.fach !== "Schiene" && el.fach !== "Rhythmus") || parseInt(el.klasse) <= 8) {
+                ar[woT.toLowerCase()][std][klasse].push([el.fach, lehr.kuerzel, ""]);
+              } else {
+                let neu = await this.aktuelleEpo$.pipe(take(1), timeout(200)).toPromise();
+                if (neu[this.zahlinKlasse(klasse + 1)]) { //der rhythmus etc muss definiert sein (ist manchmal leer wenn nix eingetragen ist in der epoche)
+                  let fac = neu[this.zahlinKlasse(klasse + 1)][this.fachinWort(el.fach)];
+               //   console.log(fac);
+                  // debugger
+                  fac.forEach(unt => {
+                    if (unt.lehrerKuerz == lehr.kuerzel) {
+                      ar[woT.toLowerCase()][std][klasse].push([unt.fach, lehr.kuerzel,el.fach]);
+                    }
+                  });
+
+
+                }
+
+              }
+              //bei epoche jez aktuelle einfügen aus $aktuelleEpoche[neun][rhy] usw
+
+            } else {}
+          });
+
         });
-
       });
-    });
-    return ar;
-  })
-);
+  console.log(ar);
+      return ar;
+    }),
+
+  );
+
+  /*
+         else {
+                
+              }
+
+              */
 
 
   sonderEvent(klasse) {
-   /* let datum = this.epoPlan.planDatum.getValue();
-    let esr
-    //console.log(this.feriTermServ.fahrtenUndProjekteObj);
-    // console.log(klasse);
+    /* let datum = this.epoPlan.planDatum.getValue();
+     let esr
+     //console.log(this.feriTermServ.fahrtenUndProjekteObj);
+     // console.log(klasse);
 
-    let klasEventArray = this.terminListe.filter(element=>element.klasse===klasse); //.neun Array mit objekten
-    let fahrtaktuell = null;
-    klasEventArray.forEach(obj => {
-      if (obj.start.getTime() <= datum.getTime() && datum.getTime() <= obj.ende.getTime()) {
-        fahrtaktuell = obj.titel;
-      }
-    });
-    // console.log(fahrtaktuell);
-    return fahrtaktuell;*/
+     let klasEventArray = this.terminListe.filter(element=>element.klasse===klasse); //.neun Array mit objekten
+     let fahrtaktuell = null;
+     klasEventArray.forEach(obj => {
+       if (obj.start.getTime() <= datum.getTime() && datum.getTime() <= obj.ende.getTime()) {
+         fahrtaktuell = obj.titel;
+       }
+     });
+     // console.log(fahrtaktuell);
+     return fahrtaktuell;*/
   }
 
-  klassenFahrt(arr,zahl){
+  klassenFahrt(arr, zahl) {
     let ele;
     arr.forEach(element => {
-      if(element.klasse==zahl.toString()){
+      if (element.klasse == zahl.toString()) {
         //console.log(element);
-        ele=element;
+        ele = element;
       }
     });
-    return ele? ele:null;
+    return ele ? ele : null;
   }
 
   klasseInWort(kla) {
@@ -266,40 +263,68 @@ gesamtRaster$ = this.klassenplanServ.grundPlanfaecher$.pipe( //Bei Änderungen i
 
   }
 
-  fachinWort(z:string){
-    switch(z){
-      case "HU": return "epo" ; 
-      case "Schiene": return "sch";
-      case "StartUp" : return "rhy";
-      default: return "";
+  fachinWort(z: string) {
+    switch (z) {
+      case "HU":
+        return "epo";
+      case "Schiene":
+        return "sch";
+      case "Rhythmus":
+        return "rhy";
+      default:
+        return "";
     }
   }
 
- // esr;
-  
+  // esr;
+
 
   dupli = [];
 
-  duplicatess(kuerzL, stdL, fachL, ganzeZeile) {
+  duplicatesss(kuerz, zeile, fachd) { // zeile war vorher nur zeilen-nummer
+    //console.log(zeile);
+    let duplicates = 0;
+    zeile.forEach(cell => {
+      cell.forEach(element => {
+        //Zeitversetzte oder klassenübergreifende fächer aussschließen!
+        if (kuerz === element[1]) {
 
-    let duplicate = 0;
-    //  console.log(ganzeZeile);
-    if (ganzeZeile) {
-      ganzeZeile.forEach(klassenZelle => {
-        klassenZelle.forEach(unterrichtObj => {
-          if (unterrichtObj.lehrerKuerz === kuerzL) {
-            duplicate++;
-          }
-        });
+          duplicates++;
+
+        }
       });
+    });
+    if(fachd==Fach.mittelstufenorchester){
+      duplicates=duplicates-2;
+    }else if(fachd==Fach.chor){
+      duplicates=duplicates-3;
+    }else if(fachd==Fach.orchester){
+      duplicates=duplicates-3;
+    }else if(fachd==Fach.wahlpflicht){
+      duplicates=duplicates-1;
     }
-    return duplicate > 1 && kuerzL !== "bob" && fachL !== Fach.orchester && fachL !== Fach.chor && fachL !== Fach.wahlpflicht && fachL !== Fach.mittelstufenorchester ? "error" : "ok"; //error
+
+    return duplicates > 1 ? "error" : "ok";
+
   }
 
   hintergrundd(el) {
     // console.log(el);
 
-    if (el && el[0]) {
+    if (el && el[0]&&el[0][2]) {
+      switch (el[0][2]) {
+        case Fach.hauptunterricht:
+          return "huB";
+        case Fach.schiene:
+          return "schB";
+        case Fach.rhythmisch:
+          return "rhyB";
+        case "HU":
+          return "huB";
+        default:
+          return "normalB";
+      }
+    } else if(el&&el[0]){
       switch (el[0][0]) {
         case Fach.hauptunterricht:
           return "huB";
@@ -312,8 +337,6 @@ gesamtRaster$ = this.klassenplanServ.grundPlanfaecher$.pipe( //Bei Änderungen i
         default:
           return "normalB";
       }
-    } else {
-      return "empty";
     }
   }
   markedd(lehr) {
@@ -322,18 +345,18 @@ gesamtRaster$ = this.klassenplanServ.grundPlanfaecher$.pipe( //Bei Änderungen i
     }
   }
 
-fahrtInKlasse(termine,klassenZahl,planDatumZeit){
-  let titel="";
-  termine.forEach(termin => {
-    
-  
-  if(termin.klasse==klassenZahl&&termin.start.toDate().getTime()<=planDatumZeit&&termin.ende.toDate().getTime()>=planDatumZeit){
-    titel=termin.titel;
-  }
-});
+  fahrtInKlasse(termine, klassenZahl, planDatumZeit) {
+    let titel = "";
+    termine.forEach(termin => {
 
-return titel;
-}
+
+      if (termin.klasse == klassenZahl && termin.start.toDate().getTime() <= planDatumZeit && termin.ende.toDate().getTime() >= planDatumZeit) {
+        titel = termin.titel;
+      }
+    });
+
+    return titel;
+  }
 
 
   wocheVorher() {
@@ -364,50 +387,23 @@ return titel;
 
   }
 
+  mainClick(){
+    //this.fensterschliessen=false;
+  }
 
-  cellKlickk(e, c, i, klassenitems, fachKuerz ) { //c ist zeilennummer, i ist die celle waagerecht!  klassenitems: noch .rhy oder so dann aktuelle epocehn
-    //console.log(this.selectLehrer);
-    console.log(fachKuerz);
-    let kuerz="";
-
-    if(fachKuerz=="Schiene"){
-      kuerz="sch";
-    }else if(fachKuerz=="StartUp"){
-      kuerz="rhy";
-    }else if(fachKuerz=="HU"){
-      kuerz="epo";
-    }
-
-
-    if (klassenitems&&kuerz.length>0) {
-      klassenitems[kuerz].forEach(fachLehrer => {
-        if (fachLehrer.lehrerKuerz == this.selectLehrer.kuerzel) {
-         // console.log(this.selectLehrer);
-         // console.log(fachLehrer.fach);
-
+  cellKlickk(e, c, i, fachKuerz, lehrkuerz,huKuerz) { //c ist zeilennummer, i ist die celle waagerecht!  klassenitems: noch .rhy oder so dann aktuelle epocehn
+   // console.log(this.selectLehrer);  
+ 
           this.vertretungsElement.wochentag = this.wochenTagauswahl;
           //vertretungsElement.datum=element.zuweisung.uebstunde
           this.vertretungsElement.klasse = i;
           this.vertretungsElement.stunde = c; //+1?
-          this.vertretungsElement.lehrer = this.selectLehrer;
-          this.vertretungsElement.fach = fachLehrer.fach;
+          this.vertretungsElement.lehrerKuerz = lehrkuerz;
+          this.vertretungsElement.fach = fachKuerz;
           //  this.vertretungsSer.vertretung.push(vertretungsElement);
-
           //Bei hauptunterricht schiene oder epoche erst aktuelle Epoche finden:
-
-        }
-      });
+        console.log(this.vertretungsElement);
       
-     
-    }else{
-      this.vertretungsElement.wochentag = this.wochenTagauswahl;
-      //vertretungsElement.datum=element.zuweisung.uebstunde
-      this.vertretungsElement.klasse = i;
-      this.vertretungsElement.stunde = c; //+1?
-      this.vertretungsElement.lehrer = this.selectLehrer;
-      this.vertretungsElement.fach = fachKuerz;
-
-    }
   }
 
   //Wenn lehrer in der zelle markiert ist
@@ -415,25 +411,16 @@ return titel;
 
 
 
-  togglezellenClickk(stdZ, clickedElementt: Elementt, zelle,epoderKlasse) { //ganze Zelle/stunden zeile als Zahl
+  togglezellenClickk(stdZ, clickedElementt: Elementt, zelle) { //ganze Zelle/stunden zeile als Zahl
     if (this.vertretungsElement.klasse !== null) {
-     // let zelll=zelle; //für normalen Unterricht immer verwendet
+      // let zelll=zelle; //für normalen Unterricht immer verwendet
       console.log(this.vertretungsraster2);
       console.log(zelle);
-      let zellenI = zelle.findIndex(ele =>ele[1] === this.vertretungsElement.lehrer.kuerzel); //bei epochen muss anderes element genommen werden
+      let zellenI = zelle.findIndex(ele => ele[1] === this.vertretungsElement.lehrerKuerz); //bei epochen muss anderes element genommen werden
       //zellenI bestimmen index
-      if(this.vertretungsElement.klasse>7&&this.vertretungsElement.klasse<12){
-      if(zelle[0][0]==="HU"){
-        zellenI=epoderKlasse.epo.findIndex(ele=>ele.lehrerKuerz===this.vertretungsElement.lehrer.kuerzel);
-      }else if(zelle[0][0]==="Schiene"){
-        zellenI=epoderKlasse.sch.findIndex(ele=>ele.lehrerKuerz===this.vertretungsElement.lehrer.kuerzel);
-      }else if(zelle[0][0]==="StartUp"){
-        zellenI=epoderKlasse.rhy.findIndex(ele=>ele.lehrerKuerz===this.vertretungsElement.lehrer.kuerzel);
-      }
-    }
-   
-    console.log(zelle);
-    console.log(zellenI);
+     
+      console.log(zelle);
+      console.log(zellenI);
 
       let aktuelleVertret = this.vertretungsSer.vertretung.getValue();
       this.vertretungsElement.vertretung = clickedElementt;
@@ -449,7 +436,7 @@ return titel;
       }
 
       this.vertretungsraster2[this.wochenTagauswahl.toLowerCase()][this.vertretungsElement.klasse - 1][this.vertretungsElement.stunde][zellenI].push(this.vertretungsElement);
-console.log(this.vertretungsraster2[this.wochenTagauswahl.toLowerCase()][this.vertretungsElement.klasse - 1][this.vertretungsElement.stunde]);
+      console.log(this.vertretungsraster2[this.wochenTagauswahl.toLowerCase()][this.vertretungsElement.klasse - 1][this.vertretungsElement.stunde]);
 
 
     } else {
@@ -460,20 +447,23 @@ console.log(this.vertretungsraster2[this.wochenTagauswahl.toLowerCase()][this.ve
       datum: null,
       klasse: null,
       stunde: null,
-      lehrer: null,
+      lehrerKuerz: null,
       fach: null,
       vertretung: null,
       sonderfach: null,
       notiz: null,
       vertretungsLehrer: null,
     };
+
+    //alle fenster schließen
+   // this.fensterschliessen=true;
   }
 
 
   freieLehrerClickk(lehr, cell) {
 
     if (this.vertretungsElement.klasse !== null) {
-      let zellenI = cell.findIndex(ele => ele.fach == this.vertretungsElement.fach && ele.lehrerKuerz === this.vertretungsElement.lehrer.kuerzel);
+      let zellenI = cell.findIndex(ele => ele.fach == this.vertretungsElement.fach && ele.lehrerKuerz === this.vertretungsElement.lehrerKuerz);
 
       let aktuelleVertret = this.vertretungsSer.vertretung.getValue();
       this.vertretungsElement.vertretung = null; //kein element vorhanden
@@ -502,7 +492,7 @@ console.log(this.vertretungsraster2[this.wochenTagauswahl.toLowerCase()][this.ve
       datum: null,
       klasse: null,
       stunde: null,
-      lehrer: null,
+      lehrerKuerz: null,
       fach: null,
       vertretung: null,
       sonderfach: null,
@@ -513,7 +503,7 @@ console.log(this.vertretungsraster2[this.wochenTagauswahl.toLowerCase()][this.ve
 
   freii(cell) {
     if (this.vertretungsElement.klasse !== null) {
-      let zellenI = cell.findIndex(ele => ele.fach == this.vertretungsElement.fach && ele.lehrerKuerz === this.vertretungsElement.lehrer.kuerzel);
+      let zellenI = cell.findIndex(ele => ele.fach == this.vertretungsElement.fach && ele.lehrerKuerz === this.vertretungsElement.lehrerKuerz);
 
       let aktuelleVertret = this.vertretungsSer.vertretung.getValue();
       this.vertretungsElement.vertretung = null; //VERTRETUNG IST NULL aber dafür notiz "frei"
@@ -542,7 +532,7 @@ console.log(this.vertretungsraster2[this.wochenTagauswahl.toLowerCase()][this.ve
       datum: null,
       klasse: null,
       stunde: null,
-      lehrer: null,
+      lehrerKuerz: null,
       fach: null,
       vertretung: null,
       sonderfach: null,
@@ -552,7 +542,7 @@ console.log(this.vertretungsraster2[this.wochenTagauswahl.toLowerCase()][this.ve
   }
   selbstaendigg(cell) {
     if (this.vertretungsElement.klasse !== null) {
-      let zellenI = cell.findIndex(ele => ele.fach == this.vertretungsElement.fach && ele.lehrerKuerz === this.vertretungsElement.lehrer.kuerzel);
+      let zellenI = cell.findIndex(ele => ele.fach == this.vertretungsElement.fach && ele.lehrerKuerz === this.vertretungsElement.lehrerKuerz);
 
       let aktuelleVertret = this.vertretungsSer.vertretung.getValue();
       this.vertretungsElement.vertretung = null;
@@ -582,7 +572,7 @@ console.log(this.vertretungsraster2[this.wochenTagauswahl.toLowerCase()][this.ve
       datum: null,
       klasse: null,
       stunde: null,
-      lehrer: null,
+      lehrerKuerz: null,
       fach: null,
       vertretung: null,
       sonderfach: null,
@@ -630,7 +620,7 @@ console.log(this.vertretungsraster2[this.wochenTagauswahl.toLowerCase()][this.ve
     this.wochenTagauswahl = x;
   }
 
-lehrerListe;
+  lehrerListe;
   freieLehrer(r) {
 
     let freieLehrer: Array < Lehrer > = [];
@@ -693,49 +683,6 @@ lehrerListe;
 
 
 
-
-  duplicates(lehr, z, fachd) { //
-    let duplicates = 0;
-    this.grundPlanfaecher.forEach((element, e) => {
-      if (element == null) {
-        this.grundPlanfaecher.splice(e, 1);
-      } else {
-        element.zuweisung.uebstunde.forEach(({
-          wochentag,
-          stunde
-        }, ue) => {
-          //  console.log(wochentag + "."+this.wochenTagauswahl);
-          if (wochentag == this.wochenTagauswahl && stunde == z) {
-            element.lehrer.forEach(le => {
-              if (lehr == null || le == null) {
-
-              } else if (lehr && element && lehr.kuerzel == le.kuerzel) {
-                // console.log(element.lehrer[0].kuerzel + "." +r + ". " + element.klasse);
-
-                if (fachd != Fach.hauptunterricht && fachd != Fach.schiene && fachd != Fach.rhythmisch && fachd != Fach.orchester && fachd != Fach.wahlpflicht && fachd != Fach.chor && fachd != Fach.mittelstufenorchester) {
-                  //duplicates++; //Funktioniert hier nicht, wenn man HU anzeigen lässt!
-                } else if (element.fach != Fach.hauptunterricht && element.fach != Fach.schiene && element.fach != Fach.rhythmisch && element.fach != Fach.orchester && element.fach != Fach.wahlpflicht && element.fach != Fach.chor && element.fach != Fach.mittelstufenorchester) {
-                  duplicates++;
-                }
-
-
-              }
-            });
-          }
-        });
-      }
-
-
-    });
-
-    if (fachd == Fach.hauptunterricht || fachd == Fach.schiene || fachd == Fach.rhythmisch) {
-      duplicates++;
-
-    }
-
-    return duplicates > 1 ? "error" : "ok";
-  }
-
   /**
    *  let lehrerRhyKlas =  this.klassenS.lehrerArray$.pipe(  map(z => {
                       let ar = [];
@@ -753,22 +700,22 @@ lehrerListe;
    */
 
   duplicateToggle(zeile, ele) { //umändern, dass nur aktuelle Lehrer die auch in epoche/Schiene drin sind am Datum zu error führen
-   /* let duplicates = 0;
-    let tag = this.wochenTagauswahl;
-    // let raster =   await this.gesamtRaster$.pipe(take(1),timeout(200)).toPromise();
-    console.log(zeile);
-    zeile.forEach(cell => {
-      cell.forEach((element, e) => {
-        //elemente aus Togle haben nen ganzes lehrerarray:
-        ele.lehrer.forEach(lehr => {
-          if (element.lehrerKuerz == lehr.kuerzel) {
-            //CHECK vorher! Bei Epoche, schiene und HU nur error, wenn Lehrer AKTUELL DRIN IST
-            duplicates++;
-          }
-        });
-      });
-    });
-    return duplicates > 0 ? "error" : "ok";*/
+    /* let duplicates = 0;
+     let tag = this.wochenTagauswahl;
+     // let raster =   await this.gesamtRaster$.pipe(take(1),timeout(200)).toPromise();
+     console.log(zeile);
+     zeile.forEach(cell => {
+       cell.forEach((element, e) => {
+         //elemente aus Togle haben nen ganzes lehrerarray:
+         ele.lehrer.forEach(lehr => {
+           if (element.lehrerKuerz == lehr.kuerzel) {
+             //CHECK vorher! Bei Epoche, schiene und HU nur error, wenn Lehrer AKTUELL DRIN IST
+             duplicates++;
+           }
+         });
+       });
+     });
+     return duplicates > 0 ? "error" : "ok";*/
     return "";
   }
 
@@ -779,7 +726,7 @@ lehrerListe;
     datum: null,
     klasse: null,
     stunde: null,
-    lehrer: null,
+    lehrerKuerz: null,
     fach: null,
     vertretung: null,
     sonderfach: null,
@@ -826,7 +773,9 @@ lehrerListe;
     lehrerService.lehrerSelected$.subscribe(data => {
       this.selectLehrer = data;
     });
-    klassenplanServ.lehrerListe$.subscribe(data=>{this.lehrerListe=data;})
+    klassenplanServ.lehrerListe$.subscribe(data => {
+      this.lehrerListe = data;
+    })
 
 
 

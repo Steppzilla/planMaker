@@ -89,7 +89,7 @@ export class KlassenZuweisungComponent implements OnInit {
             //      console.log(ele);
              //   }
                 //HU und alle sammelbehälter nicht doppelt zählen:
-                if ((ele.fach !== Fach.hauptunterricht && ele.fach !== Fach.rhythmisch && ele.fach !== Fach.schiene)||(ele.fach!=="HU"&&ele.fach!=="StartUp"&&ele.fach!=="Schiene")) {
+                if ((ele.fach !== Fach.hauptunterricht && ele.fach !== Fach.rhythmisch && ele.fach !== Fach.schiene)||(ele.fach!=="HU"&&ele.fach!=="Rhythmus"&&ele.fach!=="Schiene")) {
                   neu.ueb = neu.ueb + ele.uebstunde;
                   neu.sch = neu.sch + ele.schiene;
                   neu.rhy = neu.rhy + ele.rhythmus;
@@ -390,7 +390,7 @@ let uebstunden=0;
               element.uebstunde++;
             });
           }
-        //  this.epocheSchieneRhythmusBefuellen();
+          this.epocheSchieneRhythmusBefuellen();
           break;
         case "rhythmus":
           if ((e.shiftKey) && (zelle[0].rhythmus > 0)) {
@@ -403,7 +403,7 @@ let uebstunden=0;
             });
             //Lehrer in rhythmus hinzufügen?
           }
-        //  this.epocheSchieneRhythmusBefuellen();
+          this.epocheSchieneRhythmusBefuellen();
           break;
         case "epoche":
           if ((e.shiftKey) && (zelle[0].epoche > 0)) {
@@ -416,7 +416,7 @@ let uebstunden=0;
             });
             //Lehrer in epoche hinzufügen?
           }
-       //   this.epocheSchieneRhythmusBefuellen();
+          this.epocheSchieneRhythmusBefuellen();
           break;
         case "schiene":
           if ((e.shiftKey) && (zelle[0].schiene > 0)) {
@@ -429,7 +429,7 @@ let uebstunden=0;
             });
             //Lehrer in schiene hinzufügen?
           }
-       //   this.epocheSchieneRhythmusBefuellen(); //für gesamtplan, damit der im HU gezählt wird
+          this.epocheSchieneRhythmusBefuellen(); //für gesamtplan, damit der im HU gezählt wird
           break;
       }
     }
@@ -617,6 +617,13 @@ let uebstunden=0;
     this.klassenplanServ.lehrerListe$.subscribe((data) => {
       this.lehrerListe = data
     });
+
+    /*this.loeschen("StartUp", Lehrjahr.neun);
+    this.loeschen("StartUp", Lehrjahr.zehn);
+   this.loeschen("StartUp", Lehrjahr.elf);
+    this.loeschen("StartUp", Lehrjahr.zwoelf);*/
+
+  
   }
 
 

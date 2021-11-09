@@ -5,7 +5,7 @@ export enum Fach {
 
 landbauNachbereitung="Landb.Nachber.",
 
-rhythmisch = "StartUp",
+rhythmisch = "Rhythmus",
   hauptunterricht = "HU",
   schiene = "Schiene",
  
