@@ -1,8 +1,125 @@
 <p>Navigation Erläuterung:</p>
 
-<p>Lehrer/Fächer: Hier kann man den Lehrern weitere Fächer zuweisen, oder fehlende Lehrer ergänzen</p>
-<p>Klassen/Fächer/Lehrer: Hier kann man die Anzahl der Stunden in einer Klasse für ein Fach festlegen und Lehrer diesem Fach der Klasse zuweisen</p>
-<p>Gesamtplan: Hier kann man den Gesamt-Stundenplan aller Klassen ändern (Mo / Di / Mi / Do / Fr einzeln Navigation)</p>
-<p>Epochenpläne: Hier kann man Termine ändern (Fahrten der Klassen, Projekte, Ferientermine etc.) und die Epoche / Schiene / Rhythmus bearbeiten (weiterhin Navigation Abschnittsweise bis zu den Ferien jeweils)</p>
-<p>Vertretungsplan: Hier kann man die Vertretung planen und den Plan ausdrucken, es wird aber aktuell nichts gespeichert</p>
-<p>Lehrerpläne: Hier kann von einzelnen Lehrern der Stundenplan angezeigt werden, oder per Button auch alle Lehrerpläne.</p>
+<div id="menuLeiste">
+
+  <button (click)="redirect('lehrerListe')" title="Lehrer ergänzen oder weiteren Fächern zuweisen">
+    <img src="../../../assets/icons/mann.png">
+    <img src="../../../assets/icons/bildung.png">
+    <p>Lehrer/Fächer: Hier kann man den Lehrern weitere Fächer zuweisen, oder fehlende Lehrer ergänzen</p>
+  </button>
+
+  <button (click)="redirect('klasseFach')" title="Stunden bzw. Fächer in Klassen ergänzen oder diese Lehrern zuweisen">
+    <img src="../../../assets/icons/teamwork.png ">
+    <p>Klassen/Fächer/Lehrer: Hier kann man die Anzahl der Stunden in einer Klasse für ein Fach festlegen und Lehrer
+      diesem
+      Fach der Klasse zuweisen</p>
+  </button>
+  <button (click)="redirect('gesamtplan')" title="Stundenpläne bearbeiten">
+    <div class="miniTable">Mo <br>
+      <table>
+        <tr>
+          <td> </td>
+          <td> 1 </td>
+          <td> 2 </td>
+          <td> 3 </td>
+        </tr>
+        <tr>
+          <td> 1 </td>
+          <td> </td>
+          <td> </td>
+          <td> </td>
+        </tr>
+        <tr>
+          <td> 2 </td>
+          <td> </td>
+          <td> </td>
+          <td> </td>
+        </tr>
+
+      </table>
+    </div>
+    <br>
+    <br>
+    <p>Gesamtplan: Hier kann man den Gesamt-Stundenplan aller Klassen ändern (Mo / Di / Mi / Do / Fr einzeln Navigation)
+    </p>
+
+
+  </button>
+  <button (click)="redirect('ESR')" title="Epochenpläne bearbeiten oder Termine (Ferien/Prüfungen/Fahrten...)">
+    <div class="miniTable2">August <br>
+      <table>
+        <tr>
+          <td> </td>
+          <td> 1. </td>
+          <td> 8. </td>
+          <td> 15. </td>
+        </tr>
+        <tr>
+          <td> Kl.9 </td>
+          <td colSpan="3"> <img src="../../../assets/icons/iris.png" /></td>
+        </tr>
+        <tr>
+          <td> Kl.10 </td>
+          <td colSpan="3"> <img src="../../../assets/icons/math.png " /></td>
+        </tr>
+
+      </table>
+    </div>
+    <br>
+    <br>
+    <p>Epochenpläne: Hier kann man Termine ändern (Fahrten der Klassen, Projekte, Ferientermine etc.) und die Epoche /
+      Schiene / Rhythmus bearbeiten (weiterhin Navigation Abschnittsweise bis zu den Ferien jeweils)</p>
+
+
+  </button>
+  <button (click)="redirect('vertretung')" title="Vertretung planen">
+      <div class="miniTable">Mo <br>
+        <table>
+          <tr>
+            <td> </td>
+            <td> 1 </td>
+            <td> 2 </td>
+            <td> 3 </td>
+          </tr>
+          <tr>
+            <td> 1 </td>
+            <td> </td>
+            <td> <img src="../../../assets/icons/businesswoman.png " width="10pt" /></td>
+            <td> <img src="../../../assets/icons/man.png " width="10pt" /></td>
+          </tr>
+        </table>
+      </div>
+    <br>
+    <br>
+    <p>Vertretungsplan: Hier kann man die Vertretung planen und den Plan ausdrucken, es wird aber aktuell nichts
+      gespeichert
+    </p>
+  </button>
+  <button (click)="redirect('einzelPlaene')" title="Einzelne Lehrer-Stundenplan anschauen oder drucken">
+    <div class="miniTable"><img src="../../../assets/icons/businesswoman.png " width="10pt" height="10pt" /> <br>
+      <table>
+        <tr>
+          <td> </td>
+          <td> 1 </td>
+          <td> 2 </td>
+          <td> 3 </td>
+        </tr>
+        <tr>
+          <td> 1 </td>
+          <td> </td>
+          <td> </td>
+          <td> </td>
+        </tr>
+
+
+      </table>
+    </div>
+    <br>
+    <br>
+    <p>Lehrerpläne: Hier kann von einzelnen Lehrern der Stundenplan angezeigt werden, oder per Button auch alle
+      Lehrerpläne.
+    </p>
+  </button>
+
+
+</div>

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { LehrerService } from 'src/app/services/lehrer.service';
 
 @Component({
   selector: 'app-home',
@@ -7,7 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+
+  redirect(x: string) {
+    this.router.navigate(["start/"+x]);
+    this.lehrerS.gewaehlterPlan = x;
+    console.log(x);
+   // console.log(this.lehrerS.gewaehlterPlan);
+  }
+
+  constructor(public lehrerS: LehrerService,public router: Router) { 
+
+
+
+  }
 
   ngOnInit(): void {
   }

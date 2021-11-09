@@ -4,10 +4,50 @@
 }
 
 
+#menuLeiste {
+  button {
 
+    height: 40pt;
 
+    >img {
+      height: 30pt;
+    }
+  }
+}
+.miniTable{
+  position: relative;
+  top:-16pt;
+  margin:0pt;
+  padding:0pt;
+  font-size:6pt;
+  line-height: 7pt;
+  tr{
+    td{
+      border:1pt black solid;
+    }
+  }
+  height:5pt;
 
-#topmenu {
+}
+.miniTable2{
+  position: relative;
+  top:-16pt;
+  margin:0pt;
+  padding:0pt;
+  font-size:6pt;
+  line-height: 7pt;
+  tr{
+    td{
+      >img{height:7pt;}
+      border:1pt black solid;
+    }
+  }
+  height:5pt;
+
+ 
+}
+
+#savemenu {
   //Load, save-element mit datum und speicherplatzwahl
   border-radius: 10pt;
   padding: 3pt;
@@ -65,7 +105,8 @@
   div {
     display: flex;
     justify-content: center;
- flex-wrap: wrap;
+    flex-wrap: wrap;
+
     button {
       margin: 0pt;
       // margin-right:1pt;

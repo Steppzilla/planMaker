@@ -1,0 +1,54 @@
+#menuLeiste {
+
+    button { 
+        width:100%; 
+      height: 80pt;
+      text-align: center;
+  
+      >img {
+        height: 30pt;
+      }
+    }
+  }
+
+
+.miniTable{
+    text-align: center;
+    width:30pt;
+
+    margin:0pt;
+    margin-left:auto;
+    margin-right:auto;
+    padding:0pt;
+    font-size:6pt;
+    line-height: 7pt;
+    tr{
+      td{
+        border:1pt black solid;
+      }
+    }
+    height:5pt;
+  
+  }
+  .miniTable2{
+   
+
+    text-align: center;
+    width:30pt;
+
+    margin:0pt;
+    margin-left:auto;
+    margin-right:auto;
+    padding:0pt;
+    font-size:6pt;
+    line-height: 7pt;
+    tr{
+      td{
+        >img{height:7pt;}
+        border:1pt black solid;
+      }
+    }
+    height:5pt;
+  
+   
+  }

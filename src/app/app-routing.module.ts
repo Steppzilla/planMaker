@@ -23,6 +23,7 @@ children:[
   {path: "einzelPlaene", component: EinzelplaeneComponent},
   {path: "home", component: HomeComponent},
 ]},
+{path: 'gesamtplan', component: GesamtuebersichtComponent},
 
   
   //{path: "gesamtplaene-ansicht", component: GesamtplaeneAnsichtComponent},
