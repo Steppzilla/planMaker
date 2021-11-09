@@ -10,15 +10,18 @@ justify-content: center;
 flex-wrap:wrap;
 
   button {
-   
-
+    margin:3pt;
+    border-radius:5pt;
+  border:none;
     height: 40pt;
+    background-color:rgb(196, 233, 225);
 
     >img {
       height: 30pt;
     }
   }
 }
+
 .miniTable{
   position: relative;
   top:-16pt;
@@ -56,45 +59,39 @@ flex-wrap:wrap;
   //Load, save-element mit datum und speicherplatzwahl
   border-radius: 10pt;
   padding: 4pt;
-  background-color: mediumaquamarine;
+  text-align: center;
+  background-color:rgb(196, 233, 225);
   width: 70pt;
   position: fixed;
   top: 45pt;
   right: 0pt;
-  line-height: 8pt;
+  line-height: 11pt;
 
   .date {
-    font-size: 9pt;
+    font-size: 11pt;
     text-align: center;
   }
 
-  .loadSaveContain {
-    display: grid;
-    grid-template-columns: 70% 30%;
+  .speicher{
+
+  }
 
     .load {
-   
-      background-color: rgb(43, 95, 43);
-      color: rgb(170, 214, 180);
+      padding:3pt;
+      background-color: rgb(122, 204, 122);
+    border:none;
+    border-radius:5pt;
     }
 
-    .speicherWahl {
-      grid-row-start: 1;
-      grid-row-end: 3;
-      grid-column-start: 2;
-      grid-column-end: 3;
-      // background-color: yellow;
+      .save {
+        padding:3pt;
+      background-color: rgb(207, 132, 132);
+      border:none;
+      border-radius:5pt;
     }
+    button{border-radius:15pt;}
 
-    .save {
-      background-color: rgb(122, 36, 36);
-      color: rgb(214, 181, 176);
-    }
 
-    button {
-      border-radius: 15pt;
-    }
-  }
 }
 
 .home {
@@ -106,7 +103,7 @@ flex-wrap:wrap;
 #Lehrerselect {
   //Menu mit LehrerKuerzel-buttons
   position: fixed;
-  top:90pt;
+  top:100pt;
   right:0pt;
   text-align: center;
   width: auto;

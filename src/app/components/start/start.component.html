@@ -2,26 +2,42 @@
   <div class="date ">
     {{termine.datumHeute.getDate()}}.{{termine.datumHeute.getMonth()+1}}.{{termine.datumHeute.getFullYear()}}
   </div>
+  <div class="speicher">
+  Plan: {{speicherPlatzNr}}
   <!--<ng-container *ngIf="lehrerS.ausgewaehlterModus!=0">-->
-  <div class="loadSaveContain">
-    <button class=" load" (click)="load()">load </button>
-    <button class="speicherWahl" triggers="click" [ngbTooltip]="Speicherplaetze"> {{speicherPlatzNr}}
-      <ng-template #Speicherplaetze>
-        <button class="noprint" (click)="wahl(0)">0</button>
-        <button class="noprint" (click)="wahl(1)">1</button>
-        <button class="noprint" (click)="wahl(2)">2</button>
-        <button class="noprint" (click)="wahl(3)">3</button>
-        <button class="noprint" (click)="wahl(4)">4</button>
-        <button class="noprint" (click)="wahl(5)">5</button>
-        <button class="noprint" (click)="wahl(6)">6</button>
-        <button class="noprint" (click)="wahl(7)">7</button>
-        <button class="noprint" (click)="wahl(8)">8</button>
-        <button class="noprint" (click)="wahl(9)">9</button>
-        <button class="noprint" (click)="wahl(10)">10</button>
-      </ng-template>
-    </button>
-    <button class="save" (click)="save()">save </button>
   </div>
+    <button class="load" triggers="click" [ngbTooltip]="Speicherplaetze" placement="left"  [autoClose]="true" >
+      load
+    </button>
+
+    <ng-template #Speicherplaetze>
+      <button class="noprint" (click)="load(0)">0</button>
+      <button class="noprint" (click)="load(1)">1</button>
+      <button class="noprint" (click)="load(2)">2</button>
+      <button class="noprint" (click)="load(3)">3</button>
+      <button class="noprint" (click)="load(4)">4</button>
+      <button class="noprint" (click)="load(5)">5</button>
+      <button class="noprint" (click)="load(6)">6</button>
+      <button class="noprint" (click)="load(7)">7</button>
+      <button class="noprint" (click)="load(8)">8</button>
+      <button class="noprint" (click)="load(9)">9</button>
+      <button class="noprint" (click)="load(10)">10</button>
+    </ng-template>
+
+    <button class="save" triggers="click" [ngbTooltip]="Speicherplaetze2" placement="left"  [autoClose]="true" >save </button>
+    <ng-template #Speicherplaetze2>
+      <button class="noprint" (click)="save(0)">0</button>
+      <button class="noprint" (click)="save(1)">1</button>
+      <button class="noprint" (click)="save(2)">2</button>
+      <button class="noprint" (click)="save(3)">3</button>
+      <button class="noprint" (click)="save(4)">4</button>
+      <button class="noprint" (click)="save(5)">5</button>
+      <button class="noprint" (click)="save(6)">6</button>
+      <button class="noprint" (click)="save(7)">7</button>
+      <button class="noprint" (click)="save(8)">8</button>
+      <button class="noprint" (click)="save(9)">9</button>
+      <button class="noprint" (click)="save(10)">10</button>
+    </ng-template>
   <!-- </ng-container>-->
 </div>
 
@@ -63,8 +79,7 @@
       </table>
     </div>
   </button>
-  <button (click)="redirect('ESR')"
-    title="Epochenpläne bearbeiten oder Termine (Ferien/Prüfungen/Fahrten...)">
+  <button (click)="redirect('ESR')" title="Epochenpläne bearbeiten oder Termine (Ferien/Prüfungen/Fahrten...)">
     <div class="miniTable2">August <br>
       <table>
         <tr>
@@ -97,18 +112,17 @@
         <tr>
           <td> 1 </td>
           <td> </td>
-          <td>    <img src="../../../assets/icons/businesswoman.png " width="10pt" /></td>
-          <td>  <img src="../../../assets/icons/man.png " width="10pt" /></td>
+          <td> <img src="../../../assets/icons/businesswoman.png " width="10pt" /></td>
+          <td> <img src="../../../assets/icons/man.png " width="10pt" /></td>
         </tr>
-     
+
       </table>
-   
-     
+
+
     </div>
 
   </button>
-  <button (click)="redirect('einzelPlaene')"
-    title="Einzelne Lehrer-Stundenplan anschauen oder drucken">   
+  <button (click)="redirect('einzelPlaene')" title="Einzelne Lehrer-Stundenplan anschauen oder drucken">
     <div class="miniTable"><img src="../../../assets/icons/businesswoman.png " width="10pt" height="10pt" /> <br>
       <table>
         <tr>
@@ -126,7 +140,8 @@
 
 
       </table>
-    </div></button>
+    </div>
+  </button>
 </div>
 
 
@@ -143,44 +158,44 @@
 
       <ng-template #LehrerListe>
         <div class="toggleMenuLeher">
-        <button (click)="lehrerloeschen()"> - </button>
-        <ng-container *ngFor="let lehre of this.lehrerListe; index as i">
-          <!-- ESR ANZEIGE-->
-          <ng-container
-            *ngIf="lehrerS.gewaehlterPlan=='ESR'&&(resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].rhy>0
+          <button (click)="lehrerloeschen()"> - </button>
+          <ng-container *ngFor="let lehre of this.lehrerListe; index as i">
+            <!-- ESR ANZEIGE-->
+            <ng-container
+              *ngIf="lehrerS.gewaehlterPlan=='ESR'&&(resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].rhy>0
           ||resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].epo>0||resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].sch>0)">
-            <button (click)="lehrerwahl(i)">
+              <button (click)="lehrerwahl(i)">
 
-              <div>
-                {{lehre.kuerzel}}
-              </div>
-            </button>
+                <div>
+                  {{lehre.kuerzel}}
+                </div>
+              </button>
+            </ng-container>
+            <!-- ESR kuerzel ende-->
+            <!-- ÜBstunden kuerzel start-->
+            <ng-container
+              *ngIf="lehrerS.gewaehlterPlan=='gesamtplan'&&(resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].ueb>0)">
+              <button (click)="lehrerwahl(i)">
+                <div>
+                  {{lehre.kuerzel}}
+                </div>
+              </button>
+            </ng-container>
+            <!-- ÜBstunden kuerzel ende-->
+            <ng-container *ngIf="lehrerS.gewaehlterPlan!='gesamtplan'&&lehrerS.gewaehlterPlan!='ESR'">
+              <button (click)="lehrerwahl(i)">
+                <div>
+                  {{lehre.kuerzel}}
+                </div>
+              </button>
+            </ng-container>
           </ng-container>
-          <!-- ESR kuerzel ende-->
-          <!-- ÜBstunden kuerzel start-->
-          <ng-container
-            *ngIf="lehrerS.gewaehlterPlan=='gesamtplan'&&(resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].ueb>0)">
-            <button (click)="lehrerwahl(i)">
-              <div>
-                {{lehre.kuerzel}}
-              </div>
-            </button>
-          </ng-container>
-          <!-- ÜBstunden kuerzel ende-->
-          <ng-container *ngIf="lehrerS.gewaehlterPlan!='gesamtplan'&&lehrerS.gewaehlterPlan!='ESR'">
-            <button (click)="lehrerwahl(i)">
-              <div>
-                {{lehre.kuerzel}}
-              </div>
-            </button>
-          </ng-container>
-        </ng-container>
 
-        <button triggers="click" [autoClose]="true" [ngbTooltip]="Lehrer2" placement="bottom"
-          *ngIf="lehrerS.gewaehlterPlan=='ESR'||lehrerS.gewaehlterPlan=='gesamtplan'">
-          weitere
-        </button>
-      </div>
+          <button triggers="click" [autoClose]="true" [ngbTooltip]="Lehrer2" placement="bottom"
+            *ngIf="lehrerS.gewaehlterPlan=='ESR'||lehrerS.gewaehlterPlan=='gesamtplan'">
+            weitere
+          </button>
+        </div>
 
         <ng-template #Lehrer2>
           <ng-container *ngFor="let lehre of this.lehrerListe; index as i">

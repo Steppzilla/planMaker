@@ -32,11 +32,6 @@ export class StartComponent implements OnInit {
 
   
 
-  wahl(zahl) {
-    this.speicherPlatzNr = zahl;
-  }
-
-
   toggleColor() {
 
   }
@@ -48,13 +43,14 @@ export class StartComponent implements OnInit {
    // console.log(this.lehrerS.gewaehlterPlan);
   }
 
-  save() {
-    this.login.saveAll(this.speicherPlatzNr)
+  save(zahl) {
+    this.login.saveAll(zahl)
     console.log("save?");
   }
 
-  load() {
-    this.login.gesamtPlanLaden(this.speicherPlatzNr); //login.stundenplandaten wird neu belegt mit Daten, also observed durch this.stundenRaster ändert sich das dann auch
+  load(zahl) {
+    this.speicherPlatzNr = zahl;
+    this.login.gesamtPlanLaden(zahl); //login.stundenplandaten wird neu belegt mit Daten, also observed durch this.stundenRaster ändert sich das dann auch
   }
 
   lehrerloeschen(){
