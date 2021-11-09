@@ -134,7 +134,7 @@
   <img src="../../../assets/icons/mann.png " width="20pt" height="20pt" />
   <div>
     <ng-container *ngIf="lehrerArray$|async as resAnzahl">
-      <button triggers="click" [ngbTooltip]="LehrerListe">
+      <button triggers="click" [ngbTooltip]="LehrerListe" placement="bottom">
         <ng-container *ngIf="lehrerS.lehrerSelected|async as wahlLehrer; else BLA">
           {{wahlLehrer.kuerzel }}
         </ng-container>
@@ -142,6 +142,7 @@
       </button>
 
       <ng-template #LehrerListe>
+        <div class="toggleMenuLeher">
         <button (click)="lehrerloeschen()"> - </button>
         <ng-container *ngFor="let lehre of this.lehrerListe; index as i">
           <!-- ESR ANZEIGE-->
@@ -179,6 +180,7 @@
           *ngIf="lehrerS.gewaehlterPlan=='ESR'||lehrerS.gewaehlterPlan=='gesamtplan'">
           weitere
         </button>
+      </div>
 
         <ng-template #Lehrer2>
           <ng-container *ngFor="let lehre of this.lehrerListe; index as i">

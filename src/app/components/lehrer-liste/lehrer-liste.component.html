@@ -20,7 +20,6 @@
   <tr>
     <th>Anrede</th>
     <th>Name</th>
-    <th>Kuerzel</th>
     <th>Fächer (Klassen)</th>
     <th> Aufgaben</th>
     <th>Deputat (falsch? z.B. klassenübergreifende oder "lange/kurze" Epochen)</th>
@@ -30,10 +29,7 @@
       {{lehrer.anrede}}
     </td>
     <td>
-      <button triggers="click" [ngbTooltip]="Input2" [autoClose]="false" placement="bottom">{{lehrer.name}}</button>
-    </td>
-    <td>
-      {{lehrer.kuerzel}}
+      <button triggers="click" [ngbTooltip]="Input2" [autoClose]="false" placement="bottom">{{lehrer.name}} <span class="kuerzel">{{lehrer.kuerzel}}</span></button>
     </td>
     <td><button triggers="click" [ngbTooltip]="FaecherListe" [autoClose]="true" placement="bottom" (click)="loeschen($event,lehrer)">
         <ng-container *ngIf="lehrer.faecher!=null">
