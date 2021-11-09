@@ -1,4 +1,11 @@
 
+.delete{background-color:lightcoral}
+.editButton{
+ border:none;
+background-color:inherit;
+}
+
+.editImg{width:15pt;}
 
 
 .lehrerHinzufügen{
@@ -23,7 +30,23 @@ table{
   color:black;
  // background-color:rgb(47, 54, 77); 
 }
+.faecherContainerBut{
+  background-color:steelblue;
+  padding:5pt;
+  width:300pt;
+  display:flex;
+  flex-wrap:wrap;
+  
 
+    button{
+      border-radius:5pt;
+      margin:4pt;
+      border:none;
+      width:45%;
+      overflow: hidden;
+    
+  }
+}
 
 
 

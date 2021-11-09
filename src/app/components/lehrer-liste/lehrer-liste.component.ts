@@ -4,7 +4,6 @@ import {
 } from '@angular/core';
 import {
   differenceInBusinessDays,
-  differenceInCalendarDays
 } from 'date-fns';
 import {
   Fach
@@ -21,9 +20,7 @@ import {
 import {
   LoginService
 } from 'src/app/services/login.service';
-import {
-  getSyntheticLeadingComments
-} from 'typescript';
+
 
 
 @Component({
@@ -33,7 +30,7 @@ import {
 })
 export class LehrerListeComponent implements OnInit {
 
-  faecher = Object.keys(Fach);
+  faecher = Object.keys(Fach).sort();
   aufgaben = ["Schulführung", "Vorstand", "Pädagogische Leitung", "Geschäftsführer"];
 
   // Fach dem Lehrer hinzufügen:
@@ -163,7 +160,7 @@ export class LehrerListeComponent implements OnInit {
       console.log(kuerzel +"FACH:" + faecher);
       faecher.forEach(fach => {
         if (e.shiftKey) {
-          this.loginServ.lehrerAufgabenHinzufuegen(kuerzel, fach)
+          this.loginServ.lehrerAufgabenHinzufuegen(kuerzel, fach) //das löscht die fächer und macht faecher=[]
 
         }
       });
@@ -171,6 +168,19 @@ export class LehrerListeComponent implements OnInit {
 
 
   }
+
+  loeschenClick(e, lehrer) {//aufgaben löschen per Click
+    let kuerzel=lehrer.kuerzel;
+    let faecher=lehrer.faecher;
+
+    if (faecher.length > 0&&faecher!=null&&faecher!=undefined) {
+      console.log(kuerzel +"FACH:" + faecher);
+      faecher.forEach(fach => {
+          this.loginServ.lehrerAufgabenHinzufuegen(kuerzel, fach) //das löscht die fächer und macht faecher=[] 
+      });
+    }
+  }
+
   constructor(public lehrerServ: LehrerService, public klassenplan: KlassenplaeneService, public loginServ: LoginService) {
 
   }
