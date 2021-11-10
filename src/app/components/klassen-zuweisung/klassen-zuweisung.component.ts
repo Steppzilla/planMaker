@@ -212,6 +212,7 @@ export class KlassenZuweisungComponent implements OnInit {
     console.log("hi");
     let neuesEle: boolean;
     let neuArray: Array < Elementt >= this.klassenplanServ.grundPlanfaecher.getValue();
+    let ueb=[];
  //let uebstunden=0;
     neuArray.forEach(obj => {
       
@@ -224,6 +225,11 @@ export class KlassenZuweisungComponent implements OnInit {
         } else if ((obj.fach == fachI) && (obj.klasse == klasseI)) {
           //  console.log("neues Element hinzufügen");
           neuesEle = true;
+          ueb.push(obj.uebstunde);
+          ueb.push(obj.rhythmus);
+          ueb.push(obj.epoche);
+          ueb.push(obj.schiene);
+
         //  uebstunden=obj.uebstunde;
         console.log(" lehrer schon drin-> neu");
         } else {
@@ -234,7 +240,7 @@ export class KlassenZuweisungComponent implements OnInit {
 
     //wenn ein Lehrer schon drin is, neues Element erstellen mit Lehrer drin.
     if (neuesEle == true) {
-      this.klassenplanServ.elementHinzufuegenmitLehrer(fachI, klasseI, lehrerI);
+      this.klassenplanServ.elementHinzufuegenmitLehrerUeb(fachI, klasseI, lehrerI,ueb);
     } else{
       this.klassenplanServ.grundPlanfaecher.next(neuArray);
     }

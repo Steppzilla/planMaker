@@ -275,7 +275,14 @@ export class KlassenplaeneService {
     let ele: Elementt = this.neuesElementmitLehrer(fach, klasse, lehrer);
    // console.log(this.grundPlanfaecher.value);
     this.grundPlanfaecher.next(this.grundPlanfaecher.getValue().concat(ele));
-    console.log(this.grundPlanfaecher.getValue());
+    //console.log(this.grundPlanfaecher.getValue());
+  }
+
+  elementHinzufuegenmitLehrerUeb(fach: Fach, klasse: Lehrjahr, lehrer: Lehrer,ueb:Array<number>) {
+    let ele: Elementt = this.neuesElementmitLehrerUeb(fach, klasse, lehrer,ueb);
+   // console.log(this.grundPlanfaecher.value);
+    this.grundPlanfaecher.next(this.grundPlanfaecher.getValue().concat(ele));
+    //console.log(this.grundPlanfaecher.getValue());
   }
 
   neuesElementmitLehrer(fach: Fach, klasse: Lehrjahr, lehrer: Lehrer) {
@@ -289,6 +296,26 @@ export class KlassenplaeneService {
       rhythmus: 0,
       schiene: 0,
       epoche: 0,
+      zuweisung: {
+        uebstunde: [],
+        rhythmus: [],
+        epoche: [],
+        schiene: []
+      }
+    };
+    return ele;
+  }
+  neuesElementmitLehrerUeb(fach: Fach, klasse: Lehrjahr, lehrer: Lehrer,ueb:Array<number>) {
+    let ele: Elementt = {
+      fach: fach,
+      klasse: klasse,
+      wochenstunden: 0,
+      raum: Raum.null,
+      lehrer: [lehrer],
+      uebstunde: ueb[0],
+      rhythmus: ueb[1],
+      schiene: ueb[3],
+      epoche: ueb[2],
       zuweisung: {
         uebstunde: [],
         rhythmus: [],
