@@ -82,16 +82,16 @@
 
                     <div *ngIf="cell&&cell[0]" class="{{classPrintAktiv('esrButtonContainer')}}">
                       <button class=" {{farbeUESR('uebstunde',cell[0].uebstunde)}}"
-                        (click)="wochenstundenVerteilenn($event,'ueb',cell,klas+1)" >
+                        (click)="wochenstundenVerteilenn($event,'ueb',cell,klas+1)">
                         {{cell[0].uebstunde!=0?cell[0].uebstunde:"Ü"}}
                       </button>
                       <ng-container *ngIf="klas>=8">
                         <button class=" {{farbeUESR('rhythmus',cell[0].rhythmus)}}"
-                          (click)="wochenstundenVerteilenn($event,'rhythmus',cell,klas+1)" >
+                          (click)="wochenstundenVerteilenn($event,'rhythmus',cell,klas+1)">
                           {{cell[0].rhythmus!=0?cell[0].rhythmus:"R"}}
                         </button>
                         <button class=" {{farbeUESR('epoche',cell[0].epoche)}}"
-                          (click)="wochenstundenVerteilenn($event,'epoche',cell,klas+1)" >
+                          (click)="wochenstundenVerteilenn($event,'epoche',cell,klas+1)">
                           {{cell[0].epoche!=0?cell[0].epoche:"E"}}
                         </button>
                         <button class=" {{farbeUESR('schiene',cell[0].schiene)}}"
@@ -111,32 +111,32 @@
                             <div class="kuerzel {{marked(item.lehrer[0])}}" *ngFor="let lehre of item.lehrer">
                               <div>{{lehre.kuerzel?lehre.kuerzel:"Lehrer?"}}
                               </div>
-<ng-container *ngIf="!printAktiv">
-                              <ng-container *ngIf="lehrerArray$|async as resAnzahl">
-                                (
-                                <div class=" ueb">
-                                  <ng-container *ngIf="resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].ueb>0">
-                                    {{resAnzahl[lehre.kuerzel].ueb}}
-                                  </ng-container>
-                                </div>
-                                <div class=" rhy" >
-                                  <ng-container *ngIf="resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].rhy>0">
-                                    {{resAnzahl[lehre.kuerzel].rhy}}
-                                  </ng-container>
-                                </div>
-                                <div class=" epo">
-                                  <ng-container *ngIf="resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].epo>0">
-                                    {{resAnzahl[lehre.kuerzel].epo}}
-                                  </ng-container>
-                                </div>
-                                <div class=" sch" >
-                                  <ng-container *ngIf="resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].sch>0">
-                                    {{resAnzahl[lehre.kuerzel].sch}}
-                                  </ng-container>
-                                </div>
-                                )
+                              <ng-container *ngIf="!printAktiv">
+                                <ng-container *ngIf="lehrerArray$|async as resAnzahl">
+                                  (
+                                  <div class=" ueb">
+                                    <ng-container *ngIf="resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].ueb>0">
+                                      {{resAnzahl[lehre.kuerzel].ueb}}
+                                    </ng-container>
+                                  </div>
+                                  <div class=" rhy">
+                                    <ng-container *ngIf="resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].rhy>0">
+                                      {{resAnzahl[lehre.kuerzel].rhy}}
+                                    </ng-container>
+                                  </div>
+                                  <div class=" epo">
+                                    <ng-container *ngIf="resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].epo>0">
+                                      {{resAnzahl[lehre.kuerzel].epo}}
+                                    </ng-container>
+                                  </div>
+                                  <div class=" sch">
+                                    <ng-container *ngIf="resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].sch>0">
+                                      {{resAnzahl[lehre.kuerzel].sch}}
+                                    </ng-container>
+                                  </div>
+                                  )
+                                </ng-container>
                               </ng-container>
-                            </ng-container>
                             </div>
                             <ng-container *ngIf="!item.lehrer[0]">
                               Lehrer?

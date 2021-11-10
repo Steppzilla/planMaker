@@ -700,23 +700,23 @@ export class VertretungComponent implements OnInit {
    */
 
   duplicateToggle(zeile, ele) { //umändern, dass nur aktuelle Lehrer die auch in epoche/Schiene drin sind am Datum zu error führen
-    /* let duplicates = 0;
+     let duplicates = 0;
      let tag = this.wochenTagauswahl;
      // let raster =   await this.gesamtRaster$.pipe(take(1),timeout(200)).toPromise();
-     console.log(zeile);
+    // console.log(zeile);
      zeile.forEach(cell => {
        cell.forEach((element, e) => {
          //elemente aus Togle haben nen ganzes lehrerarray:
          ele.lehrer.forEach(lehr => {
-           if (element.lehrerKuerz == lehr.kuerzel) {
+           if (element[1] == lehr.kuerzel) {
              //CHECK vorher! Bei Epoche, schiene und HU nur error, wenn Lehrer AKTUELL DRIN IST
              duplicates++;
            }
          });
        });
      });
-     return duplicates > 0 ? "error" : "ok";*/
-    return "";
+     return duplicates > 0 ? "error" : "ok";
+
   }
 
 

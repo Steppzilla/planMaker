@@ -162,22 +162,24 @@
                           <ng-container *ngIf="klassenplanServ.klassenArray$|async as klassArray">
                             {{r+1}}
                             <ng-container *ngFor="let elementt of klassArray[r+1]">
+                              <ng-container *ngIf="elementt.fach!=='HU'&&elementt.fach!=='Schiene'&&elementt.fach!=='Rhythmus'">
                               <ng-container *ngIf="elementt.zuweisung.uebstunde.length>0">
-                                <div class="toggle-items" *ngIf="elementt!=undefined"
+                                <div class="toggle-items {{duplicateToggle(zeile,elementt)}}" *ngIf="elementt!=undefined"
                                   (click)="togglezellenClickk(std,elementt,cell)">
                                   <ng-container
                                     *ngIf="elementt.fach!='HU'&&elementt.fach!='StartUp'&&elementt.fach!='Schiene'||elementt.klasse<9">
                                     <ng-container *ngFor="let le of elementt.lehrer">
                                       {{le?le.kuerzel:"Lehrer"}}
                                     </ng-container>
+                                    
                                   </ng-container>
-                                  (<span class="{{duplicateToggle(zeile,elementt)}}">
+                                  (<span class="">
                                     {{elementt?elementt.fach:"kein Fach"}}
                                   </span>)
 
                                 </div>
                               </ng-container>
-                           
+                            </ng-container>
                           </ng-container>
 
                           <ng-container *ngFor="let lehri of freieLehrer(std)">
