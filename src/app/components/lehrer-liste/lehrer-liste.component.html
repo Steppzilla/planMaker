@@ -57,10 +57,52 @@
       </ng-container>
     </td>
     <td>
-      {{deputat(lehrer)}}=
-      <span style="font-weight:bold">
-        {{deputat(lehrer)[0] + deputat(lehrer)[1] + deputat(lehrer)[2] + deputat(lehrer)[3]}}
-      </span>
+      <ng-container *ngIf=" deputatServ.alleLehrer$|async as Deputat">
+        <ng-container *ngFor="let plan of Deputat">
+          <ng-container *ngIf="plan.kuerzel==lehrer.kuerzel">
+            <span triggers="hover" placement="bottom" [ngbTooltip]="LehrerUEB"
+              [autoClose]="true">{{plan.uebstunde}}</span> +
+            <span triggers="hover" placement="bottom" [ngbTooltip]="LehrerRhy" [autoClose]="true"> {{plan.rhythmus}}
+            </span>+
+            <span triggers="hover" placement="bottom" [ngbTooltip]="LehrerEpo" [autoClose]="true"> {{plan.epoche}}
+            </span>+
+            <span triggers="hover" placement="bottom" [ngbTooltip]="LehrerSch" [autoClose]="true">
+              {{plan.schiene}}</span> =
+            <span style="font-weight:bold">
+              {{plan.uebstunde + plan.rhythmus + plan.epoche + plan.schiene}}
+            </span>
+
+            <ng-template #LehrerUEB>
+              <ng-container *ngFor="let unt of plan.zuweisungen.ueb" class="ueb">
+                <ng-container *ngIf="unt.stunden>0">
+                  {{unt.fach}} {{unt.klasse!==null?unt.klasse:"" }} : {{ unt.stunden}}
+                </ng-container>
+              </ng-container>
+            </ng-template>
+            <ng-template #LehrerRhy>
+              <ng-container *ngFor="let unt of plan.zuweisungen.rhy" class="rhy">
+                <ng-container *ngIf="unt.stunden>0">
+                  {{unt.fach}}{{unt.klasse!==null?unt.klasse:"" }} : {{ unt.stunden}}
+                </ng-container>
+              </ng-container>
+            </ng-template>
+            <ng-template #LehrerEpo>
+              <ng-container *ngFor="let unt of plan.zuweisungen.epo" class="epo">
+                <ng-container *ngIf="unt.stunden>0">
+                  {{unt.fach}} {{unt.klasse!==null?unt.klasse:"" }} : {{ unt.stunden}}
+                </ng-container>
+              </ng-container>
+            </ng-template>
+            <ng-template #LehrerSch>
+              <ng-container *ngFor="let unt of plan.zuweisungen.sch" class="sch">
+                <ng-container *ngIf="unt.stunden>0">
+                  {{unt.fach}} {{unt.klasse!==null?unt.klasse:"" }} : {{ unt.stunden}}
+                </ng-container>
+              </ng-container>
+            </ng-template>
+          </ng-container>
+        </ng-container>
+      </ng-container>
     </td>
 
 
@@ -84,7 +126,7 @@
         <button (click)="loeschenClick($event,lehrer)" class="delete"> Fächer löschen </button>
         <button *ngFor="let fach of faecher" (click)="fachLehrerAdd(fach,lehrer)">
           {{fach.slice(0,1).toUpperCase()+fach.slice(1,fach.length)}}</button>
-   
+
       </div>
     </ng-template>
   </tr>

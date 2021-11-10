@@ -111,8 +111,8 @@
                             <div class="kuerzel {{marked(item.lehrer[0])}}" *ngFor="let lehre of item.lehrer">
                               <div>{{lehre.kuerzel?lehre.kuerzel:"Lehrer?"}}
                               </div>
-
-                              <ng-container *ngIf="!printAktiv&&lehrerArray$|async as resAnzahl">
+<ng-container *ngIf="!printAktiv">
+                              <ng-container *ngIf="lehrerArray$|async as resAnzahl">
                                 (
                                 <div class=" ueb">
                                   <ng-container *ngIf="resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].ueb>0">
@@ -136,6 +136,7 @@
                                 </div>
                                 )
                               </ng-container>
+                            </ng-container>
                             </div>
                             <ng-container *ngIf="!item.lehrer[0]">
                               Lehrer?

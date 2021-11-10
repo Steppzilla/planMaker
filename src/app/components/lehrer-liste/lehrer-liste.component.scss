@@ -50,6 +50,32 @@ table{
 
 
 
+.HU,
+.huB,
+.epo,
+.epoB {
+  background-color: rgb(207, 198, 98);
+}
+
+.Schiene,
+.schB,
+.sch {
+  background-color: rgb(176, 219, 130);
+}
+
+.StartUp,
+.rhyB,
+.rhy {
+  background-color: rgb(255, 144, 133);
+}
+
+.empty,
+.leer {
+  min-height: 10pt;
+  opacity: 0.6;
+  //background-color:$hintergrund2;
+}
+
 @media print{
   table{color:black;
   background-color:white;}

@@ -75,7 +75,7 @@ export class KlassenZuweisungComponent implements OnInit {
           [key: string]: {}
         } = {};
         if (this.lehrerListe) {
-          let lehrer = this.lehrerListe.slice(0, this.lehrerListe.length);
+          let lehrer = this.lehrerListe;
           lehrer.forEach(le => {
             if (obj[le.kuerzel]) {
               let neu = {
@@ -159,7 +159,7 @@ export class KlassenZuweisungComponent implements OnInit {
     }
     ele.lehrer.push([]);
 
-  }
+  }/*
   wochenstundenVerteilen(e, art, elementDerZeile, kIndex) {
     //  console.log(elementDerZeile);
     elementDerZeile.forEach(element => {
@@ -206,29 +206,26 @@ export class KlassenZuweisungComponent implements OnInit {
     }
   });
   console.log()
-  }
+  }*/
 
   lehrerHinzufuegen(lehrerI: Lehrer, klasseI: Lehrjahr, fachI: Fach) {
+    console.log("hi");
     let neuesEle: boolean;
     let neuArray: Array < Elementt >= this.klassenplanServ.grundPlanfaecher.getValue();
-let uebstunden=0;
+ //let uebstunden=0;
     neuArray.forEach(obj => {
+      
       if (obj != null) {
-        if (obj.fach == fachI) {
-          //  console.log(obj.fach + " / " + obj.klasse + "/" + obj.lehrer[0] + "kuerzel: " + obj.lehrer[0].kuerzel);
-          //  console.log(fachI + "/ " + klasseI + "/ ");
-          //  console.table( obj.lehrer);
-        }
-        if ((obj.fach == fachI) && (obj.klasse == klasseI) && (obj.lehrer[0] === undefined)) {
-          //  console.log("L. hinzugefügt, kein neues Element");
-          //Lehrer null rauschemeißen
+         if ((obj.fach == fachI) && (obj.klasse == klasseI) && (obj.lehrer.length===0)) {
+           console.log("keine lehrer bisher drin");
           obj.lehrer = [];
           obj.lehrer.push(lehrerI);
           neuesEle = false;
         } else if ((obj.fach == fachI) && (obj.klasse == klasseI)) {
           //  console.log("neues Element hinzufügen");
           neuesEle = true;
-          uebstunden=obj.uebstunde;
+        //  uebstunden=obj.uebstunde;
+        console.log(" lehrer schon drin-> neu");
         } else {
           //   console.log("das Element entspricht nicht dem angeklickten");
         }
@@ -238,9 +235,10 @@ let uebstunden=0;
     //wenn ein Lehrer schon drin is, neues Element erstellen mit Lehrer drin.
     if (neuesEle == true) {
       this.klassenplanServ.elementHinzufuegenmitLehrer(fachI, klasseI, lehrerI);
-    } else {
+    } else{
       this.klassenplanServ.grundPlanfaecher.next(neuArray);
     }
+    
   }
 
   wortInZahl(wort) {
@@ -294,7 +292,7 @@ let uebstunden=0;
     });
   }
 
-  epocheSchieneRhythmusBefuellen() {
+  /*epocheSchieneRhythmusBefuellen() {
     this.esrFuellen("epoche", Fach.hauptunterricht, Lehrjahr.neun);
     this.esrFuellen("rhythmus", Fach.rhythmisch, Lehrjahr.neun);
     this.esrFuellen("schiene", Fach.schiene, Lehrjahr.neun);
@@ -307,7 +305,7 @@ let uebstunden=0;
     this.esrFuellen("epoche", Fach.hauptunterricht, Lehrjahr.zwoelf);
     this.esrFuellen("rhythmus", Fach.rhythmisch, Lehrjahr.zwoelf);
     this.esrFuellen("schiene", Fach.schiene, Lehrjahr.zwoelf);
-  }
+  }*/
 
 
 
@@ -325,7 +323,7 @@ let uebstunden=0;
 
 
 
-  lehrerNachFach$ = this.klassenplanServ.lehrerListe$.pipe(
+  lehrerNachFach$ = this.klassenplanServ.lehrerListe$.pipe( //alle lehrer, die ein fach machen zb handarbeit
     map(z => {
       let ar = new Object;
       z.forEach(obj => {
@@ -390,7 +388,7 @@ let uebstunden=0;
               element.uebstunde++;
             });
           }
-          this.epocheSchieneRhythmusBefuellen();
+       //   this.epocheSchieneRhythmusBefuellen();
           break;
         case "rhythmus":
           if ((e.shiftKey) && (zelle[0].rhythmus > 0)) {
@@ -403,7 +401,7 @@ let uebstunden=0;
             });
             //Lehrer in rhythmus hinzufügen?
           }
-          this.epocheSchieneRhythmusBefuellen();
+       //   this.epocheSchieneRhythmusBefuellen();
           break;
         case "epoche":
           if ((e.shiftKey) && (zelle[0].epoche > 0)) {
@@ -416,7 +414,7 @@ let uebstunden=0;
             });
             //Lehrer in epoche hinzufügen?
           }
-          this.epocheSchieneRhythmusBefuellen();
+      //    this.epocheSchieneRhythmusBefuellen();
           break;
         case "schiene":
           if ((e.shiftKey) && (zelle[0].schiene > 0)) {
@@ -429,10 +427,11 @@ let uebstunden=0;
             });
             //Lehrer in schiene hinzufügen?
           }
-          this.epocheSchieneRhythmusBefuellen(); //für gesamtplan, damit der im HU gezählt wird
+        //  this.epocheSchieneRhythmusBefuellen(); //für gesamtplan, damit der im HU gezählt wird
           break;
       }
     }
+    this.klassenplanServ.grundPlanfaecher.next(this.klassenplanServ.grundPlanfaecher.getValue());//update lehrerarray, passiert erst wenn grundfächer sich ändern
   }
 
 
