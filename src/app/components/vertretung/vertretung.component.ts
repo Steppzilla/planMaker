@@ -150,30 +150,10 @@ export class VertretungComponent implements OnInit {
 
   );
 
-  /*
-         else {
-                
-              }
-
-              */
+  
 
 
-  sonderEvent(klasse) {
-    /* let datum = this.epoPlan.planDatum.getValue();
-     let esr
-     //console.log(this.feriTermServ.fahrtenUndProjekteObj);
-     // console.log(klasse);
 
-     let klasEventArray = this.terminListe.filter(element=>element.klasse===klasse); //.neun Array mit objekten
-     let fahrtaktuell = null;
-     klasEventArray.forEach(obj => {
-       if (obj.start.getTime() <= datum.getTime() && datum.getTime() <= obj.ende.getTime()) {
-         fahrtaktuell = obj.titel;
-       }
-     });
-     // console.log(fahrtaktuell);
-     return fahrtaktuell;*/
-  }
 
   klassenFahrt(arr, zahl) {
     let ele;
@@ -413,15 +393,7 @@ export class VertretungComponent implements OnInit {
 
   togglezellenClickk(stdZ, clickedElementt: Elementt, zelle) { //ganze Zelle/stunden zeile als Zahl
     if (this.vertretungsElement.klasse !== null) {
-      // let zelll=zelle; //für normalen Unterricht immer verwendet
-      console.log(this.vertretungsraster2);
-      console.log(zelle);
       let zellenI = zelle.findIndex(ele => ele[1] === this.vertretungsElement.lehrerKuerz); //bei epochen muss anderes element genommen werden
-      //zellenI bestimmen index
-     
-      console.log(zelle);
-      console.log(zellenI);
-
       let aktuelleVertret = this.vertretungsSer.vertretung.getValue();
       this.vertretungsElement.vertretung = clickedElementt;
       aktuelleVertret.push(this.vertretungsElement);
@@ -434,10 +406,8 @@ export class VertretungComponent implements OnInit {
       if (!this.vertretungsraster2[this.wochenTagauswahl.toLowerCase()][this.vertretungsElement.klasse - 1][this.vertretungsElement.stunde][zellenI]) {
         this.vertretungsraster2[this.wochenTagauswahl.toLowerCase()][this.vertretungsElement.klasse - 1][this.vertretungsElement.stunde][zellenI] = [];
       }
-
       this.vertretungsraster2[this.wochenTagauswahl.toLowerCase()][this.vertretungsElement.klasse - 1][this.vertretungsElement.stunde][zellenI].push(this.vertretungsElement);
       console.log(this.vertretungsraster2[this.wochenTagauswahl.toLowerCase()][this.vertretungsElement.klasse - 1][this.vertretungsElement.stunde]);
-
 
     } else {
       console.error("bitte klicke vorher einen Lehrer an");
@@ -463,14 +433,13 @@ export class VertretungComponent implements OnInit {
   freieLehrerClickk(lehr, cell) {
 
     if (this.vertretungsElement.klasse !== null) {
-      let zellenI = cell.findIndex(ele => ele.fach == this.vertretungsElement.fach && ele.lehrerKuerz === this.vertretungsElement.lehrerKuerz);
-
+      let zellenI = cell.findIndex(ele => ele[0] == this.vertretungsElement.fach && ele[1] === this.vertretungsElement.lehrerKuerz);
+      console.log(zellenI);
       let aktuelleVertret = this.vertretungsSer.vertretung.getValue();
       this.vertretungsElement.vertretung = null; //kein element vorhanden
       this.vertretungsElement.vertretungsLehrer = lehr;
       aktuelleVertret.push(this.vertretungsElement); //VERTRETUNG IST UNDEFINED dafür notiz: selbständig
       this.vertretungsSer.vertretung.next(aktuelleVertret);
-
 
       if (Number.isInteger(this.vertretungsraster2[this.wochenTagauswahl.toLowerCase()][this.vertretungsElement.klasse - 1][this.vertretungsElement.stunde])) {
         this.vertretungsraster2[this.wochenTagauswahl.toLowerCase()][this.vertretungsElement.klasse - 1][this.vertretungsElement.stunde] = [];
@@ -479,11 +448,7 @@ export class VertretungComponent implements OnInit {
       if (!this.vertretungsraster2[this.wochenTagauswahl.toLowerCase()][this.vertretungsElement.klasse - 1][this.vertretungsElement.stunde][zellenI]) {
         this.vertretungsraster2[this.wochenTagauswahl.toLowerCase()][this.vertretungsElement.klasse - 1][this.vertretungsElement.stunde][zellenI] = [];
       }
-
       this.vertretungsraster2[this.wochenTagauswahl.toLowerCase()][this.vertretungsElement.klasse - 1][this.vertretungsElement.stunde][zellenI].push(this.vertretungsElement);
-
-
-
     } else {
       console.error("bitte klicke vorher einen Lehrer an");
     }
@@ -503,7 +468,7 @@ export class VertretungComponent implements OnInit {
 
   freii(cell) {
     if (this.vertretungsElement.klasse !== null) {
-      let zellenI = cell.findIndex(ele => ele.fach == this.vertretungsElement.fach && ele.lehrerKuerz === this.vertretungsElement.lehrerKuerz);
+      let zellenI = cell.findIndex(ele => ele[0] == this.vertretungsElement.fach && ele[1] === this.vertretungsElement.lehrerKuerz);
 
       let aktuelleVertret = this.vertretungsSer.vertretung.getValue();
       this.vertretungsElement.vertretung = null; //VERTRETUNG IST NULL aber dafür notiz "frei"
@@ -542,7 +507,7 @@ export class VertretungComponent implements OnInit {
   }
   selbstaendigg(cell) {
     if (this.vertretungsElement.klasse !== null) {
-      let zellenI = cell.findIndex(ele => ele.fach == this.vertretungsElement.fach && ele.lehrerKuerz === this.vertretungsElement.lehrerKuerz);
+      let zellenI = cell.findIndex(ele => ele[0] == this.vertretungsElement.fach && ele[1] === this.vertretungsElement.lehrerKuerz);
 
       let aktuelleVertret = this.vertretungsSer.vertretung.getValue();
       this.vertretungsElement.vertretung = null;
@@ -629,12 +594,18 @@ export class VertretungComponent implements OnInit {
       lehrerbesetzt = false;
       if (this.grundPlanfaecher) {
         this.grundPlanfaecher.forEach(element => {
+       
           if (element != null && element.lehrer.length > 0) {
             element.lehrer.forEach(le => {
               element.zuweisung.uebstunde.forEach(zuw => {
 
-                if (le && lehrer && le.kuerzel == lehrer.kuerzel && zuw.stunde == r) {
+                if (le && lehrer && le.kuerzel == lehrer.kuerzel && zuw.stunde == r&&zuw.wochentag===this.wochenTagauswahl) { //er prüft über alle Tage... also ergänzt nur montag
+          //       console.log(zuw.wochentag);
+           //      console.log(this.wochenTagauswahl)
                   lehrerbesetzt = true;
+               //   console.log(lehrer.kuerzel);
+               //   console.log(element);
+           //       console.log(r);
                 }
               });
 
@@ -646,6 +617,7 @@ export class VertretungComponent implements OnInit {
       }
       if (lehrerbesetzt == false) {
         freieLehrer.push(lehrer);
+       
       }
     });
 

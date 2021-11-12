@@ -10,6 +10,31 @@ $background:rgb(126, 126, 126);
 $background2:rgb(194, 199, 194);
 $back-light:rgb(231, 224, 224);
 
+
+.formatTd {
+
+  button {
+   // display:flex;
+   // justify-content: center;
+      
+      div {
+        width: 100%;
+      }
+      font-weight:bolder;
+      .kuerzl {
+        font-style: italic;
+        font-size:9pt;
+      }
+
+      .fach {
+       
+      }
+    
+  }
+}
+
+
+
 h1,
 h2 {
   text-align: center;
@@ -83,13 +108,6 @@ th {
   }
 }
 
-.fachItem {
-  display: flex;
-
-  div {
-    width: 100%;
-  }
-}
 
 
 //obere buttons ende

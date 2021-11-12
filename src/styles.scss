@@ -1,18 +1,26 @@
-
 /* You can add global styles to this file, and also import other style files */
 $color-text: rgb(182, 205, 221);
 $color-background:rgb(16, 71, 107);
 
-h1,h2{text-align:center}
-.tooltip .arrow {display: none !important;
+*{font-weight:bold;}
+h1,
+h2 {
+  text-align: center
 }
 
-.tooltip-inner{
-  color:black!important;
-  padding:0pt!important;
-  background-color: rgb(187, 236, 228)!important;
+.tooltip .arrow {
+  display: none !important;
 }
-.tooltip.show{opacity: 0.95!important;}
+
+.tooltip-inner {
+  color: black !important;
+  padding: 0pt !important;
+  background-color: rgb(187, 236, 228) !important;
+}
+
+.tooltip.show {
+  opacity: 0.95 !important;
+}
 
 .blueback {
   color: rgb(84, 97, 209);
@@ -21,6 +29,7 @@ h1,h2{text-align:center}
 
 
 $hover:rgb(98, 107, 146);
+
 button:hover {
   background-image: repeating-linear-gradient(45deg,
       $hover 0pt,
@@ -30,21 +39,43 @@ button:hover {
 
 @media print {
 
-  @page { 
+  @page {
     size: landscape;
+  }
+
+
+  h1 {
+    page-break-before: always;
+  }
+
+  .noprint {
+    display: none;
+
+    button {
+      display: none;
+
+      img {
+        display: none;
+      }
+    }
+  }
+
+  .tooltip-inner {
+    display: none;
+  }
+
+  //popups , pfeil bleibt , ist glaubich after
+
 }
 
 
-h1{
-  page-break-before: always;
+
+html,
+body {
+  height: 100%;
 }
 
-.noprint{display:none; }
-.tooltip-inner{display:none;}//popups , pfeil bleibt , ist glaubich after
-
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
-
-
-  
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

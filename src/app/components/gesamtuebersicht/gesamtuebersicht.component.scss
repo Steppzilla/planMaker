@@ -11,7 +11,27 @@ $background2:rgb(194, 199, 194);
 $back-light:rgb(231, 224, 224);
 
 
+.formatTd {
 
+  button {
+   // display:flex;
+   // justify-content: center;
+      
+      div {
+        width: 100%;
+      }
+      font-weight:bolder;
+      .kuerzl {
+        font-style: italic;
+        font-size:9pt;
+      }
+
+      .fach {
+       
+      }
+    
+  }
+}
 
 
 h1,
@@ -89,13 +109,7 @@ th {
   }
 }
 
-.fachItem {
-  display: flex;
 
-  div {
-    width: 100%;
-  }
-}
 
 
 //obere buttons ende
@@ -108,8 +122,9 @@ th {
 .ok {
   //color:green;
 }
-.gruen{
-  color:green;
+
+.gruen {
+  color: green;
 }
 
 .blueback {
@@ -185,13 +200,28 @@ th {
 
 
 
-.formatMain1,.formatMain2,.formatMain3,.formatMain4,.formatMain5,.formatMain6,.formatMain7,.formatMain8,.formatMain9,.formatMain10,.formatMain11,.formatMain12,.formatMain13 {
+.formatMain1,
+.formatMain2,
+.formatMain3,
+.formatMain4,
+.formatMain5,
+.formatMain6,
+.formatMain7,
+.formatMain8,
+.formatMain9,
+.formatMain10,
+.formatMain11,
+.formatMain12,
+.formatMain13 {
   display: flex;
-  justify-content: center;;
+  justify-content: center;
+  ;
 }
+
 .formatMainnull {
   display: block;
 }
+
 /*
 .formatTable {
   //tr-format allgemein, (auch) wenn klasse gewählt
@@ -224,6 +254,7 @@ th {
 
   .kuerzl {
     display: block;
+
   }
 
   .fach {
@@ -239,7 +270,8 @@ th {
   .wochenTagContainer {
     button {}
   }
-/*
+
+  /*
   .formatTd {
     //wenn nur eine klasse eingebldent sit
     width: 80pt;
@@ -270,13 +302,12 @@ th {
       td {
         //  border : 1pt solid black;
 
-        button {
-          
-        }
+        button {}
       }
     }
   }
-/*
+
+  /*
   .formatTd {
     //wenn nur eine klasse eingebldent sit
     width: 120pt;
@@ -440,5 +471,3 @@ th {
   }
 
 }
-
-

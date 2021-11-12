@@ -66,6 +66,81 @@ export class EsrPlanComponent implements OnInit {
 
   printAktiv = false;
 
+
+  rhythmusElemente$ = this.klassenplanServ.esrPlaan$.pipe(
+    concatMap(b => {
+      return this.klassenplanServ.esrPlaan$.pipe(take(1));
+    }),
+    map(z => {
+      let obj = {
+        neun: z.rhythmus.neun,
+        zehn: z.rhythmus.zehn,
+        elf: z.rhythmus.elf,
+        zwoelf: z.rhythmus.zwoelf
+      }
+
+
+      return obj;
+    })
+  );
+
+  epochenElemente$ = this.klassenplanServ.esrPlaan$.pipe(
+    concatMap(b => {
+      return this.klassenplanServ.esrPlaan$.pipe(take(1));
+    }),
+    map(z => {
+      let obj = {
+        neun: z.epoche.neun,
+        zehn: z.epoche.zehn,
+        elf: z.epoche.elf,
+        zwoelf: z.epoche.zwoelf
+      }
+      return obj;
+    })
+  );
+
+  schieneElemente$ = this.klassenplanServ.esrPlaan$.pipe(
+    concatMap(b => {
+      return this.klassenplanServ.esrPlaan$.pipe(take(1));
+    }),
+    map(z => {
+      let obj = {
+        neun: z.schiene.neun,
+        zehn: z.schiene.zehn,
+        elf: z.schiene.elf,
+        zwoelf: z.schiene.zwoelf
+      }
+      return obj;
+    })
+  );
+
+
+  tagimAbschnitt(ele, date, plan) {
+    let zaehler = 0;
+    ele.zuweisung[plan].forEach(epoche => {
+      if (epoche.start <= date && epoche.ende >= date) {
+        zaehler++;
+      }
+    });
+    return zaehler >= 1 ? ele : null;
+    // console.log(ele.zuweisung.rhythmus);
+    // console.log(date); //definiert, datum!
+  }
+
+
+  elementeDesTages(epochenElementenArray, date, epochenPlanName){
+    let ar=[];
+    epochenElementenArray.forEach(element => {
+      element.zuweisung[epochenPlanName].forEach(epochenElem => {
+        if(epochenElem.start  <=date&&epochenElem.ende>=date){
+          ar.push(element);
+        }
+      });
+      
+    });
+    return ar;
+  }
+
   kuerzen(text){
     return text.slice(0,5);
   }
@@ -322,63 +397,11 @@ export class EsrPlanComponent implements OnInit {
 
   }
 
-  rhythmusElemente$ = this.klassenplanServ.esrPlaan$.pipe(
-    concatMap(b => {
-      return this.klassenplanServ.esrPlaan$.pipe(take(1));
-    }),
-    map(z => {
-      let obj = {
-        neun: z.rhythmus.neun,
-        zehn: z.rhythmus.zehn,
-        elf: z.rhythmus.elf,
-        zwoelf: z.rhythmus.zwoelf
-      }
-      return obj;
-    })
-  );
-
-  tagimAbschnitt(ele, date, plan) {
-    let zaehler = 0;
-    ele.zuweisung[plan].forEach(epoche => {
-      if (epoche.start <= date && epoche.ende >= date) {
-        zaehler++;
-      }
-    });
-    return zaehler >= 1 ? ele : null;
-    // console.log(ele.zuweisung.rhythmus);
-    // console.log(date); //definiert, datum!
-  }
 
 
-  epochenElemente$ = this.klassenplanServ.esrPlaan$.pipe(
-    concatMap(b => {
-      return this.klassenplanServ.esrPlaan$.pipe(take(1));
-    }),
-    map(z => {
-      let obj = {
-        neun: z.epoche.neun,
-        zehn: z.epoche.zehn,
-        elf: z.epoche.elf,
-        zwoelf: z.epoche.zwoelf
-      }
-      return obj;
-    })
-  );
+ 
 
-  schieneElemente$ = this.klassenplanServ.esrPlaan$.pipe(
-    concatMap(b => {
-      return this.klassenplanServ.esrPlaan$.pipe(take(1));
-    }),
-    map(z => {
-      let obj = {
-        neun: z.schiene.neun,
-        zehn: z.schiene.zehn,
-        elf: z.schiene.elf,
-        zwoelf: z.schiene.zwoelf
-      }
-      return obj;
-    })
-  );
+
 
   daysBetween(startDate, endDate) { //in weeeks geändert mit *7
     var millisecondsPerDay = 24 * 60 * 60 * 1000 * 7;
@@ -548,12 +571,6 @@ export class EsrPlanComponent implements OnInit {
   }
 
 
-  marked(lehr) {
-    if (lehr && this.selectLehrer && lehr.kuerzel == this.selectLehrer.kuerzel) {
-      return "blueback";
-    }
-
-  }
 
 
   wahl(z) {

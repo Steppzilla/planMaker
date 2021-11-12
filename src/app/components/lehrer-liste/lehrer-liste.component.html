@@ -74,30 +74,27 @@
 
             <ng-template #LehrerUEB>
               <ng-container *ngFor="let unt of plan.zuweisungen.ueb" class="ueb">
-                <ng-container *ngIf="unt.stunden>0">
-                  {{unt.fach}} {{unt.klasse!==null?unt.klasse:"" }} : {{ unt.stunden}}
-                </ng-container>
+                  {{unt.fach}} {{unt.klasse!==null?unt.klasse:"" }} 
               </ng-container>
             </ng-template>
             <ng-template #LehrerRhy>
               <ng-container *ngFor="let unt of plan.zuweisungen.rhy" class="rhy">
-                <ng-container *ngIf="unt.stunden>0">
-                  {{unt.fach}}{{unt.klasse!==null?unt.klasse:"" }} : {{ unt.stunden}}
-                </ng-container>
+                  {{unt.fach}}{{unt.klasse!==null?unt.klasse:"" }} 
+
               </ng-container>
             </ng-template>
             <ng-template #LehrerEpo>
               <ng-container *ngFor="let unt of plan.zuweisungen.epo" class="epo">
-                <ng-container *ngIf="unt.stunden>0">
-                  {{unt.fach}} {{unt.klasse!==null?unt.klasse:"" }} : {{ unt.stunden}}
-                </ng-container>
+  
+                  {{unt.fach}} {{unt.klasse!==null?unt.klasse:"" }} 
+   
               </ng-container>
             </ng-template>
             <ng-template #LehrerSch>
               <ng-container *ngFor="let unt of plan.zuweisungen.sch" class="sch">
-                <ng-container *ngIf="unt.stunden>0">
-                  {{unt.fach}} {{unt.klasse!==null?unt.klasse:"" }} : {{ unt.stunden}}
-                </ng-container>
+     
+                  {{unt.fach}} {{unt.klasse!==null?unt.klasse:"" }}
+ 
               </ng-container>
             </ng-template>
           </ng-container>

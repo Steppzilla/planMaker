@@ -6,7 +6,7 @@
   </div>
 
   <button class="noprint" (click)="print()">
-    Gesamt-Epochenpläne 
+    Gesamt-Epochenpläne
     <ng-container *ngIf="counter2%2==0">
       einblenden
     </ng-container>
@@ -212,17 +212,20 @@
                           {{klassenFahrt(box.fahrten,9).titel}}
                         </div>
                         <ng-container *ngIf="klassenFahrt(box.fahrten,9)===null">
-                          <ng-container *ngFor="let ele of rhy.neun; index as eI">
-                            <div class="neun {{marked(tagimAbschnitt(ele,box.tag,'rhythmus').lehrer[0])}}"
-                              *ngIf="tagimAbschnitt(ele,box.tag,'rhythmus')">
-                              <span class="fach">
-                                {{tagimAbschnitt(ele,box.tag,'rhythmus').fach}}
+                          <div class="kuerzel">
+                            <ng-container *ngFor="let ele of elementeDesTages(rhy.neun, box.tag, 'rhythmus')">
+                              <span class="neun {{markedd(ele.lehrer[0].kuerzel)}}">
+                                {{ele.lehrer[0].kuerzel}}
                               </span>
-                              <span class="kuerzel">
-                                {{tagimAbschnitt(ele,box.tag,'rhythmus').lehrer[0].kuerzel}}
+                            </ng-container>
+                          </div>
+                          <div class="fach">
+                            <ng-container *ngFor="let ele of elementeDesTages(rhy.neun, box.tag, 'rhythmus') as item; index as k">
+                              <span class="neun {{markedd(ele.lehrer[0].kuerzel)}}" *ngIf="(k==0||(k>0&&ele.fach!=item[k-1].fach))">
+                                {{ele.fach}}
                               </span>
-                            </div>
-                          </ng-container>
+                            </ng-container>
+                          </div>
                         </ng-container>
 
                         <!---->
@@ -246,17 +249,22 @@
                           {{klassenFahrt(box.fahrten,10).titel}}
                         </div>
                         <ng-container *ngIf="klassenFahrt(box.fahrten,10)===null">
-                          <ng-container *ngFor="let ele of rhy.zehn; index as eI">
-                            <div class="zehn {{marked(tagimAbschnitt(ele,box.tag,'rhythmus').lehrer[0])}}"
-                              *ngIf="tagimAbschnitt(ele,box.tag,'rhythmus')">
-                              <span class="fach">
-                                {{tagimAbschnitt(ele,box.tag,'rhythmus').fach}}
+
+                          <div class="kuerzel">
+                            <ng-container *ngFor="let ele of elementeDesTages(rhy.zehn, box.tag, 'rhythmus')">
+                              <span class="zehn {{markedd(ele.lehrer[0].kuerzel)}}">
+                                {{ele.lehrer[0].kuerzel}}
                               </span>
-                              <span class="kuerzel">
-                                {{tagimAbschnitt(ele,box.tag,'rhythmus').lehrer[0].kuerzel}}
+                            </ng-container>
+                          </div>
+                          <div class="fach">
+                            <ng-container *ngFor="let ele of elementeDesTages(rhy.zehn, box.tag, 'rhythmus') as item; index as k">
+                              <span class="zehn {{markedd(ele.lehrer[0].kuerzel)}}" *ngIf="(k==0||(k>0&&ele.fach!=item[k-1].fach))">
+                                {{ele.fach}}
                               </span>
-                            </div>
-                          </ng-container>
+                            </ng-container>
+                          </div>
+
                         </ng-container>
                         <!---->
                         <ng-template #FachAuswahl10>
@@ -278,17 +286,25 @@
                           {{klassenFahrt(box.fahrten,11).titel}}
                         </div>
                         <ng-container *ngIf="klassenFahrt(box.fahrten,11)===null">
-                          <ng-container *ngFor="let ele of rhy.elf; index as eI">
-                            <div class="elf {{marked(tagimAbschnitt(ele,box.tag,'rhythmus').lehrer[0])}}"
-                              *ngIf="tagimAbschnitt(ele,box.tag,'rhythmus')">
-                              <span class="fach">
-                                {{tagimAbschnitt(ele,box.tag,'rhythmus').fach}}
+
+                          
+                          <div class="kuerzel">
+                            <ng-container *ngFor="let ele of elementeDesTages(rhy.elf, box.tag, 'rhythmus')">
+                              <span class="elf {{markedd(ele.lehrer[0].kuerzel)}}">
+                                {{ele.lehrer[0].kuerzel}}
                               </span>
-                              <span class="kuerzel">
-                                {{tagimAbschnitt(ele,box.tag,'rhythmus').lehrer[0].kuerzel}}
+                            </ng-container>
+                          </div>
+                          <div class="fach">
+                            <ng-container *ngFor="let ele of elementeDesTages(rhy.elf, box.tag, 'rhythmus') as item; index as k">
+                              <span class="elf {{markedd(ele.lehrer[0].kuerzel)}}" *ngIf="(k==0||(k>0&&ele.fach!=item[k-1].fach))">
+                                {{ele.fach}}
                               </span>
-                            </div>
-                          </ng-container>
+                            </ng-container>
+                          </div>
+
+
+
                         </ng-container>
                         <!---->
                         <ng-template #FachAuswahl11>
@@ -311,17 +327,22 @@
                           {{klassenFahrt(box.fahrten,12).titel}}
                         </div>
                         <ng-container *ngIf="klassenFahrt(box.fahrten,12)===null">
-                          <ng-container *ngFor="let ele of rhy.zwoelf; index as eI">
-                            <div class="zwoelf {{marked(tagimAbschnitt(ele,box.tag,'rhythmus').lehrer[0])}}"
-                              *ngIf="tagimAbschnitt(ele,box.tag,'rhythmus')">
-                              <span class="fach">
-                                {{tagimAbschnitt(ele,box.tag,'rhythmus').fach}}
+
+                          <div class="kuerzel">
+                            <ng-container *ngFor="let ele of elementeDesTages(rhy.zwoelf, box.tag, 'rhythmus')">
+                              <span class="zwoelf {{markedd(ele.lehrer[0].kuerzel)}}">
+                                {{ele.lehrer[0].kuerzel}}
                               </span>
-                              <span class="kuerzel">
-                                {{tagimAbschnitt(ele,box.tag,'rhythmus').lehrer[0].kuerzel}}
+                            </ng-container>
+                          </div>
+                          <div class="fach">
+                            <ng-container *ngFor="let ele of elementeDesTages(rhy.zwoelf, box.tag, 'rhythmus') as item; index as k">
+                              <span class="zwoelf {{markedd(ele.lehrer[0].kuerzel)}}" *ngIf="(k==0||(k>0&&ele.fach!=item[k-1].fach))">
+                                {{ele.fach}}
                               </span>
-                            </div>
-                          </ng-container>
+                            </ng-container>
+                          </div>
+
                         </ng-container>
                         <!---->
                         <ng-template #FachAuswahl12>
@@ -354,18 +375,27 @@
                           {{klassenFahrt(box.fahrten,9).titel}}
                         </div>
                         <ng-container *ngIf="klassenFahrt(box.fahrten,9)===null">
-                          <ng-container *ngFor="let ele of epo.neun; index as eI">
-                            <div class="neun {{marked(tagimAbschnitt(ele,box.tag,'epoche').lehrer[0])}}"
-                              *ngIf="tagimAbschnitt(ele,box.tag,'epoche')">
-                              <span class="fach">
-                                {{tagimAbschnitt(ele,box.tag,'epoche').fach}}
+
+                          <div class="kuerzel">
+                            <ng-container *ngFor="let ele of elementeDesTages(epo.neun, box.tag, 'epoche')">
+                              <span class="neun {{markedd(ele.lehrer[0].kuerzel)}}">
+                                {{ele.lehrer[0].kuerzel}}
                               </span>
-                              <span class="kuerzel">
-                                {{tagimAbschnitt(ele,box.tag,'epoche').lehrer[0].kuerzel}}
+                            </ng-container>
+                          </div>
+                          <div class="fach">
+                            <ng-container *ngFor="let ele of elementeDesTages(epo.neun, box.tag, 'epoche') as item; index as k">
+                              <span class="neun {{markedd(ele.lehrer[0].kuerzel)}}" *ngIf="(k==0||(k>0&&ele.fach!=item[k-1].fach))">
+                                {{ele.fach}}
                               </span>
-                            </div>
-                          </ng-container>
+                            </ng-container>
+                          </div>
+
+
                         </ng-container>
+
+
+
 
                         <!---->
                         <ng-template #FachAuswahl9>
@@ -388,17 +418,22 @@
                           {{klassenFahrt(box.fahrten,10).titel}}
                         </div>
                         <ng-container *ngIf="klassenFahrt(box.fahrten,10)===null">
-                          <ng-container *ngFor="let ele of epo.zehn; index as eI">
-                            <div class="zehn {{marked(tagimAbschnitt(ele,box.tag,'epoche').lehrer[0])}}"
-                              *ngIf="tagimAbschnitt(ele,box.tag,'epoche')">
-                              <span class="fach">
-                                {{tagimAbschnitt(ele,box.tag,'epoche').fach}}
+
+                          <div class="kuerzel">
+                            <ng-container *ngFor="let ele of elementeDesTages(epo.zehn, box.tag, 'epoche')">
+                              <span class="zehn {{markedd(ele.lehrer[0].kuerzel)}}">
+                                {{ele.lehrer[0].kuerzel}}
                               </span>
-                              <span class="kuerzel">
-                                {{tagimAbschnitt(ele,box.tag,'epoche').lehrer[0].kuerzel}}
+                            </ng-container>
+                          </div>
+                          <div class="fach">
+                            <ng-container *ngFor="let ele of elementeDesTages(epo.zehn, box.tag, 'epoche') as item; index as k">
+                              <span class="zehn {{markedd(ele.lehrer[0].kuerzel)}}" *ngIf="(k==0||(k>0&&ele.fach!=item[k-1].fach))">
+                                {{ele.fach}}
                               </span>
-                            </div>
-                          </ng-container>
+                            </ng-container>
+                          </div>
+
                         </ng-container>
                         <!---->
                         <ng-template #FachAuswahl10>
@@ -420,17 +455,22 @@
                           {{klassenFahrt(box.fahrten,11).titel}}
                         </div>
                         <ng-container *ngIf="klassenFahrt(box.fahrten,11)===null">
-                          <ng-container *ngFor="let ele of epo.elf; index as eI">
-                            <div class="elf {{marked(tagimAbschnitt(ele,box.tag,'epoche').lehrer[0])}}"
-                              *ngIf="tagimAbschnitt(ele,box.tag,'epoche')">
-                              <span class="fach">
-                                {{tagimAbschnitt(ele,box.tag,'epoche').fach}}
+
+                          <div class="kuerzel">
+                            <ng-container *ngFor="let ele of elementeDesTages(epo.elf, box.tag, 'epoche')">
+                              <span class="elf {{markedd(ele.lehrer[0].kuerzel)}}">
+                                {{ele.lehrer[0].kuerzel}}
                               </span>
-                              <span class="kuerzel">
-                                {{tagimAbschnitt(ele,box.tag,'epoche').lehrer[0].kuerzel}}
+                            </ng-container>
+                          </div>
+                          <div class="fach">
+                            <ng-container *ngFor="let ele of elementeDesTages(epo.elf, box.tag, 'epoche') as item; index as k">
+                              <span class="elf {{markedd(ele.lehrer[0].kuerzel)}}" *ngIf="(k==0||(k>0&&ele.fach!=item[k-1].fach))">
+                                {{ele.fach}}
                               </span>
-                            </div>
-                          </ng-container>
+                            </ng-container>
+                          </div>
+
                         </ng-container>
                         <!---->
                         <ng-template #FachAuswahl11>
@@ -453,17 +493,22 @@
                           {{klassenFahrt(box.fahrten,12).titel}}
                         </div>
                         <ng-container *ngIf="klassenFahrt(box.fahrten,12)===null">
-                          <ng-container *ngFor="let ele of epo.zwoelf; index as eI">
-                            <div class="zwoelf {{marked(tagimAbschnitt(ele,box.tag,'epoche').lehrer[0])}}"
-                              *ngIf="tagimAbschnitt(ele,box.tag,'epoche')">
-                              <span class="fach">
-                                {{tagimAbschnitt(ele,box.tag,'epoche').fach}}
+
+                              <div class="kuerzel">
+                            <ng-container *ngFor="let ele of elementeDesTages(epo.zwoelf, box.tag, 'epoche')">
+                              <span class="zwoelf {{markedd(ele.lehrer[0].kuerzel)}}">
+                                {{ele.lehrer[0].kuerzel}}
                               </span>
-                              <span class="kuerzel">
-                                {{tagimAbschnitt(ele,box.tag,'epoche').lehrer[0].kuerzel}}
+                            </ng-container>
+                          </div>
+                          <div class="fach">
+                            <ng-container *ngFor="let ele of elementeDesTages(epo.zwoelf, box.tag, 'epoche') as item; index as k">
+                              <span class="zwoelf {{markedd(ele.lehrer[0].kuerzel)}}" *ngIf="(k==0||(k>0&&ele.fach!=item[k-1].fach))">
+                                {{ele.fach}}
                               </span>
-                            </div>
-                          </ng-container>
+                            </ng-container>
+                          </div>
+
                         </ng-container>
                         <!---->
                         <ng-template #FachAuswahl12>
@@ -482,7 +527,7 @@
                   </div>
 
                   <div class="sch" *ngIf="gewaehlterPlan==='schiene'">
-                    <ng-container *ngIf="schieneElemente$|async as epo">
+                    <ng-container *ngIf="schieneElemente$|async as sch">
 
                       <button triggers="click" class="B{{box.tag.getDay()}}" *ngIf="box.tag.getDay()==1"
                         [ngbTooltip]="FachAuswahl9" placement="bottom" [autoClose]="true"
@@ -495,19 +540,26 @@
                         </div>
 
                         <ng-container *ngIf="klassenFahrt(box.fahrten,9)===null">
-                          <ng-container *ngFor="let ele of epo.neun; index as eI">
-
-                            <div class="neun {{marked(tagimAbschnitt(ele,box.tag,'schiene').lehrer[0])}}"
-                              *ngIf="tagimAbschnitt(ele,box.tag,'schiene')">
-                              <span class="fach">
-                                {{tagimAbschnitt(ele,box.tag,'schiene').fach}}
+                         
+                          
+                          
+                          <div class="kuerzel">
+                            <ng-container *ngFor="let ele of elementeDesTages(sch.neun, box.tag, 'schiene')">
+                              <span class="neun {{markedd(ele.lehrer[0].kuerzel)}}">
+                                {{ele.lehrer[0].kuerzel}}
                               </span>
-                              <span class="kuerzel">
-                                {{tagimAbschnitt(ele,box.tag,'schiene').lehrer[0].kuerzel}}
+                            </ng-container>
+                          </div>
+                          <div class="fach">
+                            <ng-container *ngFor="let ele of elementeDesTages(sch.neun, box.tag, 'schiene') as item; index as k">
+                              <span class="neun {{markedd(ele.lehrer[0].kuerzel)}}" *ngIf="(k==0||(k>0&&ele.fach!=item[k-1].fach))">
+                                {{ele.fach}}
                               </span>
+                            </ng-container>
+                          </div>
 
-                            </div>
-                          </ng-container>
+
+
                         </ng-container>
 
 
@@ -532,18 +584,24 @@
                           {{klassenFahrt(box.fahrten,10).titel}}
                         </div>
                         <ng-container *ngIf="klassenFahrt(box.fahrten,10)===null">
-                          <ng-container *ngFor="let ele of epo.zehn; index as eI">
-                            <div class="zehn {{marked(tagimAbschnitt(ele,box.tag,'schiene').lehrer[0])}}"
-                              *ngIf="tagimAbschnitt(ele,box.tag,'schiene')">
-                              <span class="fach">
-                                {{tagimAbschnitt(ele,box.tag,'schiene').fach}}
-                              </span>
-                              <span class="kuerzel">
-                                {{tagimAbschnitt(ele,box.tag,'schiene').lehrer[0].kuerzel}}
-                              </span>
 
-                            </div>
-                          </ng-container>
+                          
+                          <div class="kuerzel">
+                            <ng-container *ngFor="let ele of elementeDesTages(sch.zehn, box.tag, 'schiene')">
+                              <span class="zehn {{markedd(ele.lehrer[0].kuerzel)}}">
+                                {{ele.lehrer[0].kuerzel}}
+                              </span>
+                            </ng-container>
+                          </div>
+                          <div class="fach">
+                            <ng-container *ngFor="let ele of elementeDesTages(sch.zehn, box.tag, 'schiene') as item; index as k">
+                              <span class="zehn {{markedd(ele.lehrer[0].kuerzel)}}" *ngIf="(k==0||(k>0&&ele.fach!=item[k-1].fach))">
+                                {{ele.fach}}
+                              </span>
+                            </ng-container>
+                          </div>
+
+
                         </ng-container>
                         <!---->
                         <ng-template #FachAuswahl10>
@@ -565,18 +623,24 @@
                           {{klassenFahrt(box.fahrten,11).titel}}
                         </div>
                         <ng-container *ngIf="klassenFahrt(box.fahrten,11)===null">
-                          <ng-container *ngFor="let ele of epo.elf; index as eI">
-                            <div class="elf {{marked(tagimAbschnitt(ele,box.tag,'schiene').lehrer[0])}}"
-                              *ngIf="tagimAbschnitt(ele,box.tag,'schiene')">
-                              <span class="fach">
-                                {{tagimAbschnitt(ele,box.tag,'schiene').fach}}
+                        
+                          <div class="kuerzel">
+                            <ng-container *ngFor="let ele of elementeDesTages(sch.elf, box.tag, 'schiene')">
+                              <span class="elf {{markedd(ele.lehrer[0].kuerzel)}}">
+                                {{ele.lehrer[0].kuerzel}}
                               </span>
-                              <span class="kuerzel">
-                                {{tagimAbschnitt(ele,box.tag,'schiene').lehrer[0].kuerzel}}
+                            </ng-container>
+                          </div>
+                          <div class="fach">
+                            <ng-container *ngFor="let ele of elementeDesTages(sch.elf, box.tag, 'schiene') as item; index as k">
+                              <span class="elf {{markedd(ele.lehrer[0].kuerzel)}}" *ngIf="(k==0||(k>0&&ele.fach!=item[k-1].fach))">
+                                {{ele.fach}}
                               </span>
+                            </ng-container>
+                          </div>
 
-                            </div>
-                          </ng-container>
+
+
                         </ng-container>
                         <!---->
                         <ng-template #FachAuswahl11>
@@ -599,17 +663,25 @@
                           {{klassenFahrt(box.fahrten,12).titel}}
                         </div>
                         <ng-container *ngIf="klassenFahrt(box.fahrten,12)===null">
-                          <ng-container *ngFor="let ele of epo.zwoelf; index as eI">
-                            <div class="zwoelf {{marked(tagimAbschnitt(ele,box.tag,'schiene').lehrer[0])}}"
-                              *ngIf="tagimAbschnitt(ele,box.tag,'schiene')">
-                              <span class="fach">
-                                {{tagimAbschnitt(ele,box.tag,'schiene').fach}}
+                          
+                          
+                          <div class="kuerzel">
+                            <ng-container *ngFor="let ele of elementeDesTages(sch.zwoelf, box.tag, 'schiene')">
+                              <span class="zwoelf {{markedd(ele.lehrer[0].kuerzel)}}">
+                                {{ele.lehrer[0].kuerzel}}
                               </span>
-                              <span class="kuerzel">
-                                {{tagimAbschnitt(ele,box.tag,'schiene').lehrer[0].kuerzel}}
+                            </ng-container>
+                          </div>
+                          <div class="fach">
+                            <ng-container *ngFor="let ele of elementeDesTages(sch.zwoelf, box.tag, 'schiene') as item; index as k">
+                              <span class="zwoelf {{markedd(ele.lehrer[0].kuerzel)}}" *ngIf="(k==0||(k>0&&ele.fach!=item[k-1].fach))">
+                                {{ele.fach}}
                               </span>
-                            </div>
-                          </ng-container>
+                            </ng-container>
+                          </div>
+
+
+
                         </ng-container>
                         <!---->
                         <ng-template #FachAuswahl12>
@@ -721,20 +793,25 @@
                       *ngIf="t<6||(t>6&&breite(rhy.neun,abschnitt[t].tag,t, 'rhythmus',abschnitt)>=breite(rhy.neun,abschnitt[t-7].tag,t,'rhythmus',abschnitt))">
                       <td colSpan="{{breite(rhy.neun,abschnitt[t].tag,t, 'rhythmus', abschnitt)}}">
                         <!--        {{breite(rhy.neun,box.tag,t, 'rhythmus',abschnitt)}}-->
-                        <ng-container *ngFor="let ele of rhy.neun; index as eI">
-                          <span class="kuerzel neun" *ngIf="tagimAbschnitt(ele,box.tag,'rhythmus')">
-                            {{tagimAbschnitt(ele,box.tag,'rhythmus').lehrer[0].kuerzel}}
-                          </span>
-                        </ng-container> 
-                        <div>
-                        (
-                        <ng-container *ngFor="let ele of rhy.neun; index as eI">
-                          <span class="fach neun" *ngIf="tagimAbschnitt(ele,box.tag,'rhythmus')">
-                            {{tagimAbschnitt(ele,box.tag,'rhythmus').fach}}
-                          </span>
-                        </ng-container>
-                        )
-                      </div>
+
+                        <div class="kuerzel">
+                          <ng-container *ngFor="let ele of elementeDesTages(rhy.neun, box.tag, 'rhythmus')">
+                            <span class="neun {{markedd(ele.lehrer[0].kuerzel)}}">
+                              {{ele.lehrer[0].kuerzel}}
+                            </span>
+                          </ng-container>
+                        </div>
+                        <div class="fach">
+                          <ng-container *ngFor="let ele of elementeDesTages(rhy.neun, box.tag, 'rhythmus') as item; index as k">
+                            <span class="neun {{markedd(ele.lehrer[0].kuerzel)}}" *ngIf="(k==0||(k>0&&ele.fach!=item[k-1].fach))">
+                              {{ele.fach}}
+                            </span>
+                          </ng-container>
+                        </div>
+
+
+
+
                       </td>
                     </ng-container>
 
@@ -762,20 +839,20 @@
                       <td colSpan="{{breite(rhy.zehn,abschnitt[t].tag,t, 'rhythmus', abschnitt)}}">
 
                         <!--          {{breite(rhy.zehn,box.tag,t, 'rhythmus',abschnitt)}}-->
-                        <ng-container *ngFor="let ele of rhy.zehn; index as eI">
-                          <span class="kuerzel zehn" *ngIf="tagimAbschnitt(ele,box.tag,'rhythmus')">
-                            {{tagimAbschnitt(ele,box.tag,'rhythmus').lehrer[0].kuerzel}}
-                          </span>
-                        </ng-container> 
-                        <div>
-                        (
-                        <ng-container *ngFor="let ele of rhy.zehn; index as eI">
-                          <span class="fach zehn" *ngIf="tagimAbschnitt(ele,box.tag,'rhythmus')">
-                            {{tagimAbschnitt(ele,box.tag,'rhythmus').fach}}
-                          </span>
-                        </ng-container>
-                        )
-                      </div>
+                        <div class="kuerzel">
+                          <ng-container *ngFor="let ele of elementeDesTages(rhy.zehn, box.tag, 'rhythmus')">
+                            <span class="zehn {{markedd(ele.lehrer[0].kuerzel)}}">
+                              {{ele.lehrer[0].kuerzel}}
+                            </span>
+                          </ng-container>
+                        </div>
+                        <div class="fach">
+                          <ng-container *ngFor="let ele of elementeDesTages(rhy.zehn, box.tag, 'rhythmus') as item; index as k">
+                            <span class="zehn {{markedd(ele.lehrer[0].kuerzel)}}" *ngIf="(k==0||(k>0&&ele.fach!=item[k-1].fach))">
+                              {{ele.fach}}
+                            </span>
+                          </ng-container>
+                        </div>
                       </td>
                     </ng-container>
 
@@ -800,19 +877,20 @@
                       *ngIf="t<6||(t>6&&breite(rhy.elf,abschnitt[t].tag,t, 'rhythmus',abschnitt)>=breite(rhy.elf,abschnitt[t-7].tag,t,'rhythmus',abschnitt))">
                       <td colSpan="{{breite(rhy.elf,abschnitt[t].tag,t, 'rhythmus', abschnitt)}}">
                         <!--          {{breite(rhy.elf,abschnitt[t].tag,t, 'rhythmus', abschnitt)}}-->
-                        <ng-container *ngFor="let ele of rhy.elf; index as eI">
-                          <span class="kuerzel elf" *ngIf="tagimAbschnitt(ele,box.tag,'rhythmus')">
-                            {{tagimAbschnitt(ele,box.tag,'rhythmus').lehrer[0].kuerzel}}
-                          </span>
-                        </ng-container>
-                        <div> (
-                        <ng-container *ngFor="let ele of rhy.elf; index as eI">
-                          <span class="fach elf" *ngIf="tagimAbschnitt(ele,box.tag,'rhythmus')">
-                            {{tagimAbschnitt(ele,box.tag,'rhythmus').fach}}
-                          </span>
-                        </ng-container>
-                        )
-                      </div>
+                        <div class="kuerzel">
+                          <ng-container *ngFor="let ele of elementeDesTages(rhy.elf, box.tag, 'rhythmus')">
+                            <span class="elf {{markedd(ele.lehrer[0].kuerzel)}}">
+                              {{ele.lehrer[0].kuerzel}}
+                            </span>
+                          </ng-container>
+                        </div>
+                        <div class="fach">
+                          <ng-container *ngFor="let ele of elementeDesTages(rhy.elf, box.tag, 'rhythmus') as item; index as k">
+                            <span class="elf {{markedd(ele.lehrer[0].kuerzel)}}" *ngIf="(k==0||(k>0&&ele.fach!=item[k-1].fach))">
+                              {{ele.fach}}
+                            </span>
+                          </ng-container>
+                        </div>
                       </td>
                     </ng-container>
 
@@ -837,20 +915,20 @@
                       *ngIf="t<6||(t>6&&breite(rhy.zwoelf,abschnitt[t].tag,t, 'rhythmus',abschnitt)>=breite(rhy.zwoelf,abschnitt[t-7].tag,t,'rhythmus',abschnitt))">
                       <td colSpan="{{breite(rhy.zwoelf,abschnitt[t].tag,t, 'rhythmus', abschnitt)}}">
                         <!--          {{breite(rhy.zwoelf,abschnitt[t].tag,t, 'rhythmus', abschnitt)}}-->
-                        <ng-container *ngFor="let ele of rhy.zwoelf; index as eI">
-                          <span class="kuerzel zwoelf" *ngIf="tagimAbschnitt(ele,box.tag,'rhythmus')">
-                            {{tagimAbschnitt(ele,box.tag,'rhythmus').lehrer[0].kuerzel}}
-                          </span>
-                        </ng-container> 
-                        <div>
-                        (
-                        <ng-container *ngFor="let ele of rhy.zwoelf; index as eI">
-                          <span class="fach zwoelf" *ngIf="tagimAbschnitt(ele,box.tag,'rhythmus')">
-                            {{tagimAbschnitt(ele,box.tag,'rhythmus').fach}}
-                          </span>
-                        </ng-container>
-                        )
-                      </div>
+                        <div class="kuerzel">
+                          <ng-container *ngFor="let ele of elementeDesTages(rhy.zwoelf, box.tag, 'rhythmus')">
+                            <span class="zwoelf {{markedd(ele.lehrer[0].kuerzel)}}">
+                              {{ele.lehrer[0].kuerzel}}
+                            </span>
+                          </ng-container>
+                        </div>
+                        <div class="fach">
+                          <ng-container *ngFor="let ele of elementeDesTages(rhy.zwoelf, box.tag, 'rhythmus') as item; index as k">
+                            <span class="zwoelf {{markedd(ele.lehrer[0].kuerzel)}}" *ngIf="(k==0||(k>0&&ele.fach!=item[k-1].fach))">
+                              {{ele.fach}}
+                            </span>
+                          </ng-container>
+                        </div>
                       </td>
                     </ng-container>
 
@@ -878,19 +956,19 @@
                       *ngIf="t<6||(t>6&&breite(epo.neun,abschnitt[t].tag,t, 'epoche',abschnitt)>=breite(epo.neun,abschnitt[t-7].tag,t,'epoche',abschnitt))">
                       <td colSpan="{{breite(epo.neun,abschnitt[t].tag,t, 'epoche', abschnitt)}}">
                         <!--         {{breite(epo.neun,abschnitt[t].tag,t, 'epoche', abschnitt)}}-->
-                        <ng-container *ngFor="let ele of epo.neun; index as eI">
-                          <span class="kuerzel neun" *ngIf="tagimAbschnitt(ele,box.tag,'epoche')">
-                            {{tagimAbschnitt(ele,box.tag,'epoche').lehrer[0].kuerzel}}
-                          </span>
-                        </ng-container> 
-                        <div>
-                          (
-                        <ng-container *ngFor="let ele of epo.neun; index as eI">
-                          <span class="fach neun" *ngIf="tagimAbschnitt(ele,box.tag,'epoche')">
-                            {{tagimAbschnitt(ele,box.tag,'epoche').fach}}
-                          </span>
-                        </ng-container>
-                        )
+                        <div class="kuerzel">
+                          <ng-container *ngFor="let ele of elementeDesTages(epo.neun, box.tag, 'epoche')">
+                            <span class="neun {{markedd(ele.lehrer[0].kuerzel)}}">
+                              {{ele.lehrer[0].kuerzel}}
+                            </span>
+                          </ng-container>
+                        </div>
+                        <div class="fach">
+                          <ng-container *ngFor="let ele of elementeDesTages(epo.neun, box.tag, 'epoche') as item; index as k">
+                            <span class="neun {{markedd(ele.lehrer[0].kuerzel)}}" *ngIf="(k==0||(k>0&&ele.fach!=item[k-1].fach))">
+                              {{ele.fach}}
+                            </span>
+                          </ng-container>
                         </div>
                       </td>
                     </ng-container>
@@ -920,19 +998,19 @@
                       *ngIf="t<6||(t>6&&breite(epo.zehn,abschnitt[t].tag,t, 'epoche',abschnitt)>=breite(epo.zehn,abschnitt[t-7].tag,t,'epoche',abschnitt))">
                       <td colSpan="{{breite(epo.zehn,abschnitt[t].tag,t, 'epoche', abschnitt)}}">
                         <!--           {{breite(epo.zehn,abschnitt[t].tag,t, 'epoche', abschnitt)}}-->
-                        <ng-container *ngFor="let ele of epo.zehn; index as eI">
-                          <span class="kuerzel zehn" *ngIf="tagimAbschnitt(ele,box.tag,'epoche')">
-                            {{tagimAbschnitt(ele,box.tag,'epoche').lehrer[0].kuerzel}}
-                          </span>
-                        </ng-container> 
-                        <div>
-                        (
-                        <ng-container *ngFor="let ele of epo.zehn; index as eI">
-                          <span class="fach zehn" *ngIf="tagimAbschnitt(ele,box.tag,'epoche')">
-                            {{tagimAbschnitt(ele,box.tag,'epoche').fach}}
-                          </span>
-                        </ng-container>
-                        )
+                        <div class="kuerzel">
+                          <ng-container *ngFor="let ele of elementeDesTages(epo.zehn, box.tag, 'epoche')">
+                            <span class="zehn {{markedd(ele.lehrer[0].kuerzel)}}">
+                              {{ele.lehrer[0].kuerzel}}
+                            </span>
+                          </ng-container>
+                        </div>
+                        <div class="fach">
+                          <ng-container *ngFor="let ele of elementeDesTages(epo.zehn, box.tag, 'epoche') as item; index as k">
+                            <span class="zehn {{markedd(ele.lehrer[0].kuerzel)}}" *ngIf="(k==0||(k>0&&ele.fach!=item[k-1].fach))">
+                              {{ele.fach}}
+                            </span>
+                          </ng-container>
                         </div>
                       </td>
                     </ng-container>
@@ -960,18 +1038,19 @@
                       *ngIf="t<6||(t>6&&breite(epo.elf,abschnitt[t].tag,t, 'epoche',abschnitt)>=breite(epo.elf,abschnitt[t-7].tag,t,'epoche',abschnitt))">
                       <td colSpan="{{breite(epo.elf,abschnitt[t].tag,t, 'epoche', abschnitt)}}">
                         <!--         {{breite(epo.elf,abschnitt[t].tag,t, 'epoche', abschnitt)}}-->
-                        <ng-container *ngFor="let ele of epo.elf; index as eI">
-                          <span class="kuerzel elf" *ngIf="tagimAbschnitt(ele,box.tag,'epoche')">
-                            {{tagimAbschnitt(ele,box.tag,'epoche').lehrer[0].kuerzel}}
-                          </span>
-                        </ng-container> 
-                        <div>(
-                        <ng-container *ngFor="let ele of epo.elf; index as eI">
-                          <span class="fach elf" *ngIf="tagimAbschnitt(ele,box.tag,'epoche')">
-                            {{tagimAbschnitt(ele,box.tag,'epoche').fach}}
-                          </span>
-                        </ng-container>
-                        )
+                        <div class="kuerzel">
+                          <ng-container *ngFor="let ele of elementeDesTages(epo.elf, box.tag, 'epoche')">
+                            <span class="elf {{markedd(ele.lehrer[0].kuerzel)}}">
+                              {{ele.lehrer[0].kuerzel}}
+                            </span>
+                          </ng-container>
+                        </div>
+                        <div class="fach">
+                          <ng-container *ngFor="let ele of elementeDesTages(epo.elf, box.tag, 'epoche') as item; index as k">
+                            <span class="elf {{markedd(ele.lehrer[0].kuerzel)}}" *ngIf="(k==0||(k>0&&ele.fach!=item[k-1].fach))">
+                              {{ele.fach}}
+                            </span>
+                          </ng-container>
                         </div>
                       </td>
                     </ng-container>
@@ -996,19 +1075,20 @@
                       *ngIf="t<6||(t>6&&breite(epo.zwoelf,abschnitt[t].tag,t, 'epoche',abschnitt)>=breite(epo.zwoelf,abschnitt[t-7].tag,t,'epoche',abschnitt))">
                       <td colSpan="{{breite(epo.zwoelf,abschnitt[t].tag,t, 'epoche', abschnitt)}}">
                         <!--      {{breite(epo.zwoelf,abschnitt[t].tag,t, 'epoche', abschnitt)}}-->
-                        <ng-container *ngFor="let ele of epo.zwoelf; index as eI">
-                          <span class="kuerzel zwoelf" *ngIf="tagimAbschnitt(ele,box.tag,'epoche')">
-                            {{tagimAbschnitt(ele,box.tag,'epoche').lehrer[0].kuerzel}}
-                          </span>
-                        </ng-container> 
-                        <div>(
-                        <ng-container *ngFor="let ele of epo.zwoelf; index as eI">
-                          <span class="fach zwoelf" *ngIf="tagimAbschnitt(ele,box.tag,'epoche')">
-                            {{tagimAbschnitt(ele,box.tag,'epoche').fach}}
-                          </span>
-                        </ng-container>
-                        )
-                      </div>
+                        <div class="kuerzel">
+                          <ng-container *ngFor="let ele of elementeDesTages(epo.zwoelf, box.tag, 'epoche')">
+                            <span class="zwoelf {{markedd(ele.lehrer[0].kuerzel)}}">
+                              {{ele.lehrer[0].kuerzel}}
+                            </span>
+                          </ng-container>
+                        </div>
+                        <div class="fach">
+                          <ng-container *ngFor="let ele of elementeDesTages(epo.zwoelf, box.tag, 'epoche') as item; index as k">
+                            <span class="zwoelf {{markedd(ele.lehrer[0].kuerzel)}}" *ngIf="(k==0||(k>0&&ele.fach!=item[k-1].fach))">
+                              {{ele.fach}}
+                            </span>
+                          </ng-container>
+                        </div>
                       </td>
                     </ng-container>
 
@@ -1039,19 +1119,20 @@
                       *ngIf="t<6||(t>6&&breite(epo.neun,abschnitt[t].tag,t, 'schiene',abschnitt)>=breite(epo.neun,abschnitt[t-7].tag,t,'schiene',abschnitt))">
                       <td colSpan="{{breite(epo.neun,abschnitt[t].tag,t, 'schiene', abschnitt)}}">
                         <!--     {{breite(epo.neun,abschnitt[t].tag,t, 'schiene', abschnitt)}}-->
-                        <ng-container *ngFor="let ele of epo.neun; index as eI">
-                          <span class="kuerzel neun" *ngIf="tagimAbschnitt(ele,box.tag,'schiene')">
-                            {{tagimAbschnitt(ele,box.tag,'schiene').lehrer[0].kuerzel}}
-                          </span>
-                        </ng-container> 
-                        <div>
-                        (
-                        <ng-container *ngFor="let ele of epo.neun; index as eI">
-                          <span class="fach neun" *ngIf="tagimAbschnitt(ele,box.tag,'schiene')">
-                            {{tagimAbschnitt(ele,box.tag,'schiene').fach}}
-                          </span>
-                        </ng-container>
-                        )</div>
+                        <div class="kuerzel">
+                          <ng-container *ngFor="let ele of elementeDesTages(epo.neun, box.tag, 'schiene')">
+                            <span class="neun {{markedd(ele.lehrer[0].kuerzel)}}">
+                              {{ele.lehrer[0].kuerzel}}
+                            </span>
+                          </ng-container>
+                        </div>
+                        <div class="fach">
+                          <ng-container *ngFor="let ele of elementeDesTages(epo.neun, box.tag, 'schiene') as item; index as k">
+                            <span class="neun {{markedd(ele.lehrer[0].kuerzel)}}" *ngIf="(k==0||(k>0&&ele.fach!=item[k-1].fach))">
+                              {{ele.fach}}
+                            </span>
+                          </ng-container>
+                        </div>
 
                       </td>
                     </ng-container>
@@ -1079,20 +1160,20 @@
                       *ngIf="t<6||(t>6&&breite(epo.zehn,abschnitt[t].tag,t, 'schiene',abschnitt)>=breite(epo.zehn,abschnitt[t-7].tag,t,'schiene',abschnitt))">
                       <td colSpan="{{breite(epo.zehn,abschnitt[t].tag,t, 'schiene', abschnitt)}}">
                         <!--   {{breite(epo.zehn,abschnitt[t].tag,t, 'schiene', abschnitt)}}-->
-                        <ng-container *ngFor="let ele of epo.zehn; index as eI">
-                          <span class="kuerzel zehn" *ngIf="tagimAbschnitt(ele,box.tag,'schiene')">
-                            {{tagimAbschnitt(ele,box.tag,'schiene').lehrer[0].kuerzel}}
-                          </span>
-                        </ng-container> 
-                        <div>
-                          (
-                        <ng-container *ngFor="let ele of epo.zehn; index as eI">
-                          <span class="fach zehn" *ngIf="tagimAbschnitt(ele,box.tag,'schiene')">
-                            {{tagimAbschnitt(ele,box.tag,'schiene').fach}}
-                          </span>
-                        </ng-container>
-                        )
-                      </div>
+                        <div class="kuerzel">
+                          <ng-container *ngFor="let ele of elementeDesTages(epo.zehn, box.tag, 'schiene')">
+                            <span class="zehn {{markedd(ele.lehrer[0].kuerzel)}}">
+                              {{ele.lehrer[0].kuerzel}}
+                            </span>
+                          </ng-container>
+                        </div>
+                        <div class="fach">
+                          <ng-container *ngFor="let ele of elementeDesTages(epo.zehn, box.tag, 'schiene') as item; index as k">
+                            <span class="zehn {{markedd(ele.lehrer[0].kuerzel)}}" *ngIf="(k==0||(k>0&&ele.fach!=item[k-1].fach))">
+                              {{ele.fach}}
+                            </span>
+                          </ng-container>
+                        </div>
                       </td>
                     </ng-container>
 
@@ -1117,20 +1198,20 @@
                       *ngIf="t<6||(t>6&&breite(epo.elf,abschnitt[t].tag,t, 'schiene',abschnitt)>=breite(epo.elf,abschnitt[t-7].tag,t,'schiene',abschnitt))">
                       <td colSpan="{{breite(epo.elf,abschnitt[t].tag,t, 'schiene', abschnitt)}}">
                         <!--      {{breite(epo.elf,abschnitt[t].tag,t, 'schiene', abschnitt)}}-->
-                        <ng-container *ngFor="let ele of epo.elf; index as eI">
-                          <span class="kuerzel elf" *ngIf="tagimAbschnitt(ele,box.tag,'schiene')">
-                            {{tagimAbschnitt(ele,box.tag,'schiene').lehrer[0].kuerzel}}
-                          </span>
-                        </ng-container> 
-                        <div>
-                        (
-                        <ng-container *ngFor="let ele of epo.elf; index as eI">
-                          <span class="fach elf" *ngIf="tagimAbschnitt(ele,box.tag,'schiene')">
-                            {{tagimAbschnitt(ele,box.tag,'schiene').fach}}
-                          </span>
-                        </ng-container>
-                        )
-                      </div>
+                        <div class="kuerzel">
+                          <ng-container *ngFor="let ele of elementeDesTages(epo.elf, box.tag, 'schiene')">
+                            <span class="elf {{markedd(ele.lehrer[0].kuerzel)}}">
+                              {{ele.lehrer[0].kuerzel}}
+                            </span>
+                          </ng-container>
+                        </div>
+                        <div class="fach">
+                          <ng-container *ngFor="let ele of elementeDesTages(epo.elf, box.tag, 'schiene') as item; index as k">
+                            <span class="elf {{markedd(ele.lehrer[0].kuerzel)}}" *ngIf="(k==0||(k>0&&ele.fach!=item[k-1].fach))">
+                              {{ele.fach}}
+                            </span>
+                          </ng-container>
+                        </div>
                       </td>
                     </ng-container>
 
@@ -1155,20 +1236,20 @@
                       *ngIf="t<6||(t>6&&breite(epo.zwoelf,abschnitt[t].tag,t, 'schiene',abschnitt)>=breite(epo.zwoelf,abschnitt[t-7].tag,t,'schiene',abschnitt))">
                       <td colSpan="{{breite(epo.zwoelf,abschnitt[t].tag,t, 'schiene', abschnitt)}}">
                         <!--{{breite(epo.zwoelf,abschnitt[t].tag,t, 'schiene', abschnitt)}}-->
-                        <ng-container *ngFor="let ele of epo.zwoelf; index as eI">
-                          <span class="kuerzel zwoelf" *ngIf="tagimAbschnitt(ele,box.tag,'schiene')">
-                            {{tagimAbschnitt(ele,box.tag,'schiene').lehrer[0].kuerzel}}
-                          </span>
-                        </ng-container> 
-                        <div>
-                        (
-                        <ng-container *ngFor="let ele of epo.zwoelf; index as eI">
-                          <span class="fach zwoelf" *ngIf="tagimAbschnitt(ele,box.tag,'schiene')">
-                            {{tagimAbschnitt(ele,box.tag,'schiene').fach}}
-                          </span>
-                        </ng-container>
-                        )
-                      </div>
+                        <div class="kuerzel">
+                          <ng-container *ngFor="let ele of elementeDesTages(epo.zwoelf, box.tag, 'schiene')">
+                            <span class="zwoelf {{markedd(ele.lehrer[0].kuerzel)}}">
+                              {{ele.lehrer[0].kuerzel}}
+                            </span>
+                          </ng-container>
+                        </div>
+                        <div class="fach">
+                          <ng-container *ngFor="let ele of elementeDesTages(epo.zwoelf, box.tag, 'schiene') as item; index as k">
+                            <span class="zwoelf {{markedd(ele.lehrer[0].kuerzel)}}" *ngIf="(k==0||(k>0&&ele.fach!=item[k-1].fach))">
+                              {{ele.fach}}
+                            </span>
+                          </ng-container>
+                        </div>
                       </td>
                     </ng-container>
 

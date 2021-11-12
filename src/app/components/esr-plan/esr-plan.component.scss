@@ -16,14 +16,16 @@ $schieneBackground: rgb(176, 219, 130);
 
 
 
-.rhythmus{
-background-color:$rhybackground;
+.rhythmus {
+  background-color: $rhybackground;
 }
-.epoche{
-  background-color:$epoBackground;
+
+.epoche {
+  background-color: $epoBackground;
 }
-.schiene{
-  background-color:$schieneBackground;
+
+.schiene {
+  background-color: $schieneBackground;
 
 }
 
@@ -31,20 +33,22 @@ background-color:$rhybackground;
 
   display: flex;
   flex-wrap: wrap;
- justify-content: center;
+  justify-content: center;
 
 
   #ferienTermine,
   #pruefungsDaten,
-  #termineListe{
-    table{
-      tr{
-        td{text-align:center;
-          button{
-            width:100%;
-            margin:0pt;
-            padding:0pt;
-            background-color:pink;
+  #termineListe {
+    table {
+      tr {
+        td {
+          text-align: center;
+
+          button {
+            width: 100%;
+            margin: 0pt;
+            padding: 0pt;
+            background-color: pink;
           }
         }
       }
@@ -56,17 +60,21 @@ background-color:$rhybackground;
 
 }
 
-#printContain{
- // background-color:green;
-  display:flex;
-  flex-wrap:wrap;
+#printContain {
+  // background-color:green;
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  table{
-    margin:5pt;
-    tr{
-      td{
+
+  table {
+    margin: 5pt;
+
+    tr {
+      td {
+        width:30pt;
         text-align: center;
-        border:1px black solid;
+        border: 1px black solid;
+        overflow: hidden;
       }
     }
 
@@ -112,52 +120,62 @@ background-color:$rhybackground;
 
 .Datum {
   font-size: 6pt;
-  width:8pt;
+  width: 8pt;
 }
-//Computeransicht ohne druck:
 
-#main{
-  .abschnittContainer{
 
-    .abschnitt{
-      .tagesContainer{
-        line-height:1.3;
-        .Monat{
+
+#main {
+  .abschnittContainer {
+
+    .abschnitt {
+      .tagesContainer {
+        line-height: 1.1;
+
+        .Monat {
           margin-bottom: 4pt;
-          font-size:11pt;
+          font-size: 11pt;
 
         }
-        .Wochentag{
-          font-size:8pt;
-          
+
+        .Wochentag {
+          font-size: 8pt;
+
         }
-        .Datum{
-          font-size:8pt;
-         
+
+        .Datum {
+          font-size: 8pt;
+
         }
-        .buttonBox{
-          div{ //.rhy, epo etc
-            button{
-              background-color:lightsteelblue;
+
+        .buttonBox {
+          div {
+
+            //.rhy, epo etc
+            button {
+              background-color: lightsteelblue;
               border-radius: 5pt;
-              div{
-                font-size:10pt;
-                span{
-                  font-size:10pt;
-                }
-
-              }
             }
           }
-          .rhy button{background-color:$rhybackground;}
-          .epo button{background-color:$epoBackground;}
-          .sch button{background-color:$schieneBackground;}
+
+          .rhy button {
+            background-color: $rhybackground;
+          }
+
+          .epo button {
+            background-color: $epoBackground;
+          }
+
+          .sch button {
+            background-color: $schieneBackground;
+          }
 
         }
       }
     }
   }
 }
+
 //Ende ansicht ohne druck
 
 //Tabelle: 
@@ -168,25 +186,27 @@ background-color:$rhybackground;
 .abschnitt {
   display: flex;
   flex-wrap: wrap;
-  margin-top:70pt;
+  margin-top: 70pt;
 
- justify-content: center; //das centered echt!
+  justify-content: center; //das centered echt!
 }
 
 .tagesContainer {
   width: 11pt;
 }
 
-.sonderBox{//Schrift bei ferientagen oder prüfungen
-  font-size:6pt;
-  line-height:6pt;
-  height:0pt;
-position:relative;
-top:-80pt;
-left:-45pt;
-transform: rotate(270deg);
-width:90pt;
+.sonderBox {
+  //Schrift bei ferientagen oder prüfungen
+  font-size: 6pt;
+  line-height: 6pt;
+  height: 0pt;
+  position: relative;
+  top: -80pt;
+  left: -45pt;
+  transform: rotate(270deg);
+  width: 90pt;
 }
+
 //So und Sa schmal und unsichtbar
 .D0,
 .D6 {
@@ -195,15 +215,15 @@ width:90pt;
 }
 
 
-.D2 ,
-.D3 ,
-.D4 ,
+.D2,
+.D3,
+.D4,
 .D5 {
-  height:40pt;
- // background-color:green;
+  height: 40pt;
+  // background-color:green;
 }
 
-.D1 .buttonBox{
+.D1 .buttonBox {
   z-index: 1;
 }
 
@@ -217,7 +237,6 @@ width:90pt;
   height: 50pt;
 
   div {
-    font-size: 8pt;
     overflow: hidden;
   }
 }
@@ -245,9 +264,30 @@ button.B6 {
 
 //
 
-.klein{font-size:8pt;}
+.klein {
+  font-size: 8pt;
+}
 
-.fahrt{font-style: italic;}
+.fahrt {
+  font-style: italic;
+}
+
+
+.kuerzel {
+  font-size: 11pt;
+
+  span {
+    font-size: inherit;
+  }
+}
+
+.fach {
+  font-size: 9pt;
+
+  span {
+    font-size: inherit;
+  }
+}
 
 @media print {
   * {
@@ -281,6 +321,3 @@ button.B6 {
   font-weight: bold;
   background-color: rgb(160, 160, 241);
 }
-
-
-

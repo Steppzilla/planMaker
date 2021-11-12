@@ -53,28 +53,43 @@
                 *ngIf="r===gewaehlteKlassenIndex||gewaehlteKlassenIndex==null">
                 <button triggers="click" [autoClose]="true" class="{{hintergrundd(cell)}}" [ngbTooltip]="Lehrer2"
                   placement="bottom" (click)="cellKlick($event,std,r+1)">
-                  <div *ngFor="let item of cell;index as i" class="fachItem">
-                    <div class="fach"
-                      *ngIf="(i==0||(i>0&&item[0]!=cell[i-1][0]))||(item[0]!=='HU'&&item[0]!=='Rhythmus'&&item[0]!=='Schiene')">
-                      {{ item[0]}}
-                    </div>
-                    <ng-container *ngIf="item[0]!='Rhythmus'&&item[0]!='HU'&&item[0]!='Schiene'||r<8; else ESR">
-                      <div class="{{markedd(item[1])}} {{duplicatesss(item[1] ,zeile,item[0])}} kuerzl">
-                        {{item[1] }}
-                      </div>
+
+
+                  <div class="fach">
+                    <ng-container *ngFor="let item of cell;index as i">
+                      <ng-container
+                        *ngIf="(i==0||(i>0&&item[0]!=cell[i-1][0]))">
+                        {{ item[0]}}
+                      </ng-container>
                     </ng-container>
-                    <ng-template #ESR>
-                  
-                       
+                  </div>
+
+                  <div class="kuerzl">
+                    <ng-container *ngFor="let item of cell;index as i">
+                      <ng-container *ngIf="item[0]!='Rhythmus'&&item[0]!='HU'&&item[0]!='Schiene'||r<8; else ESR">
+                        <span class="{{markedd(item[1])}} {{duplicatesss(item[1] ,zeile,item[0])}} ">
+                          {{item[1] }}
+                        </span>
+                      </ng-container>
+                      <ng-template #ESR>
                         <ng-container
                           *ngIf="markedd(item[1])=='blueback'||duplicatesss(item[1],zeile,item[0])==='error'">
-                          <div class=" {{markedd(item[1])}} {{duplicatesss(item[1] ,zeile,item[0])}} kuerzl">
+                          <span class="{{markedd(item[1])}} {{duplicatesss(item[1] ,zeile,item[0])}}">
                             {{item[1] }}
-                          </div>
+                          </span>
                         </ng-container>
-                      
-                    </ng-template>
+                      </ng-template>
+                    </ng-container>
                   </div>
+
+
+
+
+
+
+
+
+
                 </button>
                 <ng-template #Lehrer2>
                   <ng-container *ngIf="klassenplanServ.klassenArray$|async as klassArray">
