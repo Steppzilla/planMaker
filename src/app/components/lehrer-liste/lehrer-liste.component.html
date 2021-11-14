@@ -16,12 +16,12 @@
 
 </ng-template>
 
-<table *ngIf="klassenplan.lehrerListe$| async as lehrerListe">
+<table id="haupttabelle" *ngIf="klassenplan.lehrerListe$| async as lehrerListe">
   <tr>
     <th>Name</th>
     <th>Fächer (Klassen)</th>
     <th> Aufgaben</th>
-    <th>Deputat falsch!</th>
+    <th>Deputat</th>
   </tr>
   <tr *ngFor="let lehrer of lehrerListe">
 
@@ -58,47 +58,151 @@
     </td>
     <td>
       <ng-container *ngIf=" deputatServ.alleLehrer$|async as Deputat">
-        <ng-container *ngFor="let plan of Deputat">
-          <ng-container *ngIf="plan.kuerzel==lehrer.kuerzel">
-            <span triggers="hover" placement="bottom" [ngbTooltip]="LehrerUEB"
-              [autoClose]="true">{{plan.uebstunde}}</span> +
-            <span triggers="hover" placement="bottom" [ngbTooltip]="LehrerRhy" [autoClose]="true"> {{plan.rhythmus}}
-            </span>+
-            <span triggers="hover" placement="bottom" [ngbTooltip]="LehrerEpo" [autoClose]="true"> {{plan.epoche}}
-            </span>+
-            <span triggers="hover" placement="bottom" [ngbTooltip]="LehrerSch" [autoClose]="true">
-              {{plan.schiene}}</span> =
-            <span style="font-weight:bold">
-              {{plan.uebstunde + plan.rhythmus + plan.epoche + plan.schiene}}
+
+        <ng-container *ngFor="let lehrerplan of Deputat">
+          <ng-container *ngIf="lehrerplan.kuerzel==lehrer.kuerzel">
+
+            <span style="font-weight:bold" triggers="hover" placement="left" [ngbTooltip]="LehrerDeputatUebersicht"
+              [autoClose]="true">
+              {{lehrerplan.uebstunde + lehrerplan.rhythmus + lehrerplan.epoche + lehrerplan.schiene}}
             </span>
 
-            <ng-template #LehrerUEB>
-              <ng-container *ngFor="let unt of plan.zuweisungen.ueb" class="ueb">
-                  {{unt.fach}} {{unt.klasse!==null?unt.klasse:"" }} 
-              </ng-container>
-            </ng-template>
-            <ng-template #LehrerRhy>
-              <ng-container *ngFor="let unt of plan.zuweisungen.rhy" class="rhy">
-                  {{unt.fach}}{{unt.klasse!==null?unt.klasse:"" }} 
+            <ng-template #LehrerDeputatUebersicht>
+              <table class="item ueb">
+                <tr>
+                  <th colSpan="3">{{lehrerplan.uebstunde}}
+                  </th>
+                </tr>
+                <ng-container *ngIf="lehrer.faecher!=null">
+                  <ng-container *ngFor="let fach of lehrer.faecher ">
+                    <ng-container
+                      *ngIf="lehrerplan&&lehrerplan.zuweisungen&&lehrerplan.zuweisungen.ueb[deputatServ.fach(fach)]">
 
-              </ng-container>
-            </ng-template>
-            <ng-template #LehrerEpo>
-              <ng-container *ngFor="let unt of plan.zuweisungen.epo" class="epo">
-  
-                  {{unt.fach}} {{unt.klasse!==null?unt.klasse:"" }} 
-   
-              </ng-container>
-            </ng-template>
-            <ng-template #LehrerSch>
-              <ng-container *ngFor="let unt of plan.zuweisungen.sch" class="sch">
-     
-                  {{unt.fach}} {{unt.klasse!==null?unt.klasse:"" }}
- 
-              </ng-container>
+                      <tr>
+                        <td class="ueb">
+                          {{lehrerplan.zuweisungen.ueb[deputatServ.fach(fach)].fach}}
+                        </td>
+
+                        <td>
+                          {{lehrerplan.zuweisungen.ueb[deputatServ.fach(fach)].stunden|number: '1.0-0'}}
+                        </td>
+                        <td>
+                          <ng-container
+                            *ngFor="let kla of  lehrerplan.zuweisungen.ueb[deputatServ.fach(fach)].klasse index as i">
+                            <ng-container *ngIf="i>0">
+                              ,
+                            </ng-container>
+                            {{kla}}
+                          </ng-container>
+                        </td>
+                      </tr>
+                    </ng-container>
+                  </ng-container>
+                </ng-container>
+
+              </table>
+              <table class="item rhy">
+                <tr>
+                  <th colSpan="3">{{lehrerplan.rhythmus}}
+                  </th>
+                </tr>
+                <ng-container *ngIf="lehrer.faecher!=null">
+                  <ng-container *ngFor="let fach of lehrer.faecher ">
+                    <ng-container
+                      *ngIf="lehrerplan&&lehrerplan.zuweisungen&&lehrerplan.zuweisungen.rhy[deputatServ.fach(fach)]">
+
+                      <tr>
+                        <td class="rhy">
+                          {{lehrerplan.zuweisungen.rhy[deputatServ.fach(fach)].fach}}
+                        </td>
+
+                        <td>
+                          {{lehrerplan.zuweisungen.rhy[deputatServ.fach(fach)].stunden|number: '1.0-0'}}
+                        </td>
+                        <td>
+                          <ng-container
+                            *ngFor="let kla of  lehrerplan.zuweisungen.rhy[deputatServ.fach(fach)].klasse index as i">
+                            <ng-container *ngIf="i>0">
+                              ,
+                            </ng-container>
+                            {{kla}}
+                          </ng-container>
+                        </td>
+                      </tr>
+                    </ng-container>
+                  </ng-container>
+                </ng-container>
+              </table>
+
+              <table class="item epo">
+                <tr>
+                  <th colSpan="3">{{lehrerplan.epoche}}
+                  </th>
+                </tr>
+                <ng-container *ngIf="lehrer.faecher!=null">
+                  <ng-container *ngFor="let fach of lehrer.faecher ">
+                    <ng-container
+                      *ngIf="lehrerplan&&lehrerplan.zuweisungen&&lehrerplan.zuweisungen.epo[deputatServ.fach(fach)]">
+
+                      <tr>
+                        <td class="epo">
+                          {{lehrerplan.zuweisungen.epo[deputatServ.fach(fach)].fach}}
+                        </td>
+
+                        <td>
+                          {{lehrerplan.zuweisungen.epo[deputatServ.fach(fach)].stunden|number: '1.0-0'}}
+                        </td>
+                        <td>
+                          <ng-container
+                            *ngFor="let kla of  lehrerplan.zuweisungen.epo[deputatServ.fach(fach)].klasse index as i">
+                            <ng-container *ngIf="i>0">
+                              ,
+                            </ng-container>
+                            {{kla}}
+                          </ng-container>
+                        </td>
+                      </tr>
+                    </ng-container>
+                  </ng-container>
+                </ng-container>
+              </table>
+
+              <table class="item sch">
+                <tr>
+                  <th colSpan="3">{{lehrerplan.schiene}}
+                  </th>
+                </tr>
+                <ng-container *ngIf="lehrer.faecher!=null">
+                  <ng-container *ngFor="let fach of lehrer.faecher ">
+                    <ng-container
+                      *ngIf="lehrerplan&&lehrerplan.zuweisungen&&lehrerplan.zuweisungen.sch[deputatServ.fach(fach)]">
+
+                      <tr>
+                        <td class="sch">
+                          {{lehrerplan.zuweisungen.sch[deputatServ.fach(fach)].fach}}
+                        </td>
+
+                        <td>
+                          {{lehrerplan.zuweisungen.sch[deputatServ.fach(fach)].stunden|number: '1.0-0'}}
+                        </td>
+                        <td>
+                          <ng-container
+                            *ngFor="let kla of  lehrerplan.zuweisungen.sch[deputatServ.fach(fach)].klasse index as i">
+                            <ng-container *ngIf="i>0">
+                              ,
+                            </ng-container>
+                            {{kla}}
+                          </ng-container>
+                        </td>
+                      </tr>
+                    </ng-container>
+                  </ng-container>
+                </ng-container>
+              </table>
             </ng-template>
           </ng-container>
         </ng-container>
+
       </ng-container>
     </td>
 

@@ -34,6 +34,13 @@ export class LehrerListeComponent implements OnInit {
   faecher = Object.keys(Fach).sort();
   aufgaben = ["Schulführung", "Vorstand", "Pädagogische Leitung", "Geschäftsführer"];
 
+
+
+  fach(fach:string){
+    console.log(fach);
+    console.log(Fach[fach]);
+    return Fach[fach];
+  }
   // Fach dem Lehrer hinzufügen:
   fachLehrerAdd(fach, lehrer) {
     let faecher = lehrer.faecher;
@@ -111,6 +118,8 @@ export class LehrerListeComponent implements OnInit {
       });
     }
   }
+
+
 
   constructor(public deputatServ:DeputatrechnerService, public lehrerServ: LehrerService, public klassenplan: KlassenplaeneService, public loginServ: LoginService) {
 

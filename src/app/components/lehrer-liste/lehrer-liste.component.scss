@@ -22,7 +22,7 @@ span{
 
 tr{}
 
-tr:nth-child(2n){
+#haupttabelle>tr:nth-child(2n){
   background-color:rgb(241, 238, 238);
 }
 
@@ -76,6 +76,15 @@ table{
   //background-color:$hintergrund2;
 }
 
+.item{ //ist table zb ueb deputat toggle
+  text-align:center;
+  width:100%;
+
+td{border:1pt black solid;}
+   
+
+
+}
 @media print{
   table{color:black;
   background-color:white;}

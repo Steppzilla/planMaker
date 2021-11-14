@@ -5,11 +5,15 @@ import {
 import {
   addDays
 } from 'date-fns';
+import differenceInBusinessDays from 'date-fns/differenceInBusinessDays';
 import {
   concatMap,
   map,
   take,
 } from 'rxjs/operators';
+import {
+  Fach
+} from 'src/app/enums/fach.enum';
 import {
   Lehrjahr
 } from 'src/app/enums/lehrjahr.enum';
@@ -56,16 +60,68 @@ export class EsrPlanComponent implements OnInit {
   grundPlanfaecher: Array < Elementt > ;
   esrPlan: Array < Array < TagesObjekt >> ;
   selectLehrer;
-  
+
   absch = 0;
   gewaehlterPlan = "rhythmus";
   gewaehltesElement: Elementt;
   clickCount = 0;
 
-
-
   printAktiv = false;
 
+  reiheFachStunden(zeilenArray, fach, stunden, esr, klasse) {
+ 
+    //SONDERPLAN für WAHLFAC HUND CHOR NOCH MACHEN!!!?? Wenn fach ghleich ist zb??
+    let fachAuswahl = zeilenArray.filter(el => el.fach == fach && el.zuweisung[esr].length > 0 ); //Elemente mit dem Fach rausfiltern /Reduktion
+    
+    let andereFaecher = zeilenArray.filter(el => el.fach !== fach);
+    let abzug = 0;
+    if(fachAuswahl.length>1){
+      abzug=1;
+
+      if (fach === Fach.wahlpflicht) {
+        abzug = 2;
+      }
+  
+    }
+    //gleichzeitige elemente suchen... und Anzahl ermitteln, um zu wissen, ob gedrittelt oder geteilt wird... (ausser Wahlpflicht oder klassenübergreifendes, Chor aktuell noch)
+    fachAuswahl.forEach(elem => {
+      elem.zuweisung[esr].forEach(unterricht => {
+
+        let teilcount = 1; //das fach selbst zählt ja mit beim Teilen am ende dur den counter
+        let teilzeit = 0;
+        //Verinefacht: nur am startzeitpunkt wird geprüft ob fächer gleichzeitig sind, die sind hoffentlich immer auch parallel geschaltet und nicht verschoben...?
+        //alle anderen fächer durchprüfen ob gleiche startzeit:
+        andereFaecher.forEach(anderes => {
+          anderes.zuweisung[esr].forEach(unti2 => {
+            // let zeitspeicher=0; 
+            //     console.log(anderes);
+            if (unti2.start.getTime() == unterricht.start.getTime()) {
+              teilcount++;
+              if(esr=="rhythmus"){
+              teilzeit = teilzeit + (differenceInBusinessDays(unterricht.ende, unterricht.start) + 1) / 5 / 6;
+              }
+              if(esr=="epoche"){
+                teilzeit = teilzeit + (differenceInBusinessDays(unterricht.ende, unterricht.start) + 1) / 5 / 3;
+                }
+                if(esr=="schiene"){
+                  teilzeit = teilzeit + (differenceInBusinessDays(unterricht.ende, unterricht.start) + 1) / 5 / 5;
+                  }
+            }
+            //
+          });
+
+        });
+        //für die einzelepoche wird die stunde auf den fachteimer raufgerechnet
+        abzug = abzug + teilzeit / teilcount;
+      });
+    });
+   //wenn 2 lehrer dasselbe Fach machen, zb chor oder Wahlpflicht, wo unterschiedlcihe lehrer dasselbe fach "Wahlpflicht" machen
+      //Bei wahlpflicht 2 abziehn
+      //Bei chor nur 1, weils nur 2 machen...
+
+
+    return stunden - abzug;
+  }
 
   rhythmusElemente$ = this.klassenplanServ.esrPlaan$.pipe(
     concatMap(b => {
@@ -78,11 +134,141 @@ export class EsrPlanComponent implements OnInit {
         elf: z.rhythmus.elf,
         zwoelf: z.rhythmus.zwoelf
       }
+      let ar9 = [];
+
+
+      obj.neun.forEach(ele => {
+        if (!ar9[ele.fach]) {
+          let gesamtdauer = 0;
+          ele.zuweisung.rhythmus.forEach(element => {
+            gesamtdauer = gesamtdauer + (differenceInBusinessDays(element.ende, element.start) + 1) / 5 / 6;
+          });
+          ar9[ele.fach] = gesamtdauer;
+          // console.log(ar9[ele.fach]);
+        } else {
+          //console.log(ar9[ele.fach]);
+          let gesamtdauer = 0;
+          ele.zuweisung.rhythmus.forEach(element => {
+            gesamtdauer = gesamtdauer + (differenceInBusinessDays(element.ende, element.start) + 1) / 5 / 6;
+          });
+          ar9[ele.fach] = ar9[ele.fach] + gesamtdauer; //6 sind eine epoche im rhythmusteil
+        }
+      });
+      //Elemente erweitern mit stundengesamt
+      obj.neun.forEach((ele, e) => {
+        obj.neun[e] = {
+          fach: obj.neun[e].fach,
+          klasse: obj.neun[e].klasse,
+          lehrer: obj.neun[e].lehrer,
+          zuweisung: obj.neun[e].zuweisung,
+          stundenGesamt: ar9[ele.fach],
+          rhythmus: obj.neun[e].rhythmus
+        }
+      });
+
+      let ar10 = [];
+      obj.zehn.forEach(ele => {
+        if (!ar10[ele.fach]) {
+          let gesamtdauer = 0;
+          ele.zuweisung.rhythmus.forEach(element => {
+            gesamtdauer = gesamtdauer + (differenceInBusinessDays(element.ende, element.start) + 1) / 5 / 6;
+          });
+          ar10[ele.fach] = gesamtdauer;
+          // console.log(ar9[ele.fach]);
+        } else {
+          //console.log(ar9[ele.fach]);
+          let gesamtdauer = 0;
+          ele.zuweisung.rhythmus.forEach(element => {
+            gesamtdauer = gesamtdauer + (differenceInBusinessDays(element.ende, element.start) + 1) / 5 / 6;
+          });
+          ar10[ele.fach] = ar10[ele.fach] + gesamtdauer; //6 sind eine epoche im rhythmusteil
+        }
+      });
+      //Elemente erweitern mit stundengesamt
+      obj.zehn.forEach((ele, e) => {
+        obj.zehn[e] = {
+          fach: obj.zehn[e].fach,
+          klasse: obj.zehn[e].klasse,
+          lehrer: obj.zehn[e].lehrer,
+          zuweisung: obj.zehn[e].zuweisung,
+          stundenGesamt: ar10[ele.fach],
+          rhythmus: obj.zehn[e].rhythmus
+        }
+      });
+
+
+      let ar11 = [];
+      obj.elf.forEach(ele => {
+        if (!ar11[ele.fach]) {
+          let gesamtdauer = 0;
+          ele.zuweisung.rhythmus.forEach(element => {
+            gesamtdauer = gesamtdauer + (differenceInBusinessDays(element.ende, element.start) + 1) / 5 / 6;
+          });
+          ar11[ele.fach] = gesamtdauer;
+          // console.log(ar9[ele.fach]);
+        } else {
+          //console.log(ar9[ele.fach]);
+          let gesamtdauer = 0;
+          ele.zuweisung.rhythmus.forEach(element => {
+            gesamtdauer = gesamtdauer + (differenceInBusinessDays(element.ende, element.start) + 1) / 5 / 6;
+          });
+          ar11[ele.fach] = ar11[ele.fach] + gesamtdauer; //6 sind eine epoche im rhythmusteil
+        }
+      });
+      //Elemente erweitern mit stundengesamt
+      obj.elf.forEach((ele, e) => {
+        obj.elf[e] = {
+          fach: obj.elf[e].fach,
+          klasse: obj.elf[e].klasse,
+          lehrer: obj.elf[e].lehrer,
+          zuweisung: obj.elf[e].zuweisung,
+          stundenGesamt: ar11[ele.fach],
+          rhythmus: obj.elf[e].rhythmus
+        }
+      });
+
+
+
+      let ar12 = [];
+      obj.zwoelf.forEach(ele => {
+        if (!ar12[ele.fach]) {
+          let gesamtdauer = 0;
+          ele.zuweisung.rhythmus.forEach(element => {
+            gesamtdauer = gesamtdauer + (differenceInBusinessDays(element.ende, element.start) + 1) / 5 / 6;
+          });
+          ar12[ele.fach] = gesamtdauer;
+          // console.log(ar9[ele.fach]);
+        } else {
+          //console.log(ar9[ele.fach]);
+          let gesamtdauer = 0;
+          ele.zuweisung.rhythmus.forEach(element => {
+            gesamtdauer = gesamtdauer + (differenceInBusinessDays(element.ende, element.start) + 1) / 5 / 6;
+          });
+          ar12[ele.fach] = ar12[ele.fach] + gesamtdauer; //6 sind eine epoche im rhythmusteil
+        }
+      });
+      //Elemente erweitern mit stundengesamt
+      obj.zwoelf.forEach((ele, e) => {
+        obj.zwoelf[e] = {
+          fach: obj.zwoelf[e].fach,
+          klasse: obj.zwoelf[e].klasse,
+          lehrer: obj.zwoelf[e].lehrer,
+          zuweisung: obj.zwoelf[e].zuweisung,
+          stundenGesamt: ar12[ele.fach],
+          rhythmus: obj.zwoelf[e].rhythmus
+        }
+      });
+
+
+
 
 
       return obj;
     })
   );
+
+
+
 
   epochenElemente$ = this.klassenplanServ.esrPlaan$.pipe(
     concatMap(b => {
@@ -95,6 +281,124 @@ export class EsrPlanComponent implements OnInit {
         elf: z.epoche.elf,
         zwoelf: z.epoche.zwoelf
       }
+
+
+
+      let ar9 = [];
+      obj.neun.forEach(ele => {
+        if (!ar9[ele.fach]) {
+          let gesamtdauer = 0;
+          ele.zuweisung.epoche.forEach(element => {
+            gesamtdauer = gesamtdauer + (differenceInBusinessDays(element.ende, element.start) + 1) / 5 / 3;
+          });
+          ar9[ele.fach] = gesamtdauer;
+          // console.log(ar9[ele.fach]);
+        } else {
+          //console.log(ar9[ele.fach]);
+          let gesamtdauer = 0;
+          ele.zuweisung.epoche.forEach(element => {
+            gesamtdauer = gesamtdauer + (differenceInBusinessDays(element.ende, element.start) + 1) / 5 / 3;
+          });
+          ar9[ele.fach] = ar9[ele.fach] + gesamtdauer; //6 sind eine epoche im rhythmusteil
+        }
+      });
+      obj.neun.forEach((ele, e) => {
+        obj.neun[e] = {
+          fach: obj.neun[e].fach,
+          klasse: obj.neun[e].klasse,
+          lehrer: obj.neun[e].lehrer,
+          zuweisung: obj.neun[e].zuweisung,
+          stundenGesamt: ar9[ele.fach],
+          epoche: obj.neun[e].epoche
+        }
+      });
+
+      let ar10 = [];
+      obj.zehn.forEach(ele => {
+        if (!ar10[ele.fach]) {
+          let gesamtdauer = 0;
+          ele.zuweisung.epoche.forEach(element => {
+            gesamtdauer = gesamtdauer + (differenceInBusinessDays(element.ende, element.start) + 1) / 5 / 3;
+          });
+          ar10[ele.fach] = gesamtdauer;
+          // console.log(ar9[ele.fach]);
+        } else {
+          //console.log(ar9[ele.fach]);
+          let gesamtdauer = 0;
+          ele.zuweisung.epoche.forEach(element => {
+            gesamtdauer = gesamtdauer + (differenceInBusinessDays(element.ende, element.start) + 1) / 5 / 3;
+          });
+          ar10[ele.fach] = ar10[ele.fach] + gesamtdauer; //6 sind eine epoche im rhythmusteil
+        }
+      });
+      obj.zehn.forEach((ele, e) => {
+        obj.zehn[e] = {
+          fach: obj.zehn[e].fach,
+          klasse: obj.zehn[e].klasse,
+          lehrer: obj.zehn[e].lehrer,
+          zuweisung: obj.zehn[e].zuweisung,
+          stundenGesamt: ar10[ele.fach],
+          epoche: obj.zehn[e].epoche
+        }
+      });
+
+      let ar11 = [];
+      obj.elf.forEach(ele => {
+        if (!ar11[ele.fach]) {
+          let gesamtdauer = 0;
+          ele.zuweisung.epoche.forEach(element => {
+            gesamtdauer = gesamtdauer + (differenceInBusinessDays(element.ende, element.start) + 1) / 5 / 3;
+          });
+          ar11[ele.fach] = gesamtdauer;
+          // console.log(ar9[ele.fach]);
+        } else {
+          //console.log(ar9[ele.fach]);
+          let gesamtdauer = 0;
+          ele.zuweisung.epoche.forEach(element => {
+            gesamtdauer = gesamtdauer + (differenceInBusinessDays(element.ende, element.start) + 1) / 5 / 3;
+          });
+          ar11[ele.fach] = ar11[ele.fach] + gesamtdauer; //6 sind eine epoche im rhythmusteil
+        }
+      });
+      obj.elf.forEach((ele, e) => {
+        obj.elf[e] = {
+          fach: obj.elf[e].fach,
+          klasse: obj.elf[e].klasse,
+          lehrer: obj.elf[e].lehrer,
+          zuweisung: obj.elf[e].zuweisung,
+          stundenGesamt: ar11[ele.fach],
+          epoche: obj.elf[e].epoche
+        }
+      });
+      let ar12 = [];
+      obj.zwoelf.forEach(ele => {
+        if (!ar12[ele.fach]) {
+          let gesamtdauer = 0;
+          ele.zuweisung.epoche.forEach(element => {
+            gesamtdauer = gesamtdauer + (differenceInBusinessDays(element.ende, element.start) + 1) / 5 / 3;
+          });
+          ar12[ele.fach] = gesamtdauer;
+          // console.log(ar9[ele.fach]);
+        } else {
+          //console.log(ar9[ele.fach]);
+          let gesamtdauer = 0;
+          ele.zuweisung.epoche.forEach(element => {
+            gesamtdauer = gesamtdauer + (differenceInBusinessDays(element.ende, element.start) + 1) / 5 / 3;
+          });
+          ar12[ele.fach] = ar12[ele.fach] + gesamtdauer; //6 sind eine epoche im rhythmusteil
+        }
+      });
+      obj.zwoelf.forEach((ele, e) => {
+        obj.zwoelf[e] = {
+          fach: obj.zwoelf[e].fach,
+          klasse: obj.zwoelf[e].klasse,
+          lehrer: obj.zwoelf[e].lehrer,
+          zuweisung: obj.zwoelf[e].zuweisung,
+          stundenGesamt: ar12[ele.fach],
+          epoche: obj.zwoelf[e].epoche
+        }
+      });
+
       return obj;
     })
   );
@@ -110,6 +414,125 @@ export class EsrPlanComponent implements OnInit {
         elf: z.schiene.elf,
         zwoelf: z.schiene.zwoelf
       }
+
+
+      let ar9 = [];
+      obj.neun.forEach(ele => {
+        if (!ar9[ele.fach]) {
+          let gesamtdauer = 0;
+          ele.zuweisung.schiene.forEach(element => {
+            gesamtdauer = gesamtdauer + (differenceInBusinessDays(element.ende, element.start) + 1) / 5 / 5;
+          });
+          ar9[ele.fach] = gesamtdauer;
+          // console.log(ar9[ele.fach]);
+        } else {
+          //console.log(ar9[ele.fach]);
+          let gesamtdauer = 0;
+          ele.zuweisung.schiene.forEach(element => {
+            gesamtdauer = gesamtdauer + (differenceInBusinessDays(element.ende, element.start) + 1) / 5 / 5;
+          });
+          ar9[ele.fach] = ar9[ele.fach] + gesamtdauer; //6 sind eine epoche im rhythmusteil
+        }
+      });
+      obj.neun.forEach((ele, e) => {
+        obj.neun[e] = {
+          fach: obj.neun[e].fach,
+          klasse: obj.neun[e].klasse,
+          lehrer: obj.neun[e].lehrer,
+          zuweisung: obj.neun[e].zuweisung,
+          stundenGesamt: ar9[ele.fach],
+          schiene: obj.neun[e].schiene
+        }
+      });
+
+      let ar10 = [];
+      obj.zehn.forEach(ele => {
+        if (!ar10[ele.fach]) {
+          let gesamtdauer = 0;
+          ele.zuweisung.schiene.forEach(element => {
+            gesamtdauer = gesamtdauer + (differenceInBusinessDays(element.ende, element.start) + 1) / 5 / 5;
+          });
+          ar10[ele.fach] = gesamtdauer;
+          // console.log(ar9[ele.fach]);
+        } else {
+          //console.log(ar9[ele.fach]);
+          let gesamtdauer = 0;
+          ele.zuweisung.schiene.forEach(element => {
+            gesamtdauer = gesamtdauer + (differenceInBusinessDays(element.ende, element.start) + 1) / 5 / 5;
+          });
+          ar10[ele.fach] = ar10[ele.fach] + gesamtdauer; //6 sind eine epoche im rhythmusteil
+        }
+      });
+      obj.zehn.forEach((ele, e) => {
+        obj.zehn[e] = {
+          fach: obj.zehn[e].fach,
+          klasse: obj.zehn[e].klasse,
+          lehrer: obj.zehn[e].lehrer,
+          zuweisung: obj.zehn[e].zuweisung,
+          stundenGesamt: ar10[ele.fach],
+          schiene: obj.zehn[e].schiene
+        }
+      });
+
+      let ar11 = [];
+      obj.elf.forEach(ele => {
+        if (!ar11[ele.fach]) {
+          let gesamtdauer = 0;
+          ele.zuweisung.schiene.forEach(element => {
+            gesamtdauer = gesamtdauer + (differenceInBusinessDays(element.ende, element.start) + 1) / 5 / 5;
+          });
+          ar11[ele.fach] = gesamtdauer;
+          // console.log(ar9[ele.fach]);
+        } else {
+          //console.log(ar9[ele.fach]);
+          let gesamtdauer = 0;
+          ele.zuweisung.schiene.forEach(element => {
+            gesamtdauer = gesamtdauer + (differenceInBusinessDays(element.ende, element.start) + 1) / 5 / 5;
+          });
+          ar11[ele.fach] = ar11[ele.fach] + gesamtdauer; //6 sind eine epoche im rhythmusteil
+        }
+      });
+      obj.elf.forEach((ele, e) => {
+        obj.elf[e] = {
+          fach: obj.elf[e].fach,
+          klasse: obj.elf[e].klasse,
+          lehrer: obj.elf[e].lehrer,
+          zuweisung: obj.elf[e].zuweisung,
+          stundenGesamt: ar11[ele.fach],
+          schiene: obj.elf[e].schiene
+        }
+      });
+
+      let ar12 = [];
+      obj.zwoelf.forEach(ele => {
+        if (!ar12[ele.fach]) {
+          let gesamtdauer = 0;
+          ele.zuweisung.schiene.forEach(element => {
+            gesamtdauer = gesamtdauer + (differenceInBusinessDays(element.ende, element.start) + 1) / 5 / 5;
+          });
+          ar12[ele.fach] = gesamtdauer;
+          // console.log(ar9[ele.fach]);
+        } else {
+          //console.log(ar9[ele.fach]);
+          let gesamtdauer = 0;
+          ele.zuweisung.schiene.forEach(element => {
+            gesamtdauer = gesamtdauer + (differenceInBusinessDays(element.ende, element.start) + 1) / 5 / 5;
+          });
+          ar12[ele.fach] = ar12[ele.fach] + gesamtdauer; //6 sind eine epoche im rhythmusteil
+        }
+      });
+      obj.zwoelf.forEach((ele, e) => {
+        obj.zwoelf[e] = {
+          fach: obj.zwoelf[e].fach,
+          klasse: obj.zwoelf[e].klasse,
+          lehrer: obj.zwoelf[e].lehrer,
+          zuweisung: obj.zwoelf[e].zuweisung,
+          stundenGesamt: ar12[ele.fach],
+          schiene: obj.zwoelf[e].schiene
+        }
+      });
+
+
       return obj;
     })
   );
@@ -128,21 +551,21 @@ export class EsrPlanComponent implements OnInit {
   }
 
 
-  elementeDesTages(epochenElementenArray, date, epochenPlanName){
-    let ar=[];
+  elementeDesTages(epochenElementenArray, date, epochenPlanName) {
+    let ar = [];
     epochenElementenArray.forEach(element => {
       element.zuweisung[epochenPlanName].forEach(epochenElem => {
-        if(epochenElem.start  <=date&&epochenElem.ende>=date){
+        if (epochenElem.start <= date && epochenElem.ende >= date) {
           ar.push(element);
         }
       });
-      
+
     });
     return ar;
   }
 
-  kuerzen(text){
-    return text.slice(0,5);
+  kuerzen(text) {
+    return text.slice(0, 5);
   }
 
   breite(klassenItems, tag, zeilenIndex, esrLang, abschnitt) {
@@ -220,16 +643,16 @@ export class EsrPlanComponent implements OnInit {
     let start = abschnitt[i];
     let breite = 1;
     //console.log(abschnitt);
-    if (abschnitt[i+7]&&abschnitt[i + 7].tag<abschnitt[abschnitt.length-1].tag
-      &&this.klassenFahrt(abschnitt[i+7].fahrten, klasseZahl)!==null
-      &&this.klassenFahrt(abschnitt[i].fahrten, klasseZahl).titel == this.klassenFahrt(abschnitt[i + 7].fahrten, klasseZahl).titel) {
-  //    console.log("Gleich");
+    if (abschnitt[i + 7] && abschnitt[i + 7].tag < abschnitt[abschnitt.length - 1].tag &&
+      this.klassenFahrt(abschnitt[i + 7].fahrten, klasseZahl) !== null &&
+      this.klassenFahrt(abschnitt[i].fahrten, klasseZahl).titel == this.klassenFahrt(abschnitt[i + 7].fahrten, klasseZahl).titel) {
+      //    console.log("Gleich");
       breite++;
-      if(abschnitt[i+14]&&abschnitt[i + 14].tag<abschnitt[abschnitt.length-1].tag&&this.klassenFahrt(abschnitt[i+14].fahrten, klasseZahl)!==null&&this.klassenFahrt(abschnitt[i].fahrten, klasseZahl).titel == this.klassenFahrt(abschnitt[i + 14].fahrten, klasseZahl).titel) {
+      if (abschnitt[i + 14] && abschnitt[i + 14].tag < abschnitt[abschnitt.length - 1].tag && this.klassenFahrt(abschnitt[i + 14].fahrten, klasseZahl) !== null && this.klassenFahrt(abschnitt[i].fahrten, klasseZahl).titel == this.klassenFahrt(abschnitt[i + 14].fahrten, klasseZahl).titel) {
         breite++;
-        if(abschnitt[i+21]&&abschnitt[i + 21].tag<abschnitt[abschnitt.length-1].tag&&this.klassenFahrt(abschnitt[i+21].fahrten, klasseZahl)!==null&&this.klassenFahrt(abschnitt[i].fahrten, klasseZahl).titel == this.klassenFahrt(abschnitt[i + 21].fahrten, klasseZahl).titel) {
+        if (abschnitt[i + 21] && abschnitt[i + 21].tag < abschnitt[abschnitt.length - 1].tag && this.klassenFahrt(abschnitt[i + 21].fahrten, klasseZahl) !== null && this.klassenFahrt(abschnitt[i].fahrten, klasseZahl).titel == this.klassenFahrt(abschnitt[i + 21].fahrten, klasseZahl).titel) {
           breite++;
-          if(abschnitt[i+28]&&abschnitt[i + 28].tag<abschnitt[abschnitt.length-1].tag&&this.klassenFahrt(abschnitt[i+28].fahrten, klasseZahl)!==null&&this.klassenFahrt(abschnitt[i].fahrten, klasseZahl).titel == this.klassenFahrt(abschnitt[i + 28].fahrten, klasseZahl).titel) {
+          if (abschnitt[i + 28] && abschnitt[i + 28].tag < abschnitt[abschnitt.length - 1].tag && this.klassenFahrt(abschnitt[i + 28].fahrten, klasseZahl) !== null && this.klassenFahrt(abschnitt[i].fahrten, klasseZahl).titel == this.klassenFahrt(abschnitt[i + 28].fahrten, klasseZahl).titel) {
             breite++;
           }
         }
@@ -399,7 +822,7 @@ export class EsrPlanComponent implements OnInit {
 
 
 
- 
+
 
 
 
@@ -635,12 +1058,12 @@ export class EsrPlanComponent implements OnInit {
     }
   }
 
-counter2=0;
+  counter2 = 0;
   print() {
-    if(this.counter2%2==0){
-    this.printAktiv = true;
-    }else{
-      this.printAktiv=false;
+    if (this.counter2 % 2 == 0) {
+      this.printAktiv = true;
+    } else {
+      this.printAktiv = false;
     }
     this.counter2++;
 
@@ -661,7 +1084,7 @@ counter2=0;
       this.selectLehrer = data;
     });
 
-   
+
   }
 
   ngOnInit(): void {}

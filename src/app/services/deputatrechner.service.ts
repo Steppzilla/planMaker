@@ -5,6 +5,9 @@ import {
   differenceInBusinessDays
 } from 'date-fns';
 import {
+  element
+} from 'protractor';
+import {
   Observable
 } from 'rxjs';
 import {
@@ -18,6 +21,9 @@ import {
 import {
   Fach
 } from '../enums/fach.enum';
+import {
+  Lehrjahr
+} from '../enums/lehrjahr.enum';
 import {
   Wochentag
 } from '../enums/wochentag.enum';
@@ -33,6 +39,10 @@ import {
 })
 export class DeputatrechnerService {
   lehrerListe;
+
+  fach(fach){
+    return Fach[fach];
+  }
 
   lehrerArray$: Observable < {
       [key: string]: Elementt[]
@@ -74,209 +84,220 @@ export class DeputatrechnerService {
               ueb: [],
               rhy: [],
               epo: [],
-              sch: []
+              sch: [],
             }
           };
           if (lehrerElemente) {
+            //Deputat unterscheidet sich je nach ueb, rhy, epo und sch in der Berechnung
 
+              //Hauptunterricht in klasse 0-7 hinzugefügt bei unterricht wenn kleiner neun.
+            let uebElemente = lehrerElemente.filter(elements => (elements.uebstunde > 0) && (elements.fach !== Fach.hauptunterricht||parseInt(elements.klasse)<9) && elements.fach !== Fach.schiene && elements.fach !== Fach.rhythmisch);
+            let rhyElemente = lehrerElemente.filter(elements => elements.rhythmus > 0 && elements.fach !== Fach.hauptunterricht && elements.fach !== Fach.schiene && elements.fach !== Fach.rhythmisch); //achtung.  elemente können sowhl übestunden als auch epochen haben
+            let epoElemente = lehrerElemente.filter(elements => elements.epoche > 0 && elements.fach !== Fach.hauptunterricht && elements.fach !== Fach.schiene && elements.fach !== Fach.rhythmisch);
+            let schElemente = lehrerElemente.filter(elements => elements.schiene > 0 && elements.fach !== Fach.hauptunterricht && elements.fach !== Fach.schiene && elements.fach !== Fach.rhythmisch);
 
-            lehrerElemente.forEach(unterricht => {
-              if (((unterricht.fach != Fach.hauptunterricht && unterricht.fach != Fach.schiene && unterricht.fach != Fach.rhythmisch && parseInt(unterricht.klasse) > 8) || parseInt(unterricht.klasse) <= 8)) {
-                //Problem sind hier noch Klassenübergreifende Fächer wie Wahlpflicht, Chor und MSO
-                deputatsArray.uebstunde = deputatsArray.uebstunde + unterricht.zuweisung.uebstunde.length;
-                deputatsArray.zuweisungen.ueb.push({
+            let uebNeu = [];
+            //Merke 1: gleiche Fächer sollen zusammengefasst werden, ein Klassenarray da dann rein.
+            //Merke 2: Wahlpflicht etc sonderbehandlung in uebstunde, rhythmus etc
+            //Merke 3 : Epochen müssen umgewandelt werden und haben mehrere zuweisungen die auch zusammengefastst werden müssen
+
+            uebElemente.forEach(unterricht => {
+              if (!uebNeu[unterricht.fach]) {
+                uebNeu[unterricht.fach] = {
                   fach: unterricht.fach,
-                  klasse: unterricht.klasse,
-                //  stunden: unterricht.uebstunde
+                  klasse: [unterricht.klasse],
+                  stunden: unterricht.zuweisung.uebstunde.length
+                }
+              } else {
+                if (uebNeu[unterricht.fach]) { //Wenn aktuell geprüftes Fach schon vorhanden
+                  uebNeu[unterricht.fach].stunden = uebNeu[unterricht.fach].stunden + unterricht.zuweisung.uebstunde.length;
+                  uebNeu[unterricht.fach].klasse.push(unterricht.klasse);
+                }
+              }
+            });
+            //Wahlpflicht/Chor, Oberstufenorchester, mittelstufenorchester nachbehandlung: 
+            if (uebNeu[Fach.wahlpflicht]) {
+              uebNeu[Fach.wahlpflicht].stunden = uebNeu[Fach.wahlpflicht].stunden / uebNeu[Fach.wahlpflicht].klasse.length; //Stunden durch die anzahl der klassen teilen
+            }
+            if (uebNeu[Fach.orchester]) {
+              uebNeu[Fach.orchester].stunden = uebNeu[Fach.orchester].stunden / uebNeu[Fach.orchester].klasse.length;
+            }
+            if (uebNeu[Fach.chor]) {
+              uebNeu[Fach.chor].stunden = uebNeu[Fach.chor].stunden / uebNeu[Fach.chor].klasse.length;
+            }
+            if (uebNeu[Fach.mittelstufenorchester]) {
+              uebNeu[Fach.mittelstufenorchester].stunden = uebNeu[Fach.mittelstufenorchester].stunden / uebNeu[Fach.mittelstufenorchester].klasse.length;
+            }
+
+
+
+            let rhyNeu = [];
+            rhyElemente.forEach(unterricht => {
+              if (!rhyNeu[unterricht.fach]) {
+                let stundi = 0;
+                unterricht.zuweisung.rhythmus.forEach(element => {
+                  stundi = stundi + (differenceInBusinessDays(element.ende, element.start) + 1) / 5 / 6; //6 Wochen sind eine rhythmusepoche
                 });
-                // rhy=  rhy+ element.zuweisung.rhythmus.length;
-                if (unterricht.rhythmus > 0) {
-                  let vorigeKombi = {
-                    fach: null,
-                    klasse: null
-                  };
-                  unterricht.zuweisung.rhythmus.forEach(epochElement => {
-                    deputatsArray.rhythmus = deputatsArray.rhythmus + differenceInBusinessDays(epochElement.ende, epochElement.start) + 1; //Durch 6, da im Rhythmus 6 Wochen eine Epoche sind, später, da sonst zu viele kommazahlen gerunden werden
-                    //nur pushen wenns nicht dieselbe epcohe ist (mehrere epochen zusammengefasst):
-                    if (vorigeKombi.fach === unterricht.fach && parseInt(vorigeKombi.klasse) === parseInt(unterricht.klasse)) {} else {
-                      deputatsArray.zuweisungen.rhy.push({
-                        fach: unterricht.fach,
-                        klasse: unterricht.klasse,
-                       // stunden: unterricht.rhythmus
-                      });
-                    }
-                    vorigeKombi.fach = unterricht.fach;
-                    vorigeKombi.klasse = unterricht.klasse;
-                  });
+                rhyNeu[unterricht.fach] = {
+                  fach: unterricht.fach,
+                  klasse: [unterricht.klasse],
+                  stunden: stundi
                 }
-                if (unterricht.epoche > 0) {
 
-                  //  epo=epo+element.zuweisung.epoche.length;
-                  let vorigeKombi = {
-                    fach: null,
-                    klasse: null
-                  };
-                  unterricht.zuweisung.epoche.forEach(epochElement => {
-                    deputatsArray.epoche = deputatsArray.epoche + differenceInBusinessDays(epochElement.ende, epochElement.start) + 1; //Durch 3, da in Epoche 3 Wochen eine Epoche sind
-                    //nur pushen wenns nicht dieselbe epcohe ist (mehrere epochen zusammengefasst):
-                    // if(unterricht.lehrer[0].kuerzel=="By"&&vorigeKombi.fach===unterricht.fach){
-                    //    if(vorigeKombi.klasse==9){
-                    //   console.log(parseInt(unterricht.klasse));
-                    // }
-                    //}
-                    if (vorigeKombi.fach === unterricht.fach && parseInt(vorigeKombi.klasse) == parseInt(unterricht.klasse)) {
-                    } else {
-                      deputatsArray.zuweisungen.epo.push({
-                        fach: unterricht.fach,
-                        klasse: unterricht.klasse,
-                      //  stunden: unterricht.epoche //stunden sind "aussen " gespeichert
-                      });
-                    }
-                    vorigeKombi.fach = unterricht.fach;
-                    vorigeKombi.klasse = unterricht.klasse;
+              } else {
+                if (rhyNeu[unterricht.fach]) { //Wenn aktuell geprüftes Fach schon vorhanden
+                  let stundi = 0;
+                  unterricht.zuweisung.rhythmus.forEach(element => {
+                    stundi = stundi + (differenceInBusinessDays(element.ende, element.start) + 1) / 5 / 6; //6 Wochen sind eine rhythmusepoche
                   });
-
-                }
-                if (unterricht.schiene > 0) {
-                  let vorigeKombi = {
-                    fach: null,
-                    klasse: null
-                  };
-                  unterricht.zuweisung.schiene.forEach(epochElement => {
-                    deputatsArray.schiene = deputatsArray.schiene + differenceInBusinessDays(epochElement.ende, epochElement.start) + 1; //Durch 5, da im Rhythmus 5 Wochen eine Epoche sind (6 Stundne pro Woche)
-                    
-                    if (vorigeKombi.fach === unterricht.fach && parseInt(vorigeKombi.klasse) === parseInt(unterricht.klasse)) {} else {
-                      deputatsArray.zuweisungen.sch.push({
-                        fach: unterricht.fach,
-                        klasse: unterricht.klasse,
-                     //   stunden: unterricht.schiene
-                      });
-                    }
-                    vorigeKombi.fach = unterricht.fach;
-                    vorigeKombi.klasse = unterricht.klasse;
-                  });
+                  rhyNeu[unterricht.fach].stunden = rhyNeu[unterricht.fach].stunden + stundi;
+                  rhyNeu[unterricht.fach].klasse.push(unterricht.klasse);
                 }
               }
-
-
-              
-
             });
-          }
-          //Runden und ggf teilen:
-          deputatsArray.rhythmus = Math.round(deputatsArray.rhythmus / 5 / 6);
-          deputatsArray.epoche = Math.round(deputatsArray.epoche / 5 / 3);
-          //if (lehrer.kuerzel == "Wo") {
-          //  console.log(Math.round(sch / 5 / 5));
-          //}
-          deputatsArray.schiene = Math.round(deputatsArray.schiene / 5 / 5);
+            //Wahlpflicht/Chor, Oberstufenorchester, mittelstufenorchester nachbehandlung: 
+            if (rhyNeu[Fach.wahlpflicht]) {
+              rhyNeu[Fach.wahlpflicht].stunden = rhyNeu[Fach.wahlpflicht].stunden / rhyNeu[Fach.wahlpflicht].klasse.length; //Stunden durch die anzahl der klassen teilen
+            }
+            if (rhyNeu[Fach.orchester]) {
+              rhyNeu[Fach.orchester].stunden = rhyNeu[Fach.orchester].stunden / rhyNeu[Fach.orchester].klasse.length;
+            }
+            if (rhyNeu[Fach.chor]) {
+              rhyNeu[Fach.chor].stunden = rhyNeu[Fach.chor].stunden / rhyNeu[Fach.chor].klasse.length;
+            }
+            if (rhyNeu[Fach.mittelstufenorchester]) {
+              rhyNeu[Fach.mittelstufenorchester].stunden = rhyNeu[Fach.mittelstufenorchester].stunden / rhyNeu[Fach.mittelstufenorchester].klasse.length;
+            }
 
-         if(lehr.kuerzel=="Wo"){
-            console.log(deputatsArray.schiene);
-            console.log(deputatsArray.zuweisungen.sch);
-         }
+
+
+            let epoNeu = [];
+            epoElemente.forEach((unterricht: Elementt) => {
+              if (epoNeu[unterricht.fach] === undefined) {
+                let stundi = 0;
+
+                unterricht.zuweisung.epoche.forEach(element => {
+
+                  stundi = stundi + (differenceInBusinessDays(element.ende, element.start) + 1) / 5 / 3; //3 Wochen sind eine Epoche
+                });
+                epoNeu[unterricht.fach] = {
+                  fach: unterricht.fach,
+                  klasse: [unterricht.klasse],
+                  stunden: stundi
+                }
+
+              } else {
+                if (epoNeu[unterricht.fach] !== undefined) { //Wenn aktuell geprüftes Fach schon vorhanden
+                  let stundi = 0;
+
+                  unterricht.zuweisung.epoche.forEach(element => {
+                    stundi = stundi + (differenceInBusinessDays(element.ende, element.start) + 1) / 5 / 3; //6 Wochen sind eine rhythmusepoche
+
+                  });
+
+                  epoNeu[unterricht.fach].stunden = epoNeu[unterricht.fach].stunden + stundi;
+                  epoNeu[unterricht.fach].klasse.push(unterricht.klasse);
+                }
+              }
+            });
+            //Wahlpflicht/Chor, Oberstufenorchester, mittelstufenorchester nachbehandlung: 
+            if (epoNeu[Fach.wahlpflicht]) {
+              epoNeu[Fach.wahlpflicht].stunden = epoNeu[Fach.wahlpflicht].stunden / epoNeu[Fach.wahlpflicht].klasse.length; //Stunden durch die anzahl der klassen teilen
+            }
+            if (epoNeu[Fach.orchester]) {
+              epoNeu[Fach.orchester].stunden = epoNeu[Fach.orchester].stunden / epoNeu[Fach.orchester].klasse.length;
+            }
+            if (epoNeu[Fach.chor]) {
+              epoNeu[Fach.chor].stunden = epoNeu[Fach.chor].stunden / epoNeu[Fach.chor].klasse.length;
+            }
+            if (epoNeu[Fach.mittelstufenorchester]) {
+              epoNeu[Fach.mittelstufenorchester].stunden = epoNeu[Fach.mittelstufenorchester].stunden / epoNeu[Fach.mittelstufenorchester].klasse.length;
+            }
+
+
+
+            let schNeu = [];
+            schElemente.forEach(unterricht => {
+              if (!schNeu[unterricht.fach]) {
+                let stundi = 0;
+                unterricht.zuweisung.schiene.forEach(element => {
+                  stundi = stundi + (differenceInBusinessDays(element.ende, element.start) + 1) / 5 / 5; //5 Wochen sind eine Schiene
+                });
+                schNeu[unterricht.fach] = {
+                  fach: unterricht.fach,
+                  klasse: [unterricht.klasse],
+                  stunden: stundi
+                }
+
+              } else {
+                if (schNeu[unterricht.fach]) { //Wenn aktuell geprüftes Fach schon vorhanden
+                  let stundi = 0;
+                  unterricht.zuweisung.schiene.forEach(element => {
+                    stundi = stundi + (differenceInBusinessDays(element.ende, element.start) + 1) / 5 / 5; //6 Wochen sind eine rhythmusepoche
+                  });
+                  schNeu[unterricht.fach].stunden = schNeu[unterricht.fach].stunden + stundi;
+                  schNeu[unterricht.fach].klasse.push(unterricht.klasse);
+                }
+              }
+            });
+            //Wahlpflicht/Chor, Oberstufenorchester, mittelstufenorchester nachbehandlung: 
+            if (schNeu[Fach.wahlpflicht]) {
+              schNeu[Fach.wahlpflicht].stunden = schNeu[Fach.wahlpflicht].stunden / schNeu[Fach.wahlpflicht].klasse.length; //Stunden durch die anzahl der klassen teilen
+            }
+            if (schNeu[Fach.orchester]) {
+              schNeu[Fach.orchester].stunden = schNeu[Fach.orchester].stunden / schNeu[Fach.orchester].klasse.length;
+            }
+            if (schNeu[Fach.chor]) {
+              schNeu[Fach.chor].stunden = schNeu[Fach.chor].stunden / schNeu[Fach.chor].klasse.length;
+            }
+            if (schNeu[Fach.mittelstufenorchester]) {
+              schNeu[Fach.mittelstufenorchester].stunden = schNeu[Fach.mittelstufenorchester].stunden / schNeu[Fach.mittelstufenorchester].klasse.length;
+            }
+
+
+
+            //Gesamt ueb, rhy undsoweiter stunden berechnen:
+            lehr.faecher.forEach(fach => {
+              if (uebNeu[Fach[fach]]) {
+                deputatsArray.uebstunde = deputatsArray.uebstunde + uebNeu[Fach[fach]].stunden;
+              }
+
+              if(rhyNeu[Fach[fach]]){
+                deputatsArray.rhythmus = deputatsArray.rhythmus + rhyNeu[Fach[fach]].stunden;
+              }
+
+              if(epoNeu[Fach[fach]]){
+                deputatsArray.epoche = deputatsArray.epoche + epoNeu[Fach[fach]].stunden;
+              }
+              if(schNeu[Fach[fach]]){
+                deputatsArray.schiene = deputatsArray.schiene + schNeu[Fach[fach]].stunden;
+              }
+            });
+
           
-
-          ["ueb", "rhy", "sch", "epo"].forEach(esrU => {
-            let zuweisungsARrayNEU = []
-            let wahlpflichtstunden = 0;
-            let chorstunden = 0;
-            let oberstufenOrchester = 0;
-            let mittelstufenOrchester = 0;
-
-            deputatsArray.zuweisungen[esrU].forEach(element => {
-              if (element.fach !== Fach.wahlpflicht && element.fach !== Fach.chor && element.fach !== Fach.orchester && element.fach !== Fach.mittelstufenorchester) { //Nur unterschiehdliche fach/klasse kombis pushen (bei epochen kommt das leider vor)
-                zuweisungsARrayNEU.push(element);
-              } else { //wahlpflicht, chor, orchester oder mso:
-                //Elemente in eins zusammenfassen und stunden verrechnen in zuweisung und überliegend
-                if(element.stunden>0){
-                switch (element.fach) {
-                  case Fach.wahlpflicht:
-
-                    wahlpflichtstunden = 4; //Da es in den Übstunden 2 Wahlpflicht gibt diese Jahr und 2 in Schiene (über 2 Klassen, er hätte sonst doppelt so viel gezählt)
-            
-                    break;
-                  case Fach.chor:
-
-                    chorstunden = 1; //Keine Übstunden im Chor dieses Jahr, aber im ryhthmus 6 Wochen, macht 1 stunde
-                    break;
-                  case Fach.orchester:
-                    oberstufenOrchester = 2; //2 übstunden (über viele klassen hinweg, 9-12)
-                    break;
-                  case Fach.mittelstufenorchester:
-                    mittelstufenOrchester = 2; //Klasse 7+8
-                    break;
-                }}
-              }
-            });
-            
-            //alle nicht obig genannten fächer sind drin, letztere zufügen:
-            if (wahlpflichtstunden > 0) {
-              zuweisungsARrayNEU.push({
-                fach: Fach.wahlpflicht,
-                klasse: null,
-              //  stunden: wahlpflichtstunden 
-              }); //durch 2 geteilt, da in zwei klassen //Hier köntnte man die Stunden verrechnen, wenn sie oben "echt gezählt" worden wären
-              deputatsArray.uebstunde=deputatsArray.uebstunde-2;
-              deputatsArray.schiene=deputatsArray.schiene-2;
-            }
-            if (chorstunden > 0) {
-              zuweisungsARrayNEU.push({
-                fach: Fach.chor,
-                klasse: null,
-             //   stunden: chorstunden 
-              }); //chorstunden in 4 klassen
-              deputatsArray.rhythmus=deputatsArray.rhythmus-3;
-            }
-            if (oberstufenOrchester > 0) {
-              zuweisungsARrayNEU.push({
-                fach: Fach.orchester,
-                klasse: null,
-              //  stunden: oberstufenOrchester
-              }); //in 4 klassen je 2 stunden
-              deputatsArray.uebstunde=deputatsArray.uebstunde-6;
-            }
-            if (mittelstufenOrchester > 0) {
-              zuweisungsARrayNEU.push({
-                fach: Fach.mittelstufenorchester,
-                klasse: null,
-              //  stunden: mittelstufenOrchester
-              }); //in 2 klassen je 2 stunden, gezählt also 4
-              deputatsArray.uebstunde=deputatsArray.uebstunde-2;
-            }
-            deputatsArray.zuweisungen[esrU] = zuweisungsARrayNEU;
-            //deputatszahlen aktualisieren:
-          //  let zaehler = 0;
-            //deputatsArray.zuweisungen[esrU].forEach(element => {
-            //  zaehler = zaehler + element.stunden;
-           // });
-           /* switch (esrU) {
-              case "ueb":
-                deputatsArray.uebstunde = zaehler;
-                break;
-              case "rhy":
-                deputatsArray.rhythmus = zaehler;
-                break;
-              case "epo":
-                deputatsArray.epoche = zaehler;
-                break;
-              case "sch":
-                deputatsArray.schiene = zaehler;
-                break;
-            }*/
+       
 
 
 
 
-          });
-
-          if(lehr.kuerzel=="Wo"){
-            console.log(deputatsArray.schiene);
-            console.log(deputatsArray.zuweisungen.sch);
-         }
 
 
-          //Zuweisungen müssen noch angepasst werden, gleiche Fächer zusammengefasst werden und gegengerchnet.
+            //
+
+
+            //Stunden runden (nur im GEsamtzahl, einzelfächer bleiben so?)
+
+            deputatsArray.uebstunde = Math.round(deputatsArray.uebstunde);
+            deputatsArray.rhythmus = Math.round(deputatsArray.rhythmus);
+            deputatsArray.epoche = Math.round(deputatsArray.epoche);
+            deputatsArray.schiene = Math.round(deputatsArray.schiene);
+            //deputatsarray-zuweisungen einfügen:
+            deputatsArray.zuweisungen.epo = epoNeu;
+            deputatsArray.zuweisungen.rhy = rhyNeu;
+            deputatsArray.zuweisungen.sch = schNeu;
+            deputatsArray.zuweisungen.ueb = uebNeu;
+
+          }
 
           return deputatsArray;
         });
