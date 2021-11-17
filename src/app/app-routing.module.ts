@@ -9,6 +9,7 @@ import { VertretungComponent } from './components/vertretung/vertretung.componen
 import { EinzelplaeneComponent } from './components/einzelplaene/einzelplaene.component';
 import { StartComponent } from './components/start/start.component';
 import { HomeComponent } from './components/home/home.component';
+import { PausenplanComponent } from './components/pausenplan/pausenplan.component';
 
 
 const routes: Routes =[
@@ -22,6 +23,7 @@ children:[
   {path: "vertretung", component:VertretungComponent},
   {path: "einzelPlaene", component: EinzelplaeneComponent},
   {path: "home", component: HomeComponent},
+  {path: "pausenAufsicht", component: PausenplanComponent},
 ]},
 {path: 'gesamtplan', component: GesamtuebersichtComponent},
 

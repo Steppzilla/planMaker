@@ -124,6 +124,23 @@ $schieneBackground: rgb(176, 219, 130);
 }
 
 
+#mainContainer{
+  display:grid;
+  grid-template-columns: 60pt auto 60pt;
+  >div:nth-child(3){
+  //  background-color:green;
+  margin:5pt;
+text-align:left;
+//margin-top:auto;
+//margin-bottom:auto;
+}
+>div:nth-child(1){
+ // background-color:green;
+  margin:5pt;
+text-align:right;
+//margin-top:auto;
+//margin-bottom:auto;
+}
 
 #main {
   .abschnittContainer {
@@ -174,6 +191,7 @@ $schieneBackground: rgb(176, 219, 130);
       }
     }
   }
+}
 }
 
 //Ende ansicht ohne druck
@@ -321,3 +339,8 @@ button.B6 {
   font-weight: bold;
   background-color: rgb(160, 160, 241);
 }
+
+
+button.rhy{background-color:$rhybackground;}
+button.epo{background-color:$epoBackground;}
+button.sch{background-color:$schieneBackground;}

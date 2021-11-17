@@ -1,0 +1,88 @@
+<h1> Pausenaufsichten </h1>
+<button class="noprint" (click)="namenKuerzelToggle()">
+  <ng-container *ngIf="kuerzeleingeblendet"> Namen anzeigen
+  </ng-container>
+  <ng-container *ngIf="!kuerzeleingeblendet"> Kuerzel anzeigen
+  </ng-container>
+</button>
+
+
+<table>
+
+  <tr>
+    <th></th>
+    <ng-container *ngFor="let tag of tage, index as t">
+      <th *ngIf="tag!=='Samstag'&&tag!=='Sonntag'">
+
+        {{tag}}
+      </th>
+    </ng-container>
+    <th></th>
+  </tr>
+
+  <tr *ngFor="let zeit of zeiten, index as z">
+    <th>
+      <ng-container  *ngFor="let ort of orte, index as o">
+        <div class="ortBox" *ngIf="(z==0&&o==0)||(z==1&&o!==3)||(z==2&&o==3)||(z==3)">
+          <div>
+            {{ort}}
+          </div>
+        </div>
+      </ng-container>
+    </th>
+    <ng-container *ngFor="let tag of tage, index as t">
+
+      <td *ngIf="tag!=='Samstag'&&tag!=='Sonntag'">
+        <ng-container  *ngFor="let ort of orte, index as o">
+          <div class="aufsichtBox" *ngIf="(z==0&&o==0)||(z==1&&o!==3)||(z==2&&o==3)||(z==3)">
+            <button  triggers="click"
+              [ngbTooltip]="LehrerKuerzel" placement="bottom">
+              <ng-container *ngIf="pausenRaster$|async as pausenR">
+                <ng-container
+                  *ngIf="pausenR[tag.toLowerCase()]&&pausenR[tag.toLowerCase()][zeitinString(zeit)]&&pausenR[tag.toLowerCase()][zeitinString(zeit)][ort]">
+                  <ng-container *ngFor="let lehr of pausenR[tag.toLowerCase()][zeitinString(zeit)][ort]">
+
+                    <ng-container *ngIf="kuerzeleingeblendet"> {{lehr.kuerzel}}
+                    </ng-container>
+                    <div *ngIf="!kuerzeleingeblendet"> {{lehr.name}}
+                    </div>
+
+                  </ng-container>
+
+
+                </ng-container>
+              </ng-container>
+              <ng-template #LehrerKuerzel>
+                <div class="toggli">
+                  <ng-container id="haupttabelle" *ngIf="klassenplanServ.lehrerListe$| async as lehrerListe">
+                    <div *ngFor="let lehrer of lehrerListe">
+                      <button (click)="lehrereinfuegen($event,tag, ort, zeit,lehrer)">
+                        {{lehrer.kuerzel }}({{anzahlAufsichten(lehrer)}})
+                      </button>
+                    </div>
+                  </ng-container>
+                  <!--    <ng-container *ngIf="lehrerAuswahl$|async as auswahl">
+                  <ng-container *ngFor="let lehre of auswahl[z][t]">
+                    <button (click)="lehrereinfuegen($event,tag, ort, zeit,lehre)">
+
+                      {{lehre.kuerzel}} ({{anzahlAufsichten(lehre)}})
+                    </button>
+                  </ng-container>
+                </ng-container>
+                -->
+                </div>
+              </ng-template>
+            </button>
+          </div>
+        </ng-container>
+
+
+      </td>
+
+    </ng-container>
+    <th>
+      {{zeit}}
+    </th>
+
+  </tr>
+</table>

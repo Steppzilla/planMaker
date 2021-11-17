@@ -114,16 +114,43 @@ flex-wrap:wrap;
       padding: 0.5pt;
       width: 40pt;
       border-radius: 5pt;
-      background-color: rgb(129, 176, 214);
+     
     }
   }
 
 }
-.toggleMenuLeher{
-  display:flex;
-  width:120pt;
-  flex-wrap:wrap;
+
+.HU,
+.huB,
+.epo,
+.epoB {
+  background-color: rgb(207, 198, 98);
 }
+
+.Schiene,
+.schB,
+.sch {
+  background-color: rgb(176, 219, 130);
+}
+
+.StartUp,
+.rhyB,
+.rhy {
+  background-color: rgb(255, 144, 133);
+}
+
+.toggleMenuLeher{
+  position: absolute;
+  top:30pt;
+  right:0pt;
+  display:flex;
+  width:160pt;
+  flex-wrap:wrap;
+  >div{
+    background-color:steelblue;
+  }
+}
+
 
 
 @media only screen and (max-width: 760px),

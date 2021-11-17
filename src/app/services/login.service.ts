@@ -55,8 +55,8 @@ export class LoginService {
   saveAll(version) {
     // debugger;
     let y = btoa(JSON.stringify(this.klassenPlanServ.grundPlanfaecher.getValue()));
-    //Schiene, Epoche, Rhythmus in einer datei:
-    // let z = btoa(JSON.stringify(this.epochenPlanServ.esr_plan.getValue()));
+    //pausenplan
+     let z = btoa(JSON.stringify(this.epochenPlanServ.pausenPlan.getValue()));
 
     let plan = this.store.collection('plaene').doc("gesamtplaene" + version);
     plan.set({ //Gesamtaufteilung Array<Elementt>
@@ -68,6 +68,17 @@ export class LoginService {
       console.log("1 nicht gespeichert");
       console.error(error);
     });
+
+    let plan2 = this.store.collection('plaene').doc("pausenplan");
+    plan2.set({ //Gesamtaufteilung Array<Elementt>
+      stundenElemente: z,
+      //  esrPlan: z,
+    }).then(() => {
+      console.log('saved pausenplan' );
+    }).catch(function (error) {
+      console.log("pausenplan gespeichert");
+      console.error(error);
+    });
   }
 
   //Stundenraster montag dienstag etc aus planmaker wird gesetzt: //und im Lehrerservice aktuelles Raster/behavioural
@@ -77,15 +88,6 @@ export class LoginService {
     //Epochenpläne + Schiene
     this.store.collection('plaene').doc("gesamtplaene" + zahl).valueChanges().subscribe((plaene) => { //in Firebase heißt der Ordner plaene. das erste Element [0] ist "gesamtplaene", darin sind die pläne:   
       stundenAufteilungJSO = JSON.parse(atob(plaene["stundenElemente"]));
-      //   console.log(stundenAufteilungJSO);
-    //  let esrJSO = JSON.parse(atob(plaene["esrPlan"])); //Datum teile sind alle Strings..
-     // esrJSO.forEach(element => {
-      //  let date = new Date(element.tag);
-      //  element.tag = date;
-      //});
-      //  this.epochenPlanServ.esr_plan.next(esrJSO);
-      //in Elementt auch datum strings wieder in datum umwandeln:
-
       stundenAufteilungJSO.forEach((el, ei) => {
         let aktuell: [Elementt, number, string];
         if (el == null) {
@@ -112,6 +114,13 @@ export class LoginService {
       });
 
       this.klassenPlanServ.grundPlanfaecher.next(stundenAufteilungJSO); //opt: .concat(ele) um Element hinzuzufügen beim Load der Daten
+      //  this.klassenPlanServ.elementHinzufuegen(Fach.kunstgeschichte,Lehrjahr.neun);
+
+    });
+    this.store.collection('plaene').doc("pausenplan").valueChanges().subscribe((plaene) => { //in Firebase heißt der Ordner plaene. das erste Element [0] ist "gesamtplaene", darin sind die pläne:   
+      let pausenplanJSO = JSON.parse(atob(plaene["stundenElemente"]));
+console.log(pausenplanJSO);
+      this.epochenPlanServ.pausenPlan.next(pausenplanJSO); //opt: .concat(ele) um Element hinzuzufügen beim Load der Daten
       //  this.klassenPlanServ.elementHinzufuegen(Fach.kunstgeschichte,Lehrjahr.neun);
 
     });

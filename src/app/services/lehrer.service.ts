@@ -15,6 +15,7 @@ export class LehrerService {
   lehrerSelected = new BehaviorSubject(null);
   lehrerSelected$ = this.lehrerSelected.asObservable();
 
+
  
   ausgewaehlterModus=0; 
   //0 für nur anscahuen, 
@@ -26,6 +27,7 @@ export class LehrerService {
    this.wochenTagSelect="Montag";
    let lehr:Lehrer={anrede:"Herr",kuerzel: "NN", name: "NN", faecher:[]};
    this.lehrerSelected.next(lehr);
+   this.gewaehlterPlan="home";
    
     // this.stundenRaster.next(this.createEmptyStundenraster());
   }

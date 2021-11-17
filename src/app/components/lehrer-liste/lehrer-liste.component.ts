@@ -36,11 +36,6 @@ export class LehrerListeComponent implements OnInit {
 
 
 
-  fach(fach:string){
-    console.log(fach);
-    console.log(Fach[fach]);
-    return Fach[fach];
-  }
   // Fach dem Lehrer hinzufügen:
   fachLehrerAdd(fach, lehrer) {
     let faecher = lehrer.faecher;
@@ -55,6 +50,9 @@ export class LehrerListeComponent implements OnInit {
 
   }
   lehrerAdd(anrede, name, kuerzel, faecher, aufgaben, deputat) {
+    console.log(anrede);
+    console.log(name);
+    console.log(kuerzel);
     this.loginServ.lehrerHinzufuegen({
       anrede: anrede,
       name: name,

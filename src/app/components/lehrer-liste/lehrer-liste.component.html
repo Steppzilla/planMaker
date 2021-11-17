@@ -7,9 +7,9 @@
     <div>Anrede: <input id="i1" type="text" #anrede> </div>
     <div>Name: <input id="i2" type="text" #name> </div>
     <div>Kuerzel: <input id="i3" type="text" #kuerzel> </div>
-    <!-- <div>Faecher: <input id="i4" type="text" #faecher></div>
-    <div> Aufgaben: <input id="i5" type="text" #aufgaben></div>
-    <div>DeputatWunsch: <input id="i6" type="number" #deputat></div>-->
+     <div  style="display:none">Faecher: <input id="i4" type="text" #faecher></div>
+    <div style="display:none"> Aufgaben: <input id="i5" type="text" #aufgaben></div>
+    <div style="display:none">DeputatWunsch: <input id="i6" type="number" #deputat></div>
     <button (click)="lehrerAdd(anrede.value,name.value,kuerzel.value,faecher.value,aufgaben.value,deputat.value)">Lehrer
       hinzufügen</button>
   </div>
@@ -212,9 +212,9 @@
         <div>Anrede: <input type="text" #anrede value="{{lehrer.anrede}}"> </div>
         <div>Name: <input type="text" #name value="{{lehrer.name}}"> </div>
         <div>Kuerzel: <input type="text" #kuerzel value="{{lehrer.kuerzel}}"> </div>
-        <!-- <div>Faecher: <input type="text" #faecher value="{{lehrer.faecher}}"></div>
-        <div> Aufgaben: <input type="text" #aufgaben value="{{lehrer.aufgaben}}"></div>
-        <div>DeputatWunsch: <input type="number" #deputat value="{{lehrer.deputat}}"></div>-->
+         <div style="display:none">Faecher: <input type="text" #faecher value="{{lehrer.faecher}}"></div>
+        <div style="display:none"> Aufgaben: <input type="text" #aufgaben value="{{lehrer.aufgaben}}"></div>
+        <div style="display:none">DeputatWunsch: <input type="number" #deputat value="{{lehrer.deputat}}"></div>
         <button
           (click)="lehrerAdd(anrede.value,name.value,kuerzel.value,faecher.value,aufgaben.value,deputat.value)">Lehrer
           hinzufügen</button>

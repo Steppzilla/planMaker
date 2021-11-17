@@ -143,35 +143,32 @@
     <button (click)="abschnSub(absch)" style="background-color:inherit" width="40pt"> <img
         src="../../../assets/iconsNav/pfeilweißLinks.png" style="width:30pt"></button>
 
-    <ng-container>
-      <img *ngIf="absch==0" src="../../../assets/icons/sun.svg" width="40pt">
-      <img *ngIf="absch==1" src="../../../assets/icons/leaf.svg" width="40pt">
-      <img *ngIf="absch==2" src="../../../assets/icons/snowflake.svg" width="40pt">
-      <img *ngIf="absch==3" src="../../../assets/icons/spriessen.svg" width="40pt">
-    </ng-container>
-
-    <button triggers="click" [autoClose]="true" [ngbTooltip]="esrPlaene" placement="bottom">
+    
+    <button triggers="click" style="background-color:inherit" [autoClose]="true" [ngbTooltip]="esrPlaene" placement="bottom">
       {{gewaehlterPlan.toUpperCase()}}</button>
 
 
 
     <ng-template #esrPlaene>
-      <button class="noprint rhyB" (click)="wahl('rhythmus')">Rhythmus</button>
-      <button class="noprint epoB" (click)="wahl('epoche')">Epoche</button>
-      <button class="noprint schB" (click)="wahl('schiene')">Schiene</button>
+      <button class="noprint rhy" (click)="wahl('rhythmus')">Rhythmus</button>
+      <button class="noprint epo" (click)="wahl('epoche')">Epoche</button>
+      <button class="noprint sch" (click)="wahl('schiene')">Schiene</button>
     </ng-template>
 
-    <ng-container>
-      <img *ngIf="absch==0" src="../../../assets/icons/leaf.svg" width="40pt">
-      <img *ngIf="absch==1" src="../../../assets/icons/snowflake.svg" width="40pt">
-      <img *ngIf="absch==2" src="../../../assets/icons/spriessen.svg" width="40pt">
-      <img *ngIf="absch==3" src="../../../assets/icons/sun.svg" width="40pt">
-    </ng-container>
+    
 
     <button (click)="abschnAdd(absch)" style="background-color:inherit" width="40pt"> <img
         src="../../../assets/iconsNav/pfeilweißLinks.png" style="width:30pt;transform: rotate(180deg);;"></button>
 
   </h1>
+
+  <div id="mainContainer">
+  <div>
+    <img *ngIf="absch==0" src="../../../assets/icons/sun.svg" width="40pt">
+    <img *ngIf="absch==1" src="../../../assets/icons/leaf.svg" width="40pt">
+    <img *ngIf="absch==2" src="../../../assets/icons/snowflake.svg" width="40pt">
+    <img *ngIf="absch==3" src="../../../assets/icons/spriessen.svg" width="40pt">
+  </div>
 
   <div id="main" class="noprint">
 
@@ -225,7 +222,7 @@
                               <span class="neun {{markedd(ele.lehrer[0].kuerzel)}}"
                                 *ngIf="(k==0||(k>0&&ele.fach!=item[k-1].fach))">
                                 {{ele.fach}}
-                                (
+                              
                                 <span
                                   *ngIf="(ele.rhythmus-reiheFachStunden(rhy.neun, ele.fach,ele.stundenGesamt,'rhythmus',ele.klasse))<0.5 , else ROT"                                  style="color:green;">
                                   {{reiheFachStunden(rhy.neun, ele.fach,ele.stundenGesamt,'rhythmus',ele.klasse)|number: '1.1-1'}}
@@ -237,7 +234,7 @@
                                 </ng-template>
                                 |
                                 {{ele.rhythmus}}
-                                )
+                                
                               </span>
                             </ng-container>
                           </div>
@@ -277,7 +274,7 @@
                               <span class="zehn {{markedd(ele.lehrer[0].kuerzel)}}"
                                 *ngIf="(k==0||(k>0&&ele.fach!=item[k-1].fach))">
                                 {{ele.fach}}
-                                (
+                            
                                   <span
                                     *ngIf="(ele.rhythmus-reiheFachStunden(rhy.zehn, ele.fach,ele.stundenGesamt,'rhythmus',ele.klasse))<0.5 , else ROT"                                  style="color:green;">
                                     {{reiheFachStunden(rhy.zehn, ele.fach,ele.stundenGesamt,'rhythmus',ele.klasse)|number: '1.1-1'}}
@@ -289,7 +286,7 @@
                                   </ng-template>
                                   |
                                   {{ele.rhythmus}}
-                                  )
+                                
                               </span>
                             </ng-container>
                           </div>
@@ -329,7 +326,7 @@
                               <span class="elf {{markedd(ele.lehrer[0].kuerzel)}}"
                                 *ngIf="(k==0||(k>0&&ele.fach!=item[k-1].fach))">
                                 {{ele.fach}}
-                                (
+                            
                                   <span
                                     *ngIf="(ele.rhythmus-reiheFachStunden(rhy.elf, ele.fach,ele.stundenGesamt,'rhythmus',ele.klasse))<0.5 , else ROT"                                  style="color:green;">
                                     {{reiheFachStunden(rhy.elf, ele.fach,ele.stundenGesamt,'rhythmus',ele.klasse)|number: '1.1-1'}}
@@ -341,7 +338,7 @@
                                   </ng-template>
                                   |
                                   {{ele.rhythmus}}
-                                  )
+                                
                               </span>
                             </ng-container>
                           </div>
@@ -383,7 +380,7 @@
                               <span class="zwoelf {{markedd(ele.lehrer[0].kuerzel)}}"
                                 *ngIf="(k==0||(k>0&&ele.fach!=item[k-1].fach))">
                                 {{ele.fach}}
-                                (
+                            
                                   <span
                                     *ngIf="(ele.rhythmus-reiheFachStunden(rhy.zwoelf, ele.fach,ele.stundenGesamt,'rhythmus',ele.klasse))<0.1 , else ROT"                                  style="color:green;">
                                     {{reiheFachStunden(rhy.zwoelf, ele.fach,ele.stundenGesamt,'rhythmus',ele.klasse)|number: '1.1-1'}}
@@ -395,7 +392,7 @@
                                   </ng-template>
                                   |
                                   {{ele.rhythmus}}
-                                  )
+                                
                               </span>
                             </ng-container>
                           </div>
@@ -445,7 +442,7 @@
                               <span class="neun {{markedd(ele.lehrer[0].kuerzel)}}"
                                 *ngIf="(k==0||(k>0&&ele.fach!=item[k-1].fach))">
                                 {{ele.fach}}
-                                (   
+                              
                                   <span
                                     *ngIf="(ele.epoche-reiheFachStunden(epo.neun, ele.fach,ele.stundenGesamt,'epoche',ele.klasse))<0.5 , else ROT"                                  style="color:green;">
                                     {{reiheFachStunden(epo.neun, ele.fach,ele.stundenGesamt,'epoche',ele.klasse)|number: '1.1-1'}}
@@ -457,7 +454,7 @@
                                   </ng-template>
                                   |
                                   {{ele.epoche}}
-                                  )
+                                
                               </span>
                             </ng-container>
                           </div>
@@ -503,7 +500,7 @@
                               <span class="zehn {{markedd(ele.lehrer[0].kuerzel)}}"
                                 *ngIf="(k==0||(k>0&&ele.fach!=item[k-1].fach))">
                                 {{ele.fach}}
-                                (   
+                              
                                   <span
                                     *ngIf="(ele.epoche-reiheFachStunden(epo.zehn, ele.fach,ele.stundenGesamt,'epoche',ele.klasse))<0.5 , else ROT"                                  style="color:green;">
                                     {{reiheFachStunden(epo.zehn, ele.fach,ele.stundenGesamt,'epoche',ele.klasse)|number: '1.1-1'}}
@@ -515,7 +512,7 @@
                                   </ng-template>
                                   |
                                   {{ele.epoche}}
-                                  )
+                                
                               </span>
                             </ng-container>
                           </div>
@@ -555,7 +552,7 @@
                               <span class="elf {{markedd(ele.lehrer[0].kuerzel)}}"
                                 *ngIf="(k==0||(k>0&&ele.fach!=item[k-1].fach))">
                                 {{ele.fach}}
-                                (   
+                                
                                   <span
                                     *ngIf="(ele.epoche-reiheFachStunden(epo.elf, ele.fach,ele.stundenGesamt,'epoche',ele.klasse))<0.5 , else ROT"                                  style="color:green;">
                                     {{reiheFachStunden(epo.elf, ele.fach,ele.stundenGesamt,'epoche',ele.klasse)|number: '1.1-1'}}
@@ -567,7 +564,7 @@
                                   </ng-template>
                                   |
                                   {{ele.epoche}}
-                                  )
+                                
                               </span>
                             </ng-container>
                           </div>
@@ -608,7 +605,7 @@
                               <span class="zwoelf {{markedd(ele.lehrer[0].kuerzel)}}"
                                 *ngIf="(k==0||(k>0&&ele.fach!=item[k-1].fach))">
                                 {{ele.fach}}
-                                (   
+                               
                                   <span
                                     *ngIf="(ele.epoche-reiheFachStunden(epo.zwoelf, ele.fach,ele.stundenGesamt,'epoche',ele.klasse))<0.5 , else ROT"                                  style="color:green;">
                                     {{reiheFachStunden(epo.zwoelf, ele.fach,ele.stundenGesamt,'epoche',ele.klasse)|number: '1.1-1'}}
@@ -620,7 +617,7 @@
                                   </ng-template>
                                   |
                                   {{ele.epoche}}
-                                  )
+                                
                               </span>
                             </ng-container>
                           </div>
@@ -672,7 +669,7 @@
                               <span class="neun {{markedd(ele.lehrer[0].kuerzel)}}"
                                 *ngIf="(k==0||(k>0&&ele.fach!=item[k-1].fach))">
                                 {{ele.fach}}
-                                (   
+                                  
                                   <span
                                     *ngIf="(ele.schiene-reiheFachStunden(sch.neun, ele.fach,ele.stundenGesamt,'schiene',ele.klasse))<0.5 , else ROT"                                  style="color:green;">
                                     {{reiheFachStunden(sch.neun, ele.fach,ele.stundenGesamt,'schiene',ele.klasse)|number: '1.1-1'}}
@@ -684,7 +681,7 @@
                                   </ng-template>
                                   |
                                   {{ele.schiene}}
-                                  )
+                                
                               </span>
                             </ng-container>
                           </div>
@@ -730,7 +727,7 @@
                               <span class="zehn {{markedd(ele.lehrer[0].kuerzel)}}"
                                 *ngIf="(k==0||(k>0&&ele.fach!=item[k-1].fach))">
                                 {{ele.fach}}
-                                (   
+                                 
                                   <span
                                     *ngIf="(ele.schiene-reiheFachStunden(sch.zehn, ele.fach,ele.stundenGesamt,'schiene',ele.klasse))<0.5 , else ROT"                                  style="color:green;">
                                     {{reiheFachStunden(sch.zehn, ele.fach,ele.stundenGesamt,'schiene',ele.klasse)|number: '1.1-1'}}
@@ -742,7 +739,7 @@
                                   </ng-template>
                                   |
                                   {{ele.schiene}}
-                                  )
+                                
                               </span>
                             </ng-container>
                           </div>
@@ -783,7 +780,7 @@
                               <span class="elf {{markedd(ele.lehrer[0].kuerzel)}}"
                                 *ngIf="(k==0||(k>0&&ele.fach!=item[k-1].fach))">
                                 {{ele.fach}}
-                                (   
+                                 
                                   <span
                                     *ngIf="(ele.schiene-reiheFachStunden(sch.elf, ele.fach,ele.stundenGesamt,'schiene',ele.klasse))<0.5 , else ROT"                                  style="color:green;">
                                     {{reiheFachStunden(sch.elf, ele.fach,ele.stundenGesamt,'schiene',ele.klasse)|number: '1.1-1'}}
@@ -795,7 +792,7 @@
                                   </ng-template>
                                   |
                                   {{ele.schiene}}
-                                  )
+                                  
                               </span>
                             </ng-container>
                           </div>
@@ -839,7 +836,7 @@
                               <span class="zwoelf {{markedd(ele.lehrer[0].kuerzel)}}"
                                 *ngIf="(k==0||(k>0&&ele.fach!=item[k-1].fach))">
                                 {{ele.fach}}
-                                (   
+                                
                                   <span
                                     *ngIf="(ele.schiene-reiheFachStunden(sch.zwoelf, ele.fach,ele.stundenGesamt,'schiene',ele.klasse))<0.5 , else ROT"                                  style="color:green;">
                                     {{reiheFachStunden(sch.zwoelf, ele.fach,ele.stundenGesamt,'schiene',ele.klasse)|number: '1.1-1'}}
@@ -851,7 +848,7 @@
                                   </ng-template>
                                   |
                                   {{ele.schiene}}
-                                  )
+                                  
                               </span>
                             </ng-container>
                           </div>
@@ -879,16 +876,29 @@
               </div>
             </ng-container>
           </div>
+
+          
+
         </div>
       </ng-container>
 
 
     </ng-container>
 
+
+  
+
   </div>
 
+  <div>
+    <img *ngIf="absch==0" src="../../../assets/icons/leaf.svg" width="40pt">
+    <img *ngIf="absch==1" src="../../../assets/icons/snowflake.svg" width="40pt">
+    <img *ngIf="absch==2" src="../../../assets/icons/spriessen.svg" width="40pt">
+    <img *ngIf="absch==3" src="../../../assets/icons/sun.svg" width="40pt">
+  </div>
+ </div>
 
-
+  
 
 
 

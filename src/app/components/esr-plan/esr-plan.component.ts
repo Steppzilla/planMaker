@@ -76,7 +76,7 @@ export class EsrPlanComponent implements OnInit {
     let andereFaecher = zeilenArray.filter(el => el.fach !== fach);
     let abzug = 0;
     if(fachAuswahl.length>1){
-      abzug=1;
+      abzug=1; //chor?
 
       if (fach === Fach.wahlpflicht) {
         abzug = 2;

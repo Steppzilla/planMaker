@@ -22,6 +22,7 @@ import { UnterstrichEntfernenPipe } from './unterstrich-entfernen.pipe';
 import { GesamtplaeneAnsichtComponent } from './components/gesamtplaene-ansicht/gesamtplaene-ansicht.component';
 import { ERSGesamtAnsichtComponent } from './components/ers-gesamt-ansicht/ers-gesamt-ansicht.component';
 import { HomeComponent } from './components/home/home.component';
+import { PausenplanComponent } from './components/pausenplan/pausenplan.component';
 
 const config = {
   //apiKey: '<your-key>',
@@ -50,7 +51,8 @@ const config = {
     UnterstrichEntfernenPipe,
     GesamtplaeneAnsichtComponent,
     ERSGesamtAnsichtComponent,
-    HomeComponent
+    HomeComponent,
+    PausenplanComponent
   ],
   imports: [
     BrowserModule,
