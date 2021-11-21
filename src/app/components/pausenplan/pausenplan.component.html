@@ -22,7 +22,7 @@
 
   <tr *ngFor="let zeit of zeiten, index as z">
     <th>
-      <ng-container  *ngFor="let ort of orte, index as o">
+      <ng-container *ngFor="let ort of orte, index as o">
         <div class="ortBox" *ngIf="(z==0&&o==0)||(z==1&&o!==3)||(z==2&&o==3)||(z==3)">
           <div>
             {{ort}}
@@ -33,18 +33,19 @@
     <ng-container *ngFor="let tag of tage, index as t">
 
       <td *ngIf="tag!=='Samstag'&&tag!=='Sonntag'">
-        <ng-container  *ngFor="let ort of orte, index as o">
+        <ng-container *ngFor="let ort of orte, index as o">
           <div class="aufsichtBox" *ngIf="(z==0&&o==0)||(z==1&&o!==3)||(z==2&&o==3)||(z==3)">
-            <button  triggers="click"
-              [ngbTooltip]="LehrerKuerzel" placement="bottom">
+            <button triggers="click" [ngbTooltip]="LehrerKuerzel" placement="bottom">
               <ng-container *ngIf="pausenRaster$|async as pausenR">
                 <ng-container
                   *ngIf="pausenR[tag.toLowerCase()]&&pausenR[tag.toLowerCase()][zeitinString(zeit)]&&pausenR[tag.toLowerCase()][zeitinString(zeit)][ort]">
                   <ng-container *ngFor="let lehr of pausenR[tag.toLowerCase()][zeitinString(zeit)][ort]">
 
-                    <ng-container *ngIf="kuerzeleingeblendet"> {{lehr.kuerzel}}
+                    <ng-container *ngIf="kuerzeleingeblendet">
+                      {{lehr.kuerzel}}
                     </ng-container>
-                    <div *ngIf="!kuerzeleingeblendet"> {{lehr.name}}
+                    <div *ngIf="!kuerzeleingeblendet">
+                      {{lehr.name}}
                     </div>
 
                   </ng-container>
@@ -54,12 +55,391 @@
               </ng-container>
               <ng-template #LehrerKuerzel>
                 <div class="toggli">
-                  <ng-container id="haupttabelle" *ngIf="klassenplanServ.lehrerListe$| async as lehrerListe">
-                    <div *ngFor="let lehrer of lehrerListe">
-                      <button (click)="lehrereinfuegen($event,tag, ort, zeit,lehrer)">
-                        {{lehrer.kuerzel }}({{anzahlAufsichten(lehrer)}})
-                      </button>
-                    </div>
+                  <ng-container id="haupttabelle" *ngIf="alleLehrer$| async as lehrerPlanList">
+
+                    <ng-container *ngIf="z==0">
+                      <div *ngFor="let lehrer of lehrerPlanList">
+                        <span
+                          *ngIf="lehrer.planB[0][tagInZahl(tag)].fach!='HU'&&lehrer.planB[0][tagInZahl(tag)].fach!='Rhythmus'&&lehrer.planB[0][tagInZahl(tag)].klasse[0]==13||lehrer.planB[0][tagInZahl(tag)].klasse[0]<=8">
+
+                          <!-- wenn sie in der ersten stunde HU haben, nur erste stunde-->
+                          <button (click)="lehrereinfuegen($event,tag, ort, zeit,lehrer)">
+                            {{lehrer.kuerzel }}
+                            (
+                            {{anzahlAufsichten(lehrer)}}
+                            )
+                            <span style="color:rgb(88, 235, 96);">
+                              {{lehrer.planB[0][tagInZahl(tag)].fach? 1: "" }}
+                            </span>
+
+
+                            <!-- ende-->
+
+
+                          </button>
+
+                        </span>
+                      </div>
+
+                      <div *ngFor="let lehrer of lehrerPlanList">
+                        <!-- erste Stunde rhythmsu-->
+                        <span
+                          *ngIf="lehrer.planB[0][tagInZahl(tag)].fach&&lehrer.planB[0][tagInZahl(tag)].fach=='Rhythmus'">
+                          <button (click)="lehrereinfuegen($event,tag, ort, zeit,lehrer)">
+                            {{lehrer.kuerzel }}
+                            (
+                            {{anzahlAufsichten(lehrer)}}
+                            )
+
+                            <span style="color:rgb(194, 148, 78);">
+                              {{lehrer.planB[1][tagInZahl(tag)].fach? 1: "" }}
+                            </span>
+                            <!-- im rhythmus auch zeigen ob 3. Stunde , die nicht HU ist belegt is-->
+                            <span *ngIf="lehrer.planB[2][tagInZahl(tag)].fach!='HU'">
+                              <span style="color:rgb(213, 255, 215);">
+                                {{lehrer.planB[2][tagInZahl(tag)].fach? 3: "" }}
+                              </span>
+
+                            </span>
+                          </button>
+                        </span>
+                      </div>
+
+                      <div *ngFor="let lehrer of lehrerPlanList">
+                        <!--- 3. Stunde regulär-->
+                        <!-- erste bedingung: ist nicht in erster liste (HU 13. oder unter-mittelstufe)-->
+                        <ng-container *ngIf="!lehrer.planB[0][tagInZahl(tag)].fach">
+
+                          <!-- zweite Bedingung: ist nicht rhythmus drin-->
+                          <span
+                            *ngIf="lehrer.planB[2][tagInZahl(tag)].fach&&lehrer.planB[2][tagInZahl(tag)].fach!='HU'&&lehrer.planB[2][tagInZahl(tag)].fach!='Rhythmus'||lehrer.planB[2][tagInZahl(tag)].klasse[0]==13||lehrer.planB[2][tagInZahl(tag)].klasse[0]<=8">
+                            <button (click)="lehrereinfuegen($event,tag, ort, zeit,lehrer)">
+                              {{lehrer.kuerzel }}
+                              (
+                              {{anzahlAufsichten(lehrer)}}
+                              )
+                              <span style="color:rgb(213, 255, 215);">
+                                {{lehrer.planB[2][tagInZahl(tag)].fach? 3: "" }}
+                              </span>
+                            </button>
+                          </span>
+                        </ng-container>
+
+                      </div>
+                      <div *ngFor="let lehrer of lehrerPlanList">
+                        <!--- 3. Stunde regulär-->
+                        <!-- erste bedingung: ist nicht in erster liste (HU 13. oder unter-mittelstufe)-->
+                        <ng-container
+                          *ngIf="!lehrer.planB[0][tagInZahl(tag)].fach&&!lehrer.planB[2][tagInZahl(tag)].fach">
+
+                          <!-- zweite Bedingung: ist nicht rhythmus drin-->
+                          <span>
+                            <button (click)="lehrereinfuegen($event,tag, ort, zeit,lehrer)">
+                              {{lehrer.kuerzel }}
+                              (
+                              {{anzahlAufsichten(lehrer)}}
+                              )
+                              <span style="color:rgb(213, 255, 215);">
+                                {{lehrer.planB[2][tagInZahl(tag)].fach? 3: "" }}
+                              </span>
+                            </button>
+                          </span>
+                        </ng-container>
+
+                      </div>
+                    </ng-container>
+
+
+
+                    <ng-container *ngIf="z==1">
+
+                      <div *ngFor="let lehrer of lehrerPlanList">
+
+
+                        <!-- die erste pause unterstufe: jemand bei Stunde 2 oder 3 oder 4 anzeigen, aber nicht zweite stunde 9.-12. klasse, also  kein HU in 9.-12. klasse-->
+
+                        <!-- unterstufenlehrer 2. und 3. stunde: unterstufe oder 13. klasse b -->
+                        <!-- zuerst nur welche, die NCIHT in 3. stunde oberstufe sind (parallelzeit)-->
+                        <ng-container *ngIf="!lehrer.planB[2][tagInZahl(tag)].fach
+                          ||
+                          (
+                            lehrer.planB[2][tagInZahl(tag)].klasse[0]<=8
+                          ||lehrer.planB[2][tagInZahl(tag)].klasse[0]==13
+                          ) 
+                          ">
+                          <span *ngIf="
+                            lehrer.planB[1][tagInZahl(tag)].fach
+                     &&(
+                 
+                            lehrer.planB[1][tagInZahl(tag)].klasse[0]==13
+                            ||lehrer.planB[1][tagInZahl(tag)].klasse[0]<=8)
+                            ">
+                            <button (click)="lehrereinfuegen($event,tag, ort, zeit,lehrer)">
+                              {{lehrer.kuerzel }}
+                              (
+                              {{anzahlAufsichten(lehrer)}}
+                              )
+                              <span style="color:rgb(213, 255, 215);">
+                                {{lehrer.planB[1][tagInZahl(tag)].fach? 2: "" }}
+                              </span>
+                              <span
+                                *ngIf="lehrer.planB[2][tagInZahl(tag)].fach!='HU'&&lehrer.planB[2][tagInZahl(tag)].fach!='Rhythmus'||lehrer.planB[2][tagInZahl(tag)].klasse[0]==13||lehrer.planB[2][tagInZahl(tag)].klasse[0]<=8">
+
+                                <span style="color:rgb(213, 255, 215);">
+                                  {{lehrer.planB[2][tagInZahl(tag)].fach? 3: "" }}
+                                </span>
+
+                              </span>
+                            </button>
+                          </span>
+                        </ng-container>
+                      </div>
+
+                      <div *ngFor="let lehrer of lehrerPlanList">
+                        <!-- wenn nicht 2. stund ebesetzt is aba 3. in unterstufe oder 13. klasse-->
+                        <ng-container
+                          *ngIf="!lehrer.planB[1][tagInZahl(tag)].fach&&lehrer.planB[2][tagInZahl(tag)].fach">
+                          <span
+                            *ngIf="lehrer.planB[2][tagInZahl(tag)].klasse[0]==13||lehrer.planB[2][tagInZahl(tag)].klasse[0]<=8">
+                            <button (click)="lehrereinfuegen($event,tag, ort, zeit,lehrer)">
+                              {{lehrer.kuerzel }}
+                              (
+                              {{anzahlAufsichten(lehrer)}}
+                              )
+                              <span style="color:rgb(213, 255, 215);">
+                                {{lehrer.planB[2][tagInZahl(tag)].fach? 3: "" }}
+                              </span>
+                            </button>
+                          </span>
+                        </ng-container>
+                      </div>
+                      <div *ngFor="let lehrer of lehrerPlanList">
+
+                        <!-- rot: oberstufenlehrer im HU, also 3. Stunde, die können da nicht!
+                          -->
+
+                        <span
+                          *ngIf="lehrer.planB[2][tagInZahl(tag)].klasse[0]<=12&&lehrer.planB[2][tagInZahl(tag)].klasse[0]>=9 ">
+                          <button (click)="lehrereinfuegen($event,tag, ort, zeit,lehrer)">
+                            {{lehrer.kuerzel }}
+                            (
+                            {{anzahlAufsichten(lehrer)}}
+                            )
+                            <span style="color:rgb(213, 255, 215);background-color: red;">
+                              3
+                            </span>
+                          </button>
+                        </span>
+                      </div>
+                      <div *ngFor="let lehrer of lehrerPlanList">
+
+                        <!-- stunde 4 auch anzeigen -->
+                        <!-- nur wenn 2.und 3. stunde nicht belegt-->
+                        <ng-container
+                          *ngIf="!lehrer.planB[1][tagInZahl(tag)].fach&&!lehrer.planB[2][tagInZahl(tag)].fach">
+
+                          <span *ngIf="lehrer.planB[3][tagInZahl(tag)].fach">
+                            <button (click)="lehrereinfuegen($event,tag, ort, zeit,lehrer)">
+                              {{lehrer.kuerzel }}
+                              (
+                              {{anzahlAufsichten(lehrer)}}
+                              )
+                              <span style="color:rgb(213, 255, 215);">
+                                {{ 4}}
+                              </span>
+                            </button>
+                          </span>
+                        </ng-container>
+                      </div>
+                      <div *ngFor="let lehrer of lehrerPlanList">
+
+                        <!-- stunde 4 auch anzeigen -->
+                        <!-- nur wenn 2.und 3. stunde nicht belegt-->
+                        <ng-container
+                          *ngIf="!lehrer.planB[1][tagInZahl(tag)].fach&&!lehrer.planB[2][tagInZahl(tag)].fach&&!lehrer.planB[3][tagInZahl(tag)].fach">
+
+                          <button (click)="lehrereinfuegen($event,tag, ort, zeit,lehrer)">
+                            {{lehrer.kuerzel }}
+                            (
+                            {{anzahlAufsichten(lehrer)}}
+                            )
+                            <span style="color:rgb(213, 255, 215);">
+
+                            </span>
+                          </button>
+                        </ng-container>
+                      </div>
+
+                    </ng-container>
+
+
+
+
+                    <ng-container *ngIf="z==2">
+                      <div *ngFor="let lehrer of lehrerPlanList">
+
+                        <!-- die erste pause oberstufe: jemand bei Stunde 3 in klasse 9-12, aber nicht dritte stunde Unterstufe. Alle in 4. stunde mgl-->
+
+                        <!--  3. stunde löasse 9-12: - NEIN denn das ist HU und ist unregelmäßig-->
+
+
+                        <!-- stunde 4  anzeigen , wenn 4 gibt, && stunde 3 in Unterstufe oder 13. klasse is -->
+
+                        <span
+                          *ngIf="lehrer.planB[3][tagInZahl(tag)].fach&&!(lehrer.planB[2][tagInZahl(tag)].fach&&lehrer.planB[2][tagInZahl(tag)].klasse<=8||lehrer.planB[2][tagInZahl(tag)].klasse==13)">
+                          <button (click)="lehrereinfuegen($event,tag, ort, zeit,lehrer)">
+                            {{lehrer.kuerzel }}
+                            (
+                            {{anzahlAufsichten(lehrer)}}
+                            )
+
+                            <span style="color:rgb(213, 255, 215);">
+                              {{ 4}}
+                            </span>
+                          </button>
+                        </span>
+                      </div>
+                      <div *ngFor="let lehrer of lehrerPlanList">
+
+                        <!-- rot: Unterstufe/13. Klasse 3. Stunde, die können da nicht!
+                          -->
+                        <span
+                          *ngIf="lehrer.planB[2][tagInZahl(tag)].fach&&lehrer.planB[2][tagInZahl(tag)].klasse[0]==13||lehrer.planB[2][tagInZahl(tag)].klasse[0]<=8 ">
+                          <button (click)="lehrereinfuegen($event,tag, ort, zeit,lehrer)">
+                            {{lehrer.kuerzel }}
+                            (
+                            {{anzahlAufsichten(lehrer)}}
+                            )
+                            <span style="color:rgb(213, 255, 215);background-color: red;">
+                              {{ 3 }}
+                            </span>
+                          </button>
+                        </span>
+                      </div>
+
+                      <div *ngFor="let lehrer of lehrerPlanList">
+                        <!-- rest   ... wenn 3. stunde in mittelstufe oder 3. stunde nicht existiert, und: wenn 4. Stunde nicht existiert-->
+                        <ng-container *ngIf="!lehrer.planB[3][tagInZahl(tag)].fach">
+                          <span
+                            *ngIf="!lehrer.planB[2][tagInZahl(tag)].fach||lehrer.planB[2][tagInZahl(tag)].klasse[0]<=12&&lehrer.planB[2][tagInZahl(tag)].klasse[0]>=9 ">
+                            <button (click)="lehrereinfuegen($event,tag, ort, zeit,lehrer)">
+                              {{lehrer.kuerzel }}
+                              (
+                              {{anzahlAufsichten(lehrer)}}
+                              )
+                              <span style="color:rgb(213, 255, 215);">
+
+                              </span>
+                            </button>
+                          </span>
+                        </ng-container>
+                      </div>
+                    </ng-container>
+
+
+
+
+
+                    <ng-container *ngIf="z==3">
+                      <div *ngFor="let lehrer of lehrerPlanList">
+
+                        <!-- die zweite  pause: Alle in 4. oder 5.,6. Stunde aktiven-->
+
+
+                        <!-- stunde 4 auch anzeigen -->
+
+                        <span *ngIf="lehrer.planB[3][tagInZahl(tag)].fach">
+                          <button (click)="lehrereinfuegen($event,tag, ort, zeit,lehrer)">
+                            {{lehrer.kuerzel }}
+                            (
+                            {{anzahlAufsichten(lehrer)}}
+                            )
+                            <span style="color:rgb(213, 255, 215);">
+                              {{ 4}}
+                            </span>
+                            <span
+                              *ngIf="lehrer.planB[4][tagInZahl(tag)].fach&&lehrer.planB[4][tagInZahl(tag)].fach!=='Schiene'">
+                              <span style="color:rgb(213, 255, 215);">
+                                {{ 5}}
+                              </span>
+                            </span>
+                            <span
+                              *ngIf="lehrer.planB[5][tagInZahl(tag)].fach&&lehrer.planB[5][tagInZahl(tag)].fach!=='Schiene'">
+                              <span style="color:rgb(213, 255, 215);">
+                                {{ 6}}
+                              </span>
+                            </span>
+                          </button>
+                        </span>
+                      </div>
+
+                      <div *ngFor="let lehrer of lehrerPlanList">
+                        <!-- nur wenn 3, also 4. stunde nicht existiert, die waren schon oben angezeigt-->
+                        <ng-container *ngIf="!lehrer.planB[3][tagInZahl(tag)].fach">
+
+                          <span
+                            *ngIf="lehrer.planB[4][tagInZahl(tag)].fach&&lehrer.planB[4][tagInZahl(tag)].fach!=='Schiene'">
+                            <button (click)="lehrereinfuegen($event,tag, ort, zeit,lehrer)">
+                              {{lehrer.kuerzel }}
+                              (
+                              {{anzahlAufsichten(lehrer)}}
+                              )
+                              <span style="color:rgb(213, 255, 215);">
+                                {{ 5}}
+                              </span>
+                              <span
+                                *ngIf="lehrer.planB[5][tagInZahl(tag)].fach&&lehrer.planB[5][tagInZahl(tag)].fach!=='Schiene'">
+                                <span style="color:rgb(213, 255, 215);">
+                                  {{ 6}}
+                                </span>
+                              </span>
+                            </button>
+                          </span>
+                        </ng-container>
+                      </div>
+                      <div *ngFor="let lehrer of lehrerPlanList">
+                        <ng-container
+                          *ngIf="!lehrer.planB[3][tagInZahl(tag)].fach&&!lehrer.planB[4][tagInZahl(tag)].fach">
+                          <span
+                            *ngIf="lehrer.planB[5][tagInZahl(tag)].fach&&lehrer.planB[5][tagInZahl(tag)].fach!=='Schiene'">
+                            <button (click)="lehrereinfuegen($event,tag, ort, zeit,lehrer)">
+                              {{lehrer.kuerzel }}
+                              (
+                              {{anzahlAufsichten(lehrer)}}
+                              )
+                              <span style="color:rgb(213, 255, 215);">
+                                {{ 6}}
+                              </span>
+                            </button>
+
+                          </span>
+                        </ng-container>
+                      </div>
+                      <!--- die nicht belegt sind , rest-->
+                      <div *ngFor="let lehrer of lehrerPlanList">
+                        <ng-container
+                          *ngIf="!lehrer.planB[3][tagInZahl(tag)].fach&&!lehrer.planB[4][tagInZahl(tag)].fach&&!lehrer.planB[5][tagInZahl(tag)].fach">
+                          <span
+                            >
+                            <button (click)="lehrereinfuegen($event,tag, ort, zeit,lehrer)">
+                              {{lehrer.kuerzel }}
+                              (
+                              {{anzahlAufsichten(lehrer)}}
+                              )
+  
+                            </button>
+
+                          </span>
+                        </ng-container>
+                      </div>
+
+                    </ng-container>
+
+
+
+
+
+
                   </ng-container>
                   <!--    <ng-container *ngIf="lehrerAuswahl$|async as auswahl">
                   <ng-container *ngFor="let lehre of auswahl[z][t]">

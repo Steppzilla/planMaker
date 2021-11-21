@@ -37,6 +37,9 @@ export class EpochenPlaeneService {
   pausenPlan =new BehaviorSubject(null);
   pausenPlan$= this.pausenPlan.asObservable();
 
+  mittagsPlan =new BehaviorSubject(null);
+  mittagsPlan$= this.mittagsPlan.asObservable();
+
   ferienListe;
 
   aktuelleEpo$ = this.planDatum$.pipe(
@@ -186,7 +189,7 @@ constructor(public ferienTermServ: FerientermineService, public klassenplan: Kla
   });
 
   this.pausenPlan.next([]);
-
+  this.mittagsPlan.next([]);
   this.esr_plan.next(blankoPlan);
   let datum = new Date();
  this.planDatum.next(addDays(datum,0));

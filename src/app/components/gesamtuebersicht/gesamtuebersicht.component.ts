@@ -106,6 +106,7 @@ export class GesamtuebersichtComponent implements OnInit {
 
   }
 
+
   gesamtRaster$ = this.klassenplanServ.grundPlanfaecher$.pipe( //Bei Änderungen im Plan updaten
 
     map(z => {
@@ -128,22 +129,43 @@ export class GesamtuebersichtComponent implements OnInit {
           }
 
           if (el.lehrer.length === 0) {
-            ar[woT.toLowerCase()][std][klasse].push([el.fach, "NN"]);
+            if(woT=="Montag"){
+            console.log(el.fach);
+              console.log(el);
+            }
+            if (zuw.lehrer) {
+        //      console.log(el.fach);
+         //     console.log(zuw.lehrer.kuerzel)
+              ar[woT.toLowerCase()][std][klasse].push([el.fach, zuw.lehrer.kuerzel]);
+            } 
+            else {
+            //  console.log("NN");
+            //  console.log(el.fach);
+      
+            //  console.log("----------------------");
+
+              ar[woT.toLowerCase()][std][klasse].push([el.fach, "NN"]);
+            }
+
+
           }
 
           //wenn lehrer vorhanden
           el.lehrer.forEach(lehr => {
-            //   console.log(el.fach);
-            //   console.log(lehr.kuerzel
-            if (lehr) {
+
+          //  console.log(el.fach);
+            //    console.log(lehr.kuerzel)
+
+            if (lehr && lehr.kuerzel) {
+
               ar[woT.toLowerCase()][std][klasse].push([el.fach, lehr.kuerzel]);
             } else {
-
 
             }
           });
         });
       });
+      console.log(ar);
       return ar;
     })
   );
@@ -210,8 +232,7 @@ export class GesamtuebersichtComponent implements OnInit {
           } else {
             duplicates++;
             if (fachd === (Fach.hauptunterricht || Fach.schiene || Fach.rhythmisch || Fach.orchester ||
-                Fach.wahlpflicht || Fach.chor || Fach.mittelstufenorchester)) {
-            }
+                Fach.wahlpflicht || Fach.chor || Fach.mittelstufenorchester)) {}
           }
         }
       });
@@ -377,6 +398,31 @@ export class GesamtuebersichtComponent implements OnInit {
     });
     this.klassenplanServ.grundPlanfaecher.next(neu);
     //Bei HU und epoche ggf nichts ändern? 
+  }
+
+
+  mittagEinfuegen(std, klas) {
+    let neu = this.klassenplanServ.grundPlanfaecher.getValue();
+    /* neu.forEach((element, e) => {
+       if (element != null && element.fach ==  && element.klasse == clickedElementt.klasse && (element.uebstunde > 0)) {
+
+         if (element.lehrer[0] == null || element.lehrer[0].kuerzel === null) {
+           element.zuweisung.uebstunde.push({
+             wochentag: this.wochenTagauswahl,
+             stunde: stdZ
+           });
+         } else if (element.lehrer[0].kuerzel == clickedElementt.lehrer[0].kuerzel) {
+
+           element.zuweisung.uebstunde.push({
+             wochentag: this.wochenTagauswahl,
+             stunde: stdZ
+           });
+         }
+         //bei HGW auch die einzelnen Fächer hochzählen
+       }
+     });*/
+    this.klassenplanServ.grundPlanfaecher.next(neu);
+
   }
 
 

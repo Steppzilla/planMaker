@@ -57,9 +57,17 @@
 
                   <div class="fach">
                     <ng-container *ngFor="let item of cell;index as i">
-                      <ng-container
-                        *ngIf="(i==0||(i>0&&item[0]!=cell[i-1][0]))">
+                      <ng-container *ngIf="(i==0||(i>0&&item[0]!=cell[i-1][0]))">
+                        <ng-container *ngIf="item[0]=='Mittag'"> 
+                          <span style="color:blue;">
                         {{ item[0]}}
+                      </span>
+                      </ng-container>
+                      <ng-container *ngIf="item[0]!=='Mittag'"> 
+                        <span >
+                      {{ item[0]}}
+                    </span>
+                    </ng-container>
                       </ng-container>
                     </ng-container>
                   </div>
@@ -67,16 +75,23 @@
                   <div class="kuerzl">
                     <ng-container *ngFor="let item of cell;index as i">
                       <ng-container *ngIf="item[0]!='Rhythmus'&&item[0]!='HU'&&item[0]!='Schiene'||r<8; else ESR">
+                        <ng-container *ngIf="item[1]!=='NN'">
                         <span class="{{markedd(item[1])}} {{duplicatesss(item[1] ,zeile,item[0])}} ">
+                         
                           {{item[1] }}
+                    
                         </span>
+                      </ng-container>
                       </ng-container>
                       <ng-template #ESR>
                         <ng-container
                           *ngIf="markedd(item[1])=='blueback'||duplicatesss(item[1],zeile,item[0])==='error'">
+                          <ng-container *ngIf="item[1]!=='NN'">
                           <span class="{{markedd(item[1])}} {{duplicatesss(item[1] ,zeile,item[0])}}">
+                            
                             {{item[1] }}
                           </span>
+                        </ng-container>
                         </ng-container>
                       </ng-template>
                     </ng-container>
@@ -115,7 +130,6 @@
                               <div class="error">
                                 {{elementt?berechnungAktuelleStunden(elementt): "no"}}
                               </div>
-
                             </ng-template>
                           </div>
                           <div class="toggle-items">
@@ -136,6 +150,7 @@
                         </div>
                       </ng-container>
                     </ng-container>
+
                   </ng-container>
                 </ng-template>
               </td>

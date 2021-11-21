@@ -99,32 +99,32 @@ export class EinzelplaeneComponent implements OnInit {
     mergeMap(async z => {
       //   let ar = new Array();
       return (await this.klassenServ.lehrerListe$.pipe(
-        filter(e=>e!==null),
-        take(1)).toPromise())
+          filter(e => e !== null),
+          take(1)).toPromise())
         .slice(0, this.lehrerListe.length).map(gg => {
-        let lehrerElemente = z[gg.kuerzel];
-        let wochenPlan = new Array(11).fill(null).map(g =>
-          new Array(5).fill(null).map(() => ({
-            fach: null,
-            klasse: []
-          }))
-        );
-        if (lehrerElemente !== undefined) {
-          lehrerElemente.forEach(element => {
-            element.zuweisung.uebstunde.forEach(zuweisung => {
-              if (wochenPlan[zuweisung.stunde][this.tagInZahl(zuweisung.wochentag)].fach === null) {
-                wochenPlan[zuweisung.stunde][this.tagInZahl(zuweisung.wochentag)].fach = element.fach;
-              }
-              wochenPlan[zuweisung.stunde][this.tagInZahl(zuweisung.wochentag)].klasse.push(element.klasse);
+          let lehrerElemente = z[gg.kuerzel];
+          let wochenPlan = new Array(11).fill(null).map(g =>
+            new Array(5).fill(null).map(() => ({
+              fach: null,
+              klasse: []
+            }))
+          );
+          if (lehrerElemente !== undefined) {
+            lehrerElemente.forEach(element => {
+              element.zuweisung.uebstunde.forEach(zuweisung => {
+                if (wochenPlan[zuweisung.stunde][this.tagInZahl(zuweisung.wochentag)].fach === null) {
+                  wochenPlan[zuweisung.stunde][this.tagInZahl(zuweisung.wochentag)].fach = element.fach;
+                }
+                wochenPlan[zuweisung.stunde][this.tagInZahl(zuweisung.wochentag)].klasse.push(element.klasse);
+              });
             });
-          });
-        }
-        return {
-          kuerzel: gg.kuerzel,
-          planB: wochenPlan,
-          //  planB:
-        }
-      });
+          }
+          return {
+            kuerzel: gg.kuerzel,
+            planB: wochenPlan,
+            //  planB:
+          }
+        });
     }),
     tap(z => {
       // console.log(z);

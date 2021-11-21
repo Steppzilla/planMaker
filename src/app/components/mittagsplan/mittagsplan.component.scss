@@ -1,0 +1,14 @@
+button{width:50pt;
+height:20pt;
+}.toggli {
+    width: 120pt;
+    display: flex;
+    flex-wrap: wrap;
+  
+    button {
+      padding: 0pt;
+      width: auto;
+      height: auto;
+      margin:1pt;
+    }
+  }

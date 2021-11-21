@@ -23,6 +23,7 @@ import { GesamtplaeneAnsichtComponent } from './components/gesamtplaene-ansicht/
 import { ERSGesamtAnsichtComponent } from './components/ers-gesamt-ansicht/ers-gesamt-ansicht.component';
 import { HomeComponent } from './components/home/home.component';
 import { PausenplanComponent } from './components/pausenplan/pausenplan.component';
+import { MittagsplanComponent } from './components/mittagsplan/mittagsplan.component';
 
 const config = {
   //apiKey: '<your-key>',
@@ -52,7 +53,8 @@ const config = {
     GesamtplaeneAnsichtComponent,
     ERSGesamtAnsichtComponent,
     HomeComponent,
-    PausenplanComponent
+    PausenplanComponent,
+    MittagsplanComponent
   ],
   imports: [
     BrowserModule,

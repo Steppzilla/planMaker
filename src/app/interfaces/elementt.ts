@@ -14,11 +14,10 @@ export interface Elementt {
     rhythmus: number;
     schiene: number;
     epoche:number;
-    kollektion?:Fach;
     zuweisung?: 
    
         {
-            uebstunde:  Array<{wochentag:string,stunde:number}>,//Wochentag als Zahl 0=Sonntag bis 6 = Samstag  , - ,die wievielte Stunde an diesem Tag 
+            uebstunde:  Array<{wochentag:string,stunde:number,lehrer?:Lehrer}>,//lehrer nur bei mittagspausen genutzt
             rhythmus:  Array<{start:Date,ende:Date}>,
             epoche: Array<{start:Date,ende:Date}>,
             schiene: Array<{start:Date,ende:Date}>,

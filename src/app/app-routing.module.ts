@@ -10,6 +10,7 @@ import { EinzelplaeneComponent } from './components/einzelplaene/einzelplaene.co
 import { StartComponent } from './components/start/start.component';
 import { HomeComponent } from './components/home/home.component';
 import { PausenplanComponent } from './components/pausenplan/pausenplan.component';
+import { MittagsplanComponent } from './components/mittagsplan/mittagsplan.component';
 
 
 const routes: Routes =[
@@ -24,6 +25,7 @@ children:[
   {path: "einzelPlaene", component: EinzelplaeneComponent},
   {path: "home", component: HomeComponent},
   {path: "pausenAufsicht", component: PausenplanComponent},
+  {path: "essen", component:MittagsplanComponent}
 ]},
 {path: 'gesamtplan', component: GesamtuebersichtComponent},
 

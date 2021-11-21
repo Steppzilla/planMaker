@@ -1,0 +1,96 @@
+<ng-container *ngIf="mittagsplan$|async as Plan">
+
+  <ng-container *ngFor="let wochenT of ['Montag','Dienstag','Mittwoch','Donnerstag','Freitag']">
+    <h1> {{wochenT}} </h1>
+
+    <div *ngFor="let elementt of Plan">
+
+
+      <ng-container *ngFor="let it of elementt.zuweisung.uebstunde">
+        <p *ngIf="it.wochentag==wochenT">
+          {{elementt.klasse}}. Klasse {{it.stunde+1}}.Stunde
+          <button triggers="click" [ngbTooltip]="LehrerKuerzel0" placement="bottom"
+            (click)="lehrerloeschen($event, wochenT,elementt.klasse,it.stunde,lehrer)">
+            <ng-container *ngIf="elementt.zuweisung.uebstunde.length>0">
+
+
+              {{it.lehrer?it.lehrer.kuerzel:""}}
+
+            </ng-container>
+            <ng-template #LehrerKuerzel0>
+
+              <div class="toggli">
+                <ng-container id="haupttabelle" *ngIf="alleLehrer$| async as lehrerPlanList">
+                  <div *ngFor="let lehrer of lehrerPlanList">
+
+                    <!-- wnen mittagspausen-stunde nicht bleegt ist und vorher oder nachher unterricht stattfindet-->
+                    <ng-container *ngIf="!lehrer.planB[it.stunde][tagInZahl(wochenT)].fach&&(lehrer.planB[it.stunde-1][tagInZahl(wochenT)].fach||lehrer.planB[it.stunde+1][tagInZahl(wochenT)].fach)">
+                      <button (click)="lehrereinfuegen($event, wochenT,elementt.klasse,it.stunde,lehrer)">
+                        {{lehrer.kuerzel }}
+
+
+
+
+                        <span style="color:rgb(0, 0, 0);background-color:lightgreen;">
+                          {{lehrer.planB[it.stunde-1][tagInZahl(wochenT)].fach? "v": "" }}
+                        </span>
+                        <span style="color:rgb(0, 0, 0);background-color:lightgreen">
+                          {{lehrer.planB[it.stunde+1][tagInZahl(wochenT)].fach? "n": "" }}
+                        </span>
+
+                      </button>
+                    </ng-container>
+                  </div>
+
+                  <div *ngFor="let lehrer of lehrerPlanList">
+
+                    <!-- wnen mittagspausen-stunde nicht bleegt ist und vorher oder nachher kein unterricht stattfindet-->
+                    <ng-container *ngIf="!lehrer.planB[it.stunde][tagInZahl(wochenT)].fach&&!(lehrer.planB[it.stunde-1][tagInZahl(wochenT)].fach||lehrer.planB[it.stunde+1][tagInZahl(wochenT)].fach)">
+                      <button (click)="lehrereinfuegen($event, wochenT,elementt.klasse,it.stunde,lehrer)">
+                        {{lehrer.kuerzel }}
+
+
+
+
+                        <span style="color:rgb(0, 0, 0);background-color:lightgreen;">
+                          {{lehrer.planB[it.stunde-1][tagInZahl(wochenT)].fach? "v": "" }}
+                        </span>
+                        <span style="color:rgb(0, 0, 0);background-color:lightgreen">
+                          {{lehrer.planB[it.stunde+1][tagInZahl(wochenT)].fach? "n": "" }}
+                        </span>
+
+                      </button>
+                    </ng-container>
+                  </div>
+
+                  <div *ngFor="let lehrer of lehrerPlanList">
+                    <ng-container *ngIf="lehrer.planB[it.stunde][tagInZahl(wochenT)].fach">
+                      <button (click)="lehrereinfuegen($event, wochenT,elementt.klasse,it.stunde,lehrer)">
+                        <span style="color:rgb(235, 88, 88);">
+                          {{lehrer.kuerzel }}
+                        </span>
+
+
+
+                      </button>
+                    </ng-container>
+                  </div>
+                </ng-container>
+
+
+
+
+
+
+
+              </div>
+            </ng-template>
+          </button>
+        </p>
+      </ng-container>
+    </div>
+
+
+
+  </ng-container>
+</ng-container>

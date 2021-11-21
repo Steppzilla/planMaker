@@ -2,8 +2,13 @@ import {
   Component,
   OnInit
 } from '@angular/core';
+import { Observable } from 'rxjs';
 import {
-  map
+  filter,
+  map,
+  mergeMap,
+  take,
+  tap
 } from 'rxjs/operators';
 import {
   PausenZeit
@@ -14,6 +19,7 @@ import {
 import {
   Wochentag
 } from 'src/app/enums/wochentag.enum';
+import { Elementt } from 'src/app/interfaces/elementt';
 import {
   PausenItem
 } from 'src/app/interfaces/pausen-item';
@@ -33,7 +39,7 @@ import {
   styleUrls: ['./pausenplan.component.scss']
 })
 export class PausenplanComponent implements OnInit {
-
+  lehrerListe;
   orte = Object.values(PausenaufsichtsOrte);
   zeiten = Object.values(PausenZeit);
 
@@ -328,6 +334,65 @@ anzahlAufsichten(lehrer){
   );
 
 
+  
+  lehrerArray$: Observable < {
+    [key: string]: Elementt[]
+  } > =
+  this.klassenplanServ.grundPlanfaecher$.pipe(
+    filter(r => r !== null),
+    map(x => {
+      let obj: {
+        [key: string]: Elementt[]
+      } = {};
+      x.forEach((ele: Elementt) => {
+        ele.lehrer.forEach(le => {
+          if (obj[le.kuerzel] === undefined) {
+            obj[le.kuerzel] = [];
+          }
+          obj[le.kuerzel].push(ele);
+        });
+      });
+      return obj;
+    }));
+
+alleLehrer$ = this.lehrerArray$.pipe(
+
+  //ASYNC HACK!!!
+  mergeMap(async z => {
+    //   let ar = new Array();
+    return (await this.klassenplanServ.lehrerListe$.pipe(
+        filter(e => e !== null),
+        take(1)).toPromise())
+      .slice(0, this.lehrerListe.length).map(gg => {
+        let lehrerElemente = z[gg.kuerzel];
+        let wochenPlan = new Array(11).fill(null).map(g =>
+          new Array(5).fill(null).map(() => ({
+            fach: null,
+            klasse: []
+          }))
+        );
+        if (lehrerElemente !== undefined) {
+          lehrerElemente.forEach(element => {
+            element.zuweisung.uebstunde.forEach(zuweisung => {
+              if (wochenPlan[zuweisung.stunde][this.tagInZahl(zuweisung.wochentag)].fach === null) {
+                wochenPlan[zuweisung.stunde][this.tagInZahl(zuweisung.wochentag)].fach = element.fach;
+              }
+              wochenPlan[zuweisung.stunde][this.tagInZahl(zuweisung.wochentag)].klasse.push(element.klasse);
+            });
+          });
+        }
+        return {
+          kuerzel: gg.kuerzel,
+          planB: wochenPlan,
+          //  planB:
+        }
+      });
+  }),
+  tap(z => {
+    // console.log(z);
+  })
+);
+
   zeitinString(zeit) {
 
     //console.log(zeit);
@@ -344,11 +409,28 @@ anzahlAufsichten(lehrer){
     }
   }
 
+  tagInZahl(wochent: string) {
+    switch (wochent) {
+      case Wochentag.montag:
+        return 0;
+      case Wochentag.dienstag:
+        return 1;
+      case Wochentag.mittwoch:
+        return 2;
+      case Wochentag.donnerstag:
+        return 3;
+      case Wochentag.freitag:
+        return 4;
+    }
+  }
   constructor(public epochenplanServ: EpochenPlaeneService, public lehrerServ: LehrerService, 
     public klassenplanServ: KlassenplaeneService) {
     this.klassenplanServ.grundPlanfaecher$.subscribe((data) => {
       this.grundPlanfaecher = data;
       //  console.log(data);
+    });
+    this.klassenplanServ.lehrerListe$.subscribe((data) => {
+      this.lehrerListe = data
     });
 
   }
