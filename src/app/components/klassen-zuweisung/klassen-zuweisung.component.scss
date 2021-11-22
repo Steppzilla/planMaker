@@ -19,6 +19,10 @@ $schriftfarbe:black;
 //$linienDark:rgb(63, 63, 63);
 $hover:rgb(98, 107, 146);
 
+
+
+#tabell{margin-left:auto;
+margin-right:auto;}
 th {
   font-weight: normal;
 }
@@ -28,7 +32,6 @@ th {
 margin-left: auto;
 margin-right:auto;
 }
-
 
 
 
@@ -306,3 +309,7 @@ th.links {
   font-weight: bold;
 
 }
+
+
+  .centerContain{
+  text-align:center;}

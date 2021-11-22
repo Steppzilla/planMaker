@@ -27,53 +27,23 @@ export class MittagsplanComponent implements OnInit {
     )
   );
 
+  kuerzeleingeblendet=true;
 
+  namenKuerzelToggle(){
+    if(this.kuerzeleingeblendet===true){
+      this.kuerzeleingeblendet=false;
+      console.log("F");
+    }else{
+      this.kuerzeleingeblendet=true;
+      console.log("T");
+    }
+  }
 
   inInt(zahl){
     return parseInt(zahl);
   }
 
-  gesamtRaster$ = this.klassenplanServ.grundPlanfaecher$.pipe( //Bei Änderungen im Plan updaten
 
-    map(z => {
-      let ar = {
-        montag: new Array(11).fill(null).map(x => new Array(13)),
-        dienstag: new Array(11).fill(null).map(x => new Array(13)),
-        mittwoch: new Array(11).fill(null).map(x => new Array(13)),
-        donnerstag: new Array(11).fill(null).map(x => new Array(13)),
-        freitag: new Array(11).fill(null).map(x => new Array(13))
-      };
-      z.forEach(el => {
-        el.zuweisung.uebstunde.forEach(zuw => {
-          //  ["Montag", "Dienstag", "Mittwoch", "Donnerstag"].forEach(wochenTag=>{
-          let std = zuw.stunde;
-          let woT = zuw.wochentag;
-          let klasse = parseInt(el.klasse) - 1;
-
-          if (ar[woT.toLowerCase()][std][klasse] === undefined) {
-            ar[woT.toLowerCase()][std][klasse] = new Array();
-          }
-
-          if (el.lehrer.length === 0) {
-            ar[woT.toLowerCase()][std][klasse].push([el.fach, "NN"]);
-          }
-
-          //wenn lehrer vorhanden
-          el.lehrer.forEach(lehr => {
-            //   console.log(el.fach);
-            //   console.log(lehr.kuerzel
-            if (lehr) {
-              ar[woT.toLowerCase()][std][klasse].push([el.fach, lehr.kuerzel]);
-            } else {
-
-
-            }
-          });
-        });
-      });
-      return ar;
-    })
-  );
 
   mittagsplan$=this.klassenplanServ.grundPlanfaecher$.pipe( //Bei Änderungen im Plan updaten
     map(z => {
@@ -85,7 +55,7 @@ export class MittagsplanComponent implements OnInit {
   );
 
 lehrereinfuegen($event, wot,klasse,stunde,lehrer){
-  console.log(stunde);
+  console.log(lehrer);
 
   let ar=this.klassenplanServ.grundPlanfaecher.getValue();
 let neu=[];
@@ -93,7 +63,7 @@ ar.forEach(elem=>{
   if(elem.fach==Fach.mittag){
   elem.zuweisung.uebstunde.forEach(item=>{
   
-    if(item.stunde==stunde&&item.wochentag==wot&&elem.klasse==klasse&&elem.fach===Fach.mittag){
+    if(item.stunde==stunde&&item.wochentag==wot&&elem.klasse==klasse&&(elem.fach===Fach.mittag)){
       item.lehrer=lehrer;
       console.log(elem);
     }
@@ -193,7 +163,7 @@ alleLehrer$ = this.lehrerArray$.pipe(
         });
       }
       return {
-        kuerzel: gg.kuerzel,
+        lehrer: gg,
         planB: wochenPlan,
         //  planB:
       }

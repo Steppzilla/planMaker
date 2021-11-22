@@ -27,7 +27,7 @@
       <button (click)="klasseWaehlen(13)">13</button>
     </ng-template>
   </h1>
-
+<div class="centerContain">
   <button class="noprint" (click)="print()">
     <ng-container *ngIf="!printAktiv">
       Alle Klassen anzeigen
@@ -36,6 +36,7 @@
       Plan reduzieren
     </ng-container>
   </button>
+</div>
   <ng-container *ngIf="fachElemente$| async as Fachh">
     <table id="tabell">
       <tr>
@@ -189,10 +190,12 @@
 
 
     <ng-container *ngIf="!printAktiv">
-      <button class="noprint" triggers="click" placement="bottom" class="" [autoClose]="true" [ngbTooltip]="Faecher">
+      <div class=" centerContain">
+      <button class="noprint" triggers="click" placement="top" class="" [autoClose]="true" [ngbTooltip]="Faecher">
         Fach hinzufügen
         <img width="30pt;" src="../../../assets/icons/add.png" />
       </button>
+    </div>
 
       <ng-template #Faecher>
 

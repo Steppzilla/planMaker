@@ -418,7 +418,7 @@
                       <!--- die nicht belegt sind , rest-->
                       <div *ngFor="let lehrer of lehrerPlanList">
                         <ng-container
-                          *ngIf="!lehrer.planB[3][tagInZahl(tag)].fach&&!lehrer.planB[4][tagInZahl(tag)].fach&&!lehrer.planB[5][tagInZahl(tag)].fach">
+                          *ngIf="!lehrer.planB[3][tagInZahl(tag)].fach&&!lehrer.planB[4][tagInZahl(tag)].fach&&!lehrer.planB[5][tagInZahl(tag)].fach||(lehrer.planB[5][tagInZahl(tag)].fach=='Schiene'&&!lehrer.planB[3][tagInZahl(tag)].fach)">
                           <span
                             >
                             <button (click)="lehrereinfuegen($event,tag, ort, zeit,lehrer)">

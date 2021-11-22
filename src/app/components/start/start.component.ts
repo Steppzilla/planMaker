@@ -143,7 +143,7 @@ export class StartComponent implements OnInit {
 
           });
         }
-        console.log(neuObj);
+    //    console.log(neuObj);
         return neuObj;
       }));
 

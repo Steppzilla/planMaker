@@ -127,23 +127,11 @@ export class GesamtuebersichtComponent implements OnInit {
           if (ar[woT.toLowerCase()][std][klasse] === undefined) {
             ar[woT.toLowerCase()][std][klasse] = new Array();
           }
-
           if (el.lehrer.length === 0) {
-            if(woT=="Montag"){
-            console.log(el.fach);
-              console.log(el);
-            }
             if (zuw.lehrer) {
-        //      console.log(el.fach);
-         //     console.log(zuw.lehrer.kuerzel)
               ar[woT.toLowerCase()][std][klasse].push([el.fach, zuw.lehrer.kuerzel]);
             } 
             else {
-            //  console.log("NN");
-            //  console.log(el.fach);
-      
-            //  console.log("----------------------");
-
               ar[woT.toLowerCase()][std][klasse].push([el.fach, "NN"]);
             }
 
@@ -165,7 +153,7 @@ export class GesamtuebersichtComponent implements OnInit {
           });
         });
       });
-      console.log(ar);
+    //  console.log(ar);
       return ar;
     })
   );
@@ -507,7 +495,7 @@ export class GesamtuebersichtComponent implements OnInit {
     this.kuerzeleinblenden = false;
     this.klassenplanServ.grundPlanfaecher$.subscribe((data) => {
       this.grundPlanfaecher = data;
-      console.log(data);
+     // console.log(data);
     });
     this.wochentagWahl(this.wochenTagauswahl);
     this.tagesPlan = login.leerestagesRaster();

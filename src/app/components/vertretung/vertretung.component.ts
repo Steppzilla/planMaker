@@ -144,7 +144,7 @@ export class VertretungComponent implements OnInit {
 
         });
       });
-  console.log(ar);
+  //console.log(ar);
       return ar;
     }),
 

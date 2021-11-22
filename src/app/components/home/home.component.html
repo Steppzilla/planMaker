@@ -5,14 +5,12 @@
   <button (click)="redirect('lehrerListe')" title="Lehrer ergänzen oder weiteren Fächern zuweisen">
     <img src="../../../assets/icons/mann.png">
     <img src="../../../assets/icons/bildung.png">
-    <p>Lehrer/Fächer: Hier kann man den Lehrern weitere Fächer zuweisen, oder fehlende Lehrer ergänzen</p>
+    <p>Lehrer/Fächer zuweisen oder ändern</p>
   </button>
 
   <button (click)="redirect('klasseFach')" title="Stunden bzw. Fächer in Klassen ergänzen oder diese Lehrern zuweisen">
     <img src="../../../assets/icons/teamwork.png ">
-    <p>Klassen/Fächer/Lehrer: Hier kann man die Anzahl der Stunden in einer Klasse für ein Fach festlegen und Lehrer
-      diesem
-      Fach der Klasse zuweisen</p>
+    <p>Klassen/Fächer/Lehrer zuweisen oder ändern</p>
   </button>
   <button (click)="redirect('gesamtplan')" title="Stundenpläne bearbeiten">
     <div class="miniTable">Mo <br>
@@ -40,7 +38,7 @@
     </div>
     <br>
     <br>
-    <p>Gesamtplan: Hier kann man den Gesamt-Stundenplan aller Klassen ändern (Mo / Di / Mi / Do / Fr einzeln Navigation)
+    <p>Gesamtplan ändern
     </p>
 
 
@@ -67,8 +65,7 @@
     </div>
     <br>
     <br>
-    <p>Epochenpläne: Hier kann man Termine ändern (Fahrten der Klassen, Projekte, Ferientermine etc.) und die Epoche /
-      Schiene / Rhythmus bearbeiten (weiterhin Navigation Abschnittsweise bis zu den Ferien jeweils)</p>
+    <p>Epochenpläne ändern /Termine ändern  </p>
 
 
   </button>
@@ -91,8 +88,7 @@
       </div>
     <br>
     <br>
-    <p>Vertretungsplan: Hier kann man die Vertretung planen und den Plan ausdrucken, es wird aber aktuell nichts
-      gespeichert
+    <p>Vertretungsplan ändern (keine Speichermöglichkeit)
     </p>
   </button>
   <button (click)="redirect('einzelPlaene')" title="Einzelne Lehrer-Stundenplan anschauen oder drucken">
@@ -116,18 +112,18 @@
     </div>
     <br>
     <br>
-    <p>Lehrerpläne: Hier kann von einzelnen Lehrern der Stundenplan angezeigt werden, oder per Button auch alle
-      Lehrerpläne.
+    <p>Lehrerpläne anzeigen bzw. drucken
     </p>
   </button>
 
-  <button (click)="redirect('pausenAufsicht')" title="Einzelne Lehrer-Stundenplan anschauen oder drucken">
+  <button (click)="redirect('pausenAufsicht')" title="Pausenaufsicht">
     <img src="../../../assets/icons/basketball.png"      width="50pt" height="50pt" />
+    <p> Pausenaufsicht</p>
 
     </button>
-    <button (click)="redirect('essen')" title="Einzelne Lehrer-Stundenplan anschauen oder drucken">
+    <button (click)="redirect('essen')" title="Mittagessen-Betreuung">
       <img src="../../../assets/icons/eat.png"      width="50pt" height="50pt" />
-  
+  <p>Mittagessen-Betreuung</p>
       </button>
 
 

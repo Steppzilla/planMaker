@@ -1,6 +1,7 @@
-button{width:50pt;
-height:20pt;
-}.toggli {
+
+
+*{}
+.toggli {
     width: 120pt;
     display: flex;
     flex-wrap: wrap;
@@ -12,3 +13,31 @@ height:20pt;
       margin:1pt;
     }
   }
+
+.ele{
+  //  background-color:green;
+  .zeile{
+    width:260pt;
+    //background-color:pink;
+      margin-left:auto;
+      margin-right:auto;
+
+      line-height:20pt;
+      display:grid;
+      grid-template-columns: 60pt 60pt 140pt;
+
+      .klasse{
+
+      }
+      .stunde{
+
+      }
+      button{
+        width:auto;
+        padding-left:6pt;
+        padding-right:6pt;
+        border-radius: 6pt;
+
+      }
+  }
+}

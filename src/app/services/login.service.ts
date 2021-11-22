@@ -119,7 +119,7 @@ export class LoginService {
     });
     this.store.collection('plaene').doc("pausenplan").valueChanges().subscribe((plaene) => { //in Firebase heißt der Ordner plaene. das erste Element [0] ist "gesamtplaene", darin sind die pläne:   
       let pausenplanJSO = JSON.parse(atob(plaene["stundenElemente"]));
-console.log(pausenplanJSO);
+//console.log(pausenplanJSO);
       this.epochenPlanServ.pausenPlan.next(pausenplanJSO); //opt: .concat(ele) um Element hinzuzufügen beim Load der Daten
       //  this.klassenPlanServ.elementHinzufuegen(Fach.kunstgeschichte,Lehrjahr.neun);
 
@@ -347,7 +347,7 @@ console.log(pausenplanJSO);
         return obj;
       }
       let esrPlan: Array < Array < TagesObjekt >>= [abschnitt1, abschnitt2, abschnitt3, abschnitt4];
-     console.log(esrPlan);
+   //  console.log(esrPlan);
       this.epochenPlanServ.esr_plan.next(esrPlan);
       //  
     });
