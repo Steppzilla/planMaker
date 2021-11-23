@@ -17,8 +17,10 @@
 .ele{
   //  background-color:green;
   .zeile{
+  
+    margin:2pt;
     width:260pt;
-    //background-color:pink;
+   // background-color:pink;
       margin-left:auto;
       margin-right:auto;
 
@@ -27,9 +29,11 @@
       grid-template-columns: 60pt 60pt 140pt;
 
       .klasse{
+        margin:auto;
 
       }
       .stunde{
+        margin:auto;
 
       }
       button{
@@ -37,7 +41,17 @@
         padding-left:6pt;
         padding-right:6pt;
         border-radius: 6pt;
-
+      
+          width: 90%;
+     //     height: 50pt;
+          background-color: rgb(155, 187, 214);
+          border-radius: 5pt;
+          border: 1px rgb(54, 97, 134) solid;
+          margin-left: 4pt;
+          margin-right: 4pt;
+          margin-bottom: 2pt;
+          margin-top: 2pt;
+ 
       }
   }
 }

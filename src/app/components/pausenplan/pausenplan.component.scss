@@ -1,3 +1,5 @@
+*{font-size:12pt;}
+
 h1 {
   margin-top: 20pt;
 }
@@ -30,13 +32,13 @@ table {
 
 .aufsichtBox {
   button {
-   // width: 54pt;
+    width: 90%;
     height: 50pt;
-    background-color: steelblue;
+    background-color: rgb(155, 187, 214);
     border-radius: 5pt;
-    border: 1px rgb(12, 57, 94) solid;
-    margin-left: 6pt;
-    margin-right: 6pt;
+    border: 1px rgb(54, 97, 134) solid;
+    margin-left: 4pt;
+    margin-right: 4pt;
     margin-bottom: 2pt;
     margin-top: 2pt;
   }
@@ -52,8 +54,8 @@ table {
     height: 50pt;
     justify-content: center;
     align-items: center;
-    margin-left: 6pt;
-    margin-right: 6pt;
+  //  margin-left: 4pt;
+    margin-right: 4pt;
     margin-bottom: 2pt;
     margin-top: 2pt;
 
@@ -80,7 +82,10 @@ table {
 }
 
 
+.ganzerName{font-size:13pt;}
+
 @media print {
+
   .aufsichtBox {
     button {
       border: 0pt black solid;
@@ -103,7 +108,7 @@ table {
   }
 
   table {
-    line-height:12pt;
+    line-height:19pt;
     width: 100%;
 
     tr {
@@ -125,7 +130,7 @@ table {
       margin:0pt;
  
     }
-
+    
   }
   .ortBox:nth-child(n){
     border-top:1px black dashed;
@@ -133,5 +138,6 @@ table {
    .ortBox:first-child{
      border-top:0px black solid;
    }
+
   
 }
