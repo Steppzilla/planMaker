@@ -27,7 +27,17 @@
                   <ng-container *ngIf="item?.fach else ITEM">
                     <td class="fach {{item?.fach}}">
                       <div>
-                        {{item?.fach}}
+
+                        <ng-container *ngIf="item.fach=='Mittag'">
+                          <span style="color:blue;">
+                            {{ item.fach}}
+                          </span>
+                        </ng-container>
+                        <ng-container *ngIf="item.fach!=='Mittag'">
+                          <span>
+                            {{ item.fach}}
+                          </span>
+                        </ng-container>
                         <span class="klasse" *ngFor="let x of item?.klasse">
                           {{x}}
                         </span>
@@ -99,7 +109,27 @@
                 </ng-container>
 
               </ng-container>
+              <!-- container ende, noch epochenplan-->
+              <ng-container *ngIf="pausenRaster$|async as pausenR">
+                <div class="centr">
+                  <div *ngIf="pausenR[lehre.kuerzel]">
+                    Pausenaufsicht:
+                  </div>
+                  <div *ngFor="let item of pausenR[lehre.kuerzel]">
+
+                    
+                    {{item.wochentag}}
+                    {{item.pausenZeit}}
+                    {{item.ort}}
+
+
+                  </div>
+                </div>
+              </ng-container>
+
             </div>
+
+
           </ng-container>
         </ng-container>
       </div>

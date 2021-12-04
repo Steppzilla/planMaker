@@ -20,6 +20,12 @@ import {
   Lehrjahr
 } from 'src/app/enums/lehrjahr.enum';
 import {
+  PausenZeit
+} from 'src/app/enums/pausen-zeit.enum';
+import {
+  PausenaufsichtsOrte
+} from 'src/app/enums/pausenaufsichts-orte.enum';
+import {
   Wochentag
 } from 'src/app/enums/wochentag.enum';
 import {
@@ -28,6 +34,9 @@ import {
 import {
   Lehrer
 } from 'src/app/interfaces/lehrer';
+import {
+  PausenItem
+} from 'src/app/interfaces/pausen-item';
 import {
   TagesObjekt
 } from 'src/app/interfaces/tages-objekt';
@@ -49,6 +58,9 @@ import {
 import {
   LoginService
 } from 'src/app/services/login.service';
+import {
+  getGeneratedNameForNode
+} from 'typescript';
 
 @Component({
   selector: 'app-einzelplaene',
@@ -79,25 +91,31 @@ export class EinzelplaeneComponent implements OnInit {
     this.klassenServ.grundPlanfaecher$.pipe(
       filter(r => r !== null),
       map(x => {
+        console.log(x);
         let obj: {
           [key: string]: Elementt[]
         } = {};
         x.forEach((ele: Elementt) => {
-          //Mittag extra:
+          //Mittagspause extra:
+          if (ele.fach == Fach.mittag) {
+            ele.zuweisung.uebstunde.forEach(el => {
+              if (el.lehrer && obj[el.lehrer.kuerzel] === undefined) {
+                obj[el.lehrer.kuerzel] = [];
+              } else if (el.lehrer) {
+                obj[el.lehrer.kuerzel].push(ele);
+              }
+            });
+          }
           //console.log(ele);
           ele.lehrer.forEach(le => {
-            // "NN " also mittagspausen vorher raussschreiben:?
-
-
-
-            //Ende mittagspause
+    
             if (obj[le.kuerzel] === undefined) {
               obj[le.kuerzel] = [];
             }
             obj[le.kuerzel].push(ele);
           });
         });
-   //     console.log(obj)
+        //     console.log(obj)
         return obj;
       }));
 
@@ -110,6 +128,8 @@ export class EinzelplaeneComponent implements OnInit {
         filter(e => e !== null),
         take(1)).toPromise()).map(gg => {
         let lehrerElemente = z[gg.kuerzel];
+        console.log(gg.kuerzel);
+        console.log(lehrerElemente);
         let wochenPlan = new Array(11).fill(null).map(g =>
           new Array(5).fill(null).map(() => ({
             fach: null,
@@ -119,22 +139,34 @@ export class EinzelplaeneComponent implements OnInit {
         if (lehrerElemente !== undefined) {
           lehrerElemente.forEach(element => {
             element.zuweisung.uebstunde.forEach(zuweisung => {
+              //wenn mittag nicht zum lehrer gehört, nicht anzeigen
+              if (zuweisung.lehrer && zuweisung.lehrer.kuerzel !== gg.kuerzel) {
+
+              } else
               if (wochenPlan[zuweisung.stunde][this.tagInZahl(zuweisung.wochentag)].fach === null) {
                 wochenPlan[zuweisung.stunde][this.tagInZahl(zuweisung.wochentag)].fach = element.fach;
               }
+              if (zuweisung.lehrer && zuweisung.lehrer.kuerzel === gg.kuerzel||element.fach!==Fach.mittag) { //ewwnen bei mittagspause lehrer definiert und gleich is ODER nicht mittag
               wochenPlan[zuweisung.stunde][this.tagInZahl(zuweisung.wochentag)].klasse.push(element.klasse);
+              }
             });
           });
         }
+
+        //      if(gg.kuerzel=="By"){
+        // console.log(gg.kuerzel);
+        //    console.log(wochenPlan);
+        //    }
         return {
           kuerzel: gg.kuerzel,
           planB: wochenPlan,
           //  planB:
         }
+
       });
     }),
     tap(z => {
-      // console.log(z);
+
     })
   );
 
@@ -1016,9 +1048,44 @@ export class EinzelplaeneComponent implements OnInit {
 
 
 
+  pausenRaster$ = this.epochenPlanS.pausenPlan$.pipe( //Bei Änderungen im Plan updaten
+    map(z => {
+      let ar = [];
+      // let obj={wochenTag:Wochentag,zeit:PausenZeit,ort:PausenaufsichtsOrte};
 
+      if (z !== null) {
 
+        z.forEach((el: PausenItem) => {
+       //   console.log(el);
 
+          if (el.lehrer) {
+            if (!ar[el.lehrer.kuerzel]) {
+              ar[el.lehrer.kuerzel] = [];
+            }
+            ar[el.lehrer.kuerzel].push(el);
+          }
+        });
+      }
+    //  console.log(ar);
+      return ar;
+    })
+  );
+
+  zeitinString(zeit) {
+
+    //console.log(zeit);
+    if (zeit === "7:45-8:00") {
+      return "eins"
+    } else if (zeit === "9:35-9:55") {
+      return "zwei"
+    } else
+    if (zeit === "10:25-10:45") {
+      return "drei"
+    } else
+    if (zeit === "11:30-11:45") {
+      return "vier"
+    }
+  }
 
 
   constructor(

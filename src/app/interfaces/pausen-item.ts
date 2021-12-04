@@ -5,7 +5,7 @@ import { Lehrer } from "./lehrer";
 
 export interface PausenItem {
 
-    lehrer:Array<Lehrer>,
+    lehrer:Lehrer,
     ort:PausenaufsichtsOrte,
     pausenZeit: PausenZeit,
     wochentag: Wochentag
