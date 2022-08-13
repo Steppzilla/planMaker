@@ -1,168 +1,27 @@
-<div id="menuLeiste" class="{{this.epochenplaeneServ.layout}}">
-
-<br>
+<div id="menuLeiste">
   <button (click)="redirect('lehrerListe')" title="Lehrer ergänzen oder weiteren Fächern zuweisen">
-    <div>
-    </div>
-    <p>Lehrer / Fächer</p>
-
-    <br>
-    <div class="beispielTable">
-    <table >
-      <tr>
-        <td>
-          <ng-container>
-            <img src="../../../assets/icons/mann.png" width="20pt">
-          </ng-container>
-          Herr Musimann
-          <span>
-            <img class="editImg" src="../../../assets/icons/editing.png">
-          </span>
-        </td>
-        <td>
-           Musik
-          <span>
-            <img class="editImg" src="../../../assets/icons/editing.png">
-          </span>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <ng-container>
-            <img src="../../../assets/icons/businesswoman.png" width="20pt">
-          </ng-container>
-          Frau Baum
-          <span>
-            <img class="editImg" src="../../../assets/icons/editing.png">
-          </span>
-        </td>
-        <td>
-           Gartenbau
-          <span>
-            <img class="editImg" src="../../../assets/icons/editing.png">
-          </span>
-        </td>
-      </tr>
-    </table>
-    </div>
-
-
+    Lehrer / Fächer - Zuweisungen
   </button>
-
   <button (click)="redirect('klasseFach')" title="Stunden bzw. Fächer in Klassen ergänzen oder diese Lehrern zuweisen">
-    <div>
-      <img src="../../../assets/icons/teamwork.png ">
-    </div>
-    <p>Klassen/Unterricht</p>
+    Klassen / Unterricht - Zuweisungen
   </button>
   <button (click)="redirect('gesamtplan')" title="Stundenpläne bearbeiten">
-    <div class="miniTable">Mo <br>
-      <table>
-        <tr>
-          <td> </td>
-          <td> 1 </td>
-          <td> 2 </td>
-          <td> 3 </td>
-        </tr>
-        <tr>
-          <td> 1 </td>
-          <td> </td>
-          <td> </td>
-          <td> </td>
-        </tr>
-        <tr>
-          <td> 2 </td>
-          <td> </td>
-          <td> </td>
-          <td> </td>
-        </tr>
-      </table>
-    </div>
-    <p>Gesamtplan ändern
-    </p>
+    Gesamt- / Stundenplan ändern
   </button>
-
   <button (click)="redirect('ESR')" title="Epochenpläne bearbeiten oder Termine (Ferien/Prüfungen/Fahrten...)">
-    <div class="miniTable2">August <br>
-      <table>
-        <tr>
-          <td> </td>
-          <td> 1. </td>
-          <td> 8. </td>
-          <td> 15. </td>
-        </tr>
-        <tr>
-          <td> Kl.9 </td>
-          <td colSpan="3"> <img src="../../../assets/icons/iris.png" /></td>
-        </tr>
-        <tr>
-          <td> Kl.10 </td>
-          <td colSpan="3"> <img src="../../../assets/icons/math.png " /></td>
-        </tr>
-
-      </table>
-    </div>
-    <p>Epochenpläne ändern /Termine ändern </p>
-
-
+    Epochenpläne ändern / Termine ändern 
   </button>
   <button (click)="redirect('vertretung')" title="Vertretung planen">
-    <div class="miniTable">Mo <br>
-      <table>
-        <tr>
-          <td> </td>
-          <td> 1 </td>
-          <td> 2 </td>
-          <td> 3 </td>
-        </tr>
-        <tr>
-          <td> 1 </td>
-          <td> </td>
-          <td> <img src="../../../assets/icons/businesswoman.png " width="10pt" /></td>
-          <td> <img src="../../../assets/icons/man.png " width="10pt" /></td>
-        </tr>
-      </table>
-    </div>
-    <p>Vertretungsplan ändern (keine Speichermöglichkeit)
-    </p>
+    Vertretungsplan ändern (keine Speichermöglichkeit)
   </button>
   <button (click)="redirect('einzelPlaene')" title="Einzelne Lehrer-Stundenplan anschauen oder drucken">
-    <div class="miniTable"><img src="../../../assets/icons/businesswoman.png " width="10pt" height="10pt" /> <br>
-      <table>
-        <tr>
-          <td> </td>
-          <td> 1 </td>
-          <td> 2 </td>
-          <td> 3 </td>
-        </tr>
-        <tr>
-          <td> 1 </td>
-          <td> </td>
-          <td> </td>
-          <td> </td>
-        </tr>
-
-
-      </table>
-    </div>
-    <p>Lehrerpläne anzeigen bzw. drucken
-    </p>
+    Lehrerpläne anzeigen bzw. drucken
   </button>
-
   <button (click)="redirect('pausenAufsicht')" title="Pausenaufsicht">
-    <div>
-      <img src="../../../assets/icons/basketball.png" width="50pt" height="50pt" />
-    </div>
-    <p> Pausenaufsicht</p>
-
+   Pausenaufsicht
   </button>
   <button (click)="redirect('essen')" title="Mittagessen-Betreuung">
-    <div>
-      <img src="../../../assets/icons/eat.png" width="50pt" height="50pt" />
-    </div>
-    <p>Mittagessen-Betreuung</p>
+    Mittagessen-Betreuung
   </button>
-
-
 </div>
-<app-hinweise></app-hinweise>
+<!--<app-hinweise></app-hinweise>-->

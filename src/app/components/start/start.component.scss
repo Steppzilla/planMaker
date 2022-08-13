@@ -1,124 +1,92 @@
-* {
-  //color: black;
-  // background-color: rgb(88, 70, 116);
+h1 {
+  display: flex;
+  justify-content: space-around;
 }
-
 
 #menuLeiste {
-  display:flex;
-justify-content: center;
-flex-wrap:wrap;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  align-items: stretch;
 
   button {
-    margin:3pt;
-    border-radius:5pt;
-  border:none;
-    height: 40pt;
-    
+    overflow: hidden;
+    margin: 3pt;
+    border-radius: 5pt;
+    border: none;
+    height: 25pt;
+    background: none;
 
     >img {
-      height: 30pt;
+      height: 25pt;
     }
   }
 }
 
-
-.miniTable{
-  position: relative;
-  top:-16pt;
-  margin:0pt;
-  padding:0pt;
-  font-size:6pt;
-  line-height: 7pt;
-  tr{
-    td{
-      border:1pt black solid;
-    }
-  }
-  height:5pt;
-
-}
-.miniTable2{
-  position: relative;
-  top:-16pt;
-  margin:0pt;
-  padding:0pt;
-  font-size:6pt;
-  line-height: 7pt;
-  tr{
-    td{
-      >img{height:7pt;}
-      border:1pt black solid;
-    }
-  }
-  height:5pt;
-
- 
-}
-
-#savemenu {
-  //Load, save-element mit datum und speicherplatzwahl
-  border-radius: 10pt;
-  padding: 4pt;
-  text-align: center;
-  background-color:rgb(196, 233, 225);
-  width: 70pt;
-  position: fixed;
-  top: 45pt;
-  right: 0pt;
-  line-height: 11pt;
-
-  .date {
-    font-size: 11pt;
-    text-align: center;
-  }
-
-  .speicher{
-
-  }
-
-    .load {
-      padding:3pt;
-      background-color: rgb(122, 204, 122);
-    border:none;
-    border-radius:5pt;
-    }
-
-      .save {
-        padding:3pt;
-      background-color: rgb(207, 132, 132);
-      border:none;
-      border-radius:5pt;
-    }
-    button{border-radius:15pt;}
-
-
-}
-
-.home {
+.miniTable {
   img {
-    width: 30pt;
+    height: 6pt;
   }
-}
 
-#Lehrerselect {
-  //Menu mit LehrerKuerzel-buttons
-  position: fixed;
-  top:100pt;
-  right:0pt;
-  text-align: center;
-  width: auto;
-  div {
-     button {
-      margin: 0pt;
-      // margin-right:1pt;
-      padding: 0.5pt;
-      width: 40pt;
-      border-radius: 5pt;
-     
+  margin:0pt;
+  margin-top:-13pt;
+  padding:0pt;
+  font-size:6pt;
+  font-weight: bold;
+  line-height: 6pt;
+
+  tr {
+    td {
+      border: 1px black solid;
     }
   }
 
+  height:5pt;
+}
+
+.menu2 {
+  background-color: grey;
+  display: flex;
+  justify-content: space-around;
+
+  #savemenu {
+    display: grid;
+    grid-template-columns: 60pt 40pt 40pt;
+    //Load, save-element mit datum und speicherplatzwahl
+    text-align: center;
+    .load {
+      background-color: rgb(122, 204, 122);
+      border: none;
+    }
+    .save {
+      background-color: rgb(207, 132, 132);
+      border: none;
+    }
+
+  }
+  .home {
+    img {
+      width: 30pt;
+    }
+  }
+
+  #Lehrerselect {
+    height:12pt;
+    //Menu mit LehrerKuerzel-buttons
+    text-align: center;
+    div {
+      button {
+        img {
+          height: 12pt;
+        }
+        margin: 0pt;
+        border:none;
+        padding: 0.5pt;
+        height:100%;
+        background:rgb(192, 248, 255);
+      }
+    }
+  }
 }
 
 .HU,
@@ -140,45 +108,33 @@ flex-wrap:wrap;
   background-color: rgb(255, 144, 133);
 }
 
-.toggleMenuLeher{
+.toggleMenuLeher {
   position: absolute;
-  top:30pt;
-  right:0pt;
-  display:flex;
-  width:160pt;
-  flex-wrap:wrap;
-  >div{
-    background-color:steelblue;
+  top: 30pt;
+  right: 0pt;
+  display: flex;
+  width: 160pt;
+  flex-wrap: wrap;
+
+  >div {
+    background-color: steelblue;
   }
 }
-
 
 
 @media only screen and (max-width: 760px),
 (min-device-width: 768px) and (max-device-width: 1024px) {
   #Lehrerselect {
-    height: 50pt;
   }
-
 }
 
 @media only screen and (max-width: 460px),
 (min-device-width: 468px) and (max-device-width: 624px) {
   #Lehrerselect {
-    height: 60pt;
   }
+
   #savemenu {
-    //Load, save-element mit datum und speicherplatzwahl
-   
+    //Load, save-element mit datum und speicherplatzwahl   
     top: 85pt;
   }
 }
-
-
-.dark{
-  img{  -webkit-filter: grayscale(50%) invert(0.5);
-    filter: grayscale(100%) invert(0);}
-}
-
-
-

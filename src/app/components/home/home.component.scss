@@ -1,99 +1,15 @@
-* {
-  padding: 0pt;
-  margin: 0pt;
+
+button:first-child{
+  margin-top:20pt;
 }
 
-
-
-.light{
-
-}
-.editImg {
-  width: 15pt;
-}
-.beispielTable {
-
-  border: 1px black solid;
-  border-radius: 10pt;
-
-  table {
-    text-align: left;
-  }
+button:last-child{
+  margin-bottom:20pt;
 }
 
-
-#menuLeiste {
-
-
-  button {
-    overflow: hidden;
-    width: 200pt;
-    height: 110pt;
-    text-align: center;
-    padding: 10pt;
-    border-radius: 15pt;
-    margin: 0pt;
-
-    div>img {
-      height: 30pt;
-      width: 30pt;
-    }
-
-    >p {
-      padding: 0pt;
-      margin: 0pt;
-    }
-  }
-}
-
-
-.miniTable {
-  text-align: center;
-  width: 30pt;
-  margin: 0pt;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 0pt;
-  font-size: 10pt;
-  line-height: 10pt;
-
-  tr {
-    td {
-      border: 1pt black solid;
-    }
-  }
-
-  //height:5pt;
-
-}
-
-.miniTable2 {
-
-
-  text-align: center;
-  width: 30pt;
-
-  margin: 0pt;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 0pt;
-  font-size: 10pt;
-  line-height: 10pt;
-
-  tr {
-    td {
-      >img {
-        height: 10pt;
-      }
-
-      border:1pt black solid;
-    }
-  }
-
-  // height:5pt;
-
-
-}
-
-
-
+button{width:100%;
+margin-bottom:5pt;
+border:none;
+ background:none;
+border-bottom:1px black dotted;
+border-top:1px black dotted;}
