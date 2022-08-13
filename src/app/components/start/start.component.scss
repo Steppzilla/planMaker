@@ -1,5 +1,5 @@
 * {
-  color: black;
+  //color: black;
   // background-color: rgb(88, 70, 116);
 }
 
@@ -14,13 +14,14 @@ flex-wrap:wrap;
     border-radius:5pt;
   border:none;
     height: 40pt;
-    background-color:rgb(196, 233, 225);
+    
 
     >img {
       height: 30pt;
     }
   }
 }
+
 
 .miniTable{
   position: relative;
@@ -172,3 +173,12 @@ flex-wrap:wrap;
     top: 85pt;
   }
 }
+
+
+.dark{
+  img{  -webkit-filter: grayscale(50%) invert(0.5);
+    filter: grayscale(100%) invert(0);}
+}
+
+
+

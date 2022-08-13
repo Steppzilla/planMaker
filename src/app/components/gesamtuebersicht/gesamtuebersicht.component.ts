@@ -20,6 +20,7 @@ import {
 import {
   Lehrer
 } from 'src/app/interfaces/lehrer';
+import { EpochenPlaeneService } from 'src/app/services/epochen-plaene.service';
 import {
   KlassenplaeneService
 } from 'src/app/services/klassenplaene.service';
@@ -490,7 +491,8 @@ export class GesamtuebersichtComponent implements OnInit {
   constructor(
     public lehrerService: LehrerService,
     public login: LoginService,
-    public klassenplanServ: KlassenplaeneService) {
+    public klassenplanServ: KlassenplaeneService,
+    public epochenPlanS:EpochenPlaeneService) {
     this.wochenTagauswahl = 'Montag';
     this.kuerzeleinblenden = false;
     this.klassenplanServ.grundPlanfaecher$.subscribe((data) => {

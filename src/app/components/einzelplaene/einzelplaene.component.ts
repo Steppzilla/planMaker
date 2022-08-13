@@ -20,12 +20,6 @@ import {
   Lehrjahr
 } from 'src/app/enums/lehrjahr.enum';
 import {
-  PausenZeit
-} from 'src/app/enums/pausen-zeit.enum';
-import {
-  PausenaufsichtsOrte
-} from 'src/app/enums/pausenaufsichts-orte.enum';
-import {
   Wochentag
 } from 'src/app/enums/wochentag.enum';
 import {
@@ -91,7 +85,7 @@ export class EinzelplaeneComponent implements OnInit {
     this.klassenServ.grundPlanfaecher$.pipe(
       filter(r => r !== null),
       map(x => {
-        console.log(x);
+    //lehrjahr    console.log(x);
         let obj: {
           [key: string]: Elementt[]
         } = {};
@@ -128,8 +122,8 @@ export class EinzelplaeneComponent implements OnInit {
         filter(e => e !== null),
         take(1)).toPromise()).map(gg => {
         let lehrerElemente = z[gg.kuerzel];
-        console.log(gg.kuerzel);
-        console.log(lehrerElemente);
+       // console.log(gg.kuerzel);
+       // console.log(lehrerElemente);
         let wochenPlan = new Array(11).fill(null).map(g =>
           new Array(5).fill(null).map(() => ({
             fach: null,

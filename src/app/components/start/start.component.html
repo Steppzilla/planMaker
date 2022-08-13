@@ -1,4 +1,4 @@
-<div id="savemenu" class="noprint">
+<div id="savemenu" class="noprint {{this.epochenplaeneServ.layout}}">
   <div class="date ">
     {{termine.datumHeute.getDate()}}.{{termine.datumHeute.getMonth()+1}}.{{termine.datumHeute.getFullYear()}}
   </div>
@@ -44,18 +44,20 @@
 
 
 
+<div class="{{this.epochenplaeneServ.layout}}">
+  <button (click)="farbwechsel()" >d</button>
+</div>
 
 
 
-
-<div class="noprint" id="menuLeiste">
-  <button> <img (click)="redirect('home')" src="../../../assets/icons/home.png"> </button>
-  <button (click)="redirect('lehrerListe')" title="Lehrer ergänzen oder weiteren Fächern zuweisen"><img
-      src="../../../assets/icons/mann.png"><img src="../../../assets/icons/bildung.png"></button>
-  <button (click)="redirect('klasseFach')"
+<div class="noprint {{this.epochenplaeneServ.layout}}" id="menuLeiste">
+  <button > <img (click)="redirect('home')" src="../../../assets/icons/home.png"> </button>
+  <button  (click)="redirect('lehrerListe')" title="Lehrer ergänzen oder weiteren Fächern zuweisen"><img
+      src="../../../assets/icons/mann.png"></button>
+  <button  (click)="redirect('klasseFach')"
     title="Stunden bzw. Fächer in Klassen ergänzen oder diese Lehrern zuweisen"><img
       src="../../../assets/icons/teamwork.png "></button>
-  <button (click)="redirect('gesamtplan')" title="Stundenpläne bearbeiten">
+  <button  (click)="redirect('gesamtplan')" title="Stundenpläne bearbeiten">
     <div class="miniTable">Mo <br>
       <table>
         <tr>
@@ -80,7 +82,7 @@
       </table>
     </div>
   </button>
-  <button (click)="redirect('ESR')" title="Epochenpläne bearbeiten oder Termine (Ferien/Prüfungen/Fahrten...)">
+  <button  (click)="redirect('ESR')" title="Epochenpläne bearbeiten oder Termine (Ferien/Prüfungen/Fahrten...)">
     <div class="miniTable2">August <br>
       <table>
         <tr>
@@ -101,7 +103,10 @@
       </table>
     </div>
   </button>
-  <button (click)="redirect('vertretung')" title="Vertretung planen">
+
+
+
+  <button  (click)="redirect('vertretung')" title="Vertretung planen">
     <div class="miniTable">Mo <br>
       <table>
         <tr>
@@ -123,7 +128,10 @@
     </div>
 
   </button>
-  <button (click)="redirect('einzelPlaene')" title="Einzelne Lehrer-Stundenplan anschauen oder drucken">
+
+
+
+  <button  (click)="redirect('einzelPlaene')" title="Einzelne Lehrer-Stundenplan anschauen oder drucken">
     <div class="miniTable"><img src="../../../assets/icons/businesswoman.png " width="10pt" height="10pt" /> <br>
       <table>
         <tr>
@@ -144,11 +152,11 @@
     </div>
   </button>
   
-  <button (click)="redirect('pausenAufsicht')" title="Einzelne Lehrer-Stundenplan anschauen oder drucken">
+  <button  (click)="redirect('pausenAufsicht')" title="Einzelne Lehrer-Stundenplan anschauen oder drucken">
     <img src="../../../assets/icons/basketball.png"      width="50pt" height="50pt" />
 
     </button>
-    <button (click)="redirect('essen')" title="Einzelne Lehrer-Stundenplan anschauen oder drucken">
+    <button  (click)="redirect('essen')" title="Einzelne Lehrer-Stundenplan anschauen oder drucken">
       <img src="../../../assets/icons/eat.png"      width="50pt" height="50pt" />
   
       </button>

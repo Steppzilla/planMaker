@@ -19,109 +19,194 @@ $schriftfarbe:black;
 //$linienDark:rgb(63, 63, 63);
 $hover:rgb(98, 107, 146);
 
+$darkmodeTextColor:lightgrey;
 
+.dark {
 
-#tabell{margin-left:auto;
-margin-right:auto;}
-th {
-  font-weight: normal;
+  color: $darkmodeTextColor;
+
+  h1 {
+    color: grey;
+  }
+
+  .centerContain {
+    color: $darkmodeTextColor;
+
+    button {
+      color: $darkmodeTextColor;
+
+    }
+
+  }
+
+  #tabell {
+    font-weight: normal;
+    color: $darkmodeTextColor;
+    tr{
+      td{
+        font-weight: normal;
+      }
+      th{
+        font-weight: normal;
+        img{
+          filter: invert(0.8);
+        }
+      }
+    }
+    // background-color:rgb(0, 0, 0)2, 85;
+    tr:nth-child(2n-1) {
+      color: $darkmodeTextColor;
+      background-color: rgb(63, 63, 63)
+    }
+
+    tr:nth-child(2n) {
+      color: $darkmodeTextColor;
+      background-color: rgb(128, 128, 128);
+    }
+  }
 }
+
 
 #alles {
   color: $schriftfarbe;
-margin-left: auto;
-margin-right:auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 
+#tabell {
+  margin-left: auto;
+  margin-right: auto;
+  background-color: rgb(216, 213, 213);
+  border-radius: 15pt;
 
+  tr {
+    th.links {
+      padding: 3pt;
 
+      img {
+        width: 17pt;
+        margin-right: 5pt;
+      }
+    }
 
-tr:nth-child(odd) {
-  td {
-    border-right: 1pt solid $background
+    td {}
+  }
+
+  tr:nth-child(odd) {
+    td {
+      border-right: 1pt solid $background
+    }
+  }
+
+  tr:nth-child(even) {
+    background-color: $back-light;
+
+    td {
+      border-right: 1pt solid $background2;
+    }
   }
 }
 
-tr:nth-child(even) {
-  background-color: $back-light;
-
-  td {
-    border-right: 1pt solid $background2;
-  }
-}
 
 
 
 
-button {
-  border: 1pt black solid;
-  border-radius: 3pt;
-}
-
-.ueb {
-  background-color: $uebBackground;
-}
-
-.rhy {
-  background-color: $rhybackground;
-}
-
-.epo {
-  background-color: $epoBackground;
-}
-
-.sch {
-  background-color: $schieneBackground;
-}
-
-.nix {
-  background-color: rgb(227, 228, 227);
-}
 
 
 .tdBox {
   display: flex;
 
   .esrButtonContainer {
-    width: 170pt;
+    width: 100pt;
     display: flex;
 
+
+
+    .ueb {
+      background-color: $uebBackground;
+    }
+
+    .rhy {
+      background-color: $rhybackground;
+    }
+
+    .epo {
+      background-color: $epoBackground;
+    }
+
+    .sch {
+      background-color: $schieneBackground;
+    }
+
+    .nix {
+      opacity: 0.2;
+      background-color: rgb(227, 228, 227);
+    }
+
+
+
     button {
-      width: 40pt;
+      border-radius: 16pt;
+
     }
   }
 
   .lehrerkuerzelBox {
-    width: 120pt;
+    width: 220pt;
     display: flex;
-   // background-color: green;
+    // background-color: green;
 
     div {
       button {
+        
+        border: none;
+        border-top: 1px black solid;
+        border-radius: 5pt;
+
         div {
-          width: 60pt;
+          width: auto;
           display: flex;
 
-          div { //Esr behälter bei lehrerkuerzlen
-            width:8pt;
+          div {
+            //Esr behälter bei lehrerkuerzlen
+            width: auto;
           }
-          :first-child{ //Kuerzel
-            width:20pt;
+
+          :first-child {
+            //Kuerzel
+            width: auto;
+            padding-right: 3pt;
           }
-          :nth-child(2){
-            width:14pt;
+
+          :nth-child(2) {
+            border-left: 1px black solid;
+            width: auto;
+            padding-left: 2pt;
+          }
+
+          :nth-child(3) {
+            border-left: 1px black solid;
+            width: auto;
+            padding-left: 2pt;
+          }
+
+          :nth-child(4) {
+            border-left: 1px black solid;
+            width: auto;
+            padding-left: 2pt;
           }
 
           //alternativ: rhy, epo einzeln
 
         }
-      
+
       }
     }
   }
 
-  .esrPrintAktiv {//wenn in voller Breite
+  .esrPrintAktiv {
+    //wenn in voller Breite
     width: auto;
     display: flex;
 
@@ -130,7 +215,8 @@ button {
     }
   }
 
-  .lehrerkuerzelPrintAktiv { //Wenn in voller breite, alle klassen
+  .lehrerkuerzelPrintAktiv {
+    //Wenn in voller breite, alle klassen
     display: flex;
     width: auto;
 
@@ -145,6 +231,127 @@ button {
   }
 }
 
+.dark{
+ 
+  .tdBox{
+    .esrButtonContainer {
+      width: 100pt;
+      display: flex;
+      .ueb {
+       // background-color:inherit;
+        color: $uebBackground;
+      }
+      .rhy {
+      //  background-color:inherit;
+        color: $rhybackground;
+      }
+      .epo {
+      //  background-color:inherit;
+        color: $epoBackground;
+      }
+  
+      .sch {
+      //  background-color:inherit;
+        color: $schieneBackground;
+      }  
+      .nix {
+       // background-color:inherit;
+        opacity: 0.2;
+        color: rgb(227, 228, 227);
+      }
+  
+      button {margin:2pt;
+        border-radius: 0pt;
+        background-color:rgb(76, 84, 112);
+  border:none;
+      }
+    }
+
+    .lehrerkuerzelBox {
+      width: 220pt;
+      display: flex;
+      color:$darkmodeTextColor;
+      // background-color: green;
+      div {
+        color:$darkmodeTextColor;
+        button {
+          color:$darkmodeTextColor;
+          border: none;
+     //   border-top: 1px grey solid;
+          border-radius: 0pt;
+          background-color:inherit;
+          div {
+            color:$darkmodeTextColor;
+            width: auto;
+            display: flex;
+            background-color:inherit;
+
+            .ueb {
+            //  background-color:inherit;
+              color: $uebBackground;
+            }
+            .rhy {
+          //    background-color:inherit;
+              color: $rhybackground;
+            }
+            .epo {
+            //  background-color:inherit;
+              color: $epoBackground;
+            }
+            .sch {
+           //   background-color:inherit;
+              color: $schieneBackground;
+            }
+            .nix {
+              background-color:inherit;
+              opacity: 0.2;
+              color: rgb(227, 228, 227);
+            }
+            div {
+              //Esr behälter bei lehrerkuerzlen
+              width: auto;
+              font-weight: normal;
+            }
+            :first-child {
+              font-weight: normal;
+              //Kuerzel
+              width: auto;
+              padding-right: 3pt;
+            }
+            :nth-child(1) {
+              font-weight: normal;
+              border-left: 1px grey solid;
+              width: auto;
+              padding-left: 2pt;
+            }
+            :nth-child(2) {
+              border-left: 1px grey solid;
+              width: auto;
+              padding-left: 2pt;
+            }
+            :nth-child(3) {
+              border-left: 1px grey solid;
+              width: auto;
+              padding-left: 2pt;
+            }
+            :nth-child(4) {
+              border-left: 1px grey solid;
+              width: auto;
+              padding-left: 2pt;
+            }
+  
+            //alternativ: rhy, epo einzeln
+  
+          }
+  
+        }
+      }
+    }
+  
+  
+
+  }
+}
 
 @media print {
 
@@ -153,7 +360,7 @@ button {
     color: black;
     background-color: white;
   }
-  
+
 
   button {
     border: none;
@@ -187,129 +394,13 @@ button {
   .sch {
     background-color: inherit;
   }
-/* FÜR BREITBILD, dann aber im css und Gesamtplandruck kaputt
-
-//Dies muss global sein:first-child
-  body {
-    background: none;
-      writing-mode: tb-rl;
-      height:100%; width:100%; 
-  }
-  //dies bleibt hier:
-  tr {
-    th {
-   //   background-color: yellow;
-      border:1pt black solid;
-      overflow:visible;
-     div{position: relative;
-      left: -0pt;
-      top: 10pt;
-      width:0pt;
-      height:10pt;
-    }
-      .tdBox { 
-      //  background-color:orange;
-        overflow: visible;
-        -webkit-transform: rotate(90deg);
-        -moz-transform: rotate(90deg);
-        -o-transform: rotate(90deg);
-        -ms-transform: rotate(90deg);
-        transform-origin: 0 0;
-
-      .esrPrintAktiv {
-       //   background-color: red;
-          display: flex;
-          flex-direction: column-reverse;
-          white-space: nowrap;
-          overflow: visible;
-          position: relative;
-          left: 14pt;
-          top:-15pt;
-          height:12pt; //Breite der senkrechten esa-gesamt-zahl
-        button {
-          overflow: visible;
-          width:25pt;
-          padding-left:5pt;
-         //height:20pt; //esa gesamt breite
-        }
-      }
-      }
-    }
-
-    td {
-      border: 1pt black solid;
-      overflow: hidden;
-
-      .tdBox {
-       
-        display: flex;
-        flex-direction: column;
-        white-space: nowrap;
-        overflow: visible;
-        -webkit-transform: rotate(90deg);
-        -moz-transform: rotate(90deg);
-        -o-transform: rotate(90deg);
-        -ms-transform: rotate(90deg);
-        transform-origin: 0 0;
-
-        .esrPrintAktiv {
-  
-          display: flex;
-          flex-direction: column;
-          position: relative;
-          left: 0pt;
-          top:-52pt;
-          width:8pt;
-          button {
-            width: 8pt;
-            line-height: 1em;
-          }
-
-        }
-
-        .lehrerkuerzelPrintAktiv {
-          text-align: left;
-          line-height:1em;
-          width:8pt;
-          position: relative;
-          left: 70pt;
-          top:-12pt;
-          display: flex;
-          flex-direction: column;
-
-          div {
-            button {
-              div {
-                div {
-                  line-height: 1em;
-                  height: 90pt;
-                }
-              }
-            }
-          }
-        }
-
-      }
-    }
-  }
-
- 
-*/
-
-
 
 }
 
 
 
 
-th.links {
 
-  color: $lila;
-  font-weight: bold;
-
+.centerContain {
+  text-align: center;
 }
-
-
-  .centerContain{
-  text-align:center;}

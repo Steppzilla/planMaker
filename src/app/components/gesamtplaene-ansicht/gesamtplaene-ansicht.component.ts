@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { Fach } from 'src/app/enums/fach.enum';
 import { Elementt } from 'src/app/interfaces/elementt';
 import { Lehrer } from 'src/app/interfaces/lehrer';
+import { EpochenPlaeneService } from 'src/app/services/epochen-plaene.service';
 import {
   KlassenplaeneService
 } from 'src/app/services/klassenplaene.service';
@@ -133,7 +134,8 @@ export class GesamtplaeneAnsichtComponent implements OnInit {
 
   constructor(public lehrerService: LehrerService,
     public login: LoginService,
-    public klassenplanServ: KlassenplaeneService) {
+    public klassenplanServ: KlassenplaeneService,
+    public epochenPlanS:EpochenPlaeneService) {
  this.klassenplanServ.grundPlanfaecher$.subscribe((data) => {
       this.grundPlanfaecher = data;
        console.log(data);

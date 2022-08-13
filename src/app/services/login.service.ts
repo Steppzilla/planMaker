@@ -8,9 +8,13 @@ import {
   AngularFirestore
 } from '@angular/fire/firestore';
 import {
-  eachDayOfInterval,addDays,subDays
+  eachDayOfInterval,
+  addDays,
+  subDays
 } from 'date-fns';
-import { Fach } from '../enums/fach.enum';
+import {
+  Fach
+} from '../enums/fach.enum';
 
 import {
   Elementt
@@ -21,6 +25,9 @@ import {
 import {
   Lehrer
 } from '../interfaces/lehrer';
+import {
+  PausenItem
+} from '../interfaces/pausen-item';
 import {
   Pruefungstermin
 } from '../interfaces/pruefungstermin';
@@ -53,78 +60,66 @@ export class LoginService {
   store: AngularFirestore; //db
 
   saveAll(version) {
-    // debugger;
-    let y = btoa(JSON.stringify(this.klassenPlanServ.grundPlanfaecher.getValue()));
-    //pausenplan
-     let z = btoa(JSON.stringify(this.epochenPlanServ.pausenPlan.getValue()));
+    let grundelemente: Array < Elementt > = this.klassenPlanServ.grundPlanfaecher.getValue();
+    let pausenElemente: Array < PausenItem > = this.epochenPlanServ.pausenPlan.getValue();
 
-    let plan = this.store.collection('plaene').doc("gesamtplaene" + version);
-    plan.set({ //Gesamtaufteilung Array<Elementt>
-      stundenElemente: y,
-      //  esrPlan: z,
-    }).then(() => {
-      console.log('saved' + version);
-    }).catch(function (error) {
-      console.log("1 nicht gespeichert");
-      console.error(error);
-    });
+    let grundplanBox = this.store.collection('stundenplan' + version);
 
-    let plan2 = this.store.collection('plaene').doc("pausenplan");
-    plan2.set({ //Gesamtaufteilung Array<Elementt>
-      stundenElemente: z,
-      //  esrPlan: z,
-    }).then(() => {
-      console.log('saved pausenplan' );
-    }).catch(function (error) {
-      console.log("pausenplan gespeichert");
-      console.error(error);
+    grundelemente.forEach((item, i) => {
+      let box = grundplanBox.doc("U" + i)
+      box.set({
+        fach: item.fach,
+        klasse: item.klasse,
+        wochenstunden: item.wochenstunden,
+        uebstunde: item.uebstunde,
+        rhythmus: item.rhythmus,
+        schiene: item.schiene,
+        epoche: item.epoche
+      })
+      if (item.zuweisung) {
+        box.update({
+          zuweisung: item.zuweisung
+        })
+      }
+      if (item.lehrer) {
+        box.update({
+          lehrer: item.lehrer
+        })
+      }
+      if (item.raum) {
+        box.update({
+          raum: item.raum
+        })
+      }
+    })
+
+    pausenElemente.forEach((item, i) => {
+      let box = this.store.collection("pausen").doc("U" + i);
+      box.set({
+        lehrer: item.lehrer,
+        ort: item.ort,
+        pausenzeit: item.pausenzeit,
+        wochentag: item.wochentag
+      })
     });
   }
 
-  //Stundenraster montag dienstag etc aus planmaker wird gesetzt: //und im Lehrerservice aktuelles Raster/behavioural
+  //LOAD versionsplan+pause
   gesamtPlanLaden(zahl) {
-    this.vertretungS.aktuelleESRElemente = [];
-    let stundenAufteilungJSO: Array < Elementt > ;
-    //Epochenpläne + Schiene
-    this.store.collection('plaene').doc("gesamtplaene" + zahl).valueChanges().subscribe((plaene) => { //in Firebase heißt der Ordner plaene. das erste Element [0] ist "gesamtplaene", darin sind die pläne:   
-      stundenAufteilungJSO = JSON.parse(atob(plaene["stundenElemente"]));
-      stundenAufteilungJSO.forEach((el, ei) => {
-        let aktuell: [Elementt, number, string];
-        if (el == null) {
-          stundenAufteilungJSO.splice(ei, 1);
-        } else {
-          ["epoche", "schiene", "rhythmus"].forEach(plan => {
 
-            el.zuweisung[plan].forEach((startEnde, z) => {
-              let datum = new Date(startEnde.start);
-              startEnde.start = datum;
-              datum = new Date(startEnde.ende);
-              startEnde.ende = datum;
-              //Aktuelle epoche, schiene, rhythmus speichern in Vertretung:
-              
-
-            });
-          });
-
-        }
-      });
-      //Beim laden schon null-elemente löschen (entstehen durch Löschen mit shift-click tw)
-      stundenAufteilungJSO = stundenAufteilungJSO.filter(function (el) {
-        return el != null;
-      });
-
-      this.klassenPlanServ.grundPlanfaecher.next(stundenAufteilungJSO); //opt: .concat(ele) um Element hinzuzufügen beim Load der Daten
-      //  this.klassenPlanServ.elementHinzufuegen(Fach.kunstgeschichte,Lehrjahr.neun);
-
+    let storeArray = this.store.collection('stundenplan' + zahl);
+    storeArray.valueChanges().subscribe((planArr: Array < Elementt > ) => { //in Firebase heißt der Ordner plaene. das erste Element [0] ist "gesamtplaene", darin sind die pläne:   
+      this.klassenPlanServ.grundPlanfaecher.next(planArr); //opt: .concat(ele) um Element hinzuzufügen beim Load der Daten
     });
-    this.store.collection('plaene').doc("pausenplan").valueChanges().subscribe((plaene) => { //in Firebase heißt der Ordner plaene. das erste Element [0] ist "gesamtplaene", darin sind die pläne:   
-      let pausenplanJSO = JSON.parse(atob(plaene["stundenElemente"]));
-//console.log(pausenplanJSO);
-      this.epochenPlanServ.pausenPlan.next(pausenplanJSO); //opt: .concat(ele) um Element hinzuzufügen beim Load der Daten
-      //  this.klassenPlanServ.elementHinzufuegen(Fach.kunstgeschichte,Lehrjahr.neun);
+    this.store.collection("pausen").valueChanges().subscribe((planArr: Array < PausenItem > ) => {
+      this.epochenPlanServ.pausenPlan.next(planArr);
+    })
 
-    });
   }
+
+
+
+
 
 
   lehrerladen() {
@@ -142,6 +137,7 @@ export class LoginService {
         lehrerListe.push(obj);
       });
       this.klassenPlanServ.lehrerListe.next(lehrerListe);
+     // console.log(lehrerListe);
     });
   }
 
@@ -163,10 +159,12 @@ export class LoginService {
 
   }
 
-  lehrerAufgabenHinzufuegen(kuerzel:string,fach:Fach){
-    let item=this.store.collection('lehrer').doc(kuerzel);
-  item.update({"faecher":[]});
- 
+  lehrerAufgabenHinzufuegen(kuerzel: string, fach: Fach) {
+    let item = this.store.collection('lehrer').doc(kuerzel);
+    item.update({
+      "faecher": []
+    });
+
 
   }
 
@@ -192,11 +190,11 @@ export class LoginService {
         terminListe.push(obj);
       });
 
-      terminListe.sort(function(a, b) {
-       let c=a.start;
-       let d=b.start;
-        return  c<=d ? -1 : c>d ? 1 : 0;
-    });
+      terminListe.sort(function (a, b) {
+        let c = a.start;
+        let d = b.start;
+        return c <= d ? -1 : c > d ? 1 : 0;
+      });
 
       this.klassenPlanServ.terminListe.next(terminListe);
 
@@ -222,11 +220,11 @@ export class LoginService {
         pruefungsListe.push(obj);
         //  console.log(pruefungsListe);
       });
-      pruefungsListe.sort(function(a, b) {
-        let c=a.start;
-        let d=b.start;
-         return  c<=d ? -1 : c>d ? 1 : 0;
-     });
+      pruefungsListe.sort(function (a, b) {
+        let c = a.start;
+        let d = b.start;
+        return c <= d ? -1 : c > d ? 1 : 0;
+      });
       this.klassenPlanServ.pruefungsListe.next(pruefungsListe);
     });
 
@@ -251,39 +249,39 @@ export class LoginService {
         }
         ferienListe.push(obj);
       });
-      ferienListe.sort(function(a, b) {
-        let c=a.start;
-        let d=b.start;
-         return  c<=d ? -1 : c>d ? 1 : 0;
-     });
+      ferienListe.sort(function (a, b) {
+        let c = a.start;
+        let d = b.start;
+        return c <= d ? -1 : c > d ? 1 : 0;
+      });
       this.klassenPlanServ.ferienListe.next(ferienListe);
       //termin in ESRPlan:
 
       let abschnitt1: Array < TagesObjekt > = eachDayOfInterval({ // @ts-ignore
-        start: addDays(ferienListe.find(element => element.titel === "Sommerferien").ende.toDate(),1), // @ts-ignore
-        end: subDays(ferienListe.find(element => element.titel == "Herbstferien").start.toDate(),1)
+        start: addDays(ferienListe.find(element => element.titel === "Sommerferien").ende.toDate(), 1), // @ts-ignore
+        end: subDays(ferienListe.find(element => element.titel == "Herbstferien").start.toDate(), 1)
       }).map(z => {
         return fahrteinfuegen(z);
       });
 
       let abschnitt2: Array < TagesObjekt > = eachDayOfInterval({ // @ts-ignore
-          start: addDays(ferienListe.find(element => element.titel == "Herbstferien").ende.toDate(),1), // @ts-ignore
-          end: subDays(ferienListe.find(element => element.titel == "Weihnachtsferien").start.toDate(),1)
+          start: addDays(ferienListe.find(element => element.titel == "Herbstferien").ende.toDate(), 1), // @ts-ignore
+          end: subDays(ferienListe.find(element => element.titel == "Weihnachtsferien").start.toDate(), 1)
         })
         .map(z => {
           return fahrteinfuegen(z);
         });
 
       let abschnitt3: Array < TagesObjekt > = eachDayOfInterval({ // @ts-ignore
-        start:addDays(ferienListe.find(element => element.titel == "Weihnachtsferien").ende.toDate(),1), // @ts-ignore
-        end: subDays(ferienListe.find(element => element.titel == "Osterferien").start.toDate(),1)
+        start: addDays(ferienListe.find(element => element.titel == "Weihnachtsferien").ende.toDate(), 1), // @ts-ignore
+        end: subDays(ferienListe.find(element => element.titel == "Osterferien").start.toDate(), 1)
       }).map(z => {
         return fahrteinfuegen(z);
       });
 
       let abschnitt4: Array < TagesObjekt > = eachDayOfInterval({ // @ts-ignore
-          start: addDays(ferienListe.find(element => element.titel == "Osterferien").ende.toDate(),1), // @ts-ignore
-          end: subDays(ferienListe.find(element => element.titel == "Sommerferien").start.toDate(),1)
+          start: addDays(ferienListe.find(element => element.titel == "Osterferien").ende.toDate(), 1), // @ts-ignore
+          end: subDays(ferienListe.find(element => element.titel == "Sommerferien").start.toDate(), 1)
         })
         .map(z => {
           return fahrteinfuegen(z);
@@ -302,9 +300,9 @@ export class LoginService {
         };
         terminListe.forEach((fahrt: Termin) => { //Nicht alle Ferien haben ein eEnde
           if (fahrt.ende) {
-                      // @ts-ignore
+            // @ts-ignore
             if (dat >= fahrt.start.toDate() && dat <= fahrt.ende.toDate()) {
-            //  console.log("fahrt");
+              //  console.log("fahrt");
               obj.fahrten.push(fahrt);
             } else {}
           } else { // @ts-ignore
@@ -317,17 +315,17 @@ export class LoginService {
           if (fer.ende) { //@ts-ignore
             if (dat >= fer.start.toDate() && dat <= fer.ende.toDate()) {
               obj.ferien.push(fer);
-            }else{//sommerferien extra, weil startdatum das Ende des SJ ist, und Ende, Anfang.
+            } else { //sommerferien extra, weil startdatum das Ende des SJ ist, und Ende, Anfang.
               //@ts-ignore
-              if(ferien.titel==="Sommerferien"&&(dat>=ferien.start.toDate()||dat<=ferien.ende.toDate())){
+              if (ferien.titel === "Sommerferien" && (dat >= ferien.start.toDate() || dat <= ferien.ende.toDate())) {
                 obj.ferien.push(fer);
-              }else{}
+              } else {}
 
             }
-          } else {//wenn ende nicht definiert ist, datum aber identisch is
+          } else { //wenn ende nicht definiert ist, datum aber identisch is
             // @ts-ignore
             if (dat.getTime() == fer.start.toDate().getTime()) {
-            //  console.log(fer.titel);
+              //  console.log(fer.titel);
               obj.ferien.push(fer);
             }
           }
@@ -347,13 +345,13 @@ export class LoginService {
         return obj;
       }
       let esrPlan: Array < Array < TagesObjekt >>= [abschnitt1, abschnitt2, abschnitt3, abschnitt4];
-   //  console.log(esrPlan);
+      //  console.log(esrPlan);
       this.epochenPlanServ.esr_plan.next(esrPlan);
       //  
     });
   }
 
- 
+
 
   terminHinzufügen(te: Termin) {
     let termin = this.store.collection('Termine').doc(te.titel + te.klasse);
@@ -402,7 +400,10 @@ export class LoginService {
     console.log(te);
     let termin = this.store.collection('Ferien').doc(te.titel);
     if (te.ende === undefined) {
-      let term:Ferientermin={start: te.start, titel: te.titel}
+      let term: Ferientermin = {
+        start: te.start,
+        titel: te.titel
+      }
       termin.set(Object.assign({}, term)).then(() => {
         console.log('saved' + te.titel);
       }).catch(function (error) {
@@ -410,12 +411,12 @@ export class LoginService {
         console.error(error);
       });
     } else {
-      let obj:Ferientermin={ //Gesamtaufteilung Array<Elementt>
-        start:  te.start,
+      let obj: Ferientermin = { //Gesamtaufteilung Array<Elementt>
+        start: te.start,
         ende: te.ende,
         titel: te.titel,
       }
-      termin.set(Object.assign({},obj)).then(() => {
+      termin.set(Object.assign({}, obj)).then(() => {
         console.log('saved' + te.titel);
       }).catch(function (error) {
         console.log("1 nicht gespeichert");
@@ -425,14 +426,14 @@ export class LoginService {
   }
 
 
-nextMonday(datum:Date){
-  let newDate=datum;
-  while(newDate.getDay()!==1){
-    newDate=addDays(newDate,1);
-  }
-  console.log(datum);
-  return newDate;
-};
+  nextMonday(datum: Date) {
+    let newDate = datum;
+    while (newDate.getDay() !== 1) {
+      newDate = addDays(newDate, 1);
+    }
+    console.log(datum);
+    return newDate;
+  };
 
 
   login() {

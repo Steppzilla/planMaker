@@ -32,6 +32,14 @@ const config = {
   messagingSenderId: "672316150835",
   apiKey: "AIzaSyBIsLbwYGsMkj8WOmnqtI2uUV82GHD0T20",
   databaseURL: "planmaker-a6efa.web.app"
+  /*
+   //apiKey: '<your-key>',
+  projectId: 'zweitspeicher-f22c4',
+  authDomain: 'zweitspeicher-f22c4.firebaseapp.com', //ggf localhost?schule-wohlers.de oder github-web-adresse? ggf in firebase auth einfügen
+  databaseURL: "zweitspeicher-f22c4.web.app",
+  messagingSenderId: "918927843520",
+  apiKey: "FnLrCNMTU5FfFXScWV4yxjdCxFUQstJYvfXjKRBGnjg",
+  */ 
 };
 
 @NgModule({

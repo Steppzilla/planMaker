@@ -212,7 +212,6 @@ export class PausenplanComponent implements OnInit {
 
           }
 
-
           if ( //2. pause
             ((std == 4 || std == 5) ) //egal welche klasse 4. oder 5. stunde
           ) {
@@ -238,12 +237,8 @@ export class PausenplanComponent implements OnInit {
 
           }  */
         });
-      
       });
-
       console.log(ar);
-
-   
       return ar;
 
     })
@@ -278,14 +273,12 @@ export class PausenplanComponent implements OnInit {
    // let lehr = kuerz; //HIER MUSS DER LEHRER AUSGEWÄHLT WERDEN MIT DEM KUERZEL oben
      ar.push({
         lehrer: lehrer,
-        pausenZeit: zeit,
+        pausenzeit: zeit,
         ort: ort,
         wochentag: tag
       })
     console.log(ar);
-
-
-    
+   
     this.epochenplanServ.pausenPlan.next(ar);
     }
 
@@ -317,15 +310,15 @@ anzahlAufsichten(lehrer){
         freitag: []
       };
       if (z !== null) {
-
+      //  console.log(z);
         z.forEach((el: PausenItem) => {
-          if (!ar[el.wochentag.toLowerCase()][this.zeitinString(el.pausenZeit)]) {
-            ar[el.wochentag.toLowerCase()][this.zeitinString(el.pausenZeit)] = [];
+          if (!ar[el.wochentag.toLowerCase()][this.zeitinString(el.pausenzeit)]) {
+            ar[el.wochentag.toLowerCase()][this.zeitinString(el.pausenzeit)] = [];
           }
-          if (!ar[el.wochentag.toLowerCase()][this.zeitinString(el.pausenZeit)][el.ort]) {
-            ar[el.wochentag.toLowerCase()][this.zeitinString(el.pausenZeit)][el.ort] = [];
+          if (!ar[el.wochentag.toLowerCase()][this.zeitinString(el.pausenzeit)][el.ort]) {
+            ar[el.wochentag.toLowerCase()][this.zeitinString(el.pausenzeit)][el.ort] = [];
           }
-          ar[el.wochentag.toLowerCase()][this.zeitinString(el.pausenZeit)][el.ort].push(el.lehrer);
+          ar[el.wochentag.toLowerCase()][this.zeitinString(el.pausenzeit)][el.ort].push(el.lehrer);
         });
       }
       // console.log(ar);
@@ -395,7 +388,7 @@ alleLehrer$ = this.lehrerArray$.pipe(
 
   zeitinString(zeit) {
 
-    //console.log(zeit);
+   // console.log(zeit);
     if (zeit === "7:45-8:00") {
       return "eins"
     } else if (zeit === "9:35-9:55") {
@@ -406,7 +399,7 @@ alleLehrer$ = this.lehrerArray$.pipe(
     } else
     if (zeit === "11:30-11:45") {
       return "vier"
-    }
+    }else{return null}
   }
 
   tagInZahl(wochent: string) {

@@ -1,4 +1,4 @@
-<div id="gesamt" class="">
+<div id="gesamt" class="{{this.epochenPlanS.layout}}">
   <h1>ESR-Plan</h1>
 
   <div class="esrWahl noprint">
@@ -224,16 +224,16 @@
                                 {{ele.fach}}
                               
                                 <span
-                                  *ngIf="(ele.rhythmus-reiheFachStunden(rhy.neun, ele.fach,ele.stundenGesamt,'rhythmus',ele.klasse))<0.5 , else ROT"                                  style="color:green;">
-                                  {{reiheFachStunden(rhy.neun, ele.fach,ele.stundenGesamt,'rhythmus',ele.klasse)|number: '1.1-1'}}
+                                  *ngIf="(multi(ele.rhythmus,6)-reiheFachStunden(rhy.neun, ele.fach,ele.stundenGesamt,'rhythmus',ele.klasse)<=1&&ele.rhythmus-reiheFachStunden(rhy.neun, ele.fach, ele.stundenGesamt, 'rhythmus', ele.klasse)>=-1), else ROT"                                  style="color:green;">
+                                  {{reiheFachStunden(rhy.neun, ele.fach,ele.stundenGesamt,'rhythmus',ele.klasse)|number: '1.0-1'}}
                                 </span>
                                 <ng-template #ROT>
                                   <span style="color:red">
-                                    {{reiheFachStunden(rhy.neun, ele.fach,ele.stundenGesamt,'rhythmus',ele.klasse)|number: '1.1-1'}}
+                                    {{reiheFachStunden(rhy.neun, ele.fach,ele.stundenGesamt,'rhythmus',ele.klasse)|number: '1.0-1'}}
                                   </span>
                                 </ng-template>
                                 |
-                                {{ele.rhythmus}}
+                                {{multi(ele.rhythmus,6)}}
                                 
                               </span>
                             </ng-container>
@@ -276,16 +276,16 @@
                                 {{ele.fach}}
                             
                                   <span
-                                    *ngIf="(ele.rhythmus-reiheFachStunden(rhy.zehn, ele.fach,ele.stundenGesamt,'rhythmus',ele.klasse))<0.5 , else ROT"                                  style="color:green;">
-                                    {{reiheFachStunden(rhy.zehn, ele.fach,ele.stundenGesamt,'rhythmus',ele.klasse)|number: '1.1-1'}}
+                                    *ngIf="(multi(ele.rhythmus,6)-reiheFachStunden(rhy.zehn, ele.fach,ele.stundenGesamt,'rhythmus',ele.klasse)<=1&&ele.rhythmus-reiheFachStunden(rhy.zehn, ele.fach,ele.stundenGesamt,'rhythmus',ele.klasse)>=-1 ), else ROT"                                  style="color:green;">
+                                    {{reiheFachStunden(rhy.zehn, ele.fach,ele.stundenGesamt,'rhythmus',ele.klasse)|number: '1.0-1'}}
                                   </span>
                                   <ng-template #ROT>
                                     <span style="color:red">
-                                      {{reiheFachStunden(rhy.zehn, ele.fach,ele.stundenGesamt,'rhythmus',ele.klasse)|number: '1.1-1'}}
+                                      {{reiheFachStunden(rhy.zehn, ele.fach,ele.stundenGesamt,'rhythmus',ele.klasse)|number: '1.0-1'}}
                                     </span>
                                   </ng-template>
                                   |
-                                  {{ele.rhythmus}}
+                                  {{multi(ele.rhythmus,6)}}
                                 
                               </span>
                             </ng-container>
@@ -328,16 +328,16 @@
                                 {{ele.fach}}
                             
                                   <span
-                                    *ngIf="(ele.rhythmus-reiheFachStunden(rhy.elf, ele.fach,ele.stundenGesamt,'rhythmus',ele.klasse))<0.5 , else ROT"                                  style="color:green;">
-                                    {{reiheFachStunden(rhy.elf, ele.fach,ele.stundenGesamt,'rhythmus',ele.klasse)|number: '1.1-1'}}
+                                    *ngIf="(multi(ele.rhythmus,6)-reiheFachStunden(rhy.elf, ele.fach,ele.stundenGesamt,'rhythmus',ele.klasse)<=1&&ele.rhythmus-reiheFachStunden(rhy.elf, ele.fach,ele.stundenGesamt,'rhythmus',ele.klasse)>=-1  ), else ROT"                                  style="color:green;">
+                                    {{reiheFachStunden(rhy.elf, ele.fach,ele.stundenGesamt,'rhythmus',ele.klasse)|number: '1.0-1'}}
                                   </span>
                                   <ng-template #ROT>
                                     <span style="color:red">
-                                      {{reiheFachStunden(rhy.elf, ele.fach,ele.stundenGesamt,'rhythmus',ele.klasse)|number: '1.1-1'}}
+                                      {{reiheFachStunden(rhy.elf, ele.fach,ele.stundenGesamt,'rhythmus',ele.klasse)|number: '1.0-1'}}
                                     </span>
                                   </ng-template>
                                   |
-                                  {{ele.rhythmus}}
+                                  {{multi(ele.rhythmus,6)}}
                                 
                               </span>
                             </ng-container>
@@ -382,16 +382,16 @@
                                 {{ele.fach}}
                             
                                   <span
-                                    *ngIf="(ele.rhythmus-reiheFachStunden(rhy.zwoelf, ele.fach,ele.stundenGesamt,'rhythmus',ele.klasse))<0.1 , else ROT"                                  style="color:green;">
-                                    {{reiheFachStunden(rhy.zwoelf, ele.fach,ele.stundenGesamt,'rhythmus',ele.klasse)|number: '1.1-1'}}
+                                    *ngIf="(multi(ele.rhythmus,6)-reiheFachStunden(rhy.zwoelf, ele.fach,ele.stundenGesamt,'rhythmus',ele.klasse)<=1&&ele.rhythmus-reiheFachStunden(rhy.zwoelf, ele.fach,ele.stundenGesamt,'rhythmus',ele.klasse)>=-1) , else ROT"                                  style="color:green;">
+                                    {{reiheFachStunden(rhy.zwoelf, ele.fach,ele.stundenGesamt,'rhythmus',ele.klasse)|number: '1.0-1'}}
                                   </span>
                                   <ng-template #ROT>
                                     <span style="color:red">
-                                      {{reiheFachStunden(rhy.zwoelf, ele.fach,ele.stundenGesamt,'rhythmus',ele.klasse)|number: '1.1-1'}}
+                                      {{reiheFachStunden(rhy.zwoelf, ele.fach,ele.stundenGesamt,'rhythmus',ele.klasse)|number: '1.0-1'}}
                                     </span>
                                   </ng-template>
                                   |
-                                  {{ele.rhythmus}}
+                                  {{multi(ele.rhythmus,6)}}
                                 
                               </span>
                             </ng-container>
@@ -444,16 +444,16 @@
                                 {{ele.fach}}
                               
                                   <span
-                                    *ngIf="(ele.epoche-reiheFachStunden(epo.neun, ele.fach,ele.stundenGesamt,'epoche',ele.klasse))<0.5 , else ROT"                                  style="color:green;">
-                                    {{reiheFachStunden(epo.neun, ele.fach,ele.stundenGesamt,'epoche',ele.klasse)|number: '1.1-1'}}
+                                    *ngIf="(multi(ele.epoche,3)-reiheFachStunden(epo.neun, ele.fach,ele.stundenGesamt,'epoche',ele.klasse)<=1&&ele.epoche-reiheFachStunden(epo.neun, ele.fach,ele.stundenGesamt,'epoche',ele.klasse)>=-1 ), else ROT"                                  style="color:green;">
+                                    {{reiheFachStunden(epo.neun, ele.fach,ele.stundenGesamt,'epoche',ele.klasse)|number: '1.0-1'}}
                                   </span>
                                   <ng-template #ROT>
                                     <span style="color:red">
-                                      {{reiheFachStunden(epo.neun, ele.fach,ele.stundenGesamt,'epoche',ele.klasse)|number: '1.1-1'}}
+                                      {{reiheFachStunden(epo.neun, ele.fach,ele.stundenGesamt,'epoche',ele.klasse)|number: '1.0-1'}}
                                     </span>
                                   </ng-template>
                                   |
-                                  {{ele.epoche}}
+                                  {{multi(ele.epoche,3)}}
                                 
                               </span>
                             </ng-container>
@@ -502,16 +502,16 @@
                                 {{ele.fach}}
                               
                                   <span
-                                    *ngIf="(ele.epoche-reiheFachStunden(epo.zehn, ele.fach,ele.stundenGesamt,'epoche',ele.klasse))<0.5 , else ROT"                                  style="color:green;">
-                                    {{reiheFachStunden(epo.zehn, ele.fach,ele.stundenGesamt,'epoche',ele.klasse)|number: '1.1-1'}}
+                                    *ngIf="(multi(ele.epoche,3)-reiheFachStunden(epo.zehn, ele.fach,ele.stundenGesamt,'epoche',ele.klasse)<=1&&ele.epoche-reiheFachStunden(epo.zehn, ele.fach,ele.stundenGesamt,'epoche',ele.klasse)>=-1 ), else ROT"                                  style="color:green;">
+                                    {{reiheFachStunden(epo.zehn, ele.fach,ele.stundenGesamt,'epoche',ele.klasse)|number: '1.0-1'}}
                                   </span>
                                   <ng-template #ROT>
                                     <span style="color:red">
-                                      {{reiheFachStunden(epo.zehn, ele.fach,ele.stundenGesamt,'epoche',ele.klasse)|number: '1.1-1'}}
+                                      {{reiheFachStunden(epo.zehn, ele.fach,ele.stundenGesamt,'epoche',ele.klasse)|number: '1.0-1'}}
                                     </span>
                                   </ng-template>
                                   |
-                                  {{ele.epoche}}
+                                  {{multi(ele.epoche,3)}}
                                 
                               </span>
                             </ng-container>
@@ -554,16 +554,16 @@
                                 {{ele.fach}}
                                 
                                   <span
-                                    *ngIf="(ele.epoche-reiheFachStunden(epo.elf, ele.fach,ele.stundenGesamt,'epoche',ele.klasse))<0.5 , else ROT"                                  style="color:green;">
-                                    {{reiheFachStunden(epo.elf, ele.fach,ele.stundenGesamt,'epoche',ele.klasse)|number: '1.1-1'}}
+                                    *ngIf="(multi(ele.epoche,3)-reiheFachStunden(epo.elf, ele.fach,ele.stundenGesamt,'epoche',ele.klasse)<=1 &&ele.epoche-reiheFachStunden(epo.elf, ele.fach,ele.stundenGesamt,'epoche',ele.klasse)>=-1), else ROT"                                  style="color:green;">
+                                    {{reiheFachStunden(epo.elf, ele.fach,ele.stundenGesamt,'epoche',ele.klasse)|number: '1.0-1'}}
                                   </span>
                                   <ng-template #ROT>
                                     <span style="color:red">
-                                      {{reiheFachStunden(epo.elf, ele.fach,ele.stundenGesamt,'epoche',ele.klasse)|number: '1.1-1'}}
+                                      {{reiheFachStunden(epo.elf, ele.fach,ele.stundenGesamt,'epoche',ele.klasse)|number: '1.0-1'}}
                                     </span>
                                   </ng-template>
                                   |
-                                  {{ele.epoche}}
+                                  {{multi(ele.epoche,3)}}
                                 
                               </span>
                             </ng-container>
@@ -607,16 +607,16 @@
                                 {{ele.fach}}
                                
                                   <span
-                                    *ngIf="(ele.epoche-reiheFachStunden(epo.zwoelf, ele.fach,ele.stundenGesamt,'epoche',ele.klasse))<0.5 , else ROT"                                  style="color:green;">
-                                    {{reiheFachStunden(epo.zwoelf, ele.fach,ele.stundenGesamt,'epoche',ele.klasse)|number: '1.1-1'}}
+                                    *ngIf="(multi(ele.epoche,3)-reiheFachStunden(epo.zwoelf, ele.fach,ele.stundenGesamt,'epoche',ele.klasse)<=1 &&ele.epoche-reiheFachStunden(epo.zwoelf, ele.fach,ele.stundenGesamt,'epoche',ele.klasse)>=-1), else ROT"                                  style="color:green;">
+                                    {{reiheFachStunden(epo.zwoelf, ele.fach,ele.stundenGesamt,'epoche',ele.klasse)|number: '1.0-1'}}
                                   </span>
                                   <ng-template #ROT>
                                     <span style="color:red">
-                                      {{reiheFachStunden(epo.zwoelf, ele.fach,ele.stundenGesamt,'epoche',ele.klasse)|number: '1.1-1'}}
+                                      {{reiheFachStunden(epo.zwoelf, ele.fach,ele.stundenGesamt,'epoche',ele.klasse)|number: '1.0-1'}}
                                     </span>
                                   </ng-template>
                                   |
-                                  {{ele.epoche}}
+                                  {{multi(ele.epoche,3)}}
                                 
                               </span>
                             </ng-container>
@@ -671,16 +671,16 @@
                                 {{ele.fach}}
                                   
                                   <span
-                                    *ngIf="(ele.schiene-reiheFachStunden(sch.neun, ele.fach,ele.stundenGesamt,'schiene',ele.klasse))<0.5 , else ROT"                                  style="color:green;">
-                                    {{reiheFachStunden(sch.neun, ele.fach,ele.stundenGesamt,'schiene',ele.klasse)|number: '1.1-1'}}
+                                    *ngIf="(multi(ele.schiene,5)-reiheFachStunden(sch.neun, ele.fach,ele.stundenGesamt,'schiene',ele.klasse)<=1&& ele.schiene-reiheFachStunden(sch.neun, ele.fach,ele.stundenGesamt,'schiene',ele.klasse)>=-1), else ROT"                                  style="color:green;">
+                                    {{reiheFachStunden(sch.neun, ele.fach,ele.stundenGesamt,'schiene',ele.klasse)|number: '1.0-1'}}
                                   </span>
                                   <ng-template #ROT>
                                     <span style="color:red">
-                                      {{reiheFachStunden(sch.neun, ele.fach,ele.stundenGesamt,'schiene',ele.klasse)|number: '1.1-1'}}
+                                      {{reiheFachStunden(sch.neun, ele.fach,ele.stundenGesamt,'schiene',ele.klasse)|number: '1.0-1'}}
                                     </span>
                                   </ng-template>
                                   |
-                                  {{ele.schiene}}
+                                  {{multi(ele.schiene,5)}}
                                 
                               </span>
                             </ng-container>
@@ -729,16 +729,16 @@
                                 {{ele.fach}}
                                  
                                   <span
-                                    *ngIf="(ele.schiene-reiheFachStunden(sch.zehn, ele.fach,ele.stundenGesamt,'schiene',ele.klasse))<0.5 , else ROT"                                  style="color:green;">
-                                    {{reiheFachStunden(sch.zehn, ele.fach,ele.stundenGesamt,'schiene',ele.klasse)|number: '1.1-1'}}
+                                    *ngIf="(multi(ele.schiene,5)-reiheFachStunden(sch.zehn, ele.fach,ele.stundenGesamt,'schiene',ele.klasse)<=1&& ele.schiene-reiheFachStunden(sch.zehn, ele.fach,ele.stundenGesamt,'schiene',ele.klasse)>=-1 ) , else ROT"                                  style="color:green;">
+                                    {{reiheFachStunden(sch.zehn, ele.fach,ele.stundenGesamt,'schiene',ele.klasse)|number: '1.0-1'}}
                                   </span>
                                   <ng-template #ROT>
                                     <span style="color:red">
-                                      {{reiheFachStunden(sch.zehn, ele.fach,ele.stundenGesamt,'schiene',ele.klasse)|number: '1.1-1'}}
+                                      {{reiheFachStunden(sch.zehn, ele.fach,ele.stundenGesamt,'schiene',ele.klasse)|number: '1.0-1'}}
                                     </span>
                                   </ng-template>
                                   |
-                                  {{ele.schiene}}
+                                  {{multi(ele.schiene,5)}}
                                 
                               </span>
                             </ng-container>
@@ -782,16 +782,16 @@
                                 {{ele.fach}}
                                  
                                   <span
-                                    *ngIf="(ele.schiene-reiheFachStunden(sch.elf, ele.fach,ele.stundenGesamt,'schiene',ele.klasse))<0.5 , else ROT"                                  style="color:green;">
-                                    {{reiheFachStunden(sch.elf, ele.fach,ele.stundenGesamt,'schiene',ele.klasse)|number: '1.1-1'}}
+                                    *ngIf="(multi(ele.schiene,5)-reiheFachStunden(sch.elf, ele.fach,ele.stundenGesamt,'schiene',ele.klasse)<=1&&ele.schiene-reiheFachStunden(sch.elf, ele.fach,ele.stundenGesamt,'schiene',ele.klasse)>=-1) , else ROT"                                  style="color:green;">
+                                    {{reiheFachStunden(sch.elf, ele.fach,ele.stundenGesamt,'schiene',ele.klasse)|number: '1.0-1'}}
                                   </span>
                                   <ng-template #ROT>
                                     <span style="color:red">
-                                      {{reiheFachStunden(sch.elf, ele.fach,ele.stundenGesamt,'schiene',ele.klasse)|number: '1.1-1'}}
+                                      {{reiheFachStunden(sch.elf, ele.fach,ele.stundenGesamt,'schiene',ele.klasse)|number: '1.0-1'}}
                                     </span>
                                   </ng-template>
                                   |
-                                  {{ele.schiene}}
+                                  {{multi(ele.schiene,5)}}
                                   
                               </span>
                             </ng-container>
@@ -838,16 +838,16 @@
                                 {{ele.fach}}
                                 
                                   <span
-                                    *ngIf="(ele.schiene-reiheFachStunden(sch.zwoelf, ele.fach,ele.stundenGesamt,'schiene',ele.klasse))<0.5 , else ROT"                                  style="color:green;">
-                                    {{reiheFachStunden(sch.zwoelf, ele.fach,ele.stundenGesamt,'schiene',ele.klasse)|number: '1.1-1'}}
+                                    *ngIf="sub(multi(ele.schiene,5),reiheFachStunden(sch.zwoelf, ele.fach,ele.stundenGesamt,'schiene',ele.klasse))<=1&&sub(ele.schiene,reiheFachStunden(sch.zwoelf, ele.fach,ele.stundenGesamt,'schiene',ele.klasse))>=-1 , else ROT"                                  style="color:green;">
+                                    {{reiheFachStunden(sch.zwoelf, ele.fach,ele.stundenGesamt,'schiene',ele.klasse)|number: '1.0-1'}}
                                   </span>
                                   <ng-template #ROT>
                                     <span style="color:red">
-                                      {{reiheFachStunden(sch.zwoelf, ele.fach,ele.stundenGesamt,'schiene',ele.klasse)|number: '1.1-1'}}
+                                      {{reiheFachStunden(sch.zwoelf, ele.fach,ele.stundenGesamt,'schiene',ele.klasse)|number: '1.0-1'}}
                                     </span>
                                   </ng-template>
                                   |
-                                  {{ele.schiene}}
+                                  {{multi(ele.schiene,5)}}
                                   
                               </span>
                             </ng-container>

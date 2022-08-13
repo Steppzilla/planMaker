@@ -12,6 +12,7 @@ import {
   Lehrer
 } from 'src/app/interfaces/lehrer';
 import { DeputatrechnerService } from 'src/app/services/deputatrechner.service';
+import { EpochenPlaeneService } from 'src/app/services/epochen-plaene.service';
 import {
   KlassenplaeneService
 } from 'src/app/services/klassenplaene.service';
@@ -119,7 +120,8 @@ export class LehrerListeComponent implements OnInit {
 
 
 
-  constructor(public deputatServ:DeputatrechnerService, public lehrerServ: LehrerService, public klassenplan: KlassenplaeneService, public loginServ: LoginService) {
+  constructor(public deputatServ:DeputatrechnerService, public lehrerServ: LehrerService, public klassenplan: KlassenplaeneService, 
+    public loginServ: LoginService, public epochenPlanS:EpochenPlaeneService) {
 
   }
 

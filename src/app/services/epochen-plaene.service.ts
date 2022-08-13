@@ -27,6 +27,8 @@ import {
   providedIn: 'root'
 })
 export class EpochenPlaeneService {
+  layout="light";
+
   esr_plan = new BehaviorSubject(null);
   esr_plan$ = this.esr_plan.asObservable(); //leere Tagesbehälter mit Fahrten, Prüfungen und Ferien.
   datum = new Date();

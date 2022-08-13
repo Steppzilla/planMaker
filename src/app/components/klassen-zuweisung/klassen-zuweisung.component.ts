@@ -30,6 +30,7 @@ import {
 import {
   Observable
 } from 'rxjs';
+import { EpochenPlaeneService } from 'src/app/services/epochen-plaene.service';
 
 
 
@@ -62,12 +63,14 @@ export class KlassenZuweisungComponent implements OnInit {
         } = {};
         x.forEach((ele: Elementt) => {
           if (ele !== null) {
+            if(ele.lehrer){
             ele.lehrer.forEach(le => {
               if (obj[le.kuerzel] === undefined) {
                 obj[le.kuerzel] = [];
               }
               obj[le.kuerzel].push(ele);
             });
+          }
           }
         });
         ///obj enthält alle lehrerElemente-> soll: [ueb, rhy, epo, sch] - anzahl der stunden nun rein:
@@ -253,6 +256,7 @@ export class KlassenZuweisungComponent implements OnInit {
     map(z => {
       let ar = new Object;
       z.forEach(obj => {
+        if(obj.faecher){
         obj.faecher.forEach(fach => {
           Object.keys(Fach).forEach((fachh, f) => {
             if (!ar[this.faecher[f]]) {
@@ -263,6 +267,7 @@ export class KlassenZuweisungComponent implements OnInit {
             }
           });
         });
+      }
       });
 
       console.log(ar);
@@ -503,7 +508,7 @@ export class KlassenZuweisungComponent implements OnInit {
 
 
   constructor(public lehrerServ: LehrerService, public klassenFaecherServ: KlassenFaecherService,
-    public klassenplanServ: KlassenplaeneService) {
+    public klassenplanServ: KlassenplaeneService,public epochenplaeneService:EpochenPlaeneService) {
 
 
     this.klassenplanServ.grundPlanfaecher$.subscribe((data) => {

@@ -23,7 +23,6 @@ import {
 import {
   TagesObjekt
 } from 'src/app/interfaces/tages-objekt';
-
 import {
   EpochenPlaeneService
 } from 'src/app/services/epochen-plaene.service';
@@ -55,8 +54,6 @@ export class EsrPlanComponent implements OnInit {
 
   termineEinblenden = false;
 
-
-
   grundPlanfaecher: Array < Elementt > ;
   esrPlan: Array < Array < TagesObjekt >> ;
   selectLehrer;
@@ -68,59 +65,58 @@ export class EsrPlanComponent implements OnInit {
 
   printAktiv = false;
 
+
   reiheFachStunden(zeilenArray, fach, stunden, esr, klasse) {
- 
-    //SONDERPLAN für WAHLFAC HUND CHOR NOCH MACHEN!!!?? Wenn fach ghleich ist zb??
-    let fachAuswahl = zeilenArray.filter(el => el.fach == fach && el.zuweisung[esr].length > 0 ); //Elemente mit dem Fach rausfiltern /Reduktion
-    
-    let andereFaecher = zeilenArray.filter(el => el.fach !== fach);
-    let abzug = 0;
-    if(fachAuswahl.length>1){
-      abzug=1; //chor?
-
-      if (fach === Fach.wahlpflicht) {
-        abzug = 2;
-      }
-  
-    }
-    //gleichzeitige elemente suchen... und Anzahl ermitteln, um zu wissen, ob gedrittelt oder geteilt wird... (ausser Wahlpflicht oder klassenübergreifendes, Chor aktuell noch)
-    fachAuswahl.forEach(elem => {
-      elem.zuweisung[esr].forEach(unterricht => {
-
-        let teilcount = 1; //das fach selbst zählt ja mit beim Teilen am ende dur den counter
-        let teilzeit = 0;
-        //Verinefacht: nur am startzeitpunkt wird geprüft ob fächer gleichzeitig sind, die sind hoffentlich immer auch parallel geschaltet und nicht verschoben...?
-        //alle anderen fächer durchprüfen ob gleiche startzeit:
-        andereFaecher.forEach(anderes => {
-          anderes.zuweisung[esr].forEach(unti2 => {
-            // let zeitspeicher=0; 
-            //     console.log(anderes);
-            if (unti2.start.getTime() == unterricht.start.getTime()) {
-              teilcount++;
-              if(esr=="rhythmus"){
-              teilzeit = teilzeit + (differenceInBusinessDays(unterricht.ende, unterricht.start) + 1) / 5 / 6;
-              }
-              if(esr=="epoche"){
-                teilzeit = teilzeit + (differenceInBusinessDays(unterricht.ende, unterricht.start) + 1) / 5 / 3;
-                }
-                if(esr=="schiene"){
-                  teilzeit = teilzeit + (differenceInBusinessDays(unterricht.ende, unterricht.start) + 1) / 5 / 5;
-                  }
-            }
-            //
-          });
-
-        });
-        //für die einzelepoche wird die stunde auf den fachteimer raufgerechnet
-        abzug = abzug + teilzeit / teilcount;
-      });
+    let zahl = 0;
+    let klassenZeile = zeilenArray.filter(element => element.klasse == klasse);
+    let fachStunden = this.zeileWochenstunden(klassenZeile, esr).filter(element => element.fach == fach);
+    // console.log(fachStunden);
+    fachStunden.forEach(eleme => {
+      zahl = zahl + eleme.wochenstunden;
     });
-   //wenn 2 lehrer dasselbe Fach machen, zb chor oder Wahlpflicht, wo unterschiedlcihe lehrer dasselbe fach "Wahlpflicht" machen
-      //Bei wahlpflicht 2 abziehn
-      //Bei chor nur 1, weils nur 2 machen...
+    return zahl;
+  }
+  sub(a, b) {
+    return a - b;
+  }
+  multi(a, b) {
+    return a * b;
+  }
 
+  zeileWochenstunden(zeile, plan) { //zeilenArray und ob rhythmus/schiene oder epoche
+    let ar = [];
+    zeile.forEach(element => {
 
-    return stunden - abzug;
+      let dauerFach = 0;
+      //let anzahlParallel;
+      let neu;
+      element.zuweisung[plan].forEach(zuweisungsItem => {
+        neu = 0;
+        neu = ((differenceInBusinessDays(zuweisungsItem.ende, zuweisungsItem.start) + 1) / 5);
+        //   console.log(dauerFach + 1);
+        dauerFach = dauerFach + neu;
+        //  dauerFach=dauerFach+dauerFach  //anzahlParallel;
+        //  console.log(zuweisungsItem.start + " + " + zuweisungsItem.ende);
+        //   console.log(dauerFach);
+      });
+
+      //chor durch 2 teilen da 2 kollegen dasselbe Fach machen:
+      if (element.fach == Fach.chor) {
+        dauerFach = dauerFach / 2;
+      }
+      //wahlp durch 3 teilen da 3 Fächer parallel dasselbe Fach machen:
+      if (element.fach == Fach.wahlpflicht) {
+        dauerFach = dauerFach / 3;
+      }
+      if (dauerFach !== 0) {
+        ar.push({
+          fach: element.fach,
+          wochenstunden: dauerFach
+        });
+      }
+
+    });
+    return ar;
   }
 
   rhythmusElemente$ = this.klassenplanServ.esrPlaan$.pipe(
@@ -554,8 +550,9 @@ export class EsrPlanComponent implements OnInit {
   elementeDesTages(epochenElementenArray, date, epochenPlanName) {
     let ar = [];
     epochenElementenArray.forEach(element => {
+
       element.zuweisung[epochenPlanName].forEach(epochenElem => {
-        if (epochenElem.start <= date && epochenElem.ende >= date) {
+        if (epochenElem.start.toDate() <= date && epochenElem.ende.toDate() >= date) {
           ar.push(element);
         }
       });
@@ -1073,12 +1070,13 @@ export class EsrPlanComponent implements OnInit {
     public ferienServ: FerientermineService, public klassenplanServ: KlassenplaeneService,
     public lehrerServ: LehrerService, public loginServ: LoginService) {
     this.epochenPlanS.esr_plan$.subscribe((data: Array < Array < TagesObjekt >> ) => {
-
       this.esrPlan = data;
       // console.log(data);
-
     });
-    this.klassenplanServ.grundPlanfaecher$.subscribe((data) => this.grundPlanfaecher = data);
+    this.klassenplanServ.grundPlanfaecher$.subscribe((data) => {
+      this.grundPlanfaecher = data;
+  //    console.log(data);
+    });
 
     lehrerServ.lehrerSelected$.subscribe(data => {
       this.selectLehrer = data;

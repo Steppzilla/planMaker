@@ -1,4 +1,5 @@
-<div id="gesamt">
+<div id="gesamt" class="{{this.epoPlan.layout}}">
+
 
   <h1>Vertretungsplan vom
     {{epoPlan.planDatum.getValue().getDate()}}.{{epoPlan.planDatum.getValue().getMonth()+1}}.{{epoPlan.planDatum.getValue().getFullYear()}}<span
@@ -11,10 +12,10 @@
       <div id="{{wochenTag.toLowerCase()}}">
         <h2> {{wochenTag}} </h2>
         <div class="zeil klein">
-          <div class="klasStunde">Kl.|Std.        </div>
-          <div class="lehrerFehlt">  abwesend: </div>
+          <div class="klasStunde">Kl.|Std. </div>
+          <div class="lehrerFehlt"> abwesend: </div>
           <div class="vertretungsLehrer">
-              <span style="font-weight:bold">Vertretung</span>
+            <span style="font-weight:bold">Vertretung</span>
           </div>
         </div>
         <div class="zeil" *ngFor="let v of wochentageschreiben(wochenTag)">
@@ -34,11 +35,12 @@
             <ng-container *ngIf="v.notiz!=null">
               <span>{{v.notiz}}</span>
             </ng-container>
-  
+
           </div>
         </div>
       </div>
     </ng-container>
 
-    
+
   </div>
+</div>

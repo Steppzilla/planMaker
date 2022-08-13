@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { EpochenPlaeneService } from 'src/app/services/epochen-plaene.service';
 import { LehrerService } from 'src/app/services/lehrer.service';
 
 @Component({
@@ -17,7 +18,7 @@ export class HomeComponent implements OnInit {
    // console.log(this.lehrerS.gewaehlterPlan);
   }
 
-  constructor(public lehrerS: LehrerService,public router: Router) { 
+  constructor(public lehrerS: LehrerService,public router: Router,public epochenplaeneServ:EpochenPlaeneService) { 
 
 
 

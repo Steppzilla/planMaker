@@ -21,6 +21,7 @@ import {
 import {
   Lehrer
 } from 'src/app/interfaces/lehrer';
+import { EpochenPlaeneService } from 'src/app/services/epochen-plaene.service';
 import {
   FerientermineService
 } from 'src/app/services/ferientermine.service';
@@ -45,7 +46,12 @@ export class StartComponent implements OnInit {
   speicherPlatzNr;
   lehrerListe;
 
+  farbwechsel(){
+    if(this.epochenplaeneServ.layout==="light"){
+    this.epochenplaeneServ.layout="dark";
+    }else{this.epochenplaeneServ.layout="light"}
 
+  }
 
   toggleColor() {
 
@@ -153,10 +159,10 @@ export class StartComponent implements OnInit {
 
 
 
-  constructor(public lehrerS: LehrerService, public login: LoginService, public router: Router, public termine: FerientermineService, public klassenPlanServ: KlassenplaeneService) {
+  constructor(public lehrerS: LehrerService, public login: LoginService, public router: Router, public termine: FerientermineService, public klassenPlanServ: KlassenplaeneService,public epochenplaeneServ:EpochenPlaeneService) {
     this.login.login();
-    this.login.gesamtPlanLaden(5);
-    this.speicherPlatzNr = 5;
+    this.login.gesamtPlanLaden(0);
+    this.speicherPlatzNr = 0;
     login.lehrerladen();
     this.klassenPlanServ.lehrerListe$.subscribe(data => {
       this.lehrerListe = data;
@@ -165,6 +171,7 @@ export class StartComponent implements OnInit {
 
     //console.log(this.lehrerListe);
     this.login.termineladen();
+    this.login.logout();
 
   }
 

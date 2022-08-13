@@ -15,8 +15,7 @@ import {
   map,
   mergeMap,
   take,
-  tap,
-  timeout
+  tap
 } from 'rxjs/operators';
 import {
   Fach
@@ -40,7 +39,7 @@ import {
 export class DeputatrechnerService {
   lehrerListe;
 
-  fach(fach){
+  fach(fach) {
     return Fach[fach];
   }
 
@@ -54,12 +53,15 @@ export class DeputatrechnerService {
           [key: string]: Elementt[]
         } = {};
         x.forEach((ele: Elementt) => {
-          ele.lehrer.forEach(le => {
-            if (obj[le.kuerzel] === undefined) {
-              obj[le.kuerzel] = [];
-            }
-            obj[le.kuerzel].push(ele);
-          });
+       //   console.log(ele);
+          if (ele.lehrer.length > 0) {
+            ele.lehrer.forEach(le => {
+              if (obj[le.kuerzel] === undefined) {
+                obj[le.kuerzel] = [];
+              }
+              obj[le.kuerzel].push(ele);
+            });
+          }
         });
         return obj;
       }));
@@ -90,8 +92,8 @@ export class DeputatrechnerService {
           if (lehrerElemente) {
             //Deputat unterscheidet sich je nach ueb, rhy, epo und sch in der Berechnung
 
-              //Hauptunterricht in klasse 0-7 hinzugefügt bei unterricht wenn kleiner neun.
-            let uebElemente = lehrerElemente.filter(elements => (elements.uebstunde > 0) && (elements.fach !== Fach.hauptunterricht||parseInt(elements.klasse)<9) && elements.fach !== Fach.schiene && elements.fach !== Fach.rhythmisch);
+            //Hauptunterricht in klasse 0-7 hinzugefügt bei unterricht wenn kleiner neun.
+            let uebElemente = lehrerElemente.filter(elements => (elements.uebstunde > 0) && (elements.fach !== Fach.hauptunterricht || parseInt(elements.klasse) < 9) && elements.fach !== Fach.schiene && elements.fach !== Fach.rhythmisch);
             let rhyElemente = lehrerElemente.filter(elements => elements.rhythmus > 0 && elements.fach !== Fach.hauptunterricht && elements.fach !== Fach.schiene && elements.fach !== Fach.rhythmisch); //achtung.  elemente können sowhl übestunden als auch epochen haben
             let epoElemente = lehrerElemente.filter(elements => elements.epoche > 0 && elements.fach !== Fach.hauptunterricht && elements.fach !== Fach.schiene && elements.fach !== Fach.rhythmisch);
             let schElemente = lehrerElemente.filter(elements => elements.schiene > 0 && elements.fach !== Fach.hauptunterricht && elements.fach !== Fach.schiene && elements.fach !== Fach.rhythmisch);
@@ -262,20 +264,20 @@ export class DeputatrechnerService {
                 deputatsArray.uebstunde = deputatsArray.uebstunde + uebNeu[Fach[fach]].stunden;
               }
 
-              if(rhyNeu[Fach[fach]]){
+              if (rhyNeu[Fach[fach]]) {
                 deputatsArray.rhythmus = deputatsArray.rhythmus + rhyNeu[Fach[fach]].stunden;
               }
 
-              if(epoNeu[Fach[fach]]){
+              if (epoNeu[Fach[fach]]) {
                 deputatsArray.epoche = deputatsArray.epoche + epoNeu[Fach[fach]].stunden;
               }
-              if(schNeu[Fach[fach]]){
+              if (schNeu[Fach[fach]]) {
                 deputatsArray.schiene = deputatsArray.schiene + schNeu[Fach[fach]].stunden;
               }
             });
 
-          
-       
+
+
 
 
 

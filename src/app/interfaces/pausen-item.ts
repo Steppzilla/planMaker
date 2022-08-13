@@ -7,7 +7,7 @@ export interface PausenItem {
 
     lehrer:Lehrer,
     ort:PausenaufsichtsOrte,
-    pausenZeit: PausenZeit,
+    pausenzeit: PausenZeit,
     wochentag: Wochentag
 
 }

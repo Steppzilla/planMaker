@@ -1,16 +1,59 @@
-<p>Navigation Erläuterung:</p>
+<div id="menuLeiste" class="{{this.epochenplaeneServ.layout}}">
 
-<div id="menuLeiste">
-
+<br>
   <button (click)="redirect('lehrerListe')" title="Lehrer ergänzen oder weiteren Fächern zuweisen">
-    <img src="../../../assets/icons/mann.png">
-    <img src="../../../assets/icons/bildung.png">
-    <p>Lehrer/Fächer zuweisen oder ändern</p>
+    <div>
+    </div>
+    <p>Lehrer / Fächer</p>
+
+    <br>
+    <div class="beispielTable">
+    <table >
+      <tr>
+        <td>
+          <ng-container>
+            <img src="../../../assets/icons/mann.png" width="20pt">
+          </ng-container>
+          Herr Musimann
+          <span>
+            <img class="editImg" src="../../../assets/icons/editing.png">
+          </span>
+        </td>
+        <td>
+           Musik
+          <span>
+            <img class="editImg" src="../../../assets/icons/editing.png">
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <ng-container>
+            <img src="../../../assets/icons/businesswoman.png" width="20pt">
+          </ng-container>
+          Frau Baum
+          <span>
+            <img class="editImg" src="../../../assets/icons/editing.png">
+          </span>
+        </td>
+        <td>
+           Gartenbau
+          <span>
+            <img class="editImg" src="../../../assets/icons/editing.png">
+          </span>
+        </td>
+      </tr>
+    </table>
+    </div>
+
+
   </button>
 
   <button (click)="redirect('klasseFach')" title="Stunden bzw. Fächer in Klassen ergänzen oder diese Lehrern zuweisen">
-    <img src="../../../assets/icons/teamwork.png ">
-    <p>Klassen/Fächer/Lehrer zuweisen oder ändern</p>
+    <div>
+      <img src="../../../assets/icons/teamwork.png ">
+    </div>
+    <p>Klassen/Unterricht</p>
   </button>
   <button (click)="redirect('gesamtplan')" title="Stundenpläne bearbeiten">
     <div class="miniTable">Mo <br>
@@ -33,16 +76,12 @@
           <td> </td>
           <td> </td>
         </tr>
-
       </table>
     </div>
-    <br>
-    <br>
     <p>Gesamtplan ändern
     </p>
-
-
   </button>
+
   <button (click)="redirect('ESR')" title="Epochenpläne bearbeiten oder Termine (Ferien/Prüfungen/Fahrten...)">
     <div class="miniTable2">August <br>
       <table>
@@ -63,31 +102,27 @@
 
       </table>
     </div>
-    <br>
-    <br>
-    <p>Epochenpläne ändern /Termine ändern  </p>
+    <p>Epochenpläne ändern /Termine ändern </p>
 
 
   </button>
   <button (click)="redirect('vertretung')" title="Vertretung planen">
-      <div class="miniTable">Mo <br>
-        <table>
-          <tr>
-            <td> </td>
-            <td> 1 </td>
-            <td> 2 </td>
-            <td> 3 </td>
-          </tr>
-          <tr>
-            <td> 1 </td>
-            <td> </td>
-            <td> <img src="../../../assets/icons/businesswoman.png " width="10pt" /></td>
-            <td> <img src="../../../assets/icons/man.png " width="10pt" /></td>
-          </tr>
-        </table>
-      </div>
-    <br>
-    <br>
+    <div class="miniTable">Mo <br>
+      <table>
+        <tr>
+          <td> </td>
+          <td> 1 </td>
+          <td> 2 </td>
+          <td> 3 </td>
+        </tr>
+        <tr>
+          <td> 1 </td>
+          <td> </td>
+          <td> <img src="../../../assets/icons/businesswoman.png " width="10pt" /></td>
+          <td> <img src="../../../assets/icons/man.png " width="10pt" /></td>
+        </tr>
+      </table>
+    </div>
     <p>Vertretungsplan ändern (keine Speichermöglichkeit)
     </p>
   </button>
@@ -110,21 +145,23 @@
 
       </table>
     </div>
-    <br>
-    <br>
     <p>Lehrerpläne anzeigen bzw. drucken
     </p>
   </button>
 
   <button (click)="redirect('pausenAufsicht')" title="Pausenaufsicht">
-    <img src="../../../assets/icons/basketball.png"      width="50pt" height="50pt" />
+    <div>
+      <img src="../../../assets/icons/basketball.png" width="50pt" height="50pt" />
+    </div>
     <p> Pausenaufsicht</p>
 
-    </button>
-    <button (click)="redirect('essen')" title="Mittagessen-Betreuung">
-      <img src="../../../assets/icons/eat.png"      width="50pt" height="50pt" />
-  <p>Mittagessen-Betreuung</p>
-      </button>
+  </button>
+  <button (click)="redirect('essen')" title="Mittagessen-Betreuung">
+    <div>
+      <img src="../../../assets/icons/eat.png" width="50pt" height="50pt" />
+    </div>
+    <p>Mittagessen-Betreuung</p>
+  </button>
 
 
 </div>

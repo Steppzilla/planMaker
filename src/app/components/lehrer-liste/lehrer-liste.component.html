@@ -1,3 +1,4 @@
+<div class="{{this.epochenPlanS.layout}}">
 <button class="lehrerHinzufügen" triggers="click" [ngbTooltip]="Input" [autoClose]="false" placement="bottom"> Lehrer
   hinzufügen
 </button>
@@ -16,7 +17,7 @@
 
 </ng-template>
 
-<table id="haupttabelle" *ngIf="klassenplan.lehrerListe$| async as lehrerListe">
+<table id="haupttabelle" *ngIf="klassenplan.lehrerListe$| async as lehrerListe" class="{{lehrerServ.gewaehlterPlan}}">
   <tr>
     <th>Name</th>
     <th>Fächer (Klassen)</th>
@@ -232,3 +233,4 @@
     </ng-template>
   </tr>
 </table>
+</div>

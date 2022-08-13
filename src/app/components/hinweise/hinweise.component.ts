@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { EpochenPlaeneService } from 'src/app/services/epochen-plaene.service';
 
 @Component({
   selector: 'app-hinweise',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HinweiseComponent implements OnInit {
 
-  constructor() { }
+  constructor(public epochenplaeneServ:EpochenPlaeneService) { }
 
   ngOnInit(): void {
   }

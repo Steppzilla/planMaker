@@ -1,4 +1,4 @@
-<div id="alles">
+<div id="alles" class="{{this.epochenplaeneService.layout}}">
   <h1>Lehrer-Zuordnung
     <ng-container *ngIf="!printAktiv">
       <button (click)="klasseWaehlen(gewaehlteKlasse-1)">
@@ -70,7 +70,7 @@
           <tr>
             <th class="links">
               <span class="add noprint">
-                <img class="noprint" width="12pt" (click)="loeschen(faecher[fachIndex],gewaehlteKlasse)"
+                <img class="noprint"  (click)="loeschen(faecher[fachIndex],gewaehlteKlasse)"
                   src="../../../assets/icons/minus.png" />
               </span>
               {{faecher[fachIndex]}}
@@ -114,7 +114,7 @@
                               </div>
                               <ng-container *ngIf="!printAktiv">
                                 <ng-container *ngIf="lehrerArray$|async as resAnzahl">
-                                  (
+                                  
                                   <div class=" ueb">
                                     <ng-container *ngIf="resAnzahl[lehre.kuerzel]&&resAnzahl[lehre.kuerzel].ueb>0">
                                       {{resAnzahl[lehre.kuerzel].ueb}}
@@ -135,12 +135,21 @@
                                       {{resAnzahl[lehre.kuerzel].sch}}
                                     </ng-container>
                                   </div>
-                                  )
+                                  
                                 </ng-container>
                               </ng-container>
                             </div>
                             <ng-container *ngIf="!item.lehrer[0]">
-                              Lehrer?
+                              <!-- kein Lehrer kann heißen, dass aber Mittagspause is , also in items noch lehrer-->
+                              <span *ngIf="item.zuweisung.uebstunde.length>0&&item.zuweisung.uebstunde[0].lehrer&&item.zuweisung.uebstunde[0].lehrer.kuerzel; else niemand" >
+                                <ng-container *ngFor="let ue of item.zuweisung.uebstunde">
+                                      {{ue.lehrer?ue.lehrer.kuerzel:""}}
+                                </ng-container>
+                              </span>
+                              <ng-template #niemand>
+                                Lehrer?
+                              </ng-template>
+                             
                             </ng-container>
 
                           </button>

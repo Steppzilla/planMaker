@@ -2,11 +2,22 @@
 $color-text: rgb(182, 205, 221);
 $color-background:rgb(16, 71, 107);
 
-*{font-weight:bold;}
+
+*{
+  //font-weight:bold;
+}
 h1,
 h2 {
   text-align: center
 }
+
+.dark{color:lightgrey;
+  color: white;
+background-color:#1f242b;
+}
+
+.light{color:black;
+background-color:white;}
 
 .tooltip .arrow {
   display: none !important;

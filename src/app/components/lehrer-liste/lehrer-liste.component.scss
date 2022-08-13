@@ -1,4 +1,11 @@
 
+.home{
+transform: scale(0.5);
+margin-top:-560pt;
+height:40pt;
+margin-left:-60pt;
+}
+
 .delete{background-color:lightcoral}
 .editButton{
  border:none;
@@ -22,8 +29,30 @@ span{
 
 tr{}
 
+$darkmodeTextColor:lightgrey;
+
+
 #haupttabelle>tr:nth-child(2n){
+
   background-color:rgb(241, 238, 238);
+}
+
+.dark{
+
+  #haupttabelle>tr:nth-child(2n-1){
+    color:$darkmodeTextColor;
+    border-top:1px rgb(94, 84, 84) solid;
+    background-color:rgb(50, 45, 63)
+  }
+  #haupttabelle>tr:nth-child(2n){
+    color:$darkmodeTextColor;
+    border-top:1px rgb(97, 73, 73) solid;
+    background-color:rgb(41, 40, 40)
+  }
+  img{
+    filter:invert(0.8);
+  }
+  
 }
 
 table{
@@ -93,3 +122,4 @@ td{border:1pt black solid;}
 }
 
 .kuerzel{font-style: italic;}
+
